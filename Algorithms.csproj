@@ -7,7 +7,6 @@
   <ItemGroup>
     <Content Include="Arrays.cs" />
     <Content Include="Program.cs" />
-    <Content Include=".vscode\launch.json" />
     <Content Include="Trees.cs" />
   </ItemGroup>
 </Project>
