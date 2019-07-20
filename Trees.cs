@@ -4,20 +4,20 @@ public class Trees
     // Constraints: Only parent node can passs excess values to child and vice versa
     public void BalanceTreeNodeValues()
     {
-        TreeNode node = new TreeNode(5,null);
-        node.Left = new TreeNode(2,node);
-        node.Left.Left = new TreeNode(3,node.Left);
-        node.Left.Right = new TreeNode(8, node.Left);
-        node.Right = new TreeNode(5, node);
-        node.Right.Left = new TreeNode(2,node.Right);
-        node.Right.Right = new TreeNode(3,node.Right);
+        ParentTreeNode node = new ParentTreeNode(5,null);
+        node.Left = new ParentTreeNode(2,node);
+        node.Left.Left = new ParentTreeNode(3,node.Left);
+        node.Left.Right = new ParentTreeNode(8, node.Left);
+        node.Right = new ParentTreeNode(5, node);
+        node.Right.Left = new ParentTreeNode(2,node.Right);
+        node.Right.Right = new ParentTreeNode(3,node.Right);
 
-        TreeNode.MaxNodeValue = 4;
+        ParentTreeNode.MaxNodeValue = 4;
 
         var res = BalanceTreeNodeValues(node); 
     }
 
-    private TreeNode BalanceTreeNodeValues(TreeNode node)
+    private ParentTreeNode BalanceTreeNodeValues(ParentTreeNode node)
     {
         if (node == null)
         {
@@ -27,26 +27,39 @@ public class Trees
         BalanceTreeNodeValues(node.Left);
         BalanceTreeNodeValues(node.Right);
 
-        TreeNode.Balance = true;
+        ParentTreeNode.Balance = true;
         node.BalanceValue();
-        
+
         return node;
     }
 }
 
 public class TreeNode
 {
+    public TreeNode(int value)
+    {
+        this.Value = value;
+    }
+
+    public TreeNode Left;
+    public TreeNode Right;
+
+    public int Value;
+}
+
+public class ParentTreeNode
+{
     private int value;
     private bool balance;
-    public TreeNode(int value, TreeNode parent)
+    public ParentTreeNode(int value, ParentTreeNode parent)
     {
         this.Value = value;
         this.Parent = parent;
     }
-    public TreeNode Left;
-    public TreeNode Right;
+    public ParentTreeNode Left;
+    public ParentTreeNode Right;
 
-    public TreeNode Parent;
+    public ParentTreeNode Parent;
 
     public static bool Balance
     {
@@ -86,7 +99,7 @@ public class TreeNode
             return;
         }
 
-        TreeNode small = null;
+        ParentTreeNode small = null;
         if (this.Left != null && this.Left.Value < MaxNodeValue)
         {
             small = Left;
@@ -104,5 +117,5 @@ public class TreeNode
         {
             this.Parent.Value += excessValue;
         }
-    }
+    }    
 }

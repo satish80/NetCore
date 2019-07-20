@@ -10,7 +10,10 @@ namespace Algorithms
             // arrObj.PartitionStringWithUniqueChars();
 
             Trees treeObj = new Trees();
-            treeObj.BalanceTreeNodeValues();
+            //treeObj.BalanceTreeNodeValues();
+
+            DP dpObj = new DP();
+            dpObj.FindPalindromeSubstrings();
         }
     }
 }
