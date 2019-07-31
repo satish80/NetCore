@@ -8,12 +8,13 @@ namespace Algorithms
         {
             Arrays arrObj = new Arrays();
             // arrObj.PartitionStringWithUniqueChars();
+            arrObj.MoveZerosAtEnd();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
 
             DP dpObj = new DP();
-            dpObj.FindPalindromeSubstrings();
+            //dpObj.FindPalindromeSubstrings();
         }
     }
 }
