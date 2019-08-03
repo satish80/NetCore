@@ -9,5 +9,6 @@
     <Content Include="Program.cs" />
     <Content Include="Trees.cs" />
     <Content Include="DP.cs" />
+    <Content Include="Graphs.cs" />
   </ItemGroup>
 </Project>

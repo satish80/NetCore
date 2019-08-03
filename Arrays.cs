@@ -117,8 +117,9 @@ public class Arrays
             idx ++;
         }
     }
+}
 
-    public class Pair
+public class Pair
     {
         public Pair(int x, int y)
         {
@@ -129,4 +130,3 @@ public class Arrays
         public int x;
         public int y;
     }
-}
