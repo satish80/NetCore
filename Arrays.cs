@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public class Arrays
@@ -64,6 +65,67 @@ public class Arrays
         }
 
         return res;
+    }
+
+    //https://leetcode.com/articles/queue-reconstruction-by-height/#
+    public void QueueReconstructionByHeight()
+    {
+        Pair p1 = new Pair(7,0);
+        Pair p2 = new Pair(5,3);
+        Pair p3 = new Pair(4,4);
+        Pair p4 = new Pair(6,1);
+        Pair p5 = new Pair(5,2);
+        Pair p6 = new Pair(7,1);
+        var pairs = new List<Pair>();
+
+        pairs.AddRange(new Pair[] {p1, p2, p3, p4, p5, p6});
+
+        var res = QueueReconstructionByHeight(pairs);
+    }
+
+    private List<Pair> QueueReconstructionByHeight(List<Pair> pairs)
+    {
+        IEnumerable<Pair> sorted = pairs.OrderByDescending(t=>t.x).ThenBy(t=>t.y);
+        Stack<Pair> stk = new Stack<Pair>();
+        List<Pair> output = new List<Pair>();
+
+        var sortedEnumerator = sorted.GetEnumerator();
+        while(sortedEnumerator.MoveNext())
+        {
+            if (sortedEnumerator.Current.y == output.Count())
+            {
+                output.Add(sortedEnumerator.Current);
+            }
+            else if (sortedEnumerator.Current.y < output.Count())
+            {
+                int idx = output.Count()-1;
+                
+                while(idx > 0 && sortedEnumerator.Current.y < output.Count())
+                {
+                    stk.Push(output[idx]);
+                    output.RemoveAt(idx--);
+                }
+
+                output.Add(sortedEnumerator.Current);
+            }
+            else
+            {
+                while(stk.Count > 0 && sortedEnumerator.Current.y > output.Count)
+                {
+                    if (stk.Peek().y < output.Count())
+                    {
+                        output.Add(stk.Pop());
+                    }
+                }
+            }
+        }
+
+        while(stk.Count > 0)
+        {
+            output.Add(stk.Pop());
+        }
+
+        return output;
     }
 
     //https://leetcode.com/problems/game-of-life/discuss/73366/Clean-O(1)-space-O(mn)-time-Java-Solution

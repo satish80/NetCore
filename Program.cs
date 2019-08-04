@@ -9,6 +9,7 @@ namespace Algorithms
             Arrays arrObj = new Arrays();
             // arrObj.PartitionStringWithUniqueChars();
             // arrObj.MoveZerosAtEnd();
+            arrObj.QueueReconstructionByHeight();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -17,7 +18,7 @@ namespace Algorithms
             //dpObj.FindPalindromeSubstrings();
             
             Graph gObj = new Graph();
-            gObj.BiPartition();
+            //gObj.BiPartition();
         }
     }
 }
