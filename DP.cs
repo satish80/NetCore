@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class DP
 {
@@ -93,4 +94,78 @@ public class DP
         return res;
     }
 
+    //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+    public void PartitionKSubsetsMatchingSum()
+    {
+        int[] arr = new int[] {4, 3, 2, 3, 5, 2, 1};
+        Console.WriteLine(PartitionKSubsetsMatchingSum(arr, 4));
+    }
+
+    private bool PartitionKSubsetsMatchingSum(int[] arr, int k)
+    {
+        int sum = 0;
+        int target = 0;
+        
+        foreach(int num in arr)
+        {
+            sum += num;
+        }
+
+        target = sum / k;
+        int count = 0;
+
+        bool[,] dp = new bool[arr.Length, target+1];
+        HashSet<int> visited = new HashSet<int>();
+        
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = 1; col <= target; col++)
+            {
+                if (arr[row] == col)
+                {
+                    dp[row, col] = true;
+
+                    if (col == target)
+                    {
+                        visited.Add(row);
+                        count++;
+                    }
+                }
+                else if (arr[row] < col)
+                {
+                    if (row > 0)
+                    {
+                        var diff = target - arr[row];
+                        int r = row-1;
+
+                        while (r >= 0 && visited.Contains(r))
+                        {
+                            r--;
+                        }
+
+                        if (r >= 0 && dp[r, diff])
+                        {
+                            dp[row, col] = true;
+                            count++;
+                            visited.Add(row);
+                            visited.Add(r);
+                        }
+                    }
+                }
+                else
+                {
+                        int r = row - 1;
+
+                        while (r >= 0 && !visited.Contains(r))
+                        {
+                            r--;
+                        }
+
+                    dp[row, col] = r > 0 ? dp[r, col] : false;
+                }
+            }
+        }
+
+        return count == k;
+    }
 }
