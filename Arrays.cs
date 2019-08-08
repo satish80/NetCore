@@ -128,6 +128,113 @@ public class Arrays
         return output;
     }
 
+    public void WallsGates()
+    {
+        int[,] arr = new int[4,4]
+        {
+            {1, -1, 0, 1},
+            {1, 1, 1, -1},
+            {1, -1, 1, -1},
+            {0, -1, 1, 1}
+        };
+        
+        int[,] res = WallsGates(arr);
+        
+        for(int row = 0; row < arr.GetLength(0); row ++)
+        {
+            Console.WriteLine("----------\n");
+            for(int col = 0; col < arr.GetLength(1); col ++)
+            {
+                Console.WriteLine($"{res[row, col]} \t");
+            }
+        }
+    }
+
+    private int[,] WallsGates(int[,] arr)
+    {
+        if (arr == null)
+        {
+            throw new ArgumentNullException("...");
+        }
+        
+        List<Pair> pairs = new List<Pair>();
+        int[,] output = new int[arr.GetLength(0), arr.GetLength(1)];
+        
+        for(int row = 0; row < arr.GetLength(0); row ++)
+        {
+            for(int col = 0; col < arr.GetLength(1); col ++)
+            {
+                output[row, col] = -2;
+            }
+        }
+
+        for(int row = 0; row < arr.GetLength(0); row ++)
+        {
+            for(int col = 0; col < arr.GetLength(1); col ++)
+            {
+                if (output[row, col] == -2)
+                {
+                    DFS(arr, output, row, col);
+                }
+            }
+         }
+        
+        return output;
+        
+    }
+    
+    private int DFS(int[,] arr, int[,] output, int row, int col)
+    {
+        if (row >= arr.GetLength(0) || col >= arr.GetLength(1) || arr[row, col] == -1)
+        {
+            return 0;
+        }
+        
+        if (arr[row, col] == 0)
+        {
+            return 0;
+        }
+        
+        var right = DFS(arr, output, row, col + 1); 
+        
+        var bottom = DFS(arr, output, row+1, col);
+        
+        if (right >= 0)
+        {
+            right +=1; 
+        }
+        
+        if (bottom >= 0)
+        {
+            bottom +=1;
+        }
+        
+        if (arr[row, col] == 1)
+        {
+            if (right > 0 && bottom >0)
+            {
+                output[row, col] = Math.Min(right, bottom);
+            }
+            else
+            {
+                output[row, col] = right == 0 ? bottom : right;
+            }
+        }
+        
+        if (right == 0)
+        {
+            return bottom;
+        }
+        else if (bottom == 0)
+        {
+            return right;
+        }
+        else
+        {
+            return Math.Min(right, bottom);
+        }
+    }
+
     //https://leetcode.com/problems/game-of-life/discuss/73366/Clean-O(1)-space-O(mn)-time-Java-Solution
     public void GameOfLife()
     {

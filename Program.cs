@@ -10,6 +10,7 @@ namespace Algorithms
             // arrObj.PartitionStringWithUniqueChars();
             // arrObj.MoveZerosAtEnd();
             //arrObj.QueueReconstructionByHeight();
+            arrObj.WallsGates();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
