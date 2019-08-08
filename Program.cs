@@ -10,17 +10,20 @@ namespace Algorithms
             // arrObj.PartitionStringWithUniqueChars();
             // arrObj.MoveZerosAtEnd();
             //arrObj.QueueReconstructionByHeight();
-            arrObj.WallsGates();
+            //arrObj.WallsGates();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
-            dpObj.PartitionKSubsetsMatchingSum();
+            //dpObj.PartitionKSubsetsMatchingSum();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
+
+            Strings sObj = new Strings();
+            sObj.StrStr();
         }
     }
 }

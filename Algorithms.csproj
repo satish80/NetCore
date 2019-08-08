@@ -10,5 +10,6 @@
     <Content Include="Trees.cs" />
     <Content Include="DP.cs" />
     <Content Include="Graphs.cs" />
+    <Content Include="Strings.cs" />
   </ItemGroup>
 </Project>
