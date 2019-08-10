@@ -23,7 +23,10 @@ namespace Algorithms
             //gObj.BiPartition();
 
             Strings sObj = new Strings();
-            sObj.StrStr();
+            //sObj.StrStr();
+
+            LinkedList lObj = new LinkedList();
+            lObj.SwapAlternatePairs();
         }
     }
 }

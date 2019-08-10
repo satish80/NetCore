@@ -11,5 +11,6 @@
     <Content Include="DP.cs" />
     <Content Include="Graphs.cs" />
     <Content Include="Strings.cs" />
+    <Content Include="LinkedList.cs" />
   </ItemGroup>
 </Project>
