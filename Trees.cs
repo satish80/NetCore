@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class Trees
 {
     //Ensure all the node values are the same, given a tree with nodes having different values
@@ -32,6 +35,41 @@ public class Trees
 
         return node;
     }
+
+    public void CheckEqualTree() 
+    {
+        HashSet<int> map = new HashSet<int>();
+
+        TreeNode node = new TreeNode(4);
+        node.Left = new TreeNode(10);
+        node.Left.Right = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Right.Right = new TreeNode(17);
+        node.Right.Right.Left = new TreeNode(1);
+        node.Right.Right.Right = new TreeNode(1);
+
+        int total = CheckEqualTree(node, map);
+        Console.WriteLine(map.Contains(total/ 2));
+    }
+
+    private int CheckEqualTree(TreeNode node, HashSet<int> map)
+    {
+        int left = 0;
+        int right = 0;
+        if (node.Left != null)
+        {
+            left = CheckEqualTree(node.Left, map);
+        }
+        if (node.Right != null)
+        {
+            right = CheckEqualTree(node.Right, map);
+        }
+        
+        int rootSum = left + right + node.Value.Value;
+        map.Add(rootSum);
+
+        return rootSum;
+    }
 }
 
 public class TreeNode
@@ -44,7 +82,7 @@ public class TreeNode
     public TreeNode Left;
     public TreeNode Right;
 
-    public int Value;
+    public int? Value;
 }
 
 public class ParentTreeNode

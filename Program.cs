@@ -14,6 +14,7 @@ namespace Algorithms
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
+            treeObj.CheckEqualTree();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -26,7 +27,7 @@ namespace Algorithms
             //sObj.StrStr();
 
             LinkedList lObj = new LinkedList();
-            lObj.SwapAlternatePairs();
+            // lObj.SwapAlternatePairs();
         }
     }
 }
