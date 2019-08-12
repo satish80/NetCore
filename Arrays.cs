@@ -290,6 +290,11 @@ public class Arrays
 
 public class Pair
     {
+        public Pair()
+        {
+
+        }
+        
         public Pair(int x, int y)
         {
             this.x = x;

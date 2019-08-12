@@ -4,6 +4,51 @@ using System.Collections.Generic;
 
 public class Graph
 {
+
+    public void CourseScheduling()
+    {
+        List<Pair> courses = new List<Pair>();
+        courses.Add(new Pair(1,0));
+        courses.Add(new Pair(2,0));
+        courses.Add(new Pair(3,1));
+        courses.Add(new Pair(3,2));
+
+        //[1,0],[2,0],[3,1],[3,2]
+        DirectedGraph graph = ConstructDirectedGraph(courses);
+        Stack<int> stk = new Stack<int>();
+
+        CourseScheduling(0, graph, stk);
+        int[] arr = new int[graph.Vertices.Count];
+        int idx = 0;
+
+        foreach(int num in stk)
+        {
+            arr[idx++] = num;
+        }
+    }
+
+    private void CourseScheduling(int vertex, DirectedGraph graph, Stack<int> stk)
+    {
+        foreach(int dependency in graph.AdjList[vertex])
+        {
+            CourseScheduling(dependency, graph, stk);
+        }
+
+        stk.Push(vertex);
+    }
+
+    private DirectedGraph ConstructDirectedGraph(List<Pair> pairs)
+    {
+        DirectedGraph graph = new DirectedGraph();
+
+        foreach(Pair pair in pairs)
+        {
+            graph.AddEdge(pair.x, pair.y);
+        }
+
+        return graph;
+    }
+
     //https://leetcode.com/contest/weekly-contest-97/problems/possible-bipartition/
     public void BiPartition()
     {
@@ -131,5 +176,33 @@ public class UndirectedGraph
         }
 
         AdjList[source].Add(edge);
+    }
+}
+
+public class DirectedGraph
+{
+    public HashSet<int> Vertices;
+
+    public Dictionary<int, List<int>> AdjList;
+
+    public DirectedGraph()
+    {
+        this.Vertices = new HashSet<int>();
+        this.AdjList = new Dictionary<int, List<int>>();
+    }
+
+    public void AddEdge(int vertex, int edge)
+    {
+        if (!this.Vertices.Contains(vertex))
+        {
+            this.Vertices.Add(vertex);
+        }
+
+        if (!this.AdjList.ContainsKey(vertex))
+        {
+            this.AdjList.Add(vertex, new List<int>());
+        }
+
+        this.AdjList[vertex].Add(edge);
     }
 }
