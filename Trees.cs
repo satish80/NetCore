@@ -36,6 +36,45 @@ public class Trees
         return node;
     }
 
+    //Accepted: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+    public void ConstructBinaryTreeFromInAndPreorder()
+    {
+        int[] pre = new int[] {5, 2, 12, 4, 6, 3, 7};
+        int[] inOrder = new int[] {12, 2, 4, 5, 3, 6, 7};
+        int pIdx = -1;
+        var res = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, 0, inOrder.Length-1);
+    }
+
+    private TreeNode ConstructBinaryTreeFromInAndPreorder(int[] pre, int[] inOrder, ref int pIdx, int start, int end)
+    {
+        if (start > end || end < 0)
+        {
+            return null;
+        }
+
+        pIdx++;
+        int iIdx = FindInOrderIndex(inOrder, pre[pIdx]);
+
+        TreeNode node = new TreeNode(inOrder[iIdx]);
+        node.Left = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, start, iIdx - 1);
+        node.Right = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, iIdx + 1, end);
+
+        return node;
+    }
+
+    private int FindInOrderIndex(int[] inOrder, int val)
+    {
+        for(int idx = 0; idx < inOrder.Length; idx ++)
+        {
+            if (inOrder[idx] == val)
+            {
+                return idx;
+            }
+        }
+
+        return -1;
+    }
+
     public void CheckEqualTree() 
     {
         HashSet<int> map = new HashSet<int>();
