@@ -109,6 +109,78 @@ public class Trees
 
         return rootSum;
     }
+
+    //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
+    public void VerifyPreOrderSerialization()
+    {
+        Console.WriteLine(VerifyPreOrderSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
+        Console.WriteLine(VerifyPreOrderSerialization("9,#,#,1"));
+    }
+
+    private bool VerifyPreOrderSerialization(string arr)
+    {
+        if (string.IsNullOrEmpty(arr))
+        {
+            throw new ArgumentNullException("Input is null");
+        }
+
+        Stack<string> stk = new Stack<string>();
+
+        int idx = 1;
+        string[] str = arr.Split(',');
+        stk.Push(str[0]);
+
+        while (idx < str.Length && stk.Count > 0)
+        {
+            if (str[idx] == "#")
+            {
+                stk.Pop();
+
+                if (stk.Count == 0)
+                {
+                    return false;
+                }
+
+                if (stk.Peek() == "L")
+                {
+                    stk.Pop();
+                    stk.Push("R");
+                }
+                else if (stk.Peek() == "R")
+                {
+                    while (stk.Count > 0 && stk.Peek() != "L")
+                    {
+                        stk.Pop();
+                    }
+
+                    if (stk.Count == 0)
+                    {
+                        return true;
+                    }
+
+                    stk.Pop();
+                    stk.Push("R");
+                }
+                else
+                {
+                    stk.Pop();
+                }
+            }
+            else
+            {
+                if (stk.Peek() != "R")
+                {
+                    stk.Push("L");
+                }
+
+                stk.Push(str[idx]);
+            }
+
+            idx ++;
+        }
+
+        return stk.Count == 0;
+    }
 }
 
 public class TreeNode

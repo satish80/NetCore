@@ -15,7 +15,8 @@ namespace Algorithms
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
             //treeObj.CheckEqualTree();
-            treeObj.ConstructBinaryTreeFromInAndPreorder();
+            // treeObj.ConstructBinaryTreeFromInAndPreorder();
+            treeObj.VerifyPreOrderSerialization();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
