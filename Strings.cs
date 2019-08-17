@@ -56,6 +56,72 @@ public class Strings
         return -1;
     }
 
+    public void WordBreak()
+    {
+        HashSet<string> map = new HashSet<string>();
+        map.Add("apple");
+        map.Add("apples");
+        map.Add("pen");
+        map.Add("penapt");
+        map.Add("cats");
+        map.Add("dog");
+        map.Add("sand");
+        map.Add("and");
+        map.Add("cat");
+
+        //Console.WriteLine(WordBreak("applespenapt", map));
+
+        Console.WriteLine(WordBreak("catsandog", map));
+    }
+
+    private bool WordBreak(string str, HashSet<string> map)
+    {
+        if (string.IsNullOrEmpty(str))
+        {
+            return false;
+        }
+
+        Stack<int> stk = new Stack<int>();
+
+        int idx = 0;
+        int l = 1;
+
+        while (idx < str.Length)
+        {
+            while(idx + l <=str.Length)
+            {
+                if (map.Contains(str.Substring(idx, l)))
+                {
+                    idx += l-1;
+                    stk.Push(idx);
+
+                    if (stk.Peek() == str.Length-1)
+                    {
+                        return true;
+                    }
+
+                    idx ++;
+                    l = 1;
+                }
+                else
+                {
+                    l +=1;
+                }
+            }
+
+            if (stk.Count == 0)
+            {
+                return false;
+            }
+
+            l = stk.Pop();
+            idx = stk.Count > 0 ? stk.Peek() + 1 : 0;
+            l = l - idx + 2;
+        }
+
+        return false;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

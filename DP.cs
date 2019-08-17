@@ -168,4 +168,41 @@ public class DP
 
         return count == k;
     }
+
+    public void WordBreak()
+    {
+        HashSet<string> map = new HashSet<string>();
+        map.Add("apple");
+        map.Add("apples");
+        map.Add("pen");
+        map.Add("penapt");
+        map.Add("cats");
+        map.Add("dog");
+        map.Add("sand");
+        map.Add("and");
+        map.Add("cat");
+
+        Console.WriteLine(WordBreak("applespenapt", map));
+
+        //Console.WriteLine(WordBreak("catsandog", map));
+    }
+
+    private bool WordBreak(string s, HashSet<string> dict)
+    {
+        bool[] f = new bool[s.Length + 1];
+        
+        f[0] = true;
+        
+        
+        for(int i=1; i <= s.Length; i++){
+            for(int j=0; j < i; j++){
+                if(f[j] && j+i < s.Length && dict.Contains(s.Substring(j, i))){
+                    f[i] = true;
+                    break;
+                }
+            }
+        }
+        
+        return f[s.Length];
+    }
 }

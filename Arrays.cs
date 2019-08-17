@@ -286,6 +286,132 @@ public class Arrays
             idx ++;
         }
     }
+
+    public void Sudoku()
+    {
+        
+    }
+
+    private bool SolveSudoku(int[,] arr, int row, int col, int val)
+    {
+        if (row == 9 &  col == 9)
+        {
+            return BoardFilled(arr);
+        }
+
+        for(; row < 9; row ++)
+        {
+            for(; col < 9; col++)
+            {
+                for(;val < 10; val ++)
+                {
+                    if (arr[row, col] > 0)
+                    {
+                        continue;
+                    }
+
+                    int temp = arr[row, col];
+
+                    if (!ValidBoard(arr, row, col, val))
+                    {
+                        continue;
+                    }
+
+                    arr[row, col] = val;
+
+                    if (!SolveSudoku(arr, row, col, val))
+                    {
+                        arr[row, col] = temp;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private bool ValidBoard(int[,] arr, int row, int col, int val)
+    {
+        for(int c = 0; c < 9; c ++)
+        {
+            if (arr[row, c] == val)
+            {
+                return false;
+            }
+        }
+
+        for(int r = 0; r < 9; r ++)
+        {
+            if (arr[r, col] == val)
+            {
+                return false;
+            }
+        }
+
+        int squareRow = row /3;
+        int squareCol = col / 3;
+
+        for(int sRow = squareRow * 3; sRow < squareRow * 3 + 2; sRow ++)
+        {
+            for(int sCol = squareCol * 3; sCol < squareCol * 3 + 2; sCol ++)
+            {
+                if (arr[sRow, sCol] == val)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private bool BoardFilled(int[,] arr)
+    {
+        for(int row = 0; row < 9; row ++)
+        {
+            for(int col = 0; col < 9; col ++)
+            {
+                if (arr[row, col] == 0)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    //https://leetcode.com/articles/missing-element-in-sorted-array/#
+    public void FindMissingInSortedArray()
+    {
+        Console.WriteLine(FindMissingInSortedArray(new int[] {4, 7, 9, 10}, 3));
+    }
+
+    private int FindMissingInSortedArray(int[] arr, int k)
+    {
+        int count = 0;
+        int num = -1;
+
+        for(int idx = 1; idx < arr.Length; idx ++)
+        {
+            int cur = arr[idx-1];
+            num = -1;
+            while (arr[idx] - cur > 1)
+            {
+                count ++;
+                num = num == - 1 ? cur + 1 : num + 1;
+
+                if (count == k)
+                {
+                    return num;
+                }
+
+                cur ++;
+            }
+        }
+
+        return num;
+    }
 }
 
 public class Pair
