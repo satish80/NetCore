@@ -412,21 +412,141 @@ public class Arrays
 
         return num;
     }
+
+    //https://leetcode.com/contest/weekly-contest-150/problems/as-far-from-land-as-possible/
+    public void MaxDistanceOfWaterFromLand()
+    {
+        int[,] arr = new int[3,3]
+        {
+            {1, 0, 0},
+            {0, 0, 0},
+            {0, 0, 0}
+        };
+
+        Console.WriteLine(MaxDistanceOfWaterFromLand(arr));
+    }
+
+    private int MaxDistanceOfWaterFromLand(int[,] arr)
+    {
+        HashSet<Pair> ones = FindLand(arr);
+        int[,] res = new int[arr.GetLength(0), arr.GetLength(1)];
+
+        foreach(Pair p in ones)
+        {
+            FindMaxDistanceFromLand(arr, p, res, ones);
+        }
+
+        int count = 0;
+        
+        for(int r = 0; r < arr.GetLength(0); r ++)
+        {
+            for(int c = 0; c < arr.GetLength(1); c ++)
+            {
+                count = Math.Max(count, arr[r,c]);
+            }
+        }
+
+        return count;
+    }
+
+    private void FindMaxDistanceFromLand(int[,] arr, Pair pair, int[,] res, HashSet<Pair> ones)
+    {
+        List<Pair> paths = new List<Pair>()
+        {
+            new Pair(0,-1), new Pair(0,1), new Pair(1,0), new Pair(-1,0)
+        };
+
+        bool[,] visited = new bool[arr.GetLength(0), arr.GetLength(1)];
+
+        Queue<Pair> queue = new Queue<Pair>();
+        queue.Enqueue(new Pair(pair.x, pair.y, 0));
+
+        while(queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+
+            foreach(Pair path in paths)
+            {
+                var row = item.x + path.x;
+                var col = item.y + path.y;
+
+                if (!IsValid(arr, row, col) || visited[row, col] || ones.Contains(new Pair(row, col)))
+                {
+                    continue;
+                }
+
+                visited[item.x, item.y] = true;
+
+                if (arr[row, col] == 0 || arr[row, col] > item.Level + 1)
+                {
+                    arr[row, col] = item.Level + 1;
+                    queue.Enqueue(new Pair(row, col, item.Level+1));
+                }
+            }
+        }
+    }
+
+    private HashSet<Pair> FindLand(int[,] arr)
+    {
+        HashSet<Pair> ones = new HashSet<Pair>();
+        
+        for(int r = 0; r < arr.GetLength(0); r++)
+        {
+            for(int c = 0; c < arr.GetLength(1); c ++)
+            {
+                if (arr[r,c] == 1)
+                {
+                    ones.Add(new Pair(r, c));
+                }
+            }
+        }
+
+        return ones;
+    }
+
+    private bool IsValid(int[,] arr, int row, int col)
+    {
+        if (row < 0 || col < 0 || row >= arr.GetLength(0) || col >= arr.GetLength(1))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
 
-public class Pair
+public class Pair : IEquatable<Pair>
+{
+    public Pair()
     {
-        public Pair()
-        {
 
+    }
+    
+    public Pair(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Pair(int x, int y, int level)
+    {
+        this.x = x;
+        this.y = y;
+        this.Level = level;
+    }
+
+    public bool Equals(Pair obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
         }
         
-        public Pair(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int x;
-        public int y;
+        return this.x == ((Pair)obj).x && this.y == ((Pair)obj).y;
     }
+    
+    public int x;
+    public int y;
+
+    public int Level;
+}

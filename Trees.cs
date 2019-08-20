@@ -181,6 +181,33 @@ public class Trees
 
         return stk.Count == 0;
     }
+
+  //https://www.geeksforgeeks.org/construct-bst-from-given-preorder-traversa/
+    public void ConstructBSTFromPreOrder()
+    {
+        int[] arr = new int[] {10, 5, 1, 7, 40 ,50};
+        int idx = 0;
+        var res = ConstructBSTFromPreOrder(arr, int.MinValue, int.MaxValue, ref idx);
+    }
+
+    private TreeNode ConstructBSTFromPreOrder(int[] pre, int min, int max, ref int idx)
+    {
+        if (idx >= pre.Length)
+        {
+            return null;
+        }
+        TreeNode node = null;
+
+        if (pre[idx] >= min && pre[idx] <= max)
+        {
+            node = new TreeNode(pre[idx++]);
+
+            node.Left = ConstructBSTFromPreOrder(pre, min, node.Value.Value, ref idx);
+            node.Right = ConstructBSTFromPreOrder(pre, node.Value.Value, max, ref idx);
+        }
+
+        return node;
+    }
 }
 
 public class TreeNode

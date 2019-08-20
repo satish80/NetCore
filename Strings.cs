@@ -1,4 +1,6 @@
+
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 public class Strings
@@ -120,6 +122,51 @@ public class Strings
         }
 
         return false;
+    }
+
+    public void checkPangram()
+    {
+        List<string> strings = new List<string>();
+        strings.Add("we promptly judged antique ivory buckets for the next prize");
+
+        if (strings == null || strings.Count == 0) 
+        {
+            Console.WriteLine("0");
+        }
+
+        HashSet<int> map = null;
+
+        StringBuilder sb = new StringBuilder();
+
+        foreach(string str in strings)
+        {
+            map = new HashSet<int>();
+            sb.Append(CheckPangram(map, str));
+        }
+
+        Console.WriteLine(sb.ToString());
+    }
+
+    private string CheckPangram(HashSet<int> map, string str)
+    {
+        foreach(char ch in str)
+        {
+            if (!map.Contains(ch))
+            {
+                Console.WriteLine($"ch: {ch} being added for string: {str}");
+                map.Add(ch);
+            }
+        }
+
+        for(int idx = 97; idx <122; idx++)
+        {
+            if (!map.Contains(idx))
+            {
+                return "0";
+            }
+        }
+
+        return "1";
     }
 
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/

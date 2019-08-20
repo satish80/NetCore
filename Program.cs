@@ -11,13 +11,16 @@ namespace Algorithms
             // arrObj.MoveZerosAtEnd();
             //arrObj.QueueReconstructionByHeight();
             //arrObj.WallsGates();
-            arrObj.FindMissingInSortedArray();
+            // arrObj.FindMissingInSortedArray();
+            //TBD: arrObj.GameOfLife();
+            arrObj.MaxDistanceOfWaterFromLand();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
             //treeObj.CheckEqualTree();
             // treeObj.ConstructBinaryTreeFromInAndPreorder();
             //treeObj.VerifyPreOrderSerialization();
+            //treeObj.ConstructBSTFromPreOrder();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -32,6 +35,7 @@ namespace Algorithms
             //sObj.StrStr();
             // sObj.SwapForLongestRepeatedChar();
             // sObj.WordBreak();
+            // sObj.checkPangram();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
