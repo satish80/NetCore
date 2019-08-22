@@ -75,6 +75,34 @@ public class Trees
         return -1;
     }
 
+    //https://leetcode.com/explore/interview/card/adobe/490/trees-and-graphs/2538/
+    public void SumOfLeftLeaves() 
+    {
+        TreeNode root = new TreeNode(1);
+        root.Left = new TreeNode(2);
+        root.Right = new TreeNode(3);
+        root.Left.Left = new TreeNode(4);
+        root.Left.Right = new TreeNode(5);
+
+       Console.WriteLine(SumOfLeftLeavesInt(root, 0));
+    }
+    
+    private int SumOfLeftLeavesInt(TreeNode root, int sum)
+    {
+         int res = 0;
+        
+        if (root.Left == null)
+        {
+            return sum;
+        }
+        
+        res +=  SumOfLeftLeavesInt(root.Left,  root.Left.Value.Value);
+        
+        res +=  SumOfLeftLeavesInt(root.Right, 0);
+        
+        return res;
+    }
+
     public void CheckEqualTree() 
     {
         HashSet<int> map = new HashSet<int>();

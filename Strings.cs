@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Strings
 {
+    //https://leetcode.com/problems/implement-strstr/
     public void StrStr()
     {
         Console.WriteLine(StrStr("Hello", "ll"));

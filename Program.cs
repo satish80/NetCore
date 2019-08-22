@@ -13,7 +13,7 @@ namespace Algorithms
             //arrObj.WallsGates();
             // arrObj.FindMissingInSortedArray();
             //TBD: arrObj.GameOfLife();
-            arrObj.MaxDistanceOfWaterFromLand();
+            // arrObj.MaxDistanceOfWaterFromLand();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -21,6 +21,7 @@ namespace Algorithms
             // treeObj.ConstructBinaryTreeFromInAndPreorder();
             //treeObj.VerifyPreOrderSerialization();
             //treeObj.ConstructBSTFromPreOrder();
+            treeObj.SumOfLeftLeaves();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
