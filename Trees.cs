@@ -75,28 +75,39 @@ public class Trees
         return -1;
     }
 
-    //https://leetcode.com/explore/interview/card/adobe/490/trees-and-graphs/2538/
+    //https://leetcode.com/problems/sum-of-left-leaves/
     public void SumOfLeftLeaves() 
     {
-        TreeNode root = new TreeNode(1);
+        TreeNode root = new TreeNode(0);
         root.Left = new TreeNode(2);
-        root.Right = new TreeNode(3);
-        root.Left.Left = new TreeNode(4);
-        root.Left.Right = new TreeNode(5);
+        root.Right = new TreeNode(4);
+        root.Left.Left = new TreeNode(1);
+        root.Left.Left.Left = new TreeNode(5);
+        root.Left.Left.Right = new TreeNode(1);
+        root.Right.Right = new TreeNode(-1);
+        root.Right.Right.Right = new TreeNode(8);
+        root.Right.Left = new TreeNode(3);
+        root.Right.Left.Right = new TreeNode(6);
+
 
        Console.WriteLine(SumOfLeftLeavesInt(root, 0));
     }
     
-    private int SumOfLeftLeavesInt(TreeNode root, int sum)
+    private int SumOfLeftLeavesInt(TreeNode root, int? sum)
     {
          int res = 0;
         
-        if (root.Left == null)
+        if (root == null)
         {
-            return sum;
+            return res;
+        }
+
+        if (root.Left == null && root.Right == null)
+        {
+            return sum.Value;
         }
         
-        res +=  SumOfLeftLeavesInt(root.Left,  root.Left.Value.Value);
+        res +=  SumOfLeftLeavesInt(root.Left, root.Left?.Value);
         
         res +=  SumOfLeftLeavesInt(root.Right, 0);
         
