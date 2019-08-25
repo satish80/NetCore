@@ -170,6 +170,88 @@ public class Strings
         return "1";
     }
 
+    //https://leetcode.com/problems/decode-string/
+    public void DecodeString() 
+    {
+        int start = 0;
+        string str = "3[a]2[bc]";
+        //string str = "3[a2[c]]";
+        Console.WriteLine(DecodeString(str, ref start));
+    }
+
+private string DecodeString(string s, ref int start)
+     {
+        int idx = 0;
+        Stack<char> stk = new Stack<char>();
+        StringBuilder sb = new StringBuilder();
+
+        while(idx < s.Length)
+        {
+                if (s[idx] == ']')
+                {
+                    var temp = new StringBuilder();
+
+                    sb = Construct(stk, sb);
+                    stk.Pop();
+                }
+                else
+                {
+                    stk.Push(s[idx]);
+                }
+
+            idx ++;
+        }
+
+        if (stk.Count > 0)
+        {
+            sb = Construct(stk, sb);
+        }
+
+        return sb.ToString();
+    }
+
+private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
+{
+    var temp = new StringBuilder();
+    while(stk.Count > 0 && stk.Peek() != '[')
+    {
+        if (stk.Peek() > 96 && stk.Peek() < 123) // letters
+        {
+            temp = new StringBuilder();
+
+            while (stk.Peek() > 96 && stk.Peek() < 123)
+            {
+                var str = new StringBuilder(stk.Pop().ToString());
+                temp = str.Append(temp);
+            }
+
+            sb = temp.Append(sb);
+        }
+        else if(stk.Peek() > 47 && stk.Peek() < 58) // Numbers
+        {
+            temp = new StringBuilder();
+            if (stk.Peek() > 47 && stk.Peek() < 58)
+            {
+                int.TryParse(stk.Pop().ToString(), out int val);
+                sb = Repeat(sb, val);
+            }
+        }
+    }
+
+    return sb;
+}
+    private StringBuilder Repeat(StringBuilder sb, int times)
+    {
+        var res = new StringBuilder();
+
+        for(int idx = 0; idx < times; idx ++)
+        {
+            res.Append(sb);
+        }
+        
+        return res;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {
