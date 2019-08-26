@@ -513,6 +513,38 @@ public class Arrays
 
         return true;
     }
+
+/*
+This problem was asked by Facebook.
+Given the mapping a = 1, b = 2, ... z = 26, and an encoded message, count the number of ways it can be decoded.
+For example, the message '111' would give 3, since it could be decoded as 'aaa', 'ka', and 'ak'.
+You can assume that the messages are decodable. For example, '001' is not allowed.
+*/
+    public void WaysToEncode()
+    {
+        Console.WriteLine(WaysToEncode("1111"));
+    }
+
+    private int WaysToEncode(string str)
+    {
+        int[] dp = new int[str.Length];
+        dp[0] = 1;
+        dp[1] = 2;
+
+        for(int idx = 2; idx < str.Length; idx ++)
+        {
+            if (int.Parse(str.Substring(idx-1, 2)) > 10)
+            {
+                dp[idx] = dp[idx-1] + dp[idx-2];
+            }
+            else
+            {
+                dp[idx] = dp[idx-1] + 1;
+            }
+        }
+
+        return dp[str.Length-1];
+    }
 }
 
 public class Pair : IEquatable<Pair>

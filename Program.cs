@@ -14,6 +14,7 @@ namespace Algorithms
             // arrObj.FindMissingInSortedArray();
             //TBD: arrObj.GameOfLife();
             // arrObj.MaxDistanceOfWaterFromLand();
+            // arrObj.WaysToEncode();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -22,7 +23,7 @@ namespace Algorithms
             //treeObj.VerifyPreOrderSerialization();
             //treeObj.ConstructBSTFromPreOrder();
             // treeObj.SumOfLeftLeaves();
-            treeObj.NextGreater();
+            // treeObj.NextGreater();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -43,6 +44,7 @@ namespace Algorithms
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
             // lObj.RemoveZeroSumNodes();
+            lObj.ReverseSLL();
         }
     }
 }
