@@ -149,6 +149,46 @@ public class Trees
         return rootSum;
     }
 
+    public void NextGreater()
+    {
+        TreeNode node= new TreeNode(100);
+        node.Left = new  TreeNode(98);
+        node.Left.Right = new  TreeNode(99);
+        node.Left.Left = new TreeNode(96);
+        node.Left.Left.Right = new TreeNode(97);
+        node.Right = new TreeNode(102);
+
+        TreeNode prev = null;
+        Console.WriteLine(NextGreater(node, 96, ref prev));
+    }
+
+    private int NextGreater(TreeNode node, int num, ref TreeNode prev)
+    {
+        int res = 0;
+
+        if (node == null)
+        {
+            return 0;
+        }
+
+        res = NextGreater(node.Left, num, ref prev);
+
+        if (prev != null && prev.Value.Value == num)
+        {
+            prev = null;
+            return node.Value.Value;
+        }
+
+        prev = node;
+
+        if (res == 0)
+        {
+            res = NextGreater(node.Right, num, ref prev);
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
     public void VerifyPreOrderSerialization()
     {

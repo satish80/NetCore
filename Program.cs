@@ -22,6 +22,7 @@ namespace Algorithms
             //treeObj.VerifyPreOrderSerialization();
             //treeObj.ConstructBSTFromPreOrder();
             // treeObj.SumOfLeftLeaves();
+            treeObj.NextGreater();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -41,7 +42,7 @@ namespace Algorithms
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
-            lObj.RemoveZeroSumNodes();
+            // lObj.RemoveZeroSumNodes();
         }
     }
 }
