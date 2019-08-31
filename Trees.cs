@@ -189,6 +189,176 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/validate-binary-search-tree/
+    public void IsValidBST() 
+    {
+        TreeNode node = new TreeNode(5);
+        node.Left = new TreeNode(1);
+        node.Right = new TreeNode(4);
+        node.Right.Left = new TreeNode(3);
+        node.Right.Right = new TreeNode(6);
+
+        TreeNode prev = null;
+        Console.WriteLine(IsBST(node, ref prev));
+    }
+    
+    private bool IsBST(TreeNode node, ref TreeNode prev)
+    {
+        if (node == null)
+        {
+            return true;
+        }
+        
+        bool res = IsBST(node.Left, ref prev);
+        
+        if (res && (prev != null && prev.Value.Value > node.Value.Value))
+        {
+            return false;
+        }
+        
+        prev = node;
+        
+        if (res)
+        {
+            res = IsBST(node.Right, ref prev);
+        }
+        
+        return res;
+    }
+
+    //https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/
+    public void KDistanceBinaryTree()
+    {
+        TreeNode node = new TreeNode(3);
+        node.Left = new TreeNode(5);
+        node.Right = new TreeNode(1);
+        node.Left.Left = new TreeNode(6);
+        node.Left.Right = new TreeNode(2);
+        node.Right.Left = new TreeNode(0);
+        node.Right.Right = new TreeNode(8);
+        node.Left.Right.Left = new TreeNode(7);
+        node.Left.Right.Right = new TreeNode(4);
+
+        List<int> res = new List<int>();
+        int K = 2;
+        Dictionary<TreeNode, int> map = new Dictionary<TreeNode, int>();
+        Find(node, node.Right, map);
+        dfs(node, node.Right, K, map[node.Right], res, map);
+    }
+
+    private int Find(TreeNode root, TreeNode target, Dictionary<TreeNode, int> map) 
+    {
+        if (root == null)
+        {
+             return -1;
+        }
+
+        if (root == target) 
+        {
+            map.Add(root, 0);
+            return 0;
+        }
+
+        int left = Find(root.Left, target, map);
+
+        if (left >= 0)
+        {
+            map.Add(root, left + 1);
+            return left + 1;
+        }
+
+        int right = Find(root.Right, target, map);
+
+        if (right >= 0)
+        {
+            map.Add(root, right + 1);
+            return right + 1;
+        }
+
+        return -1;
+    }
+
+    private void dfs(TreeNode root, TreeNode target, int K, int length, List<int> res, Dictionary<TreeNode, int> map) 
+    {
+        if (root == null)
+        {
+             return;
+        }
+
+        if (map.ContainsKey(root))
+        {
+             length = map[root];
+        }
+
+        if (length == K)
+        {
+             res.Add(root.Value.Value);
+        }
+
+        dfs(root.Left, target, K, length + 1, res, map);
+        dfs(root.Right, target, K, length + 1, res, map);
+    }
+
+    public void IterateBST()
+    {
+        TreeNode node = new TreeNode(11);
+        node.Left  = new TreeNode(6);
+        node.Left.Left = new TreeNode(5);
+        node.Left.Right = new TreeNode(9);
+        node.Left.Right.Left = new TreeNode(7);
+        node.Left.Right.Left.Right = new TreeNode(8);
+        node.Right = new TreeNode(15);
+        node.Right.Left = new TreeNode(12);
+        node.Right.Right = new TreeNode(18);
+
+        BSTIterator iterator = new BSTIterator(node);
+        TreeNode cur = iterator.GetNextBST();
+
+        while(cur != null)
+        {
+            Console.WriteLine(cur.Value);
+            cur = iterator.GetNextBST();
+        }
+    }
+
+    public class BSTIterator
+    {
+        private TreeNode cur = null;
+        private TreeNode lastNode = null;
+
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+
+        public BSTIterator(TreeNode node)
+        {
+            stk.Push(node);
+            cur = node;
+        }
+
+        public TreeNode GetNextBST()
+        {
+            if (stk.Count > 0)
+            {
+                while (cur.Left != null && ((lastNode != null && cur.Left.Value > lastNode.Value) || lastNode == null))
+                {
+                    cur = cur.Left;
+                    stk.Push(cur);
+                }
+
+                lastNode = stk.Pop();
+                cur = lastNode;
+
+                if (cur.Right != null)
+                {
+                    cur = cur.Right;
+                    stk.Push(cur);
+                }
+                return lastNode;
+            }
+
+            return null;
+        }
+    }
+
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
     public void VerifyPreOrderSerialization()
     {

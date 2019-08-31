@@ -24,6 +24,9 @@ namespace Algorithms
             //treeObj.ConstructBSTFromPreOrder();
             // treeObj.SumOfLeftLeaves();
             // treeObj.NextGreater();
+            // treeObj.IsValidBST();
+            // treeObj.KDistanceBinaryTree(); //Brilliant Sol
+            treeObj.IterateBST();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -44,7 +47,7 @@ namespace Algorithms
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
             // lObj.RemoveZeroSumNodes();
-            lObj.ReverseSLL();
+            // lObj.ReverseSLL();
         }
     }
 }
