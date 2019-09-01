@@ -26,7 +26,8 @@ namespace Algorithms
             // treeObj.NextGreater();
             // treeObj.IsValidBST();
             // treeObj.KDistanceBinaryTree(); //Brilliant Sol
-            treeObj.IterateBST();
+            // treeObj.IterateBST();
+            treeObj.ConstructBinaryTreeFromString();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();

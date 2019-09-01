@@ -299,6 +299,57 @@ public class Trees
         dfs(root.Right, target, K, length + 1, res, map);
     }
 
+    //https://leetcode.com/contest/leetcode-weekly-contest-23/problems/construct-binary-tree-from-string/
+    public void ConstructBinaryTreeFromString()
+    {
+        int idx = 0;
+        var res = ConstructBinaryTreeFromString("4(2(3)(1))(6(5))", ref idx);
+    }
+
+    private TreeNode ConstructBinaryTreeFromString(string str, ref int idx)
+    {
+        if (idx >= str.Length)
+        {
+            return null;
+        }
+
+        TreeNode node = null;
+        while(idx < str.Length)
+        {
+            if (str[idx] == '(')
+            {
+                idx++;
+                return ConstructBinaryTreeFromString(str, ref idx);
+            }
+            else
+            {
+                if (int.TryParse(str[idx].ToString(), out int res))
+                {
+                    node = new TreeNode(res);
+                    idx++;
+
+                    if(str[idx] == ')')
+                    {
+                        idx++;
+                        return node;
+                    }
+
+                    node.Left = ConstructBinaryTreeFromString(str, ref idx);
+                    node.Right = ConstructBinaryTreeFromString(str, ref idx);
+                    idx++;
+                }
+                else if (str[idx] == ')')
+                {
+                    idx++;
+                }
+            }
+
+            return node;
+        }
+
+        return node;
+    }
+
     public void IterateBST()
     {
         TreeNode node = new TreeNode(11);
