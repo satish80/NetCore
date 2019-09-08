@@ -179,7 +179,7 @@ public class Strings
         Console.WriteLine(DecodeString(str, ref start));
     }
 
-private string DecodeString(string s, ref int start)
+    private string DecodeString(string s, ref int start)
      {
         int idx = 0;
         Stack<char> stk = new Stack<char>();
@@ -329,5 +329,46 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
 
         cur --;
         return count;
+    }
+
+    // Given string abc, print sequence such as 
+    // a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, aab,..
+    public void GenerateSequence()
+    {
+
+    }
+
+    private int NextSequence(Dictionary<int, char> map, int curSequence, ref int length)
+    {
+        int len = length;
+        Stack<int> stk = new Stack<int>();
+        int num = 0;
+        while (len > 0)
+        {
+            num = curSequence/len;
+            stk.Push(num);
+            curSequence -= num * length;
+            len /= 10;
+        }
+
+        num = 0;
+
+        var item = stk.Pop();
+        int product = 10;
+
+        while (item + 1 % 3 == 1)
+        {
+            num = product * item;
+            product *= 10;
+            item = stk.Pop();
+        }
+
+        while (stk.Count > 0)
+        {
+            num = product * stk.Pop() + item;
+            product *= 10;
+        }
+
+        return num;
     }
 }

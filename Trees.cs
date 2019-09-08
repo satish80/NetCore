@@ -346,8 +346,79 @@ public class Trees
 
             return node;
         }
+        return node;
+    }
+
+    //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    public void FlattenTree()
+    {
+        TreeNode node = new TreeNode(12);
+        node.Left = new TreeNode(10);
+        node.Left.Left = new TreeNode(8);
+        node.Left.Right = new TreeNode(9);
+        node.Right = new TreeNode(15);
+        node.Left.Left.Left = new TreeNode(6);
+        node.Left.Left.Right = new TreeNode(7);
+        node.Left.Left.Left.Left = new TreeNode(3);
+        node.Left.Left.Left.Right = new TreeNode(4);
+
+        TreeNode last  = null;
+        var res = FlattenTree(node, ref last);
+    }
+
+    private TreeNode FlattenTree(TreeNode node, ref TreeNode last)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        TreeNode left = FlattenTree(node.Left, ref last);
+
+        var nodeRight = node.Right;
+
+        if (left != null)
+        {
+            node.Right = left;
+            var next = last == null ? left : last;
+            next.Right = nodeRight;
+            node.Left = null;
+        }
+
+        TreeNode right = FlattenTree(nodeRight, ref last);
+        last = right;
 
         return node;
+    }
+
+    //https://leetcode.com/problems/minimum-depth-of-binary-tree/
+    public void MinDepth() 
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2); 
+
+        int min = int.MaxValue;
+        MinDepthInt(node, 0, ref min);
+
+        Console.WriteLine(min);
+    }
+    
+    private TreeNode MinDepthInt(TreeNode root, int dist, ref int min) 
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        TreeNode left = MinDepthInt(root.Left, dist + 1, ref min);
+        TreeNode right = MinDepthInt(root.Right, dist + 1, ref min);
+     
+        if (left == null && right == null)
+        {
+            min =  dist + 1 < min ? dist + 1 : min;
+        }
+
+        return root;
     }
 
     public void IterateBST()
