@@ -349,6 +349,45 @@ public class Trees
         return node;
     }
 
+    public void BinaryTreeUpsideDown()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Left.Left = new TreeNode(4);
+        node.Left.Right = new TreeNode(5);
+        node.Left.Right.Left = new TreeNode(6);
+        node.Left.Right.Right = new TreeNode(7);
+        node.Left.Right.Left.Left = new TreeNode(8);
+        node.Left.Right.Left.Right = new TreeNode(9);
+
+
+        TreeNode root = null;
+        BinaryTreeUpsideDown(node, ref root);
+    }
+
+    private TreeNode BinaryTreeUpsideDown(TreeNode node, ref TreeNode root)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        TreeNode left  = BinaryTreeUpsideDown(node.Left, ref root);
+
+        TreeNode right = BinaryTreeUpsideDown(node.Right, ref root);
+
+        if (left != null)
+        {
+            left.Left = right;
+            left.Right = node;
+
+            root = (root == null) ? left : root;
+        }
+
+        return node;
+    }
+
     //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
     public void FlattenTree()
     {
@@ -391,6 +430,37 @@ public class Trees
         return node;
     }
 
+    public void FillNodesWithEqualValues()
+    {
+        TreeNode node = new TreeNode(0);
+        node.Left = new TreeNode(0);
+        node.Right = new TreeNode(9);
+        node.Left.Left = new TreeNode(0);
+        node.Left.Right = new TreeNode(0);
+        node.Right.Left = new TreeNode(12);
+        node.Right.Right = new TreeNode(0);
+
+        Console.WriteLine(FillNodesWithEqualValues(node, 0, 3));
+    }
+
+    private int FillNodesWithEqualValues(TreeNode node, int val, int k)
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+
+        int left = FillNodesWithEqualValues(node.Left, node.Value.Value + val, k);
+
+        int right = FillNodesWithEqualValues(node.Right, node.Value.Value + val, k);
+
+        int res = left + right + node.Value.Value - k;
+
+        node.Value = k;
+
+        return res;
+    }
+
     //https://leetcode.com/problems/minimum-depth-of-binary-tree/
     public void MinDepth() 
     {
@@ -419,6 +489,37 @@ public class Trees
         }
 
         return root;
+    }
+
+    //https://leetcode.com/problems/distribute-coins-in-binary-tree/
+    public void DistributeCoins()
+    {
+        TreeNode node = new TreeNode(0);
+        node.Left = new TreeNode(0);
+        node.Left.Left= new TreeNode(0);
+        node.Left.Right = new TreeNode(0);
+        node.Right = new TreeNode(0);
+        node.Right.Left = new TreeNode(0);
+        node.Right.Right = new TreeNode(7);
+
+        Console.WriteLine(DistributeCoins(node, null)); 
+    }
+
+    private int DistributeCoins(TreeNode node, TreeNode prev) 
+    {
+        if (node == null) 
+        {
+            return 0;
+        }
+
+        int res = DistributeCoins(node.Left, node) + DistributeCoins(node.Right, node);
+
+        if (prev != null) 
+        {
+            prev.Value += node.Value - 1;
+        }
+
+        return res + Math.Abs(node.Value.Value - 1);
     }
 
     public void IterateBST()

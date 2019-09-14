@@ -29,7 +29,10 @@ namespace Algorithms
             // treeObj.IterateBST();
             // treeObj.ConstructBinaryTreeFromString();
             // treeObj.FlattenTree();
-            treeObj.MinDepth();
+            // treeObj.MinDepth();
+            // treeObj.DistributeCoins(); // Brilliant Sol
+            // treeObj.BinaryTreeUpsideDown();
+            treeObj.FillNodesWithEqualValues();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
