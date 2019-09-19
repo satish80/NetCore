@@ -545,6 +545,153 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
         return dp[str.Length-1];
     }
+
+    //https://leetcode.com/discuss/interview-question/381172/google-phone-screen-sort-a-2d-array
+    public void Sort2dArray()
+    {
+        int[,] arr = new int[,] 
+        {
+            {1,5, 7},
+            {2, 6, 9},
+            {0, 4, 8}
+        };
+
+        Sort2dArray(arr);
+    }
+
+    private void Sort2dArray(int[,] arr)
+    {
+        for(int row = arr.GetLength(0)-1; row >=0; row --)
+        {
+            for(int col = arr.GetLength(1)-1; col >=0; col --)
+            {
+                FindAndReplaceBiggest(arr, row, col);
+            }
+        }
+    }
+
+    private void FindAndReplaceBiggest(int[,] arr, int row, int col)
+    {
+        int max = 0;
+        int newRow = -1;
+        int newCol = -1;
+        int c = arr.GetLength(1)-1;
+
+        for(int r = 0; r <= row; r ++)
+        {
+            if (arr[r, arr.GetLength(1)-1] > max)
+            {
+                max = arr[r, c];
+                newRow = r;
+                newCol = c;
+            }
+        }
+
+        int temp = arr[row, col];
+
+        arr[row, col] = arr[newRow, newCol];
+
+        FillInLogn(arr, temp, newRow, 0, c);
+    }
+
+    private void FillInLogn(int[,] arr, int val, int r, int start, int end)
+    {
+        if (end - start == 1)
+        {
+            int col = arr.GetLength(1) -1;
+
+            while (col > end)
+            {
+                arr[r, col] = arr[r,col-1];
+                col--;
+            }
+
+            arr[r, end] = val;
+
+            return;
+        }
+
+        int mid = (start + end) / 2;
+
+        if (val < arr[r, start])
+        {
+            FillInLogn(arr, val, r, start, mid);
+        }
+        else if (val > arr[r, start])
+        {
+            FillInLogn(arr, val, r, mid, end);
+        }
+    }
+
+    //https://leetcode.com/discuss/interview-question/383819/facebook-phone-screen-number-of-1s-in-range-decode-ways
+    public void FindOnesInRange()
+    {
+        int[] arr = new int[6]{0, 1, 1, 1, 0, 0};
+        Console.WriteLine(FindOnesInRange(arr, 3,5,0, arr.Length-1));
+    }
+
+    private int FindOnesInRange(int[] arr, int start, int end, int s, int e)
+    {
+        int count = 0;
+
+        if (start == s)
+        {
+            for(int idx = s; idx <= end; idx ++)
+            {
+                count += arr[idx] == 1 ? 1 : 0;
+            }
+
+            return count;
+        }
+
+        int mid = (s+ e) / 2;
+
+        if (mid <= start)
+        {
+            count = FindOnesInRange(arr, start, end, mid, e);
+        }
+        else
+        {
+            count = FindOnesInRange(arr, start, end, s, mid);
+        }
+
+        return count;
+    }
+
+    //https://leetcode.com/problems/decode-ways/
+    public void DecodeWays()
+    {
+        Console.WriteLine(DecodeWays("110"));
+    }
+
+    private int DecodeWays(string s)
+    {
+        if (string.IsNullOrEmpty(s) || s[0] == '0')
+        {
+            return 0;
+        }
+
+        int[] res = new int[s.Length];
+        res[0] = 1;
+
+        for (int idx = 1; idx < s.Length; idx ++)
+        {
+            int first = int.Parse(s.Substring(idx-1, 1));
+            int second = idx >= 2 ? int.Parse(s.Substring(idx-2, 2)) : 0;
+
+            if (first >= 1 && first <= 9)
+            {
+                res[idx] += res[idx-1];
+            }
+
+            if (second > 9 && second < 27)
+            {
+                res[idx] += res[idx-2];
+            }
+        }
+
+        return res[s.Length-1];
+    }
 }
 
 public class Pair : IEquatable<Pair>

@@ -12,9 +12,12 @@ namespace Algorithms
             //arrObj.QueueReconstructionByHeight();
             //arrObj.WallsGates();
             // arrObj.FindMissingInSortedArray();
-            //TBD: arrObj.GameOfLife();
+            // arrObj.GameOfLife();                             ** To Be Completed **
             // arrObj.MaxDistanceOfWaterFromLand();
             // arrObj.WaysToEncode();
+            // arrObj.Sort2dArray();                            ** To Be Completed **
+            // arrObj.FindOnesInRange();
+            arrObj.DecodeWays();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -32,7 +35,7 @@ namespace Algorithms
             // treeObj.MinDepth();
             // treeObj.DistributeCoins(); // Brilliant Sol
             // treeObj.BinaryTreeUpsideDown();
-            treeObj.FillNodesWithEqualValues();
+            // treeObj.FillNodesWithEqualValues();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();

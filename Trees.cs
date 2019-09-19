@@ -349,6 +349,7 @@ public class Trees
         return node;
     }
 
+    //https://leetcode.com/problems/binary-tree-upside-down/description/
     public void BinaryTreeUpsideDown()
     {
         TreeNode node = new TreeNode(1);
@@ -356,11 +357,6 @@ public class Trees
         node.Right = new TreeNode(3);
         node.Left.Left = new TreeNode(4);
         node.Left.Right = new TreeNode(5);
-        node.Left.Right.Left = new TreeNode(6);
-        node.Left.Right.Right = new TreeNode(7);
-        node.Left.Right.Left.Left = new TreeNode(8);
-        node.Left.Right.Left.Right = new TreeNode(9);
-
 
         TreeNode root = null;
         BinaryTreeUpsideDown(node, ref root);
