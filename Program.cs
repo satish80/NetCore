@@ -17,7 +17,8 @@ namespace Algorithms
             // arrObj.WaysToEncode();
             // arrObj.Sort2dArray();                            ** To Be Completed **
             // arrObj.FindOnesInRange();
-            arrObj.DecodeWays();
+            // arrObj.DecodeWays();
+            arrObj.DailyTemperatures();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

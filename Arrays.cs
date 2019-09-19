@@ -128,6 +128,28 @@ public class Arrays
         return output;
     }
 
+    public void DailyTemperatures()
+    {
+        int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};
+        var res = DailyTemperatures(arr);
+    }
+
+    public int[] DailyTemperatures(int[] temperatures) 
+    {
+        Stack<int> stk = new Stack<int>();
+        int[] ret = new int[temperatures.Length];
+        for(int i = 0; i < temperatures.Length; i++) 
+        {
+            while(stk.Count > 0 && temperatures[i] > temperatures[stk.Peek()]) 
+            {
+                int idx = stk.Pop();
+                ret[idx] = i - idx;
+            }
+            stk.Push(i);
+        }
+        return ret;
+    }
+
     public void WallsGates()
     {
         int[,] arr = new int[4,4]
