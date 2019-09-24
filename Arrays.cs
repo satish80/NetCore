@@ -551,7 +551,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
     {
         int[,] arr = new int[,] 
         {
-            {1,5, 7},
+            {1, 5, 7},
             {2, 6, 9},
             {0, 4, 8}
         };
@@ -561,9 +561,9 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
     private void Sort2dArray(int[,] arr)
     {
-        for(int row = arr.GetLength(0)-1; row >=0; row --)
+        for(int row = arr.GetLength(0)-1; row >= 0; row --)
         {
-            for(int col = arr.GetLength(1)-1; col >=0; col --)
+            for(int col = arr.GetLength(1)-1; col >= 0; col --)
             {
                 FindAndReplaceBiggest(arr, row, col);
             }
@@ -579,7 +579,12 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
         for(int r = 0; r <= row; r ++)
         {
-            if (arr[r, arr.GetLength(1)-1] > max)
+            if (row == r)
+            {
+                c = col -1;
+            }
+
+            if (arr[r, c] > max)
             {
                 max = arr[r, c];
                 newRow = r;
@@ -691,6 +696,168 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         }
 
         return res[s.Length-1];
+    }
+
+    //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
+    public void MostStonesRemoved()
+    {
+        int[,] arr = new int[,]
+        {
+            {1, 1, 0},
+            {1, 0, 1},
+            {0, 1, 1}
+        };
+
+        int max = 0;
+        CreMostStonesRemoved(arr, 0, 0, 0, ref max);
+
+        Console.WriteLine($"Max stones which can be removed: {max}");
+    }
+
+    private void CreMostStonesRemoved(int[,] arr, int r, int c, int val, ref int max)
+    {
+        if (r >= arr.GetLength(0))
+        {
+            return;
+        }
+
+        for(int row = r; row < arr.GetLength(0); row ++)
+        {
+            for(int col = c; col < arr.GetLength(1); col ++)
+            {
+                if (IsRemovalValid(arr, row, col))
+                {
+                    arr[row, col] = 0;
+                    if (col + 1 < arr.GetLength(1))
+                    {
+                        max = Math.Max(val+1, max);
+                        CreMostStonesRemoved(arr, row, col + 1, val + 1, ref max);
+
+                        arr[row, col] = 1;
+                        CreMostStonesRemoved(arr, row, col + 1, val, ref max);
+                    }
+                    else
+                    {
+                        col = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private bool IsRemovalValid(int[,] arr, int r, int c)
+    {
+        for(int row = 0; row < arr.GetLength(0); row ++)
+        {
+            if (r == row)
+            {
+                continue;
+            }
+
+            if (arr[row, c] == 1)
+            {
+                return true;
+            }
+        }
+
+        for(int col = 0; col < arr.GetLength(1); col ++)
+        {
+            if (c == col)
+            {
+                continue;
+            }
+
+            if (arr[r, col] == 1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void RemoveStones()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {1, 1, 0},
+            new int[] {1, 0, 1},
+            new int[] {0, 1, 1}
+        };
+
+        Console.WriteLine(RemoveStones(arr));
+    }
+
+    public int RemoveStones(int[][] stones)
+        {
+            DSU d = new DSU(9);
+
+            for(int row = 0; row < stones.Length; row ++)
+            {
+                for(int col = row + 1; col < stones.Length; col ++)
+                {
+                    if (stones[row][0] == stones[col][0] || stones[row][1] == stones[col][1])
+                    {
+                        d.Union(row, col);
+                    }
+                }
+            }
+
+            return stones.Length - d.Count;
+        }
+
+    public class DSU
+    {
+        private int[] size;
+        private int[] root;
+        public int Count;
+
+        public DSU(int n)
+        {
+            size = new int[n];
+            root = new int[n];
+            Count = n;
+
+            for(int i = 0; i < n; i++)
+            {
+                root[i] = i;
+            }
+        }
+
+        public int Find(int x)
+        {
+            if (root[x] != x)
+            {
+                root[x] = Find(root[x]);
+            }
+
+            return root[x];
+        }
+
+        public void Union(int x, int y)
+        {
+            int rootX = Find(x);
+            int rootY = Find(y);
+
+            if (rootX == rootY)
+            {
+                return;
+            }
+
+            if (size[rootX] <= size[rootY])
+            {
+                root[rootX] = rootY;
+                size[rootY]++;
+            }
+            else
+            {
+                root[rootY] = rootX;
+                size[rootX]++;
+            }
+
+            Count--;
+        }
     }
 }
 

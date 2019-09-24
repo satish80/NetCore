@@ -349,6 +349,84 @@ public class Trees
         return node;
     }
 
+    //https://leetcode.com/problems/boundary-of-binary-tree/
+    public void BoundaryOfTree()
+    {
+        TreeNode node= new TreeNode(1);
+        node.Right = new TreeNode(2);
+        node.Right.Left = new TreeNode(3);
+        node.Right.Right = new TreeNode(4);
+
+        List<int> res = new List<int>();
+
+        res.Add(node.Value.Value);
+        res.AddRange(LeftView(node.Left, new List<int>()));
+        res.AddRange(Leaves(node.Left, new List<int>()));
+        res.AddRange(Leaves(node.Right, new List<int>()));
+        res.AddRange(RightView(node.Right, new List<int>()));
+    }
+
+    private List<int> LeftView(TreeNode node, List<int> res)
+    {
+        if (node == null || (node.Left == null && node.Right == null))
+        {
+            return res;
+        }
+
+        res.Add(node.Value.Value);
+
+        if (node.Left == null)
+        {
+            LeftView(node.Right, res);
+        }
+        else
+        {
+            LeftView(node.Left, res);
+        }
+
+        return res;
+    }
+
+    private List<int> RightView(TreeNode node, List<int> res)
+    {
+        if (node == null || (node.Left == null && node.Right == null))
+        {
+            return res;
+        }
+
+        if (node.Right == null)
+        {
+            RightView(node.Left, res);
+        }
+        else
+        {
+            RightView(node.Right, res);
+        }
+
+        res.Add(node.Value.Value);
+
+        return res;
+    }
+
+    private List<int> Leaves(TreeNode node, List<int> res)
+    {
+        if (node == null)
+        {
+            return res;
+        }
+
+        if (node.Left == null && node.Right == null)
+        {
+            res.Add(node.Value.Value);
+            return res;
+        }
+
+        Leaves(node.Left, res);
+        Leaves(node.Right, res);
+
+        return res;
+    }
+
     //https://leetcode.com/problems/binary-tree-upside-down/description/
     public void BinaryTreeUpsideDown()
     {

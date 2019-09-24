@@ -12,5 +12,6 @@
     <Content Include="Graphs.cs" />
     <Content Include="Strings.cs" />
     <Content Include="LinkedList.cs" />
+    <Content Include="SynchronizedQueue.cs" />
   </ItemGroup>
 </Project>
