@@ -803,31 +803,34 @@ You can assume that the messages are decodable. For example, '001' is not allowe
     {
         int[][] arr = new int[][]
         {
-            new int[] {1, 1, 0},
-            new int[] {1, 0, 1},
-            new int[] {0, 1, 1}
+            new int[] {0,0},
+            new int[] {0,1},
+            new int[] {1,0},
+            new int[] {1,2},
+            new int[] {2,0},
+            new int[] {2,2}
         };
 
         Console.WriteLine(RemoveStones(arr));
     }
 
     public int RemoveStones(int[][] stones)
-        {
-            DSU d = new DSU(9);
+    {
+        DSU d = new DSU(stones.Length);
 
-            for(int row = 0; row < stones.Length; row ++)
+        for(int row = 0; row < stones.Length; row ++)
+        {
+            for(int col = row + 1; col < stones.Length; col ++)
             {
-                for(int col = row + 1; col < stones.Length; col ++)
+                if (stones[row][0] == stones[col][0] || stones[row][1] == stones[col][1])
                 {
-                    if (stones[row][0] == stones[col][0] || stones[row][1] == stones[col][1])
-                    {
-                        d.Union(row, col);
-                    }
+                    d.Union(row, col);
                 }
             }
-
-            return stones.Length - d.Count;
         }
+
+        return stones.Length - d.Count;
+    }
 
     public class DSU
     {
