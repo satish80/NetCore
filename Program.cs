@@ -19,6 +19,7 @@ namespace Algorithms
             // arrObj.FindOnesInRange();
             // arrObj.DecodeWays();
             // arrObj.MostStonesRemoved();
+            // arrObj.DailyTemperatures();
             arrObj.RemoveStones();                             //** To Be Completed **
 
             Trees treeObj = new Trees();
