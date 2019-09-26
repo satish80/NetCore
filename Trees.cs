@@ -299,6 +299,56 @@ public class Trees
         dfs(root.Right, target, K, length + 1, res, map);
     }
 
+    /*
+    This problem was recently asked by Apple:
+    Given an integer k and a binary search tree, find the floor (less than or equal to) of k, and the ceiling (larger than or equal to) of k.
+    If either does not exist, then print them as None.
+     */
+    public void FloorCeiling()
+    {
+        TreeNode node = new TreeNode(8);
+        node.Left = new TreeNode(4);
+        node.Right = new TreeNode(12);
+        node.Left.Left = new TreeNode(2);
+        node.Left.Right = new TreeNode(6);
+        node.Right.Left = new TreeNode(10);
+        node.Right.Right = new TreeNode(14);
+
+        TreeNode prev = null;
+        int floor = -10000;
+        int ceiling = 10000;
+
+        FloorCeiling(node, ref prev, 5, ref floor, ref ceiling);
+        Console.WriteLine($"Floor is {floor}");
+        Console.WriteLine($"Ceiling is {ceiling}");
+    }
+
+    private void FloorCeiling(TreeNode node, ref TreeNode prev, int k, ref int floor, ref int ceiling)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        FloorCeiling(node.Left, ref prev, k, ref floor, ref ceiling);
+
+        if (prev != null && prev.Value <= k && node.Value >=k)
+        {
+            int diff = ceiling - floor;
+            if(diff > node.Value - prev.Value)
+            {
+                ceiling = node.Value.Value;
+                floor = prev.Value.Value;
+            }
+        }
+
+        prev = node;
+
+        FloorCeiling(node.Right, ref prev, k, ref floor, ref ceiling);
+
+        return;
+    }
+
     //https://leetcode.com/contest/leetcode-weekly-contest-23/problems/construct-binary-tree-from-string/
     public void ConstructBinaryTreeFromString()
     {

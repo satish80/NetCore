@@ -884,6 +884,64 @@ You can assume that the messages are decodable. For example, '001' is not allowe
             Count--;
         }
     }
+
+    //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+    public void FindFirstLastPosInArray()
+    {
+        int[] arr = new int[] {5,7,7,8,8,10};
+        var res = FindFirstLastPosInArray(arr, 8, 0, arr.Length-1);
+    }
+
+    private int[] FindFirstLastPosInArray(int[] arr, int target, int start, int end)
+    {
+        if (end - start == 1)
+        {
+            return new int[] {-1, -1};
+        }
+
+        int mid = start + (end-start) / 2;
+
+        if (target == arr[start])
+        {
+            return FindOccurence(arr, start);
+        }
+        else if (target == arr[end])
+        {
+            return FindOccurence(arr, start);
+        }
+        else if (target < arr[mid])
+        {
+            return FindFirstLastPosInArray(arr, target, start, mid);
+        }
+        else
+        {
+            return FindFirstLastPosInArray(arr, target, mid, end);
+        }
+    }
+
+    private int[] FindOccurence(int[] arr, int idx)
+    {
+        int[] res = new int[2];
+        int start = idx;
+        int end = idx;
+
+        while (++idx < arr.Length)
+        {
+            if (arr[idx] == arr[start])
+            {
+                end = idx;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        res[0] = start;
+        res[1] = end;
+
+        return res;
+    }
 }
 
 public class Pair : IEquatable<Pair>

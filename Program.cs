@@ -20,7 +20,8 @@ namespace Algorithms
             // arrObj.DecodeWays();
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
-            arrObj.RemoveStones();                             //** To Be Completed **
+            // arrObj.RemoveStones();                             //** To Be Completed **
+            arrObj.FindFirstLastPosInArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -40,6 +41,7 @@ namespace Algorithms
             // treeObj.BinaryTreeUpsideDown();
             // treeObj.FillNodesWithEqualValues();
             // treeObj.BoundaryOfTree();
+            // treeObj.FloorCeiling();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
