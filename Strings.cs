@@ -170,6 +170,52 @@ public class Strings
         return "1";
     }
 
+    //Accepted: https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+    public void LongestSubstringKDistinctChars()
+    {
+        Console.WriteLine(LongestSubstringKDistinctChars("ee", 1));
+    }
+
+    private int LongestSubstringKDistinctChars(string str, int k)
+    {
+        if (k == 0)
+        {
+            return 0;
+        }
+
+        Dictionary<char, int> map = new Dictionary<char, int>();
+
+        int start = 0;
+        int cur = 0;
+        int max = 0;
+
+        while (cur < str.Length)
+        {
+            while ((cur < str.Length) && (map.Count < k || map.ContainsKey(str[cur])))
+            {
+                if (!map.ContainsKey(str[cur]))
+                {
+                    map.Add(str[cur], 0);
+                }
+
+                map[str[cur]]++;
+                cur++;
+            }
+
+            max = Math.Max(max, cur - start );
+            map[str[start]]--;
+
+            if (map[str[start]] == 0)
+            {
+                map.Remove(str[start]);
+            }
+
+            start++;
+        }
+
+        return max;
+    }
+
     //https://leetcode.com/problems/decode-string/
     public void DecodeString() 
     {

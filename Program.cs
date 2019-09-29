@@ -21,7 +21,7 @@ namespace Algorithms
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
             // arrObj.RemoveStones();                             //** To Be Completed **
-            arrObj.FindFirstLastPosInArray();
+            // arrObj.FindFirstLastPosInArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -42,6 +42,7 @@ namespace Algorithms
             // treeObj.FillNodesWithEqualValues();
             // treeObj.BoundaryOfTree();
             // treeObj.FloorCeiling();
+            // treeObj.FindRightNeighbor();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -58,11 +59,13 @@ namespace Algorithms
             // sObj.WordBreak();
             // sObj.checkPangram();
             // TBD: sObj.DecodeString();
+            sObj.LongestSubstringKDistinctChars();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
             // lObj.RemoveZeroSumNodes();
             // lObj.ReverseSLL();
+            // lObj.PlusOne();
 
             // ThreadedQueue thObj = new ThreadedQueue();
         }

@@ -131,6 +131,60 @@ public class LinkedList
 
         return head;
     }
+
+    //https://leetcode.com/problems/plus-one-linked-list/
+    public void PlusOne()
+    {
+        SLLNode node = new SLLNode(2);
+        node.Next = new SLLNode (9);
+        node.Next.Next = new SLLNode(9);
+
+        var res = PlusOne(node); 
+    }
+
+    private SLLNode PlusOne(SLLNode node)
+    {
+        var rList = ReverseSLL(node);
+
+        SLLNode cur = rList;
+        int carry = 1;
+
+        while (cur != null)
+        {
+            var length = cur.Value.ToString().Length;
+            var newLength = (cur.Value + carry).ToString().Length; 
+
+            if (newLength > length)
+            {
+                if(cur.Next != null)
+                {
+                    while(length-- > 0)
+                    {
+                        cur.Value = 0;
+                    }
+
+                    carry = 1;
+                }
+                else
+                {
+                    cur.Value += carry;
+                }
+            }
+            else
+            {
+                if (carry > 0)
+                {
+                    cur.Value += carry;
+                }
+                
+                carry = 0;
+            }
+
+            cur = cur.Next;
+        }
+
+        return ReverseSLL(rList);
+    }
 }
 
 public class SLLNode

@@ -300,6 +300,74 @@ public class Trees
     }
 
     /*
+     Given a Node in the Tree (not the root & not the tree) find its first right neighbor.
+     You cannot use extra space.
+    */
+    public void FindRightNeighbor()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Left.Parent = node;
+        node.Right = new TreeNode(3);
+        node.Right.Parent = node;
+        node.Left.Left = new TreeNode(4);
+        node.Left.Left.Parent = node.Left;
+        node.Right.Right = new TreeNode(5);
+        node.Right.Right.Parent = node.Right.Right;
+
+        var res = FindRightNeighbor(node.Left.Left);
+        Console.WriteLine(res.Value);
+    }
+
+    private TreeNode FindRightNeighbor(TreeNode node)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        int level = 1;
+
+        node = node.Parent;
+
+        while(node != null)
+        {
+            if (node.Right != null)
+            {
+                var res = FindRightSibling(node.Right, level-1);
+
+                if (res != null)
+                {
+                    return res;
+                }
+            }
+
+            level++;
+            node = node.Parent;
+        }
+
+        return null;
+    }
+
+    private TreeNode FindRightSibling(TreeNode node, int level)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        if (level == 0)
+        {
+            return node;
+        }
+
+        TreeNode res = FindRightSibling(node.Left, level-1);
+        res = FindRightSibling(node.Right, level-1);
+
+        return res;
+    }
+
+    /*
     This problem was recently asked by Apple:
     Given an integer k and a binary search tree, find the floor (less than or equal to) of k, and the ceiling (larger than or equal to) of k.
     If either does not exist, then print them as None.
@@ -815,6 +883,8 @@ public class TreeNode
 
     public TreeNode Left;
     public TreeNode Right;
+
+    public TreeNode Parent;
 
     public int? Value;
 }
