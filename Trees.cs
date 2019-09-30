@@ -175,6 +175,36 @@ public class Trees
         return root;
     }
 
+    //https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/
+    public void SubTreeWithDeepestNodes()
+    {
+        TreeNode node = new TreeNode(3);
+        node.Left = new TreeNode(5);
+        node.Right = new TreeNode(1);
+        node.Left.Left = new TreeNode(6);
+        node.Left.Right = new TreeNode(2);
+        node.Left.Right.Left = new TreeNode(7);
+        node.Left.Right.Right = new TreeNode(4);
+        node.Right.Left = new TreeNode(0);
+        node.Right.Right = new TreeNode(8);
+
+        var res = SubTreeWithDeepestNodes(node);
+    }
+
+    private KeyValuePair<int, TreeNode> SubTreeWithDeepestNodes(TreeNode node)
+    {
+        if (node == null)
+        {
+            return new KeyValuePair<int, TreeNode>(0, null);
+        }
+
+        KeyValuePair<int, TreeNode> l =  SubTreeWithDeepestNodes(node.Left);
+        KeyValuePair<int, TreeNode> r = SubTreeWithDeepestNodes(node.Right);
+
+        return new KeyValuePair<int, TreeNode>(Math.Max(l.Key, r.Key) +1, 
+        l.Key == r.Key ? node : (l.Key > r.Key ? l.Value : r.Value));
+    }
+
     public void NextGreater()
     {
         TreeNode node= new TreeNode(100);
