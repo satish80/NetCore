@@ -22,6 +22,7 @@ namespace Algorithms
             // arrObj.DailyTemperatures();
             // arrObj.RemoveStones();                             //** To Be Completed **
             // arrObj.FindFirstLastPosInArray();
+            //arrObj.DailyTemperatures();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -59,7 +60,7 @@ namespace Algorithms
             // sObj.WordBreak();
             // sObj.checkPangram();
             // TBD: sObj.DecodeString();
-            sObj.LongestSubstringKDistinctChars();
+            // sObj.LongestSubstringKDistinctChars();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

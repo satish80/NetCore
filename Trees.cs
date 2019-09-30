@@ -149,6 +149,32 @@ public class Trees
         return rootSum;
     }
 
+    //https://leetcode.com/problems/delete-nodes-and-return-forest/
+    public void DeleteNodeReturnForest()
+    {
+
+    }
+
+    private TreeNode DelNodes(TreeNode root, int[] to_delete, ref int idx, IList<TreeNode> res)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        TreeNode left = DelNodes(root.Left, to_delete, ref idx, res);
+        TreeNode right = DelNodes(root.Right, to_delete, ref idx, res);
+
+        if (root.Value.Value == to_delete[idx])
+        {
+            res.Add(root);
+            idx++;
+            return null;
+        }
+
+        return root;
+    }
+
     public void NextGreater()
     {
         TreeNode node= new TreeNode(100);
