@@ -20,9 +20,11 @@ namespace Algorithms
             // arrObj.DecodeWays();
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
-            // arrObj.RemoveStones();                             //** To Be Completed **
+            // arrObj.RemoveStones();
             // arrObj.FindFirstLastPosInArray();
             //arrObj.DailyTemperatures();
+            // arrObj.FindInMountainArray();
+            arrObj.MinChairs();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -44,7 +46,7 @@ namespace Algorithms
             // treeObj.BoundaryOfTree();
             // treeObj.FloorCeiling();
             // treeObj.FindRightNeighbor();
-            treeObj.SubTreeWithDeepestNodes();
+            // treeObj.SubTreeWithDeepestNodes();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -70,6 +72,9 @@ namespace Algorithms
             // lObj.PlusOne();
 
             // ThreadedQueue thObj = new ThreadedQueue();
+
+            Recursion rObj = new Recursion();
+            //rObj.ExpressionAddOperators();                      //** To Be Completed **
         }
     }
 }
