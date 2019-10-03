@@ -799,6 +799,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return false;
     }
 
+    //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
     public void RemoveStones()
     {
         int[][] arr = new int[][]
@@ -814,7 +815,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         Console.WriteLine(RemoveStones(arr));
     }
 
-    public int RemoveStones(int[][] stones)
+    private int RemoveStones(int[][] stones)
     {
         DSU d = new DSU(stones.Length);
 
@@ -941,6 +942,96 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         res[1] = end;
 
         return res;
+    }
+
+    //https://leetcode.com/problems/find-in-mountain-array/
+    public void FindInMountainArray()
+    {
+        int[] arr = new int[] {0,1,2,4,2,1};
+        Console.WriteLine(FindInMountainArray(arr, 3, 0, arr.Length-1));
+    }
+
+    private int FindInMountainArray(int[] arr, int target, int start, int end)
+    {
+        if (end - start == 1)
+        {
+            if (arr[start] == target)
+            {
+                return start;
+            }
+            else if (arr[end] == target)
+            {
+                return end;
+            }
+
+            return -1;
+        }
+
+        int idx = -1;
+
+        int mid = (end - start) / 2 + start;
+
+        if (arr[mid] > target)
+        {
+            idx = FindInMountainArray(arr, target, start, mid);
+        }
+        else if (arr[mid] < target)
+        {
+            idx = FindInMountainArray(arr, target, mid, end);
+        }
+        else
+        {
+            return mid;
+        }
+
+        return idx;
+    }
+
+    //https://leetcode.com/discuss/interview-question/356520
+    public void MinChairs()
+    {
+        List<Pair> pairs = new List<Pair>();
+        pairs.Add(new Pair(1,5));
+        pairs.Add(new Pair(2,5));
+        pairs.Add(new Pair(6,7));
+        pairs.Add(new Pair(5,6));
+        pairs.Add(new Pair(3,8));
+
+        Console.WriteLine(MinChairs(pairs));
+    }
+
+    private int MinChairs(List<Pair> pairs)
+    {
+        var sorted = pairs.OrderBy(x => x.y);
+
+        int idx = 0;
+        int count = pairs.Count;
+        HashSet<int> visited = new HashSet<int>();
+
+        while (idx < pairs.Count)
+        {
+            var cur = pairs[idx];
+            int next = idx + 1;
+
+            while (next < sorted.Count())
+            {
+
+                if (pairs[next].x >= cur.y && !visited.Contains(next))
+                {
+                    count --;
+                    visited.Add(next);
+                    cur = sorted.ElementAt(next);
+                }
+
+                next ++;
+            }
+
+            visited.Add(idx);
+
+            idx++;
+        }
+
+        return count;
     }
 }
 

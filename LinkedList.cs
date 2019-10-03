@@ -1,5 +1,7 @@
 public class LinkedList
 {
+    //https://leetcode.com/problems/swap-nodes-in-pairs/
+    //Given 1->2->3->4, you should return the list as 2->1->4->3.
     public void SwapAlternatePairs()
     {
         SLLNode head = new SLLNode(2);
@@ -10,7 +12,11 @@ public class LinkedList
         head.Next.Next.Next.Next.Next = new SLLNode(10);
         head.Next.Next.Next.Next.Next.Next = new SLLNode(12);
         head.Next.Next.Next.Next.Next.Next.Next = new SLLNode(14);
-        var res = SwapAlternatePairs(head);
+
+        SLLNode node = new SLLNode(1);
+        node.Next = new SLLNode(2);
+        node.Next.Next = new SLLNode(3);
+        var res = SwapAlternatePairs(node);
     }
 
     private SLLNode SwapAlternatePairs(SLLNode head)
@@ -23,7 +29,7 @@ public class LinkedList
         cur.Next = prev;
         head = cur;
 
-        while(cur.Next != null)
+        while(cur.Next != null && prev.Next != null)
         {
             cur = prev.Next;
             prev.Next = cur.Next;
