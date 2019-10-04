@@ -282,6 +282,42 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/maximum-binary-tree/
+    public void MaximumBinaryTree()
+    {
+        int[] arr = new int[] {3, 2, 1, 6, 0, 5};
+        var res = MaximumBinaryTree(arr);
+    }
+
+    private TreeNode MaximumBinaryTree(int[] nums)
+    {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        for(int i = 0; i < nums.Length; i++)
+        {
+            TreeNode curr = new TreeNode(nums[i]);
+
+            while(stack.Count > 0 && stack.Peek().Value < nums[i])
+            {
+                curr.Left = stack.Pop();
+            }
+
+            if(stack.Count > 0)
+            {
+                stack.Peek().Right = curr;
+            }
+
+            stack.Push(curr);
+        }
+        
+        while (stack.Count > 1)
+        {
+            stack.Pop();
+        }
+
+        return stack.Count == 0 ? null : stack.Pop();
+    }
+
     //https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/
     public void KDistanceBinaryTree()
     {

@@ -24,7 +24,7 @@ namespace Algorithms
             // arrObj.FindFirstLastPosInArray();
             //arrObj.DailyTemperatures();
             // arrObj.FindInMountainArray();
-            arrObj.MinChairs();
+            // arrObj.MinChairs();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -47,6 +47,7 @@ namespace Algorithms
             // treeObj.FloorCeiling();
             // treeObj.FindRightNeighbor();
             // treeObj.SubTreeWithDeepestNodes();
+            treeObj.MaximumBinaryTree();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
