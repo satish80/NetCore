@@ -245,6 +245,76 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/binary-tree-vertical-order-traversal/
+    public void VerticalOrder()
+    {
+        TreeNode node = new TreeNode(3);
+        node.Left = new TreeNode(9);
+        node.Right = new TreeNode(20);
+        node.Right.Left = new TreeNode(15); 
+        node.Right.Right = new TreeNode(7); 
+
+        var res = VerticalOrder(node);
+    }
+
+    private List<List<int>> VerticalOrder(TreeNode root)
+    {
+        List<List<int>> cols = new List<List<int>>();
+        if (root == null)
+        {
+            return cols;
+        }
+
+        int[] range = new int[] {0, 0};
+        getRange(root, range, 0);
+
+        for (int i = range[0]; i <= range[1]; i++)
+        {
+            cols.Add(new List<int>());
+        }
+
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        Queue<int> colQueue = new Queue<int>();
+
+        queue.Enqueue(root);
+        colQueue.Enqueue(-range[0]);
+
+        while (queue.Count > 0)
+        {
+            TreeNode node = queue.Dequeue();
+            int col = colQueue.Dequeue();
+            
+            cols[col].Add(node.Value.Value);
+            
+            if (node.Left != null)
+            {
+                queue.Enqueue(node.Left);
+                colQueue.Enqueue(col - 1);
+            }
+
+            if (node.Right != null)
+            {
+                queue.Enqueue(node.Right);
+                colQueue.Enqueue(col + 1);
+            }
+        }
+
+        return cols;
+    }
+
+    public void getRange(TreeNode root, int[] range, int col)
+    {
+        if (root == null)
+        {
+            return;
+        }
+        range[0] = Math.Min(range[0], col);
+        range[1] = Math.Max(range[1], col);
+        
+        getRange(root.Left, range, col - 1);
+        getRange(root.Right, range, col + 1);
+    }
+
     //https://leetcode.com/problems/validate-binary-search-tree/
     public void IsValidBST() 
     {
@@ -775,7 +845,7 @@ public class Trees
         return root;
     }
 
-    //https://leetcode.com/problems/distribute-coins-in-binary-tree/
+    //Accepted: https://leetcode.com/problems/distribute-coins-in-binary-tree/
     public void DistributeCoins()
     {
         TreeNode node = new TreeNode(0);

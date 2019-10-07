@@ -987,6 +987,36 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return idx;
     }
 
+    //Accepted: https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
+    public void LongestSubsequenceOfGivenDifference()
+    {
+        int[] arr = new int[]{-6,6,-8,0,7,-8,5,-7,10,-10};
+        Console.WriteLine(LongestSubsequenceOfGivenDifference(arr, -6));
+    }
+
+    private int LongestSubsequenceOfGivenDifference(int[] arr, int diff) 
+    {
+        Dictionary<int, int> map = new  Dictionary<int, int>();
+        
+        int max = 1;
+        
+        for(int idx = arr.Length-1; idx >=0; idx --)
+        {
+            if (map.ContainsKey(arr[idx] + diff) && map[arr[idx] + diff] > 0)
+            {
+                map[arr[idx]] = map[arr[idx] + diff] +1;
+
+                max = Math.Max(max, map[arr[idx]]); 
+            }
+            else
+            {
+                map.TryAdd(arr[idx], 1);
+            }
+        }
+
+        return max;
+    }
+
     //https://leetcode.com/discuss/interview-question/356520
     public void MinChairs()
     {
