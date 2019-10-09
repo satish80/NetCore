@@ -59,6 +59,53 @@ public class Strings
         return -1;
     }
 
+    public void IsPalindrome()
+    {
+        Console.WriteLine(IsPalindrome("amrtmma"));
+    }
+    private bool IsPalindrome(string str)
+    {
+        int left = 0;
+        int right = str.Length-1;
+        
+        int count = 0;
+        
+        while (right-left >= 1)
+        {
+            Console.WriteLine($"left: {str[left]} right: {str[right]}");
+            if (str[left] != str[right])
+            {
+                if (count < 1)
+                {
+                    if (left < right && str[left+1] == str[right])
+                    {
+                        left ++;
+                    }
+                    else if (left < right && str[left] == str[right-1])
+                    {
+                        right--;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                left ++;
+                right --;
+            }
+        }
+        
+        return true;
+    }
     public void WordBreak()
     {
         HashSet<string> map = new HashSet<string>();

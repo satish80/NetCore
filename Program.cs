@@ -67,6 +67,7 @@ namespace Algorithms
             // sObj.checkPangram();
             // TBD: sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
+            sObj.IsPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
