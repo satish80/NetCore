@@ -936,6 +936,45 @@ public class Trees
         }
     }
 
+    //Accepted: https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+    public void PopulateNextRightPointers()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Left.Left = new TreeNode(4);
+        node.Left.Right = new TreeNode(5);
+        node.Right.Left = new TreeNode(6);
+        node.Right.Right = new TreeNode(7);
+
+        PopulateNextRightPointers(node);
+    }
+
+    private TreeNode PopulateNextRightPointers(TreeNode node)
+    {
+        TreeNode prev = node;
+        TreeNode cur = node;
+
+        while (prev != null && prev.Left != null)
+        {
+            cur = prev;
+
+            while(cur != null)
+            {
+                cur.Left.NextRight = cur.Right;
+                if (cur.NextRight != null)
+                {
+                    cur.Right.NextRight = cur.NextRight.Left;
+                }
+                cur = cur.NextRight;
+            }
+
+            prev = prev.Left;
+        }
+
+        return node;
+    }
+
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
     public void VerifyPreOrderSerialization()
     {
@@ -1045,7 +1084,7 @@ public class TreeNode
 
     public TreeNode Left;
     public TreeNode Right;
-
+    public TreeNode NextRight;
     public TreeNode Parent;
 
     public int? Value;

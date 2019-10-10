@@ -50,6 +50,7 @@ namespace Algorithms
             // treeObj.SubTreeWithDeepestNodes();
             // treeObj.MaximumBinaryTree();
             // treeObj.VerticalOrder();
+            treeObj.PopulateNextRightPointers();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -67,7 +68,7 @@ namespace Algorithms
             // sObj.checkPangram();
             // TBD: sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
-            sObj.IsPalindrome();
+            // sObj.IsPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
