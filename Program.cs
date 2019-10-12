@@ -50,7 +50,7 @@ namespace Algorithms
             // treeObj.SubTreeWithDeepestNodes();
             // treeObj.MaximumBinaryTree();
             // treeObj.VerticalOrder();
-            treeObj.PopulateNextRightPointers();
+            // treeObj.PopulateNextRightPointers();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -60,6 +60,7 @@ namespace Algorithms
             Graph gObj = new Graph();
             //gObj.BiPartition();
             //gObj.CourseScheduling();
+            gObj.MinCostToConnectNodes();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -80,6 +81,7 @@ namespace Algorithms
 
             Recursion rObj = new Recursion();
             //rObj.ExpressionAddOperators();                      //** To Be Completed **
+            // rObj.LetterCombinations();
         }
     }
 }

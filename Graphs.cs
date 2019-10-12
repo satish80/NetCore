@@ -148,8 +148,93 @@ public class Graph
 
         return true;
     }
-}
 
+    //https://leetcode.com/discuss/interview-question/356981
+    public void MinCostToConnectNodes()
+    {
+        int[][] input = new int[][]
+        {
+            new int[] {1, 4},
+            new int[] {4, 5},
+            new int[] {2, 3}
+        };
+
+        Tuple<int, int, int> newEdge1 = new Tuple<int, int, int>(1, 2, 5);
+        Tuple<int, int, int> newEdge2 = new Tuple<int, int, int>(1, 3, 10);
+        Tuple<int, int, int> newEdge3 = new Tuple<int, int, int>(1, 6, 2);
+        Tuple<int, int, int> newEdge4 = new Tuple<int, int, int>(5, 6, 5);
+        List<Tuple<int, int, int>> newEdges = new List<Tuple<int, int, int>>(){newEdge1, newEdge2, newEdge3, newEdge4};
+
+        Console.WriteLine(MinCostToConnectNodes(input, newEdges, 6));
+    }
+
+    private int MinCostToConnectNodes(int[][] input, List<Tuple<int, int, int>> newEdges, int n)
+    {
+        int[] size = new int[n+1];
+        int[] root = new int[n+1];
+
+        for(int idx = 0; idx <= n; idx ++)
+        {
+            root[idx] = idx;
+            size[idx] = 1;
+        }
+
+        foreach(int[] arr in input)
+        {
+            Union(arr[0], arr[1], size, root);
+        }
+
+        int count = 0;
+
+        foreach(Tuple<int, int, int> newEdge in newEdges)
+        {
+            if (Find(newEdge.Item1, root) == Find(newEdge.Item2, root))
+            {
+                continue;
+            }
+
+            count += newEdge.Item3;
+
+            Union(newEdge.Item1, newEdge.Item2, size, root);
+        }
+
+        return count;
+    }
+
+    private void Union(int x, int y, int[] size, int[] root)
+    {
+        int rootX = Find(x, root);
+        int rootY = Find(y, root);
+
+        if (rootX == rootY)
+        {
+            return;
+        }
+
+        if (size[x] >= size[y])
+        {
+            root[y] = rootX;
+            size[rootX] ++;
+        }
+        else
+        {
+            root[x] = rootY;
+            size[rootY]++;
+        }
+
+        return;
+    }
+
+    private int Find(int x, int[] root)
+    {
+        if (root[x] != x)
+        {
+           root[x] = Find(root[x], root);
+        }
+
+        return root[x];
+    }
+}
 
 public class UndirectedGraph
 {
@@ -169,7 +254,7 @@ public class UndirectedGraph
         {
             Vertices.Add(source, false);
         }
-
+ 
         if (!AdjList.ContainsKey(source))
         {
             AdjList.Add(source, new HashSet<int>());

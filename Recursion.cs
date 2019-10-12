@@ -74,4 +74,30 @@ public class Recursion
 
         return calculate;
     }
+
+    //https://leetcode.com/articles/letter-combinations-of-a-phone-number/
+    public void LetterCombinations()
+    {
+        Dictionary<char, string> map = new Dictionary<char, string>();
+        map.Add('2', "abc");
+        map.Add('3', "def");
+
+        var output = LetterCombinations("23", 0, map, new List<string>(), string.Empty);
+    }
+
+    private List<string> LetterCombinations(string input, int idx, Dictionary<char, string> map, List<string> output, string cur)
+    {
+        if (input.Length == idx)
+        {
+            output.Add(cur);
+            return output;
+        }
+
+        foreach(char ch in map[input[idx]])
+        {
+            LetterCombinations(input, idx + 1, map, output, cur + ch);
+        }
+
+        return output;
+    }
 }
