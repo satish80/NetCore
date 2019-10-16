@@ -26,6 +26,7 @@ namespace Algorithms
             // arrObj.FindInMountainArray();
             // arrObj.MinChairs();
             // arrObj.LongestSubsequenceOfGivenDifference();
+            arrObj.QueensAttackKing();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -51,6 +52,7 @@ namespace Algorithms
             // treeObj.MaximumBinaryTree();
             // treeObj.VerticalOrder();
             // treeObj.PopulateNextRightPointers();
+            // treeObj.MaxLevelSum();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -60,7 +62,7 @@ namespace Algorithms
             Graph gObj = new Graph();
             //gObj.BiPartition();
             //gObj.CourseScheduling();
-            gObj.MinCostToConnectNodes();
+            // gObj.MinCostToConnectNodes();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

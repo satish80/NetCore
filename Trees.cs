@@ -974,6 +974,44 @@ public class Trees
 
         return node;
     }
+    //https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/
+    public void MaxLevelSum()
+    {
+        TreeNode node = new TreeNode(989);
+        node.Right = new TreeNode(10250);
+        node.Right.Left = new TreeNode(98693);
+        node.Right.Right = new TreeNode(-89388);
+        node.Right.Right.Right = new TreeNode(-32127);
+
+        Tuple<int, int> max = new Tuple<int, int> (node.Value.Value, 1);
+        Console.WriteLine(MaxLevelSum(node, 1, new Dictionary<int, int>(), ref max));
+    }
+
+    private int MaxLevelSum(TreeNode node, int level, Dictionary<int, int> map, ref Tuple<int, int> max)
+    {
+        if (node == null)
+        {
+            return max.Item2;
+        }
+
+        if (! map.ContainsKey(level))
+        {
+            map.Add(level, 0);
+        }
+        
+        map[level] += node.Value.Value;
+        
+       
+        if (max.Item1 < map[level])
+        {
+            max = new Tuple<int, int> (map[level], level);
+        }
+
+        MaxLevelSum(node.Left, level + 1, map, ref max);
+        MaxLevelSum(node.Right, level + 1, map, ref max);
+
+        return max.Item2;
+    }
 
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
     public void VerifyPreOrderSerialization()

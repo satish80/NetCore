@@ -944,6 +944,100 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return res;
     }
 
+    //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
+    public void QueensAttackKing()
+    {
+        int[][] queens = new int[][]
+        {
+            new int[] {2, 0},
+            new int[] {1, 6},
+            new int[] {3, 4},
+            new int[] {4, 1},
+        };
+
+        int[] king = new int[2] {3, 5};
+
+        List<Pair> pairs = new List<Pair>();
+        pairs.Add(new Pair(0, -1));
+        pairs.Add(new Pair(0, 1));
+        pairs.Add(new Pair(-1, 0));
+        pairs.Add(new Pair(1, 0));
+        pairs.Add(new Pair(-1, -1));
+        pairs.Add(new Pair(-1, 1));
+        pairs.Add(new Pair(1, -1));
+        pairs.Add(new Pair(1, 1));
+
+        var res = QueensAttackKing(queens, king, pairs);
+    }
+
+    private IList<IList<int>> QueensAttackKing(int[][] queens, int[] king, List<Pair> pairs)
+    {
+        int[][] board = PopulateBoard(queens, king);
+        IList<IList<int>> res = new List<IList<int>>();
+
+        foreach(Pair p in pairs)
+        {
+            var r = king[0] + p.x;
+            var c = king[1] + p.y;
+
+            while(true)
+            {
+                if (! IsValid(board, r, c))
+                {
+                    break;
+                }
+
+                if (board[r][c] == 1)
+                {
+                    var list = new List<int>();
+                    list.Add(r);
+                    list.Add(c);
+                    res.Add(list);
+                    break;
+                }
+
+                r += p.x * 1;
+                c += p.y * 1;
+            }
+        }
+
+        return res;
+    }
+
+    private bool IsValid(int[][] board, int r, int c)
+    {
+        if (r < 0 || r > board.Length-1 || c < 0 || c > board[0].Length-1)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private int[][] PopulateBoard(int[][] queens, int[] king)
+    {
+        int[][] board = new int[8][]
+        {
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+            new int[8]{-1, -1, -1, -1, -1, -1, -1, -1},
+        };
+
+        for(int i = 0; i < queens.Length; i++)
+        {
+            int r = queens[i][0];
+            int c = queens[i][1];
+            board[r][c] = 1;
+        }
+
+        return board;
+    }
+
     //https://leetcode.com/problems/find-in-mountain-array/
     public void FindInMountainArray()
     {
