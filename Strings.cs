@@ -59,6 +59,87 @@ public class Strings
         return -1;
     }
 
+    //https://leetcode.com/problems/reorder-data-in-log-files/
+    public void ReorderLogFiles()
+    {
+        string[] logs = new string[]
+        {
+            "l5sh 6 3869 08 1295",
+            "16o 94884717383724 9",
+            "43 490972281212 3 51",
+            "9 ehyjki ngcoobi mi",
+            "2epy 85881033085988",
+            "7z fqkbxxqfks f y dg",
+            "9h4p 5 791738 954209",
+            "p i hz uubk id s m l",
+            "wd lfqgmu pvklkdp u",
+            "m4jl 225084707500464",
+            "6np2 bqrrqt q vtap h",
+            "e mpgfn bfkylg zewmg",
+            "ttzoz 035658365825 9",
+            "k5pkn 88312912782538",
+            "ry9 8231674347096 00",
+            "w 831 74626 07 353 9",
+            "bxao armngjllmvqwn q",
+            "0uoj 9 8896814034171",
+            "0 81650258784962331",
+            "t3df gjjn nxbrryos b"
+        };
+
+        logs = ReorderLogFiles(logs);
+    }
+
+    private string[] ReorderLogFiles(string[] logs)
+    {
+        Array.Sort(logs, new CustomComparer());
+        return logs;
+    }
+
+    public class CustomComparer : IComparer<string>
+    {
+        public int Compare(string x, string y)
+        {
+            bool isDigit1 = char.IsDigit(x[x.Length-1]);
+            bool isDigit2 = char.IsDigit(y[y.Length-1]);
+
+            if (! isDigit1 && ! isDigit2)
+            {
+                var split1 = x.Split(" ");
+                var split2 = y.Split(" ");
+
+                int idx = 1;
+                int cmp = 0;
+
+                while (idx < split1.Length && idx < split2.Length)
+                {
+                    cmp = split1[idx].CompareTo(split2[idx]);
+                    if (cmp != 0)
+                    {
+                        return cmp;
+                    }
+
+                    idx ++;
+                }
+
+                return split1[0].CompareTo(split2[0]);
+            }
+
+            return isDigit1 ? (isDigit2 ? 0 : 1) : -1;
+        }
+
+        private string Identifier(string str)
+        {
+            int idx = str.Length-1;
+
+            while(char.IsDigit(str[idx]))
+            {
+                idx --;
+            }
+
+            return str.Substring(0, idx);
+        }
+    }
+
     public void IsPalindrome()
     {
         Console.WriteLine(IsPalindrome("amrtmma"));

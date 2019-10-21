@@ -1,3 +1,4 @@
+using System;
 public class LinkedList
 {
     //https://leetcode.com/problems/swap-nodes-in-pairs/
@@ -69,6 +70,103 @@ public class LinkedList
         }
 
         return prev;
+    }
+
+    //https://leetcode.com/problems/minimum-cost-to-merge-stones/
+    public void MinCostToMergeStones()
+    {
+        int[] stones = new int[]{6, 4, 4, 6};
+        Console.WriteLine(MinCostToMergeStones(stones, 2));
+    }
+
+    private int MinCostToMergeStones(int[] arr, int k)
+    {
+        if (k > arr.Length)
+        {
+            return 0;
+        }
+
+        int kno = arr.Length / k + arr.Length % k;
+        if (arr.Length % k != 0 && (kno) % k != 0)
+        {
+            return -1;
+        }
+
+        DLLNode left = null;
+        DLLNode right = null;
+        DLLNode temp = null;
+        DLLNode cur = new DLLNode(arr[0]);
+        DLLNode head = cur;
+
+        int min = int.MaxValue;
+        int minCost = 0;
+
+        for(int idx = 1; idx < arr.Length; idx ++)
+        {
+            var node = new DLLNode(arr[idx]);
+            cur.Next = node;
+            node.Prev = cur;
+            cur = node;
+        }
+
+        cur = head;
+        int cost = 0;
+        int length = arr.Length;
+
+        while (head.Next != null)
+        {
+            cur = head;
+            min = int.MaxValue;
+            int len = length;
+
+            while (cur.Next != null)
+            {
+                int count = 0;
+                cost = 0;
+
+                temp = cur;
+                while (count < k)
+                {
+                    cost += cur.Value;
+                    count ++;
+
+                    if (cur.Next == null || count >= k)
+                    {
+                        break;
+                    }
+
+                    cur = cur.Next;
+                }
+
+                if (cost < min)
+                {
+                    left = temp;
+                    right = cur;
+                    min = cost;
+                }
+
+                if (len <= k)
+                {
+                    break;
+                }
+
+                cur = len >= k ? temp.Next : cur;
+                len -=1;
+            }
+
+            minCost+= min;
+
+            RemoveDllNodes(left, right, min);
+            length-= k-1;
+        }
+
+        return minCost;
+    }
+
+    private void RemoveDllNodes(DLLNode left, DLLNode right, int val)
+    {
+        left.Value = val;
+        left.Next = right.Next;
     }
 
     //https://leetcode.com/contest/weekly-contest-151/problems/remove-zero-sum-consecutive-nodes-from-linked-list/
@@ -199,6 +297,18 @@ public class SLLNode
     public int Value;
 
     public SLLNode(int value)
+    {
+        this.Value = value;
+    }
+}
+
+public class DLLNode
+{
+    public DLLNode Next;
+    public DLLNode Prev;
+    public int Value;
+
+    public DLLNode(int value)
     {
         this.Value = value;
     }

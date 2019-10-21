@@ -3,6 +3,145 @@ using System.Collections.Generic;
 
 public class DP
 {
+    // Solved using LinkedList
+    public void MinCostToMergeStones()
+    {
+        int[] arr = new int[] {3, 5, 1, 2, 6};
+        Console.WriteLine(MinCostToMergeStones(arr, 3));
+    }
+
+    private int MinCostToMergeStones(int[] arr, int k)
+    {
+        int[] dp = new int[arr.Length];
+
+        // fill DP array
+        for(int n = 0; n < arr.Length; n ++)
+        {
+            dp[n] = arr[n];
+        }
+
+        int cost = 0;
+        int count = 0;
+
+        int kno = arr.Length / k + arr.Length % k;
+        if ((kno) % k != 0)
+        {
+            return -1;
+        }
+
+        kno += k % 2 == 0 ? 1 : 0;
+
+        CalcMinSum(arr, dp, k);
+        Queue<int> queue = SortDPAsQueue(dp);
+
+        foreach(int idx in queue)
+        {
+            if (dp[idx] == 0)
+            {
+                continue;
+            }
+
+            if (idx > 0)
+            {
+                int bound = idx -k > 0 ? idx -k : 0;
+                for(int i = idx-1; i >= bound; i --)
+                {
+                    if (dp[i] != 0)
+                    {
+                        dp[i] = arr[i];
+                    }
+                }
+            }
+
+            for(int i = idx + 1; i <= idx + k; i ++)
+            {
+                dp[i] = 0;
+            }
+
+            cost += dp[idx];
+            count ++;
+        }
+
+        while (count < kno)
+        {
+            for(int i =0; i < dp.Length; i++)
+            {
+                if (dp[i] == 0)
+                {
+                    continue;
+                }
+
+                int cur = i;
+                int target = i + k;
+
+                while (cur < target)
+                {
+                    if (dp[cur] == 0)
+                    {
+                        target++;
+                        cur++;
+                    }
+
+                    dp[i] += dp[cur];
+                    dp[cur] = 0;
+                }
+
+                cost += dp[i];
+                count++;
+            }
+        }
+
+        return cost;
+    }
+
+    private void CalcMinSum(int[] arr, int[] dp, int k)
+    {
+        for(int idx = 0; idx + k -1 < dp.Length; idx ++)
+        {
+            int cur = idx+1;
+
+            while (cur < idx + k)
+            {
+                dp[idx] += dp[cur++];
+            }
+        }
+    }
+
+    private Queue<int> SortDPAsQueue(int[] dp)
+    {
+        // Key
+        List<KeyValuePair<int, int>> temp = new List<KeyValuePair<int, int>>();
+
+        for(int idx = 0; idx < dp.Length; idx ++)
+        {
+            temp.Add(new KeyValuePair<int, int>(dp[idx], idx));
+        }
+
+        temp.Sort(new MyComparer());
+
+        Queue<int> queue = new Queue<int>();
+
+        foreach(KeyValuePair<int, int> pair in temp)
+        {
+            if (dp[pair.Value] == pair.Key)
+            {
+                continue;
+            }
+
+            queue.Enqueue(pair.Value);
+        }
+
+        return queue;
+    }
+
+    public class MyComparer : IComparer<KeyValuePair<int, int>>
+    {
+        public int Compare(KeyValuePair<int, int> obj1, KeyValuePair<int, int> obj2)
+        {
+            return obj1.Key.CompareTo(obj2.Key);
+        }
+    }
+
     //https://leetcode.com/problems/palindromic-substrings/
     // Return the palindromic sub strings for a given string
     public void FindPalindromeSubstrings()

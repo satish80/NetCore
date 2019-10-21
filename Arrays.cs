@@ -1081,6 +1081,64 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return idx;
     }
 
+    //https://leetcode.com/discuss/interview-question/373202
+    public void OptimalUtilization()
+    {
+        int[][] a = new int[3][]
+        {
+             new int[] {1, 8},
+             new int[] {2, 15},
+             new int[] {3, 9},
+        };
+
+        int[][] b = new int[3][]
+        {
+             new int[] {1, 8}, 
+             new int[] {2, 11},
+             new int[] {3, 12},
+        };
+
+        var res = OptimalUtilization(a, b, 20);
+    }
+
+    private List<int[]> OptimalUtilization(int[][] a, int[][] b, int target)
+    {
+        if (a == null || b == null)
+        {
+            return null;
+        }
+
+        if (a.Length < b.Length)
+        {
+            return OptimalUtilization(b, a, target);
+        }
+
+        int close = 0;
+
+        List<int[]> res = null;
+
+        foreach(int[] big in a)
+        {
+            foreach(int[] small in b)
+            {
+                var cur = big[1] + small[1];
+
+                if (cur <= target && target - cur < target - close )
+                {
+                    res = new List<int[]>();
+                    res.Add(new int[] { big[0], small[0] });
+                    close = cur;
+                }
+                else if (cur == close)
+                {
+                    res.Add(new int[] { big[0], small[0] });
+                }
+            }
+        }
+
+        return res;
+    }
+
     //Accepted: https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
     public void LongestSubsequenceOfGivenDifference()
     {

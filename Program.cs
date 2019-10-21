@@ -26,7 +26,8 @@ namespace Algorithms
             // arrObj.FindInMountainArray();
             // arrObj.MinChairs();
             // arrObj.LongestSubsequenceOfGivenDifference();
-            arrObj.QueensAttackKing();
+            // arrObj.QueensAttackKing();
+            // arrObj.OptimalUtilization();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -58,6 +59,7 @@ namespace Algorithms
             //dpObj.FindPalindromeSubstrings();
             //dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
+            // dpObj.MinCostToMergeStones();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -72,12 +74,14 @@ namespace Algorithms
             // TBD: sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
+            // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
             // lObj.RemoveZeroSumNodes();
             // lObj.ReverseSLL();
             // lObj.PlusOne();
+            lObj.MinCostToMergeStones();
 
             // ThreadedQueue thObj = new ThreadedQueue();
 
