@@ -65,7 +65,8 @@ namespace Algorithms
             //gObj.BiPartition();
             //gObj.CourseScheduling();
             // gObj.MinCostToConnectNodes();
-            gObj.ValidGraphTree();
+            // gObj.ValidGraphTree();
+            gObj.CriticalConnections();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
