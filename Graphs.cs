@@ -234,6 +234,101 @@ public class Graph
 
         return root[x];
     }
+
+    //https://leetcode.com/problems/graph-valid-tree/
+    public void ValidGraphTree()
+    {
+        int[][] edges = new int[4][]
+        {
+            new int[]{1, 0},
+            new int[]{2, 0},
+            new int[]{0, 3},
+            new int[]{3, 1},
+            //new int[]{1,4},
+        };
+
+        Console.WriteLine(ValidGraphTree(5, edges));
+    }
+
+    #region Commented code
+    /* Fails Leetcode test case
+    
+    private bool ValidGraphTree(int n, int[][] edges)
+    {
+        //         edge, parent
+        Dictionary<int, int> parentMap = new Dictionary<int, int>();
+
+        foreach(int[] edge in edges)
+        {
+            // edge[0] : parent
+            // edge[1] : edge
+            if (parentMap.ContainsKey(edge[1]))
+            {
+                return false;
+            }
+
+            parentMap.Add(edge[1], edge[0]);
+        }
+
+        if (n -1 != parentMap.Count)
+        {
+            return false;    
+        }
+
+        int top = -1;
+        foreach(int[] edge in edges)
+        {
+            if (!parentMap.ContainsKey(edge[0]))
+            {
+                if (top != -1 && top != edge[0])
+                {
+                    return false;
+                }
+
+                top = edge[0];
+            }
+        }
+
+        return true;
+    }
+    */
+    #endregion
+
+    public bool ValidGraphTree(int n, int[][] edges)
+    {
+        // initialize n isolated islands
+        int[] nums = new int[n];
+        for(int idx = 0; idx < n; idx ++)
+        {
+            nums[idx] = -1;
+        }
+
+        // perform union find
+        for (int i = 0; i < edges.Length; i++)
+        {
+            int x = find(nums, edges[i][0]);
+            int y = find(nums, edges[i][1]);
+
+            // if two vertices happen to be in the same set
+            // then there's a cycle
+            if (x == y) return false;
+            
+            // union
+            nums[x] = y;
+        }
+
+        return edges.Length == n - 1;
+    }
+
+    int find(int[] nums, int i)
+    {
+        if (nums[i] == -1)
+        {
+             return i;
+        }
+
+        return find(nums, nums[i]);
+    }
 }
 
 public class UndirectedGraph

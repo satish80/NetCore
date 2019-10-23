@@ -974,7 +974,7 @@ public class Trees
 
         return node;
     }
-    //https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/
+    //Accepted: https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/
     public void MaxLevelSum()
     {
         TreeNode node = new TreeNode(989);
@@ -983,34 +983,43 @@ public class Trees
         node.Right.Right = new TreeNode(-89388);
         node.Right.Right.Right = new TreeNode(-32127);
 
-        Tuple<int, int> max = new Tuple<int, int> (node.Value.Value, 1);
-        Console.WriteLine(MaxLevelSum(node, 1, new Dictionary<int, int>(), ref max));
+        Console.WriteLine(MaxLevelSum(node));
     }
 
-    private int MaxLevelSum(TreeNode node, int level, Dictionary<int, int> map, ref Tuple<int, int> max)
+    private int MaxLevelSum(TreeNode root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+        
+        int[] map = new int[10000];
+        
+        MaxLevelSum(root, 1, map);
+        
+        int maxIdx = 0;
+        
+        for(int idx = 1; idx < map.Length; idx++)
+        {
+            maxIdx = map[idx] > map[maxIdx] ? idx : maxIdx;
+        }
+        
+        return maxIdx;
+    }
+    
+    private void MaxLevelSum(TreeNode node, int level, int[] map)
     {
         if (node == null)
         {
-            return max.Item2;
+            return;
         }
 
-        if (! map.ContainsKey(level))
-        {
-            map.Add(level, 0);
-        }
-        
         map[level] += node.Value.Value;
-        
-       
-        if (max.Item1 < map[level])
-        {
-            max = new Tuple<int, int> (map[level], level);
-        }
 
-        MaxLevelSum(node.Left, level + 1, map, ref max);
-        MaxLevelSum(node.Right, level + 1, map, ref max);
+        MaxLevelSum(node.Left, level + 1, map);
+        MaxLevelSum(node.Right, level + 1, map);
 
-        return max.Item2;
+        return;
     }
 
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#

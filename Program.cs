@@ -65,6 +65,7 @@ namespace Algorithms
             //gObj.BiPartition();
             //gObj.CourseScheduling();
             // gObj.MinCostToConnectNodes();
+            gObj.ValidGraphTree();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -81,7 +82,7 @@ namespace Algorithms
             // lObj.RemoveZeroSumNodes();
             // lObj.ReverseSLL();
             // lObj.PlusOne();
-            lObj.MinCostToMergeStones();
+            // lObj.MinCostToMergeStones();
 
             // ThreadedQueue thObj = new ThreadedQueue();
 
