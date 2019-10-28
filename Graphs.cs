@@ -405,57 +405,58 @@ public class Graph
         }
     }
 
-public class UndirectedGraph
-{
-    public Dictionary<int, bool> Vertices = new Dictionary<int, bool>();
-    public Dictionary<int, HashSet<int>> AdjList = new Dictionary<int, HashSet<int>>();
-
-    public void AddEdge(int source, int edge)
+    public class UndirectedGraph
     {
-        AddEdges(source, edge);
-        AddEdges(edge, source);
+        public Dictionary<int, bool> Vertices = new Dictionary<int, bool>();
+        public Dictionary<int, HashSet<int>> AdjList = new Dictionary<int, HashSet<int>>();
+
+        public void AddEdge(int source, int edge)
+        {
+            AddEdges(source, edge);
+            AddEdges(edge, source);
+        }
+
+        private void AddEdges(int source, int edge)
+        {
+            if (!Vertices.ContainsKey(source))
+            {
+                Vertices.Add(source, false);
+            }
+    
+            if (!AdjList.ContainsKey(source))
+            {
+                AdjList.Add(source, new HashSet<int>());
+            }
+
+            AdjList[source].Add(edge);
+        }
     }
 
-    private void AddEdges(int source, int edge)
+    public class DirectedGraph
     {
-        if (!Vertices.ContainsKey(source))
+        public HashSet<int> Vertices;
+
+        public Dictionary<int, List<int>> AdjList;
+
+        public DirectedGraph()
         {
-            Vertices.Add(source, false);
-        }
- 
-        if (!AdjList.ContainsKey(source))
-        {
-            AdjList.Add(source, new HashSet<int>());
-        }
-
-        AdjList[source].Add(edge);
-    }
-}
-
-public class DirectedGraph
-{
-    public HashSet<int> Vertices;
-
-    public Dictionary<int, List<int>> AdjList;
-
-    public DirectedGraph()
-    {
-        this.Vertices = new HashSet<int>();
-        this.AdjList = new Dictionary<int, List<int>>();
-    }
-
-    public void AddEdge(int vertex, int edge)
-    {
-        if (!this.Vertices.Contains(vertex))
-        {
-            this.Vertices.Add(vertex);
+            this.Vertices = new HashSet<int>();
+            this.AdjList = new Dictionary<int, List<int>>();
         }
 
-        if (!this.AdjList.ContainsKey(vertex))
+        public void AddEdge(int vertex, int edge)
         {
-            this.AdjList.Add(vertex, new List<int>());
-        }
+            if (!this.Vertices.Contains(vertex))
+            {
+                this.Vertices.Add(vertex);
+            }
 
-        this.AdjList[vertex].Add(edge);
+            if (!this.AdjList.ContainsKey(vertex))
+            {
+                this.AdjList.Add(vertex, new List<int>());
+            }
+
+            this.AdjList[vertex].Add(edge);
+        }
     }
 }

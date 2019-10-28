@@ -54,6 +54,7 @@ namespace Algorithms
             // treeObj.VerticalOrder();
             // treeObj.PopulateNextRightPointers();
             // treeObj.MaxLevelSum();
+            treeObj.BSTFromPreOrder();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -66,7 +67,7 @@ namespace Algorithms
             //gObj.CourseScheduling();
             // gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
-            gObj.CriticalConnections();
+            // gObj.CriticalConnections();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

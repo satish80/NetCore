@@ -352,6 +352,37 @@ public class Trees
         return res;
     }
 
+    //Accepted: https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/solution/
+    public void BSTFromPreOrder()
+    {
+        int[] arr = new int[] {10, 8, 6, 9, 12, 11, 15};
+        int idx = 0;
+        var res = BSTFromPreOrder(arr, int.MinValue, int.MaxValue, ref idx);
+    }
+
+    private TreeNode BSTFromPreOrder(int[] arr, int low, int high, ref int idx)
+    {
+        if (idx >= arr.Length )
+        {
+            return null;
+        }
+
+        int val = arr[idx];
+
+        if (val < low || val > high)
+        {
+            return null;
+        }
+
+        TreeNode node = new TreeNode(val);
+        idx++;
+
+        node.Left = BSTFromPreOrder(arr, low, val, ref idx);
+        node.Right = BSTFromPreOrder(arr, val, high, ref idx);
+
+        return node;
+    }
+
     //https://leetcode.com/problems/maximum-binary-tree/
     public void MaximumBinaryTree()
     {
