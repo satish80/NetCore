@@ -422,7 +422,7 @@ public class Graph
             {
                 Vertices.Add(source, false);
             }
-    
+
             if (!AdjList.ContainsKey(source))
             {
                 AdjList.Add(source, new HashSet<int>());

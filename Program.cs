@@ -74,7 +74,7 @@ namespace Algorithms
             // sObj.SwapForLongestRepeatedChar();
             // sObj.WordBreak();
             // sObj.checkPangram();
-            // TBD: sObj.DecodeString();
+             sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case

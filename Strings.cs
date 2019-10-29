@@ -347,14 +347,17 @@ public class Strings
     //https://leetcode.com/problems/decode-string/
     public void DecodeString() 
     {
-        int start = 0;
-        string str = "3[a]2[bc]";
+        //string str = "3[a]2[bc]";
         //string str = "3[a2[c]]";
-        Console.WriteLine(DecodeString(str, ref start));
+        // string str = 2[abc]3[cd]ef";
+        //Console.WriteLine(DecodeString(str, ref start));
+        Console.WriteLine(DecodeString("100[leetcode]"));
     }
 
+    #region commented
+    /*
     private string DecodeString(string s, ref int start)
-     {
+    {
         int idx = 0;
         Stack<char> stk = new Stack<char>();
         StringBuilder sb = new StringBuilder();
@@ -424,6 +427,93 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         }
         
         return res;
+    }
+
+    */
+
+    #endregion commented
+
+    private string DecodeString(string str)
+    {
+        int idx = 0;
+        Stack<int> countStk = new Stack<int>();
+        Stack<string> strStack = new Stack<string>();
+        StringBuilder res = new StringBuilder();
+
+        while (idx < str.Length)
+        {
+            if (char.IsDigit(str[idx]))
+            {
+                int num = int.Parse(str[idx++].ToString());
+                int product = 10;
+                while(idx < str.Length && char.IsDigit(str[idx]))
+                {
+                    num = (num *product) + int.Parse(str[idx].ToString());
+                    idx++;
+                }
+
+                countStk.Push(num);
+            }
+            else if (str[idx] == '[')
+            {
+                idx ++;
+            }
+            else if (str[idx] == ']')
+            {
+                var sb = RepeatString(countStk, strStack);
+
+                if (strStack.Count > 0)
+                {
+                    var sbStk = new StringBuilder(strStack.Pop());
+                    sbStk.Append(sb.ToString());
+                    strStack.Push(sbStk.ToString());
+                }
+                else
+                {
+                    res.Append(sb.ToString());
+                }
+
+                idx++;
+            }
+            else
+            {
+                if (countStk.Count == strStack.Count)
+                {
+                    countStk.Push(1);
+                }
+
+                StringBuilder cur = new StringBuilder();
+                while(idx < str.Length && char.IsLetter(str[idx]))
+                {
+                    cur.Append(str[idx++]);
+                }
+
+                strStack.Push(cur.ToString());
+            }
+        }
+
+        if (countStk.Count > 0 && strStack.Count > 0)
+        {
+            res.Append(RepeatString(countStk, strStack));
+        }
+
+        return res.ToString();
+    }
+
+    private string RepeatString(Stack<int> countStk, Stack<string> strStk)
+    {
+        int i = 0;
+        int times = countStk.Pop();
+        var s = strStk.Pop();
+        StringBuilder sb = new StringBuilder();
+
+        while (i < times)
+        {
+            sb.Append(s);
+            i++;
+        }
+
+        return sb.ToString();
     }
 
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
