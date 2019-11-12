@@ -1053,6 +1053,211 @@ public class Trees
         return;
     }
 
+    //Accepted: https://leetcode.com/problems/balanced-binary-tree/
+    public void HeightBalanced()
+    {
+        // var root = ConstructTree(new int?[]{3,9,null,null, 20, 15, null, null, 7}, 0);
+        TreeNode root = new TreeNode(1);
+        root.Left = new TreeNode(2);
+        root.Left.Left = new TreeNode(3);
+        root.Left.Left.Left = new TreeNode(4);
+        root.Left.Right = new TreeNode(3);
+        root.Left.Left.Right = new TreeNode(4);
+        root.Right = new TreeNode(2);
+
+        bool isHeightBalanced = true;
+        HeightBalanced(root, ref isHeightBalanced);
+
+        Console.WriteLine($"The tree is height balanced: {isHeightBalanced}");
+    }
+
+    private int HeightBalanced(TreeNode node, ref bool isHeightBalanced)
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+
+        int left = 0;
+        int right = 0;
+
+        if (isHeightBalanced)
+        {
+            left = HeightBalanced(node.Left, ref isHeightBalanced) + 1;
+        }
+
+        if (isHeightBalanced)
+        {
+            right = HeightBalanced(node.Right, ref isHeightBalanced) + 1;
+        }
+
+        if (Math.Abs(left-right) > 1)
+        {
+            isHeightBalanced = false;
+        }
+
+        return Math.Max(left, right);
+    }
+
+    private TreeNode ConstructTree(int?[] arr, int idx)
+    {
+        if (idx >= arr.Length || arr[idx] == null)
+        {
+            return null;
+        }
+
+        TreeNode node  = new TreeNode(arr[idx].Value);
+        node.Left = ConstructTree(arr, ++idx);
+        node.Right = ConstructTree(arr, ++idx);
+
+        return node;
+    }
+
+    public void RightSibling()
+    {
+    /*
+            1
+           / \
+          2   3
+         /   / \
+        4   5   6
+    */
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Left.Parent = node;
+        
+        node.Left.Left = new TreeNode(4);
+        node.Left.Left.Parent = node.Left;
+            
+        node.Right = new TreeNode(3);
+        node.Right.Parent = node;
+        
+        node.Right.Left = new TreeNode(5);
+        node.Right.Left.Parent = node.Right;
+        
+        node.Right.Right = new TreeNode(6);
+        node.Right.Right.Parent = node.Right;
+
+        Console.WriteLine(Right(node.Left.Left));
+    }
+
+    private int Right(TreeNode node)
+    {
+        int level = 0;
+        TreeNode cur = node.Parent;
+        level++;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+
+        if (cur.Right != null && cur.Right != node)
+        {
+            return cur.Right.Value.Value;
+        }
+
+        TreeNode prev = node;
+        while (cur != null )
+        {
+            if (stk.Count == 0)
+            {
+                cur = cur.Parent;
+                stk.Push(cur);
+                level++;
+            }
+            else
+            {
+                cur = stk.Pop();
+
+                if (cur.Right != null)
+                {
+                    cur = cur.Right;
+                    stk.Push(cur);
+                    level --;
+
+                    if (level == 0)
+                    {
+                        return cur.Value.Value;
+                    }
+
+                    while(cur.Left != null)
+                    {
+                        cur = cur.Left;
+                        level--;
+
+                        if (level == 0)
+                        {
+                            return cur.Value.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return level == 0 ? cur.Value.Value : -1;
+
+    }
+
+    //https://www.faceprep.in/replace-each-element-by-its-rank-in-the-given-array/
+    public void ReplaceElementByItsRank()
+    {
+        int[] arr = new int[] {4, 2, 3, 7};
+        TreeNode root = new TreeNode(arr[0]);
+        root.Rank = 1;
+
+        for(int idx = 1; idx < arr.Length; idx++)
+        {
+            ReplaceElementByItsRank(root, arr, new int[arr.Length], idx);
+        }
+    }
+
+    private int[] ReplaceElementByItsRank(TreeNode node, int[] arr, int[] res, int idx)
+    {
+        if (idx >= arr.Length || node == null)
+        {
+            return res;
+        }
+
+        if (arr[idx] > node.Value)
+        {
+            ReplaceElementByItsRank(node.Right, arr, res, idx);
+            var newNode = new TreeNode(arr[idx]);
+            newNode.Rank = node.Rank + 1;
+            node.Right = newNode;
+        }
+        else
+        {
+            node.Rank ++;
+            int newRank = 1;
+
+            if (node.Left != null)
+            {
+                if (arr[idx] < node.Left.Rank)
+                {
+                    ReplaceElementByItsRank(node.Left, arr, res, idx);
+                }
+                else
+                {
+                    newRank = node.Rank -1;
+                }
+            }
+            else
+            {
+                newRank = 1;
+            }
+
+            var newNode = new TreeNode(arr[idx]);
+            newNode.Rank = newRank;
+            if (newRank == 1)
+            {
+                node.Left = newNode;
+            }
+            else
+            {
+                node.Left.Right = newNode;
+            }
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#
     public void VerifyPreOrderSerialization()
     {
@@ -1165,6 +1370,7 @@ public class TreeNode
     public TreeNode NextRight;
     public TreeNode Parent;
 
+    public int Rank;
     public int? Value;
 }
 

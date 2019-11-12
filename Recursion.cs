@@ -100,4 +100,30 @@ public class Recursion
 
         return output;
     }
+
+    //https://leetcode.com/discuss/interview-question/267985/
+    public void WordDice()
+    {
+
+    }
+
+    // private bool WordDice(string str, int idx, char ch, Dictionary<char, List<int>> letToRow, Dictionary<int, List<char>> rowToLet, 
+    // HashSet<char> visited)
+    // {
+    //     if (idx >= str.Length)
+    //     {
+    //         return false;
+    //     }
+
+    //     foreach(int row in letToRow[ch])
+    //     {
+    //         foreach(char let in rowToLet[row])
+    //         {
+    //             if (visited.Contains(let))
+    //             {
+    //                 continue;
+    //             }
+    //         }
+    //     }
+    // }
 }

@@ -28,6 +28,8 @@ namespace Algorithms
             // arrObj.LongestSubsequenceOfGivenDifference();
             // arrObj.QueensAttackKing();
             // arrObj.OptimalUtilization();
+            // arrObj.MaxSquareSumInMatrix();                   //** To be Completed */
+            // arrObj.HasCircularLoop();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -54,7 +56,10 @@ namespace Algorithms
             // treeObj.VerticalOrder();
             // treeObj.PopulateNextRightPointers();
             // treeObj.MaxLevelSum();
-            treeObj.BSTFromPreOrder();
+            // treeObj.BSTFromPreOrder();
+            // treeObj.HeightBalanced();
+            // treeObj.RightSibling();
+            // treeObj.ReplaceElementByItsRank();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
@@ -74,7 +79,7 @@ namespace Algorithms
             // sObj.SwapForLongestRepeatedChar();
             // sObj.WordBreak();
             // sObj.checkPangram();
-             sObj.DecodeString();
+             //sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case

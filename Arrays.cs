@@ -1215,6 +1215,146 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
         return count;
     }
+
+    //https://leetcode.com/discuss/interview-question/419839/amazon-phone-screen
+    public void MaxSquareSumInMatrix()
+    {
+
+    }
+
+    // private int MaxSquareSumInMatrix(int[,] arr, int sum)
+    // {
+    //     int totalElements = arr.GetLength(0) * arr.GetLength(1);
+    //     int[,] dp = new int[totalElements, arr.GetLength(1)];
+
+    //     int dimension = 2;
+    //     int maxSquare = 1;
+
+    //     for(int row = 0; row< arr.GetLength(0); row ++)
+    //     {
+    //         for(int col = 0; col < arr.GetLength(1); col++)
+    //         {
+    //             var res = CalculateSum(row, col, dimension, sum, dp, arr);
+    //             maxSquare = Math.Max(maxSquare, res);
+    //         }
+    //     }
+    // }
+
+    private int CalculateSum(int row, int col, int requiredSum, int[,] dp, int[,] arr)
+    {
+        //Given a dimension
+        int dimension = 2;
+        int curDimension = dimension;
+        int sum = 0;
+        int c = col;
+        int r = row+1;
+        int offset = 0;
+
+        // Increment dimension when current dimension meets the criteria
+        while (curDimension <= dimension)
+        {
+            for(; c < col + dimension; c++)
+            {
+                //if ()
+                for(; r < row + dimension; r++)
+                {
+                    if ((r == row + dimension -1 && c == col + dimension -1) && sum <= requiredSum)
+                    {
+                        curDimension += dimension;
+                        dimension ++;
+                    }
+                    else
+                    {
+                        offset = r * 10 + c;
+                        dp[offset, dimension] += dimension > 2 && r > 0 ? dp[offset, dimension - 1] + arr[r,c] : arr[r-1, c] + arr[r, c];
+                    }
+                }
+            }
+        }
+
+        return curDimension;
+    }
+
+    //https://leetcode.com/problems/min-cost-climbing-stairs/solution/
+    public void MinCostClimbingStairs()
+    {
+        int[] cost = new int[] {0,0,1,1};
+        Console.WriteLine(MinCostClimbingStairs(cost));
+    }
+    private int MinCostClimbingStairs(int[] cost) 
+    {
+        int len = cost.Length;
+        int[] dp = new int[len];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for (int i = 2; i < len; i++) {
+            dp[i] = Math.Min(dp[i - 1]+ cost[i], dp[i - 2] + cost[i]);
+        }
+        return Math.Min(dp[len - 1], dp[len - 2]);
+    }
+
+    public void HasCircularLoop()
+    {
+        int[] arr = new int[]{-2,1,-1,-2,-2};
+        Console.WriteLine(HasCircularLoop(arr));
+    }
+
+    private static bool HasCircularLoop(int[] arr)
+    {
+        int max = int.MinValue;
+        int min = int.MaxValue;
+
+        int idx = 0;
+        for(; idx < arr.Length; idx ++)
+        {
+            max = Math.Max(arr[idx], max);
+            min = Math.Min(arr[idx], min);
+        }
+
+        max +=1;
+        min -=1;
+
+        idx = 0;
+
+        while (true)
+        {
+            if (arr[idx] > max)
+            {
+                //idx = (arr.Length-1) % (arr[idx] - max);
+                if (arr[idx] > max)
+                {
+                    return true;
+                }
+            }
+
+            if (arr[idx] < 0 && arr[idx] < min)
+            {
+                //idx = (arr.Length-1) % (arr[idx] + min);
+
+                if (arr[idx] < min)
+                {
+                    return true;
+                }
+            }
+
+            int newIdx = 0;
+            if (idx + arr[idx] > arr.Length-1)
+            {
+                newIdx = ((arr.Length-1) % (idx + arr[idx]));
+            }
+            else if (idx + arr[idx] < 0)
+            {
+                newIdx = ((arr.Length-1) % (idx + arr[idx]));
+            }
+            else
+            {
+                newIdx = idx + arr[idx];
+            }
+
+            arr[idx] += arr[idx] > 0 ? max : min;
+            idx = newIdx;
+        }
+    }
 }
 
 public class Pair : IEquatable<Pair>
