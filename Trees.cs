@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 public class Trees
 {
@@ -1256,6 +1257,66 @@ public class Trees
         }
 
         return res;
+    }
+
+    //Accepted: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+    public void Serialize() 
+    {
+        TreeNode root = new TreeNode(1);
+        root.Left = new TreeNode(2);
+        root.Right = new TreeNode(3);
+        root.Right.Left = new TreeNode(4);
+        root.Right.Right = new TreeNode(5);
+
+        var res = Serialize(null, new StringBuilder());
+        TreeNode node = Deserialize(res);
+    }
+
+    private string Serialize(TreeNode node, StringBuilder sb)
+    {
+        if (node == null)
+        {
+            sb.Append(",N");
+            return sb.ToString();
+        }
+
+        if (sb.Length > 0)
+        {
+            sb.Append(string.Concat(",", node.Value.ToString()));
+        }
+        else
+        {
+            sb.Append(node.Value.ToString());
+        }
+
+        Serialize(node.Left, sb);
+        Serialize(node.Right, sb);
+
+        return sb.ToString();
+    }
+
+    // Decodes your encoded data to tree.
+    private TreeNode Deserialize(string data) 
+    {
+        int idx = 0;
+        return Deserialize(data.Split(","), ref idx);
+    }
+
+    private TreeNode Deserialize(string[] arr, ref int idx)
+    {
+        if (idx >= arr.Length || arr[idx] == "N" || arr[idx] == "")
+        {
+            return null;
+        }
+
+        TreeNode node = new TreeNode(Int32.Parse(arr[idx++]));
+        node.Left = Deserialize(arr, ref idx);
+
+        idx++;
+
+        node.Right = Deserialize(arr, ref idx);
+
+        return node;
     }
 
     //https://leetcode.com/articles/verify-preorder-serialization-of-a-binary-tree/#

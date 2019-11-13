@@ -1287,9 +1287,11 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         int[] dp = new int[len];
         dp[0] = cost[0];
         dp[1] = cost[1];
-        for (int i = 2; i < len; i++) {
+        for (int i = 2; i < len; i++)
+        {
             dp[i] = Math.Min(dp[i - 1]+ cost[i], dp[i - 2] + cost[i]);
         }
+        string.Concat("abc", "xyz");
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 

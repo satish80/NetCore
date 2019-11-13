@@ -60,6 +60,7 @@ namespace Algorithms
             // treeObj.HeightBalanced();
             // treeObj.RightSibling();
             // treeObj.ReplaceElementByItsRank();
+            treeObj.Serialize();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
