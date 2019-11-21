@@ -30,6 +30,7 @@ namespace Algorithms
             // arrObj.OptimalUtilization();
             // arrObj.MaxSquareSumInMatrix();                   //** To be Completed */
             // arrObj.HasCircularLoop();
+            arrObj.RemoveKDigits();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -60,7 +61,7 @@ namespace Algorithms
             // treeObj.HeightBalanced();
             // treeObj.RightSibling();
             // treeObj.ReplaceElementByItsRank();
-            treeObj.Serialize();
+            // treeObj.Serialize();
 
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();

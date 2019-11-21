@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 public class Arrays
 {
@@ -1291,7 +1292,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         {
             dp[i] = Math.Min(dp[i - 1]+ cost[i], dp[i - 2] + cost[i]);
         }
-        string.Concat("abc", "xyz");
+
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 
@@ -1356,6 +1357,91 @@ You can assume that the messages are decodable. For example, '001' is not allowe
             arr[idx] += arr[idx] > 0 ? max : min;
             idx = newIdx;
         }
+    }
+
+    //https://leetcode.com/problems/remove-k-digits/
+    public void RemoveKDigits()
+    {
+        Console.WriteLine(RemoveKDigits("1234567890",9));
+    }
+
+    private string RemoveKDigits(string arr, int num)
+    {
+        int k = num;
+        if (string.IsNullOrEmpty(arr))
+        {
+            return arr;
+        }
+
+        Stack<int> stk = new Stack<int>();
+        int idx = 0;
+        StringBuilder sb = new StringBuilder();
+
+        while (idx < arr.Length)
+        {
+            if (stk.Count > 0 && arr[idx] >= arr[stk.Peek()] && k > 0)
+            {
+                if ((idx+1 < arr.Length && arr[idx] > arr[idx + 1]) || idx +1 == arr.Length)
+                {
+                    k--;
+                    idx++;
+                    continue;
+                }
+            }
+            else if (stk.Count > 0 && arr[idx] <= arr[stk.Peek()] && k > 0)
+            {
+                k--;
+                stk.Pop();
+            }
+
+            stk.Push(idx);
+            idx++;
+        }
+
+        var top = stk.Pop();
+        while (k > 0 && stk.Count > 0)
+        {
+            if (arr[top] < arr[stk.Peek()])
+            {
+                stk.Pop();
+            }
+            else
+            {
+                top = stk.Pop();
+            }
+
+            k--;
+        }
+
+        if (arr.Length - num > 1)
+        {
+            stk.Push(top);
+        }
+        else if (arr.Length - num == 1)
+        {
+            if(stk.Count > 0)
+            {
+                 stk.Pop();
+            }
+            
+            stk.Push(top);
+        }
+
+        if (stk.Count == 0)
+        {
+            return "0";
+        }
+
+        for(idx = arr.Length; idx >= 0; idx --)
+        {
+            if (stk.Count > 0 && idx == stk.Peek())
+            {
+                stk.Pop();
+                sb.Insert(0, arr[idx]);
+            }
+        }
+
+        return sb.Length > 1 && sb.ToString()[0] == '0' ? sb.Remove(0,1).ToString() :sb.ToString();
     }
 }
 
