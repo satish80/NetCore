@@ -721,6 +721,44 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return res[s.Length-1];
     }
 
+    //Accepted: https://leetcode.com/problems/valid-mountain-array/
+    public void CheckMountainArray()
+    {
+        int[] arr = {14,82,89,84,79,70,70,68,67,66,63,60,58,54,44,43,32,28,26,25,22,15,13,12,10,8,7,5,4,3};
+        Console.WriteLine(CheckMountainArray(arr));
+    }
+
+    private bool CheckMountainArray(int[] arr)
+    {
+        if (arr.Length < 3)
+        {
+            return false;
+        }
+        
+        bool increasing = true;
+        bool decreasing = false;
+        
+        for(int idx = 1; idx < arr.Length; idx ++)
+        {
+            if (increasing && !decreasing && arr[idx] <= arr[idx-1])
+            {
+                return false;
+            }
+            
+            if (decreasing && idx+1 < arr.Length && arr[idx] <= arr[idx+1])
+            {
+                return false;
+            }
+            
+            if (increasing && !decreasing && idx + 1 < arr.Length && arr[idx] > arr[idx+1])
+            {
+                decreasing = true;
+            }
+        }
+        
+        return decreasing == true;
+    }
+
     //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
     public void MostStonesRemoved()
     {
