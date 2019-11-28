@@ -31,6 +31,7 @@ namespace Algorithms
             // arrObj.MaxSquareSumInMatrix();                   //** To be Completed */
             // arrObj.HasCircularLoop();
             // arrObj.RemoveKDigits();
+            arrObj.CheckMountainArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
