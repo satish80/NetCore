@@ -142,6 +142,91 @@ public class DP
         }
     }
 
+    //https://leetcode.com/discuss/interview-question/437403/Karat-interview-agentor-phone-or-find-rectangle-coordinates
+    public void FindRectangleCoordinates()
+    {
+        int[,] arr = new int[,]
+        {
+            {0,0,0,0,0},
+            {0,1,1,0,0},
+            {0,1,1,0,0},
+            {0,0,0,0,1}
+        };
+
+        var res = FindRectangleCoordinates(arr);
+    }
+
+    private List<Pair> FindRectangleCoordinates(int[,] arr)
+    {
+        Pair start = null;
+        Pair end = null;
+
+        List<Pair> pairs = new List<Pair>();
+
+        for(int row = 0; row < arr.GetLength(0); row ++)
+        {
+            for(int col = 0; col < arr.GetLength(1); col ++)
+            {
+                if (row == 0 || col == 0)
+                {
+                    continue;
+                }
+
+            #region comments
+                // if (arr[row-1, col] == 0 || arr[row-1, col-1] == 0 || arr[row, col-1] == 0)
+                // {
+                //     if (start != null && (end.x +1 == row) && start.y == col)
+                //     {
+                //         pairs.Add(end);
+                //         start = null;
+                //         end = null;
+                //     }
+
+                //     continue;
+                // }
+
+                // if (start == null)
+                // {
+                //     start = new Pair(row-1, col-1);
+                //     pairs.Add(start);
+                // }
+
+                // end = new Pair(row, col);
+
+                // arr[row, col] = Math.Max(Math.Max(arr[row-1, col], arr[row-1, col-1]), arr[row, col-1]) +1;
+            #endregion
+
+                 if (arr[row, col] == 0 && end != null && end.x +1 == row && col == start.y)
+                 {
+                     pairs.Add(end);
+                     end = null;
+                     start = null;
+                     continue;
+                 }
+
+                if (arr[row, col] == 0)
+                {
+                    continue;
+                }
+
+                if (start == null)
+                {
+                    start = new Pair(row, col);
+                    pairs.Add(start);
+                }
+
+                end = new Pair(row, col);
+            }
+        }
+
+        if (end != null)
+        {
+            pairs.Add(end);
+        }
+
+        return pairs;
+    }
+
     //https://leetcode.com/problems/palindromic-substrings/
     // Return the palindromic sub strings for a given string
     public void FindPalindromeSubstrings()
