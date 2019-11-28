@@ -31,7 +31,7 @@ namespace Algorithms
             // arrObj.MaxSquareSumInMatrix();                   //** To be Completed */
             // arrObj.HasCircularLoop();
             // arrObj.RemoveKDigits();
-            arrObj.CheckMountainArray();
+            // arrObj.CheckMountainArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -67,9 +67,9 @@ namespace Algorithms
             DP dpObj = new DP();
             //dpObj.FindPalindromeSubstrings();
             //dpObj.PartitionKSubsetsMatchingSum();
-            // dpObj.WordBreak();
+            dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
-            dpObj.FindRectangleCoordinates();
+            // dpObj.FindRectangleCoordinates();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();

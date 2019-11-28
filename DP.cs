@@ -172,30 +172,6 @@ public class DP
                     continue;
                 }
 
-            #region comments
-                // if (arr[row-1, col] == 0 || arr[row-1, col-1] == 0 || arr[row, col-1] == 0)
-                // {
-                //     if (start != null && (end.x +1 == row) && start.y == col)
-                //     {
-                //         pairs.Add(end);
-                //         start = null;
-                //         end = null;
-                //     }
-
-                //     continue;
-                // }
-
-                // if (start == null)
-                // {
-                //     start = new Pair(row-1, col-1);
-                //     pairs.Add(start);
-                // }
-
-                // end = new Pair(row, col);
-
-                // arr[row, col] = Math.Max(Math.Max(arr[row-1, col], arr[row-1, col-1]), arr[row, col-1]) +1;
-            #endregion
-
                  if (arr[row, col] == 0 && end != null && end.x +1 == row && col == start.y)
                  {
                      pairs.Add(end);
@@ -393,6 +369,7 @@ public class DP
         return count == k;
     }
 
+    //Accepted: https://leetcode.com/problems/word-break/
     public void WordBreak()
     {
         HashSet<string> map = new HashSet<string>();
@@ -405,10 +382,11 @@ public class DP
         map.Add("sand");
         map.Add("and");
         map.Add("cat");
+        map.Add("og");
 
-        Console.WriteLine(WordBreak("applespenapt", map));
+        //Console.WriteLine(WordBreak("applespenapt", map));
 
-        //Console.WriteLine(WordBreak("catsandog", map));
+        Console.WriteLine(WordBreak("catsandog", map));
     }
 
     private bool WordBreak(string s, HashSet<string> dict)
@@ -416,17 +394,19 @@ public class DP
         bool[] f = new bool[s.Length + 1];
         
         f[0] = true;
-        
-        
-        for(int i=1; i <= s.Length; i++){
-            for(int j=0; j < i; j++){
-                if(f[j] && j+i < s.Length && dict.Contains(s.Substring(j, i))){
+
+        for(int i=1; i <= s.Length; i++)
+        {
+            for(int j=0; j < i; j++)
+            {
+                if(f[j] && dict.Contains(s.Substring(j, i-j)))
+                {
                     f[i] = true;
                     break;
                 }
             }
         }
-        
+
         return f[s.Length];
     }
 }
