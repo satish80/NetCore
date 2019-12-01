@@ -129,6 +129,21 @@ public class Arrays
         return output;
     }
 
+    public void TestHeap()
+    {
+        Heap<int> heap = new Heap<int>(true);
+        heap.Push(7);
+        heap.Push(2);
+        heap.Push(3);
+        heap.Push(1);
+        heap.Push(8);
+        Console.WriteLine(heap.Pop());
+        Console.WriteLine(heap.Pop());
+        Console.WriteLine(heap.Pop());
+        Console.WriteLine(heap.Pop());
+        Console.WriteLine(heap.Pop());
+    }
+
     public void DailyTemperatures()
     {
         int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};

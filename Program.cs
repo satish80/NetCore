@@ -32,6 +32,7 @@ namespace Algorithms
             // arrObj.HasCircularLoop();
             // arrObj.RemoveKDigits();
             // arrObj.CheckMountainArray();
+            arrObj.TestHeap();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -87,7 +88,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
-            sObj.MinWindowsSubstring();
+            // sObj.MinWindowsSubstring();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
