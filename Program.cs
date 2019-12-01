@@ -65,9 +65,9 @@ namespace Algorithms
             // treeObj.Serialize();
 
             DP dpObj = new DP();
-            //dpObj.FindPalindromeSubstrings();
-            //dpObj.PartitionKSubsetsMatchingSum();
-            dpObj.WordBreak();
+            // dpObj.FindPalindromeSubstrings();
+            // dpObj.PartitionKSubsetsMatchingSum();
+            // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
             // dpObj.FindRectangleCoordinates();
             
@@ -87,6 +87,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
+            sObj.MinWindowsSubstring();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

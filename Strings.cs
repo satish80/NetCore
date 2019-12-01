@@ -140,6 +140,92 @@ public class Strings
         }
     }
 
+    //https://leetcode.com/problems/minimum-window-substring/
+    public void MinWindowsSubstring()
+    {
+        Console.WriteLine(MinWindowsSubstring("acbbaca", "aba"));
+    }
+
+    private string MinWindowsSubstring(string S, string T)
+    {
+        Dictionary<char, List<int>> map = new Dictionary<char, List<int>>();
+        Dictionary<char, int> tMap = new Dictionary<char, int>();
+
+        foreach(char c in T)
+        {
+            if (!tMap.ContainsKey(c))
+            {
+                tMap.Add(c, 0);
+            }
+
+            tMap[c]++;
+        }
+
+        int max = 0;
+        int min = 0;
+        int length = int.MaxValue;
+        int count = 0;
+        Queue<int> idxQueue = new Queue<int>();
+
+        for(int idx = 0; idx < S.Length; idx++)
+        {
+            if (tMap.ContainsKey(S[idx]))
+            {
+                if (!map.ContainsKey(S[idx]))
+                {
+                    map.Add(S[idx], new List<int>());
+                }
+                else
+                {
+                    if (idxQueue.Count > 0 && map[S[idx]]!= null && idxQueue.Peek() == map[S[idx]][0] 
+                    && map[S[idx]].Count >= tMap[S[idx]])
+                    {
+                        idxQueue.Dequeue();
+                        if (idxQueue.Count > 0)
+                        {
+                            min = idxQueue.Peek();
+                        }
+
+                        map[S[idx]].RemoveAt(0);
+                        count--;
+                    }
+                }
+
+                map[S[idx]].Add(idx);
+
+                if (map[S[idx]].Count <= tMap[S[idx]])
+                {
+                    count++;
+                }
+
+                max = Math.Max(idx, max);
+                idxQueue.Enqueue(idx);
+            }
+
+            if (count == T.Length)
+            {
+                if (max - idxQueue.Peek() < length)
+                {
+                    length = max - idxQueue.Peek()+1;
+                    min = idxQueue.Peek();
+                }
+
+                if (map[S[idxQueue.Peek()]].Count > 1)
+                {
+                    map[S[idxQueue.Dequeue()]].RemoveAt(0);
+                }
+                else
+                {
+                    map.Remove(S[idxQueue.Dequeue()]);
+                }
+                count--;
+            }
+        }
+
+        //min = map[S[min]].Count > tMap[S[min]] ? map[S[min]][1]
+       return length < int.MaxValue && min + length >= T.Length ? S.Substring(min, length) : string.Empty;
+    }
+
     public void IsPalindrome()
     {
         Console.WriteLine(IsPalindrome("amrtmma"));
@@ -201,7 +287,6 @@ public class Strings
         map.Add("cat");
 
         //Console.WriteLine(WordBreak("applespenapt", map));
-
         Console.WriteLine(WordBreak("catsandog", map));
     }
 
