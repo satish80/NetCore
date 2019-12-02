@@ -331,11 +331,13 @@ public class Graph
     }
 
     //https://leetcode.com/problems/critical-connections-in-a-network/
+    //Tarjan algorithm for strongly connected components: https://www.youtube.com/watch?v=TyWtx7q2D7Y
     public void CriticalConnections()
     {
 
     }
 
+    //https://leetcode.com/problems/critical-connections-in-a-network/discuss/382632/Java-implementation-of-Tarjan-Algorithm-with-explanation
     private List<List<int>> CriticalConnections(int n, List<List<int>> connections)
     {
         int[] disc = new int[n], low = new int[n];
