@@ -32,7 +32,8 @@ namespace Algorithms
             // arrObj.HasCircularLoop();
             // arrObj.RemoveKDigits();
             // arrObj.CheckMountainArray();
-            arrObj.TestHeap();
+            // arrObj.TestHeap();
+            arrObj.SubArraySumK();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

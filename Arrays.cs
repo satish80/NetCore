@@ -144,6 +144,47 @@ public class Arrays
         Console.WriteLine(heap.Pop());
     }
 
+    //https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+    // Leetcode has invalid test case
+    public void SubArraySumK()
+    {
+        int[] num = new int [] {-2, -1, 3, 5, 4, 2, 1, 6, -5, 8};
+        //int[] num = new int [] {48,99,37,4,-31}; // invalid leetcode test case
+        Console.WriteLine(SubArraySumK(num, 140));
+    }
+
+    private int SubArraySumK(int[] num, int k)
+    {
+        int end = 0;
+        int start = 0;
+        int sum = num[start];
+        int len = int.MaxValue;
+
+        while (end < num.Length-1)
+        {
+            if (sum < k)
+            {
+                end ++;
+                sum += num[end];
+                continue;
+            }
+
+            if (sum == k)
+            {
+                len = Math.Min(len, end - start + 1);
+            }
+
+            sum -= num[start++];
+        }
+
+        if (sum == k)
+        {
+            len = Math.Min(len, end-start +1);
+        }
+
+        return len = len == int.MaxValue ? -1 : len;
+    }
+
     public void DailyTemperatures()
     {
         int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};
