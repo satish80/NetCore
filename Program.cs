@@ -33,7 +33,8 @@ namespace Algorithms
             // arrObj.RemoveKDigits();
             // arrObj.CheckMountainArray();
             // arrObj.TestHeap();
-            arrObj.SubArraySumK();
+            // arrObj.SubArraySumK();
+            arrObj.JumpingOnClouds();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

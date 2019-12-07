@@ -185,6 +185,34 @@ public class Arrays
         return len = len == int.MaxValue ? -1 : len;
     }
 
+    public void JumpingOnClouds()
+    {
+        int[] num = new int[] {0, 1, 0};
+        Console.WriteLine(JumpingOnClouds(num));
+    }
+
+    private int JumpingOnClouds(int[] c) 
+    {
+        int count = 0;
+        int cur = 0;
+
+        while (cur < c.Length-1)
+        {
+            if (cur+2 < c.Length && c[cur+2] < 1 )
+            {
+                count++;
+                cur= cur + 2;
+            }
+            else if (cur+1 < c.Length && c[cur+1] < 1 )
+            {
+                count++;
+                cur = cur + 1;
+            }
+        }
+
+        return count;
+    }
+
     public void DailyTemperatures()
     {
         int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};
