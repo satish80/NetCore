@@ -34,7 +34,7 @@ namespace Algorithms
             // arrObj.CheckMountainArray();
             // arrObj.TestHeap();
             // arrObj.SubArraySumK();
-            arrObj.JumpingOnClouds();
+            // arrObj.JumpingOnClouds();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -91,6 +91,7 @@ namespace Algorithms
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
             // sObj.MinWindowsSubstring();
+            sObj.MakeAnagram();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

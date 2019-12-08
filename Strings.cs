@@ -338,6 +338,41 @@ public class Strings
         return false;
     }
 
+    public void MakeAnagram()
+    {
+        Console.WriteLine(MakeAnagram("fcrxzwscanmligyxyvym", "jxwtrhvujlmrpdoqbisbwhmgpmeoke"));
+    }
+
+    private int MakeAnagram(string a, string b) 
+    {
+        Dictionary<char, int> aSet = new Dictionary<char, int>();
+        string big = b.Length >= a.Length ? b : a;
+        string small = a.Length <= b.Length ? a : b;
+
+        foreach(char ch in big)
+        {
+            if (!aSet.ContainsKey(ch))
+            {
+                aSet.Add(ch, 0);
+            }
+
+            aSet[ch] ++;
+        }
+
+        int count = 0;
+
+        foreach(char ch in small)
+        {
+            if(aSet.ContainsKey(ch) && aSet[ch] > 0)
+            {
+                count ++;
+                aSet[ch] -=1;
+            }
+        }
+
+        return a.Length + b.Length - count*2;
+    }
+
     public void checkPangram()
     {
         List<string> strings = new List<string>();
