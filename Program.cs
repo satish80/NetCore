@@ -91,7 +91,7 @@ namespace Algorithms
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
             // sObj.MinWindowsSubstring();
-            sObj.MakeAnagram();
+            // sObj.MakeAnagram();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -105,6 +105,7 @@ namespace Algorithms
             Recursion rObj = new Recursion();
             //rObj.ExpressionAddOperators();                      //** To Be Completed **
             // rObj.LetterCombinations();
+            rObj.MaxRegion();
         }
     }
 }

@@ -101,6 +101,80 @@ public class Recursion
         return output;
     }
 
+    public void MaxRegion()
+    {
+        List<int> x = new List<int>();
+        List<int> y = new List<int>();
+        x.Add(-1);
+        x.Add(1);
+        x.Add(0);
+        x.Add(0);
+        x.Add(-1);
+        x.Add(1);
+        x.Add(1);
+        x.Add(-1);
+
+        y.Add(0);
+        y.Add(0);
+        y.Add(-1);
+        y.Add(1);
+        y.Add(-1);
+        y.Add(1);
+        y.Add(-1);
+        y.Add(1);
+
+        int sum = 0;
+        int max = 0;
+
+        int[][] grid = new int[][]
+        {
+            new int[]{1, 1, 0, 0},
+            new int[]{0, 1, 1, 0},
+            new int[]{0, 0, 1, 0},
+            new int[]{1, 0, 0, 0}
+        };
+
+        for(int row = 0; row < grid.Length; row ++)
+        {
+            for(int col = 0; col < grid[row].Length; col ++)
+            {
+                if (grid[row][col] == 0)
+                {
+                    continue;
+                }
+
+                int res = MaxRegion(grid, x, y, row, col, sum);
+                max = Math.Max(max, res);
+            }
+        }
+
+        Console.WriteLine(max);
+    }
+
+    private int MaxRegion(int[][] grid, List<int> x, List<int> y, int r, int c, int sum)
+    {
+        if (grid[r][c] == 1)
+        {
+            sum += 1;
+            grid[r][c] = 0;
+        }
+
+        for(int idx = 0; idx < 8; idx ++)
+        {
+            var row = x[idx] + r;
+            var col = y[idx] + c;
+
+            if (row < 0 || col <0 || row >= grid.Length || col >= grid[r].Length || grid[row][col] == 0)
+            {
+                continue;
+            }
+
+           sum = MaxRegion(grid, x, y, row, col, sum);
+        }
+
+        return sum;
+    }
+
     //https://leetcode.com/discuss/interview-question/267985/
     public void WordDice()
     {
