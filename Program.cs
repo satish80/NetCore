@@ -73,6 +73,7 @@ namespace Algorithms
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
             // dpObj.FindRectangleCoordinates();
+            // dpObj.PoisonousPlants();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -92,6 +93,7 @@ namespace Algorithms
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
             // sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
+            sObj.SameCharacterFrequency();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -105,7 +107,7 @@ namespace Algorithms
             Recursion rObj = new Recursion();
             //rObj.ExpressionAddOperators();                      //** To Be Completed **
             // rObj.LetterCombinations();
-            rObj.MaxRegion();
+            // rObj.MaxRegion();
         }
     }
 }

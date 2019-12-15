@@ -203,6 +203,62 @@ public class DP
         return pairs;
     }
 
+    /*FB
+    Each of these plants has been treated with some amount of pesticide. After each day, if any plant has more pesticide than the plant on its 
+    left it dies. You are given the initial values of the pesticide in each of the plants. Print the number of days 
+    after which no plant dies, i.e. the time after which there are no plants with more pesticide content than the plant to their left.
+    For example, pesticide levels . Using a -indexed array, day  plants  and  die leaving . On day , plant  of the current array dies leaving.
+    As there is no plant with a higher concentration of pesticide than the one to its left, plants stop dying after day .
+    */
+    public void PoisonousPlants()
+    {
+        //int[] arr = new int[] {6, 5, 8, 4, 7, 10, 9};
+        // int[] arr = new int[] {6, 5, 8, 4, 7, 10, 9, 7, 6};
+        // int[] arr = new int[] {1,1,2,0,5,5,3,2,1};
+        // int[] arr = new int[] {0,3,1,2,3};
+           int[] arr = new int[] {1, 1, 2, 3, 0, 1};
+        Console.WriteLine(PoisonousPlants(arr));
+    }
+
+    private int PoisonousPlants(int[] arr)
+    {
+        Stack<KeyValuePair<int, int>> stk = new Stack<KeyValuePair<int, int>>();
+        stk.Push(new KeyValuePair<int, int>(0, 0));
+        int max = 0;
+        int idx = 1;
+
+        while(idx < arr.Length)
+        {
+            if (arr[idx] > arr[idx-1])
+            {
+                if (idx-1 == stk.Peek().Key)
+                {
+                    var s = stk.Pop();
+                    stk.Push(new KeyValuePair<int, int>(s.Key, s.Value+1));
+                    max = Math.Max(max, stk.Peek().Value);
+                }
+
+                idx++;
+                continue;
+            }
+
+            if (arr[idx] > arr[stk.Peek().Key])
+            {
+                var s = stk.Pop();
+                stk.Push(new KeyValuePair<int, int>(s.Key, s.Value+1));
+                max = Math.Max(stk.Peek().Value, max);
+            }
+            else
+            {
+                stk.Push(new KeyValuePair<int, int>(idx, 0));
+            }
+
+            idx++;
+        }
+
+        return max;
+    }
+
     //https://leetcode.com/problems/palindromic-substrings/
     // Return the palindromic sub strings for a given string
     public void FindPalindromeSubstrings()

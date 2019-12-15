@@ -418,6 +418,62 @@ public class Strings
         return "1";
     }
 
+    public void SameCharacterFrequency()
+    {
+        Console.WriteLine(SameCharacterFrequency("aeeffbbbccc"));
+    }
+
+    private string SameCharacterFrequency(string s) 
+    {
+        Dictionary<char,int> map = new Dictionary<char,int>();
+        Dictionary<int, int> countMap = new Dictionary<int, int>();
+
+        foreach(char ch in s)
+        {
+            if (!map.ContainsKey(ch))
+            {
+                map.Add(ch, 0);
+            }
+
+            map[ch] = map[ch] + 1;
+
+            if (map[ch] > 1)
+            {
+                countMap[map[ch]-1] -=1;
+
+                if (countMap[map[ch]-1] == 0)
+                {
+                    countMap.Remove(map[ch]-1);
+                }
+            }
+
+            if (!countMap.ContainsKey(map[ch]))
+            {
+                countMap.Add(map[ch], 0);
+            }
+
+            countMap[map[ch]] += 1;
+        }
+
+        if (countMap.Count == 1)
+        {
+            return "YES";
+        }
+
+        if (countMap.Count == 2)
+        {
+            foreach(KeyValuePair<int, int> pair in countMap)
+            {
+                if (pair.Value == 1)
+                {
+                    return "YES";
+                }
+            }
+        }
+
+        return "NO";
+    }
+
     //Accepted: https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
     public void LongestSubstringKDistinctChars()
     {
