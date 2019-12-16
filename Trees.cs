@@ -1438,7 +1438,6 @@ public class TreeNode
 public class ParentTreeNode
 {
     private int value;
-    private bool balance;
     public ParentTreeNode(int value, ParentTreeNode parent)
     {
         this.Value = value;

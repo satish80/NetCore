@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 public class DP
 {
@@ -140,6 +141,119 @@ public class DP
         {
             return obj1.Key.CompareTo(obj2.Key);
         }
+    }
+
+    //https://leetcode.com/problems/word-break-ii/
+    public void WordBreakII()
+    {
+        IList<string> wordDict = new List<string>();
+        wordDict.Add("pine");
+        wordDict.Add("pineapple");
+        wordDict.Add("pen");
+        wordDict.Add("applepen");
+        wordDict.Add("cat");
+        wordDict.Add("sand");
+        wordDict.Add("cats");
+        wordDict.Add("and");
+        wordDict.Add("dog");
+
+        wordDict.Add("apple");
+
+        var coll = WordBreakII("pineapplepenapple", wordDict);
+        //var coll = WordBreakII("catsanddog", wordDict);
+
+        foreach(string str in coll)
+        {
+            Console.WriteLine(str);
+        }
+    }
+
+    private List<string> WordBreakII(string s, IList<string> wordDict)
+    {
+        Dictionary<int, HashSet<string>> map = new Dictionary<int, HashSet<string>>();
+        List<string> res = new List<string>();
+        int lastIdx = -1;
+
+        int i = 0;
+        Queue<int> queue = new Queue<int>();
+
+        while(i < s.Length)
+        {
+            for(int j = 1; j + i -1 < s.Length; j ++)
+            {
+                if(wordDict.Contains(s.Substring(i, j)))
+                {
+                    if (!map.ContainsKey(i))
+                    {
+                        map.Add(i, new HashSet<string>());
+                    }
+
+                    map[i].Add(s.Substring(i, j));
+                    lastIdx = i+j;
+                    queue.Enqueue(i+j);
+                }
+            }
+
+            if (queue.Count == 0)
+            {
+                i++;
+            }
+            else
+            {
+                i = queue.Dequeue();
+            }
+        }
+
+        if (lastIdx < 0 || (lastIdx < s.Length))
+        {
+            return res;
+        }
+
+        var coll = GetSuffix(0, map, new Dictionary<int, HashSet<string>>());
+        foreach(string str in coll)
+        {
+            res.Add(str);
+        }
+
+        return res;
+    }
+
+    private HashSet<string> GetSuffix(int idx, Dictionary<int, HashSet<string>> map, Dictionary<int, HashSet<string>> res)
+    {
+        foreach(string str in map[idx])
+        {
+            int next = idx + str.Length;
+
+            if (map.ContainsKey(next))
+            {
+                HashSet<string> coll = null;
+
+                if (!res.ContainsKey(next))
+                {
+                    coll = GetSuffix(next, map, res);
+                }
+                else
+                {
+                    coll = res[next];
+                }
+
+                foreach(string s in coll)
+                {
+                    if (!res.ContainsKey(idx))
+                    {
+                        res.Add(idx, new HashSet<string>());
+                    }
+
+                    res[idx].Add(str + " " + s);
+                }
+            }
+            else
+            {
+                res[idx] = map[idx];
+            }
+        }
+
+        return res[idx];
     }
 
     //https://leetcode.com/discuss/interview-question/437403/Karat-interview-agentor-phone-or-find-rectangle-coordinates
@@ -330,7 +444,7 @@ public class DP
         return count;
     }
 
-    public int countSubstrings(String s) 
+    private int countSubstrings(String s) 
     {
         int n = s.Length;
         int res = 0;
