@@ -156,11 +156,14 @@ public class DP
         wordDict.Add("cats");
         wordDict.Add("and");
         wordDict.Add("dog");
-
         wordDict.Add("apple");
+        wordDict.Add("abc");
+        wordDict.Add("b");
+        wordDict.Add("cd");
 
-        var coll = WordBreakII("pineapplepenapple", wordDict);
-        //var coll = WordBreakII("catsanddog", wordDict);
+        //var coll = WordBreakII("pineapplepenapple", wordDict);
+        var coll = WordBreakII("catsanddog", wordDict);
+        //var coll = WordBreakII("abcd", wordDict);
 
         foreach(string str in coll)
         {
@@ -247,7 +250,7 @@ public class DP
                     res[idx].Add(str + " " + s);
                 }
             }
-            else
+            else if (!res.ContainsKey(idx))
             {
                 res[idx] = map[idx];
             }
