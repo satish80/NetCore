@@ -520,6 +520,51 @@ public class Strings
         return max;
     }
 
+    //https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/
+    public void LongestWordInDictionary()
+    {
+        HashSet<string> dictionary = new HashSet<string>();
+        dictionary.Add("a");
+        dictionary.Add("b");
+        dictionary.Add("c");
+
+        Console.WriteLine(LongestWordInDictionary("abpclplea", dictionary));
+    }
+
+    private string LongestWordInDictionary(string str, HashSet<string> dictionary)
+    {
+        string longest = string.Empty;
+
+        foreach(string word in dictionary)
+        {
+            int count = 0;
+            int idx = 0;
+            for(int i = 0; i < str.Length; i++)
+            {
+                if (idx == word.Length)
+                {
+                    break;
+                }
+
+                if (str[i] == word[idx])
+                {
+                    count++;
+                    idx++;
+                }
+            }
+
+            if (count == word.Length && word.Length >= longest.Length)
+            {
+                if (word.Length > longest.Length || word.CompareTo(longest) < 0)
+                {
+                    longest = word;
+                }
+            }
+        }
+
+        return longest;
+    }
+
     //https://leetcode.com/problems/decode-string/
     public void DecodeString() 
     {
