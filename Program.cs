@@ -75,6 +75,8 @@ namespace Algorithms
             // dpObj.FindRectangleCoordinates();
             // dpObj.PoisonousPlants();
             // dpObj.WordBreakII();
+            // dpObj.BuySellWithCoolDown();
+            dpObj.BuySellStockII();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -95,7 +97,7 @@ namespace Algorithms
             // sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
-            sObj.LongestWordInDictionary();
+            // sObj.LongestWordInDictionary();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

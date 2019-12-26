@@ -675,4 +675,61 @@ public class DP
 
         return f[s.Length];
     }
+
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+    public void BuySellWithCoolDown()
+    {
+        int[] arr = new int[] {1,2,3,0,2};
+        Console.WriteLine(BuySellWithCoolDown(arr));
+    }
+
+    private int BuySellWithCoolDown(int[] arr)
+    {
+        if (arr == null || arr.Length == 0)
+        {
+            return 0;
+        }
+
+        int[] s1 = new int[arr.Length];
+        int[] s2 = new int[arr.Length];
+        int[] s3 = new int[arr.Length];
+
+        s1[0] = 0;
+        s2[0] = - arr[0];
+        s3[0] = Int32.MinValue;
+
+        for(int idx = 1; idx < arr.Length; idx ++)
+        {
+            s1[idx] = Math.Max(s1[idx-1], s3[idx-1]);
+            s2[idx] = Math.Max(s2[idx-1], s1[idx-1] - arr[idx]);
+            s3[idx] = s2[idx-1] + arr[idx];
+        }
+
+        return Math.Max(s1[arr.Length-1], s3[arr.Length-1]);
+    }
+
+    //Accepted: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+    public void BuySellStockII()
+    {
+        int[] arr = new int[]{3,3,5,0,0,3,1,4};
+        Console.WriteLine(BuySellStockII(arr));
+    }
+
+    private int BuySellStockII(int[] arr)
+    {
+        int buy1 = int.MinValue;
+        int sell1 = 0;
+        int buy2 = int.MinValue;
+        int sell2 = 0;
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            buy1 = Math.Max(buy1, -arr[idx]);
+            sell1 = Math.Max(sell1, buy1 + arr[idx]);
+            buy2 = Math.Max(buy2, sell1 -arr[idx]);
+            sell2 = Math.Max(sell2, buy2 + arr[idx]);
+        }
+
+        return sell2;
+    }
 }
