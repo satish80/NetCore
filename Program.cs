@@ -35,6 +35,7 @@ namespace Algorithms
             // arrObj.TestHeap();
             // arrObj.SubArraySumK();
             // arrObj.JumpingOnClouds();
+            arrObj.FindPeakElement();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -76,7 +77,7 @@ namespace Algorithms
             // dpObj.PoisonousPlants();
             // dpObj.WordBreakII();
             // dpObj.BuySellWithCoolDown();
-            dpObj.BuySellStockII();
+            // dpObj.BuySellStockII();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();

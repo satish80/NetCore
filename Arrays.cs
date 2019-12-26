@@ -843,6 +843,34 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return decreasing == true;
     }
 
+    //Accepted:https://leetcode.com/problems/find-peak-element/
+    public void FindPeakElement()
+    {
+        int[] arr = new int[] {1,2,3,4};
+
+        Console.WriteLine(FindPeakElement(arr, 0, arr.Length-1));
+    }
+
+    private int FindPeakElement(int[] nums, int s, int e)
+    {
+        if (s == e)
+        {
+            return s;
+        }
+
+        int mid = s + (e-s)/2;
+        int next = mid+1;
+
+        if (nums[mid] > nums[mid+1])
+        {
+            return FindPeakElement(nums, s, mid);
+        }
+        else
+        {
+            return FindPeakElement(nums, next, e);
+        }
+    }
+
     //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
     public void MostStonesRemoved()
     {
