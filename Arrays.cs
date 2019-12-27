@@ -846,7 +846,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
     //Accepted:https://leetcode.com/problems/find-peak-element/
     public void FindPeakElement()
     {
-        int[] arr = new int[] {1,2,3,4};
+        int[] arr = new int[] {1,2,1,4};
 
         Console.WriteLine(FindPeakElement(arr, 0, arr.Length-1));
     }
@@ -868,6 +868,43 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         else
         {
             return FindPeakElement(nums, next, e);
+        }
+    }
+
+    //Accepted:https://leetcode.com/problems/number-of-burgers-with-no-waste-of-ingredients/
+    public void NoOfBurgers()
+    {
+        int tomato = 4208;
+        int cheese = 1305;
+
+        int max = tomato / 4;
+        max = Math.Min(max, cheese);
+        Console.WriteLine(NoOfBurgers(tomato, cheese, 0, max, max, new List<int>()));
+    }
+
+    private IList<int> NoOfBurgers(int tomato, int cheese, int s, int e, int max, List<int> res)
+    {
+        int mid = s + (e-s)/2;
+        int cur = (mid * 4) + (cheese - mid)*2 ;
+    
+        if ((s == mid || e == mid) && max > 0 && cur != tomato)
+        {
+            return res;
+        }
+
+        if (cur < tomato)
+        {
+            return NoOfBurgers(tomato, cheese, mid+1, e, max, res);
+        }
+        else if (cur > tomato)
+        {
+            return NoOfBurgers(tomato, cheese, s, mid, max, res);
+        }
+        else
+        {
+            res.Add(mid);
+            res.Add(cheese- mid);
+            return res; 
         }
     }
 
