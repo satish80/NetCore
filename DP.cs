@@ -732,4 +732,78 @@ public class DP
 
         return sell2;
     }
+
+    /*
+   Company: Google
+   Given a string, split it into as few strings as possible such that each string is a palindrome.
+   For example, given the input string racecarannakayak, return ["racecar", "anna", "kayak"].
+   Given the input string abc, return ["a", "b", "c"].
+    */
+    public void SplitIntoPalindromes()
+    {
+
+    }
+
+    private List<string> SplitIntoPalindromes(string str)
+    {
+        List<string> res = new List<string>();
+
+        Stack<int> stk = new Stack<int>();
+        // Palindrome array
+        int[] pArray = new int[str.Length];
+        // Count array
+        int[] cArray = new int[str.Length];
+
+        for(int i = 0; i < str.Length; i++)
+        {
+            pArray[i] = 1;
+        }
+        int idx = 0;
+        while(idx < str.Length)
+        {
+
+        }
+        return res;
+    }
+
+    private void UpdatePalindromeCount(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
+    {
+        UpdateOddPalindrome(str, pArray, cArray, stk, idx);
+        UpdateEvenPalindrome(str, pArray, cArray, stk, idx);
+    }
+
+    private void UpdateOddPalindrome(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
+    {
+        int count = 0;
+        int left = idx;
+        int right = idx;
+
+        while (left > -1 && right < str.Length && str[left--] == str[right++])
+        {
+            count++;
+        }
+
+        if (count > 1)
+        {
+            //pArray[idx - count / 2] = count;
+        }
+    }
+
+    private void UpdateEvenPalindrome(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
+    {
+        int count = 1;
+        int left = idx;
+        int right = idx+1;
+
+        while (left > -1 && right < str.Length && str[left--] == str[right++])
+        {
+            count++;
+            right++;
+        }
+
+        if (count > 1)
+        {
+            //pArray[idx - count / 2] = count;
+        }
+    }
 }

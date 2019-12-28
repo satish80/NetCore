@@ -36,7 +36,8 @@ namespace Algorithms
             // arrObj.SubArraySumK();
             // arrObj.JumpingOnClouds();
             // arrObj.FindPeakElement();
-            arrObj.NoOfBurgers();
+            // arrObj.NoOfBurgers();
+            arrObj.InterleaveFirstHalfWithReversed();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

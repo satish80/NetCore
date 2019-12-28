@@ -908,6 +908,65 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         }
     }
 
+    /*
+    Asked by Google
+    Given a stack of N elements, interleave the first half of the stack with the second half reversed 
+    using only one other queue. This should be done in-place. Recall that you can only push or pop from a stack,
+    and enqueue or dequeue from a queue. For example, if the stack is [1, 2, 3, 4, 5], it should 
+    become [1, 5, 2, 4, 3]. If the stack is [1, 2, 3, 4], it should become [1, 4, 2, 3].
+    Hint: Try working backwards from the end state.
+    */
+    public void InterleaveFirstHalfWithReversed()
+    {
+        Stack<int> stk = new Stack<int>();
+        stk.Push(1);
+        stk.Push(2);
+        stk.Push(3);
+        stk.Push(4);
+        stk.Push(5);
+        stk.Push(6);
+
+        int count = stk.Count / 2;
+        Queue<int> queue = new Queue<int>();
+
+        while(stk.Count > count)
+        {
+            queue.Enqueue(stk.Pop());
+        }
+
+        var res = InterleaveFirstHalfWithReversed(stk, queue);
+
+        while (queue.Count > 0)
+        {
+            res.Push(queue.Dequeue());
+        }
+    }
+
+    private Stack<int> InterleaveFirstHalfWithReversed(Stack<int> stk, Queue<int> queue)
+    {
+        int val = int.MinValue;
+        if (stk.Count > 1)
+        {
+            val = stk.Pop();
+            if (stk.Count > 1)
+            {
+                InterleaveFirstHalfWithReversed(stk, queue);
+            }
+        }
+
+        if (queue.Count > 0)
+        {
+            stk.Push(queue.Dequeue());
+        }
+
+        if (val!= int.MinValue)
+        {
+            stk.Push(val);
+        }
+
+        return stk;
+    }
+
     //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
     public void MostStonesRemoved()
     {
