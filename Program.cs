@@ -37,7 +37,7 @@ namespace Algorithms
             // arrObj.JumpingOnClouds();
             // arrObj.FindPeakElement();
             // arrObj.NoOfBurgers();
-            arrObj.InterleaveFirstHalfWithReversed();
+            // arrObj.InterleaveFirstHalfWithReversed();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -80,6 +80,7 @@ namespace Algorithms
             // dpObj.WordBreakII();
             // dpObj.BuySellWithCoolDown();
             // dpObj.BuySellStockII();
+            dpObj.CountSquareMatrices();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();

@@ -4,3 +4,5 @@
    Given a string, split it into as few strings as possible such that each string is a palindrome.
    For example, given the input string racecarannakayak, return ["racecar", "anna", "kayak"].
    Given the input string abc, return ["a", "b", "c"].
+
+3) https://leetcode.com/contest/weekly-contest-165/problems/count-square-submatrices-with-all-ones/

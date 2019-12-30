@@ -676,6 +676,49 @@ public class DP
         return f[s.Length];
     }
 
+    //https://leetcode.com/contest/weekly-contest-165/problems/count-square-submatrices-with-all-ones/
+    public void CountSquareMatrices()
+    {
+        int[][] matrix = new int[5][]
+        {
+            new int[]{0,0,0},
+            new int[]{0,1,0},
+            new int[]{0,1,0},
+            new int[]{1,1,1},
+            new int[]{1,1,0}
+        };
+
+        Console.WriteLine(CountSubSquareMatrices(matrix));
+    }
+
+    private int CountSubSquareMatrices(int[][] arr)
+    {
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = 0; col < arr[0].Length; col ++)
+            {
+                if (row == 0 || col ==0 || arr[row][col] == 0)
+                {
+                    continue;
+                }
+
+                arr[row][col] = Math.Min(Math.Min(arr[row][col-1], arr[row-1][col-1]), arr[row-1][col]) + arr[row][col];
+            }
+        }
+
+        int answer = 0;
+
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = 0; col < arr[0].Length; col++)
+            {
+                answer+= arr[row][col];
+            }
+        }
+
+        return answer;
+    }
+
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
     public void BuySellWithCoolDown()
     {
