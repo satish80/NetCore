@@ -80,7 +80,8 @@ namespace Algorithms
             // dpObj.WordBreakII();
             // dpObj.BuySellWithCoolDown();
             // dpObj.BuySellStockII();
-            dpObj.CountSquareMatrices();
+            // dpObj.CountSquareMatrices();
+            dpObj.SplitIntoPalindromes(); // Brilliant Sol
             
             Graph gObj = new Graph();
             //gObj.BiPartition();

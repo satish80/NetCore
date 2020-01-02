@@ -784,69 +784,97 @@ public class DP
     */
     public void SplitIntoPalindromes()
     {
-
+        string str = "racecarannakayak";
+        Console.WriteLine(MinCut(str));
     }
 
-    private List<string> SplitIntoPalindromes(string str)
+    private int MinCut(string s)
     {
-        List<string> res = new List<string>();
+        int n = s.Length;
+        int[] cut = new int[n+1];  // number of cuts for the first k characters
 
-        Stack<int> stk = new Stack<int>();
-        // Palindrome array
-        int[] pArray = new int[str.Length];
-        // Count array
-        int[] cArray = new int[str.Length];
-
-        for(int i = 0; i < str.Length; i++)
+        for (int i = 0; i <= n; i++)
         {
-            pArray[i] = 1;
+             cut[i] = i-1;
         }
-        int idx = 0;
-        while(idx < str.Length)
-        {
 
+        for(int i = 0; i < n; i++)
+        {
+            for (int j = 0; i-j >= 0 && i+j < n && s[i-j] == s[i+j] ; j++) // odd length palindrome
+            {
+                cut[i+j+1] = Math.Min(cut[i+j+1], 1 + cut[i-j]);
+            }
+
+            for (int j = 1; i-j+1 >= 0 && i+j < n && s[i-j+1] == s[i+j]; j++) // even length palindrome
+            {
+                cut[i+j+1] = Math.Min(cut[i+j+1], 1 + cut[i-j+1]);
+            }
         }
-        return res;
+
+        return cut[n];
     }
 
-    private void UpdatePalindromeCount(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
+    //My solution
+    private int SplitIntoPalindromes(string str)
     {
-        UpdateOddPalindrome(str, pArray, cArray, stk, idx);
-        UpdateEvenPalindrome(str, pArray, cArray, stk, idx);
+        int[,] dp = new int[str.Length, str.Length];
+
+        for(int r = 0; r < str.Length; r++)
+        {
+            for(int c = 0; c < str.Length; c++)
+            {
+                dp[r,c] = c-r;
+            }
+        }
+
+        for(int r = 0; r < str.Length; r++)
+        {
+            for(int c = r+1; c < str.Length; c++)
+            {
+                if (dp[r, c] == c -r)
+                {
+                    UnsetIfPalindrome(str, r, c, dp);
+                }
+
+                for(int l = 0; r + l < c; l++)
+                {
+                    int col = r + l;
+                    if (dp[r, col] == col -r)
+                    {
+                        UnsetIfPalindrome(str, r, col, dp);
+                    }
+
+                    if (dp[col+1, c] == c - (col+1))
+                    {
+                        UnsetIfPalindrome(str, col+1, c, dp);
+                    }
+
+                    dp[r,c] = Math.Min(dp[r, col] + dp[col+1, c] + 1, dp[r,c]);
+                }
+            }
+        }
+
+        return dp[0, str.Length-1];
     }
 
-    private void UpdateOddPalindrome(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
+    private void UnsetIfPalindrome(string str, int start, int end, int[,] dp)
     {
-        int count = 0;
-        int left = idx;
-        int right = idx;
-
-        while (left > -1 && right < str.Length && str[left--] == str[right++])
+        if (start == end)
         {
-            count++;
+            return;
         }
 
-        if (count > 1)
-        {
-            //pArray[idx - count / 2] = count;
-        }
-    }
+        int s = start;
+        int e = end;
 
-    private void UpdateEvenPalindrome(string str, Dictionary<int, List<int>> pArray, int[] cArray, Stack<int> stk, int idx)
-    {
-        int count = 1;
-        int left = idx;
-        int right = idx+1;
-
-        while (left > -1 && right < str.Length && str[left--] == str[right++])
+        while (s < e)
         {
-            count++;
-            right++;
+            if (str[s++] != str[e--])
+            {
+                return;
+            }
         }
 
-        if (count > 1)
-        {
-            //pArray[idx - count / 2] = count;
-        }
+        dp[start, end] = 0;
     }
 }

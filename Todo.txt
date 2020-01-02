@@ -1,8 +1,17 @@
 1) https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
 
-2) Company: Google
-   Given a string, split it into as few strings as possible such that each string is a palindrome.
-   For example, given the input string racecarannakayak, return ["racecar", "anna", "kayak"].
-   Given the input string abc, return ["a", "b", "c"].
+2) Asked by Google
+Given the sequence of keys visited by a postorder traversal of a binary search tree, reconstruct the tree.
+For example, given the sequence 2, 4, 3, 8, 7, 5, you should construct the following tree:
 
-3) https://leetcode.com/contest/weekly-contest-165/problems/count-square-submatrices-with-all-ones/
+5
+/ \
+3 7
+/ \ \
+2 4 8
+
+4) Asked by Airbnb : https://leetcode.com/problems/rotate-list/
+
+Given a linked list and a positive integer k, rotate the list to the right by k places.
+For example, given the linked list 7 -> 7 -> 3 -> 5 and k = 2, it should become 3 -> 5 -> 7 -> 7.
+Given the linked list 1 -> 2 -> 3 -> 4 -> 5 and k = 3, it should become 3 -> 4 -> 5 -> 1 -> 2.
