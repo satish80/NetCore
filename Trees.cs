@@ -316,6 +316,47 @@ public class Trees
         getRange(root.Right, range, col + 1);
     }
 
+    /*
+    Asked by Google
+    Given the sequence of keys visited by a postorder traversal of a binary search tree, reconstruct the tree.
+    For example, given the sequence 2, 4, 3, 8, 7, 5, you should construct the following tree:
+        5
+       / \
+      3   7
+     / \   \
+    2   4   8
+    */
+    public void ConstructBSTFromPostOrderSequence()
+    {
+        int[] arr = new int[] {2, 4, 3, 8, 7, 5};
+        var res = ConstructBSTFromPostOrderSequence(arr, 0, arr.Length-1);
+    }
+
+    private TreeNode ConstructBSTFromPostOrderSequence(int[] arr, int start, int end)
+    {
+        if (start > end)
+        {
+            return null;
+        }
+
+        TreeNode node = new TreeNode(arr[end]);
+
+        int idx = end;
+        while(idx >= start)
+        {
+            if (arr[idx] < arr[end])
+            {
+                break;
+            }
+            idx--;
+        }
+
+        node.Right = ConstructPostOrder(arr, idx + 1, end-1);
+        node.Left = ConstructPostOrder(arr, start, idx);
+
+        return node;
+    }
+
     //https://leetcode.com/problems/validate-binary-search-tree/
     public void IsValidBST() 
     {

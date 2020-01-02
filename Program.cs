@@ -69,6 +69,7 @@ namespace Algorithms
             // treeObj.RightSibling();
             // treeObj.ReplaceElementByItsRank();
             // treeObj.Serialize();
+            treeObj.ConstructBSTFromPostOrderSequence();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -81,7 +82,7 @@ namespace Algorithms
             // dpObj.BuySellWithCoolDown();
             // dpObj.BuySellStockII();
             // dpObj.CountSquareMatrices();
-            dpObj.SplitIntoPalindromes(); // Brilliant Sol
+            // dpObj.SplitIntoPalindromes(); // Brilliant Sol
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
