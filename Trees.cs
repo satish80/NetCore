@@ -351,8 +351,8 @@ public class Trees
             idx--;
         }
 
-        node.Right = ConstructPostOrder(arr, idx + 1, end-1);
-        node.Left = ConstructPostOrder(arr, start, idx);
+        node.Right = ConstructBSTFromPostOrderSequence(arr, idx + 1, end-1);
+        node.Left = ConstructBSTFromPostOrderSequence(arr, start, idx);
 
         return node;
     }
