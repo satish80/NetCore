@@ -38,6 +38,7 @@ namespace Algorithms
             // arrObj.FindPeakElement();
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
+            arrObj.RotateImage();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -69,7 +70,7 @@ namespace Algorithms
             // treeObj.RightSibling();
             // treeObj.ReplaceElementByItsRank();
             // treeObj.Serialize();
-            treeObj.ConstructBSTFromPostOrderSequence();
+            // treeObj.ConstructBSTFromPostOrderSequence();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

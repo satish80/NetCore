@@ -1191,6 +1191,56 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return res;
     }
 
+    //Accepted: https://leetcode.com/problems/rotate-image/
+    /* Asked by Facebook
+    Given an N by N matrix, rotate it by 90 degrees clockwise.
+    For example, given the following matrix:
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+
+    you should return:
+
+    [7, 4, 1],
+    [8, 5, 2],
+    [9, 6, 3] */
+    public void RotateImage()
+    {
+        int[][] arr = new int[3][]
+        {
+            new int[] {1,2,3},
+            new int[] {4,5,6},
+            new int[] {7,8,9}
+        };
+
+        RotateImage(arr);
+    }
+
+    private void RotateImage(int[][] arr)
+    {
+        //Transpose
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = row; col < arr.Length; col++)
+            {
+                int temp = arr[col][row];
+                arr[col][row] = arr[row][col];
+                arr[row][col] = temp;
+            }
+        }
+
+        //Reverse
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = 0; col < arr.Length/2; col++)
+            {
+                int temp = arr[row][col];
+                arr[row][col] = arr[row][arr.Length-1-col];
+                arr[row][arr.Length-1-col] = temp;
+            }
+        }
+    }
+
     //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
     public void QueensAttackKing()
     {
