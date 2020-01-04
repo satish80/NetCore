@@ -38,7 +38,8 @@ namespace Algorithms
             // arrObj.FindPeakElement();
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
-            arrObj.RotateImage();
+            // arrObj.RotateImage();
+            arrObj.NextPermutation();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

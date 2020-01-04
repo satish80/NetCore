@@ -1241,6 +1241,57 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         }
     }
 
+    //Accepted: https://leetcode.com/problems/next-permutation/
+    public void NextPermutation()
+    {
+        int[] arr = new int[]{1,5,1};
+        NextPermutation(arr);
+    }
+
+    private void NextPermutation(int[] arr)
+    {
+        int idx = arr.Length -2;
+
+        while (idx >= 0 && arr[idx] >= arr[idx+1])
+        {
+            idx--;
+        }
+
+        if (idx >= 0)
+        {
+            int i = arr.Length-1;
+            while(i > idx && arr[idx] >= arr[i]) 
+            {
+                i--;
+            }
+
+            Swap(arr, i, idx);
+        }
+
+        ReverseArray(arr, idx+1);
+    }
+
+    private void Swap(int[] arr, int source, int target)
+    {
+        int temp = arr[source];
+        arr[source] = arr[target];
+        arr[target] = temp;
+    }
+
+    private void ReverseArray(int[] arr, int start)
+    {
+        int temp = 0;
+        int end = arr.Length-1;
+
+        while (start < end)
+        {
+             temp = arr[start];
+            arr[start++] = arr[end];
+            arr[end--] = temp;
+        }
+    }
+
+
     //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
     public void QueensAttackKing()
     {
