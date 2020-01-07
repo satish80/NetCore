@@ -85,6 +85,7 @@ namespace Algorithms
             // dpObj.BuySellStockII();
             // dpObj.CountSquareMatrices();
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
+            dpObj.MinInsertionStepsToPalindrome();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -106,7 +107,6 @@ namespace Algorithms
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
-            sObj.MinInsertionStepsToPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

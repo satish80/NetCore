@@ -676,6 +676,28 @@ public class DP
         return f[s.Length];
     }
 
+    //Accepted: https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/
+    public void MinInsertionStepsToPalindrome()
+    {
+        string str = "zjveiiwvc";
+        Console.WriteLine(MinInsertionStepsToPalindrome(str));
+    }
+
+    private int MinInsertionStepsToPalindrome(string str)
+    {
+        int[,] dp = new int[str.Length+1, str.Length+1];
+
+        for(int i = 1; i <= str.Length; i ++)
+        {
+            for(int j = 1; j <= str.Length; j ++)
+            {
+                dp[i,j] = str[i-1] == str[str.Length-j] ? dp[i-1, j-1] + 1 : Math.Max(dp[i-1, j], dp[i, j-1]);
+            }
+        }
+
+        return str.Length - dp[str.Length, str.Length];
+    }
+
     //https://leetcode.com/contest/weekly-contest-165/problems/count-square-submatrices-with-all-ones/
     public void CountSquareMatrices()
     {

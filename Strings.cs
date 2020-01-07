@@ -520,36 +520,6 @@ public class Strings
         return max;
     }
 
-    //https://leetcode.com/contest/weekly-contest-170/problems/minimum-insertion-steps-to-make-a-string-palindrome/
-    public void MinInsertionStepsToPalindrome()
-    {
-        string str = "zjveiiwvc";
-        Console.WriteLine(MinInsertionStepsToPalindrome(str));
-    }
-
-    private int MinInsertionStepsToPalindrome(string str)
-    {
-        int l = 0;
-        int r = str.Length-1;
-        int count = 0;
-
-        while (l < r)
-        {
-            if (str[l] == str[r])
-            {
-                l++;
-                r--;
-            }
-            else
-            {
-                count++;
-                l++;
-            }
-        }
-
-        return count;
-    }
-
     //https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/
     public void LongestWordInDictionary()
     {
