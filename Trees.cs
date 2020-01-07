@@ -328,10 +328,29 @@ public class Trees
     */
     public void ConstructBSTFromPostOrderSequence()
     {
-        int[] arr = new int[] {2, 4, 3, 8, 7, 5};
+        //int[] arr = new int[] {2, 4, 3, 8, 7, 5};
+        int[] arr = new int[] {1, 4, 3, 8, 10, 9, 7};
         //var res = ConstructBSTFromPostOrderSequence(arr, 0, arr.Length-1);
         int idx = arr.Length-1;
-        var res = ConstructBSTFromPostOrderSequenceOrderN(arr, null, ref idx);
+        var res = ConstructBSTFromPostOrder(arr, int.MinValue, int.MaxValue, ref idx);
+    }
+
+    private TreeNode ConstructBSTFromPostOrder(int[] arr, int min, int max, ref int idx)
+    {
+        if (idx >= arr.Length)
+        {
+            return null;
+        }
+        TreeNode node = null;
+
+        if (idx >=0 && arr[idx] >= min && arr[idx] <= max)
+        {
+            node = new TreeNode(arr[idx--]);
+            node.Right = ConstructBSTFromPostOrder(arr, node.Value.Value, max, ref idx);
+            node.Left = ConstructBSTFromPostOrder(arr, min, node.Value.Value, ref idx);
+        }
+
+        return node;
     }
 
     private TreeNode ConstructBSTFromPostOrderSequence(int[] arr, int start, int end)
@@ -355,28 +374,6 @@ public class Trees
 
         node.Right = ConstructBSTFromPostOrderSequence(arr, idx + 1, end-1);
         node.Left = ConstructBSTFromPostOrderSequence(arr, start, idx);
-
-        return node;
-    }
-
-    private TreeNode ConstructBSTFromPostOrderSequenceOrderN(int[] arr, TreeNode prev, ref int idx)
-    {
-        if (idx < 0)
-        {
-            return null;
-        }
-
-        TreeNode node = new TreeNode(arr[idx--]);
-
-        if (idx >= 0 && arr[idx] > node.Value)
-        {
-            node.Right = ConstructBSTFromPostOrderSequenceOrderN(arr, node, ref idx);
-        }
-
-        if(idx >= 0 && arr[idx] < node.Value && (prev == null || (prev!= null && node.Value.Value < prev.Value.Value)))
-        {
-            node.Left = ConstructBSTFromPostOrderSequenceOrderN(arr, node, ref idx);
-        }
 
         return node;
     }

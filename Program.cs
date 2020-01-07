@@ -39,7 +39,7 @@ namespace Algorithms
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
-            arrObj.NextPermutation();
+            // arrObj.NextPermutation();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -106,6 +106,7 @@ namespace Algorithms
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
+            sObj.MinInsertionStepsToPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
