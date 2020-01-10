@@ -1453,6 +1453,51 @@ public class Trees
         return stk.Count == 0;
     }
 
+    //https://leetcode.com/contest/weekly-contest-169/problems/all-elements-in-two-binary-search-trees/
+    public void AllElementsOfBST()
+    {
+        IList<int> res = new List<int>();
+        TreeNode node = new TreeNode(2);
+        node.Left = new TreeNode(1);
+        node.Right = new TreeNode(4);
+
+        TreeNode second = new TreeNode(1);
+        second.Left = new TreeNode(0);
+        second.Right = new TreeNode(3);
+
+        var node1 = new TreeNodeIterator(null);
+        TreeNode enumerator1 = node1.Next();
+
+        var node2 = new TreeNodeIterator(second);
+        TreeNode enumerator2 = node2.Next();
+
+        while(enumerator1 != null && enumerator2 != null)
+        {
+            if(enumerator1.Value.Value < enumerator2.Value.Value)
+            {
+                res.Add(enumerator1.Value.Value);
+                enumerator1 = node1.Next();
+            }
+            else
+            {
+                res.Add(enumerator2.Value.Value);
+                enumerator2 = node2.Next();
+            }
+        }
+
+        while(enumerator1 != null)
+        {
+            Console.WriteLine(enumerator1.Value.Value);
+            enumerator1 = node1.Next();
+        }
+
+        while(enumerator2 != null)
+        {
+            Console.WriteLine(enumerator2.Value.Value);
+            enumerator2 = node2.Next();
+        }
+    }
+
   //https://www.geeksforgeeks.org/construct-bst-from-given-preorder-traversa/
     public void ConstructBSTFromPreOrder()
     {
@@ -1495,6 +1540,50 @@ public class TreeNode
 
     public int Rank;
     public int? Value;
+}
+
+public class TreeNodeIterator
+{
+    Stack<TreeNode> stk = null;
+    TreeNode node = null;
+
+    public TreeNodeIterator(TreeNode node)
+    {
+        stk = new Stack<TreeNode>();
+        stk.Push(node);
+        this.node = node;
+        StackLeftNodes();
+    }
+
+    public TreeNode Next()
+    {
+        if (stk.Count == 0)
+        {
+            return null;
+        }
+
+        node = stk.Pop();
+        TreeNode res = node;
+
+        if (node!= null && node.Right != null)
+        {
+            stk.Push(node.Right);
+            node = node.Right;
+        }
+
+        StackLeftNodes();
+
+        return res;
+    }
+
+    private void StackLeftNodes()
+    {
+        while(node!= null && node.Left != null)
+        {
+            stk.Push(node.Left);
+            node = node.Left;
+        }
+    }
 }
 
 public class ParentTreeNode

@@ -72,6 +72,7 @@ namespace Algorithms
             // treeObj.ReplaceElementByItsRank();
             // treeObj.Serialize();
             // treeObj.ConstructBSTFromPostOrderSequence();
+            // treeObj.AllElementsOfBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -85,7 +86,7 @@ namespace Algorithms
             // dpObj.BuySellStockII();
             // dpObj.CountSquareMatrices();
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
-            dpObj.MinInsertionStepsToPalindrome();
+            // dpObj.MinInsertionStepsToPalindrome();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -121,6 +122,7 @@ namespace Algorithms
             //rObj.ExpressionAddOperators();                      //** To Be Completed **
             // rObj.LetterCombinations();
             // rObj.MaxRegion();
+            rObj.JumpGameIII();
         }
     }
 }
