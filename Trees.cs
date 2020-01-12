@@ -1524,6 +1524,46 @@ public class Trees
 
         return node;
     }
+
+    //Accepted: https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/
+    public void EvenValuedGrandParent()
+    {
+        TreeNode node = new TreeNode(6);
+        node.Left = new TreeNode(7);
+        node.Right = new TreeNode(8);
+        node.Left.Left = new TreeNode(2);
+        node.Left.Right = new TreeNode(7);
+        node.Right.Left = new TreeNode(1);
+        node.Right.Right = new TreeNode(3);
+        node.Left.Left.Left = new TreeNode(9);
+        node.Left.Right.Left = new TreeNode(1);
+        node.Left.Right.Right = new TreeNode(4);
+        node.Right.Right.Right = new TreeNode(5);
+
+        int count=0;
+        var res = EvenValuedGrandParent(node, null, null);
+        Console.WriteLine(count);
+    }
+
+    private int EvenValuedGrandParent(TreeNode node, TreeNode parent, TreeNode grandParent)
+    {
+        int count = 0;
+
+        if (node == null)
+        {
+            return 0;
+        }
+
+        if (grandParent != null && grandParent.Value.Value % 2 == 0)
+        {
+            count += node.Value.Value;
+        }
+
+        int left = EvenValuedGrandParent(node.Left, node, parent);
+        int right = EvenValuedGrandParent(node.Right, node, parent);
+
+        return left + right + count;
+    }
 }
 
 public class TreeNode

@@ -205,11 +205,6 @@ public class Recursion
 
     private bool JumpGameIII(int[] arr, Dictionary<int, List<int>> map, bool[] visited, int idx)
     {
-        // if (idx >= arr.Length)
-        // {
-        //     return false;
-        // }
-
         if(arr[idx] == 0)
         {
             return true;
