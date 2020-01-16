@@ -676,6 +676,66 @@ public class DP
         return f[s.Length];
     }
 
+    public void MinModificationsToReachEnd()
+    {
+        char[,] arr = new char[3,3]
+        {
+            {'R', 'D', 'U'},
+            {'L', 'L', 'L'},
+            {'U', 'U', 'R'}
+        };
+
+        Console.WriteLine(MinModificationsToReachEnd(arr));
+    }
+
+    private int MinModificationsToReachEnd(char[,] arr)
+    {
+        int[,] dp = new int[arr.GetLength(0), arr.GetLength(1)];
+
+        for(int r = 0; r < arr.GetLength(0); r++)
+        {
+            for(int c = 0; c < arr.GetLength(1); c ++)
+            {
+                dp[r,c] = int.MaxValue;
+            }
+        }
+
+        dp[0,0] = 0;
+
+        return MinModificationsToReachEnd(dp, arr, arr.GetLength(0)-1, arr.GetLength(1)-1);
+    }
+
+    private int MinModificationsToReachEnd(int[,] dp, char[,] arr, int row, int col)
+    {
+        int top = int.MaxValue;
+        int left = int.MaxValue;
+
+        if (row >= 1)
+        {
+            // top = (dp[row-1,col] == int.MaxValue) ?
+            // MinModificationsToReachEnd(dp, arr, row-1, col) % int.MaxValue + (arr[row-1,col] != 'D' ? 1 : 0)
+            // : dp[row-1, col];
+
+            top = MinModificationsToReachEnd(dp, arr, row-1, col) % int.MaxValue + (arr[row-1,col] != 'D' ? 1 : 0);
+        }
+
+        if (col >= 1)
+        {
+            // left = (dp[row,col-1] == int.MaxValue) ?
+            // MinModificationsToReachEnd(dp, arr, row, col-1) % int.MaxValue + ( arr[row,col-1] != 'R' ? 1 : 0)
+            // : dp[row, col-1];
+
+            left = MinModificationsToReachEnd(dp, arr, row, col-1) % int.MaxValue + ( arr[row,col-1] != 'R' ? 1 : 0);
+        }
+
+        if (!(row == 0 && col == 0))
+        {
+            dp[row, col] = Math.Min(top, left);
+        }
+
+        return dp[row, col];
+    }
+
     //Accepted: https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/
     public void MinInsertionStepsToPalindrome()
     {

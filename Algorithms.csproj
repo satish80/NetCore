@@ -15,5 +15,6 @@
     <Content Include="SynchronizedQueue.cs" />
     <Content Include="Recursion.cs" />
     <Content Include="DataStructures.cs" />
+    <Content Include="Helpers.cs" />
   </ItemGroup>
 </Project>

@@ -1790,6 +1790,57 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
         return sb.Length > 1 && sb.ToString()[0] == '0' ? sb.Remove(0,1).ToString() :sb.ToString();
     }
+
+    //https://leetcode.com/problems/non-overlapping-intervals/
+    public void NonOverlapingIntervals()
+    {
+        int[][] arr = new int[7][]
+        {
+            new int[]{0,2},
+            new int[]{1,3},
+            new int[]{1,3},
+            new int[]{2,4},
+            new int[]{3,5},
+            new int[]{3,5},
+            new int[]{4,6},
+        };
+
+        var res = NonOverlapingIntervals(arr);
+    }
+
+    private int NonOverlapingIntervals(int[][] arr)
+    {
+        Array.Sort(arr, new ArrayComparer());
+
+        int curIdx = 0;
+        int NextIdx = 1;
+        int res = 0;
+        Queue<int> queue = new Queue<int>();
+
+        while(NextIdx < arr.Length)
+        {
+            while (NextIdx < arr.Length && arr[curIdx][1] <= arr[NextIdx][0])
+            {
+                NextIdx++;
+                curIdx ++;
+
+                while (queue.Count > 0 && curIdx == queue.Peek())
+                {
+                    queue.Dequeue();
+                    curIdx ++;
+                }
+            }
+
+            if (NextIdx < arr.Length)
+            {
+                queue.Enqueue(NextIdx);
+                res++;
+                NextIdx++;
+            }
+        }
+
+        return res;
+    }
 }
 
 public class Pair : IEquatable<Pair>
