@@ -736,6 +736,41 @@ public class DP
         return dp[row, col];
     }
 
+    //Accepted: T:O(n^2) https://leetcode.com/problems/minimum-path-sum/
+    public void MinPathSum()
+    {
+        int[][] arr = new int[2][]
+        {
+            new int[] {1,2, 5},
+            new int[] {3, 2, 1},
+        };
+
+        Console.WriteLine(MinPathSum(arr));
+    }
+
+    private int MinPathSum(int[][] arr)
+    {
+        for(int row = 1; row < arr.Length; row ++)
+        {
+            arr[row][0] = arr[row-1][0] + arr[row][0];
+        }
+
+        for(int col = 1; col < arr.Length; col ++)
+        {
+            arr[0][col] = arr[0][col-1] + arr[0][col];
+        }
+
+        for(int row = 1; row < arr.Length; row ++)
+        {
+            for(int col = 1; col < arr[0].Length; col ++)
+            {
+                arr[row][col] = Math.Min(arr[row-1][col], arr[row][col-1]) + arr[row][col];
+            }
+        }
+
+        return arr[arr.Length-1][arr[0].Length-1];
+    }
+
     //Accepted: https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/
     public void MinInsertionStepsToPalindrome()
     {

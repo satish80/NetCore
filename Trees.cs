@@ -1498,6 +1498,37 @@ public class Trees
         }
     }
 
+    //Accepted: T:O(n) https://leetcode.com/problems/delete-leaves-with-a-given-value/
+    public void DeleteLeavesWithGivenValue()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Left.Left = new TreeNode(2);
+        node.Right.Left = new TreeNode(2);
+        node.Right.Right = new TreeNode(4);
+
+        var res = DeleteLeavesWithGivenValue(node, 2);
+    }
+
+    private TreeNode DeleteLeavesWithGivenValue(TreeNode node, int val)
+    {
+        if (node == null )
+        {
+            return null;
+        }
+
+        node.Left = DeleteLeavesWithGivenValue(node.Left, val);
+        node.Right = DeleteLeavesWithGivenValue(node.Right, val);
+
+        if (node.Left == null && node.Right == null && node.Value.Value == val)
+        {
+            node = null;
+        }
+
+        return node;
+    }
+
   //https://www.geeksforgeeks.org/construct-bst-from-given-preorder-traversa/
     public void ConstructBSTFromPreOrder()
     {

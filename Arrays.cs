@@ -1706,6 +1706,56 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         }
     }
 
+    //Accepted: T:O(n): https://leetcode.com/problems/asteroid-collision/
+    public void AsteroidCollision()
+    {
+        int[] arr = new int[]{8, -8};
+        var res = AsteroidCollision(arr);
+    }
+
+    private int[] AsteroidCollision(int[] arr)
+    {
+        int next = 1;
+        Stack<int> stk = new Stack<int>();
+        stk.Push(arr[0]);
+
+        while (next < arr.Length)
+        {
+            while (next < arr.Length && stk.Count() > 0 && arr[next] < 0 && stk.Peek() > 0)
+            {
+                if (Math.Abs(stk.Peek()) > Math.Abs(arr[next]))
+                {
+                    next++;
+                    continue;
+                }
+
+                int diff = stk.Peek() + arr[next];
+                stk.Pop();
+
+                if (diff == 0)
+                {
+                    next++;
+                }
+            }
+
+            if (next < arr.Length)
+            {
+                stk.Push(arr[next]);
+            }
+            next++;
+        }
+
+        int[] res = new int[stk.Count()];
+        int idx = stk.Count() - 1;
+
+        while(stk.Count > 0)
+        {
+            res[idx--] = stk.Pop();
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/remove-k-digits/
     public void RemoveKDigits()
     {
@@ -1791,7 +1841,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return sb.Length > 1 && sb.ToString()[0] == '0' ? sb.Remove(0,1).ToString() :sb.ToString();
     }
 
-    //https://leetcode.com/problems/non-overlapping-intervals/
+    //Accepted T: O(nlogn) S:O(n): https://leetcode.com/problems/non-overlapping-intervals/
     public void NonOverlapingIntervals()
     {
         int[][] arr = new int[7][]

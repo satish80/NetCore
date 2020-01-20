@@ -40,7 +40,8 @@ namespace Algorithms
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
             // arrObj.NextPermutation();
-            arrObj.NonOverlapingIntervals();
+            // arrObj.NonOverlapingIntervals();
+            arrObj.AsteroidCollision();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -75,6 +76,7 @@ namespace Algorithms
             // treeObj.ConstructBSTFromPostOrderSequence();
             // treeObj.AllElementsOfBST();
             // treeObj.EvenValuedGrandParent();
+            // treeObj.DeleteLeavesWithGivenValue();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -90,6 +92,7 @@ namespace Algorithms
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
             // dpObj.MinInsertionStepsToPalindrome();
             // dpObj.MinModificationsToReachEnd();
+            // dpObj.MinPathSum();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
