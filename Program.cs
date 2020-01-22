@@ -41,7 +41,8 @@ namespace Algorithms
             // arrObj.RotateImage();
             // arrObj.NextPermutation();
             // arrObj.NonOverlapingIntervals();
-            arrObj.AsteroidCollision();
+            // arrObj.AsteroidCollision();
+            arrObj.SubArraySumK();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

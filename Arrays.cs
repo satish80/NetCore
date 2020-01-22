@@ -146,14 +146,14 @@ public class Arrays
 
     //https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
     // Leetcode has invalid test case
-    public void SubArraySumK()
+    public void SubArraySumAtleastK()
     {
         int[] num = new int [] {-2, -1, 3, 5, 4, 2, 1, 6, -5, 8};
         //int[] num = new int [] {48,99,37,4,-31}; // invalid leetcode test case
-        Console.WriteLine(SubArraySumK(num, 140));
+        Console.WriteLine(SubArraySumAtleastK(num, 140));
     }
 
-    private int SubArraySumK(int[] num, int k)
+    private int SubArraySumAtleastK(int[] num, int k)
     {
         int end = 0;
         int start = 0;
@@ -183,6 +183,40 @@ public class Arrays
         }
 
         return len = len == int.MaxValue ? -1 : len;
+    }
+
+    //Accepted: T:(n) S: O(n) https://leetcode.com/problems/subarray-sum-equals-k/
+    public void SubArraySumK()
+    {
+        int[] arr = new int[] {1, 1, 1};
+        Console.WriteLine(SubArraySumK(arr, 2));
+    }
+
+    private int SubArraySumK(int[] arr, int k)
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        int sum = 0;
+        int count = 0;
+        map.Add(0, 1);
+
+        for(int idx = 0; idx < arr.Length; idx ++)
+        {
+            sum += arr[idx];
+
+            if (map.ContainsKey(sum - k))
+            {
+                count += map[sum - k];
+            }
+
+            if (! map.ContainsKey(sum))
+            {
+                map.Add(sum, 0);
+            }
+
+            map[sum] += 1;
+        }
+
+        return count;
     }
 
     public void JumpingOnClouds()
