@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Graph
 {
-
     public void CourseScheduling()
     {
         List<Pair> courses = new List<Pair>();
@@ -18,7 +17,7 @@ public class Graph
         Stack<int> stk = new Stack<int>();
 
         CourseScheduling(0, graph, stk);
-        int[] arr = new int[graph.Vertices.Count];
+        int[] arr = new int[graph.Vertices];
         int idx = 0;
 
         foreach(int num in stk)
@@ -39,7 +38,7 @@ public class Graph
 
     private DirectedGraph ConstructDirectedGraph(List<Pair> pairs)
     {
-        DirectedGraph graph = new DirectedGraph();
+        DirectedGraph graph = new DirectedGraph(pairs.Count);
 
         foreach(Pair pair in pairs)
         {
@@ -233,6 +232,71 @@ public class Graph
         }
 
         return root[x];
+    }
+
+    //https://leetcode.com/problems/alien-dictionary/
+    public void AlienDictionary()
+    {
+        string[] s = new string[]
+        {
+          "wrt",
+          "wrf",
+          "er",
+          "ett",
+          "rftt"
+        };
+
+        AlienDictionary(s, new DirectedGraph(5));
+    }
+
+    private void AlienDictionary(string[] dict, DirectedGraph graph)
+    {
+        for(int i = 0; i < dict.Length -1; i++)
+        {
+            string word1 = dict[i];
+            string word2 = dict[i + 1];
+
+            for(int j = 0; j < Math.Min(word1.Length, word2.Length); j ++)
+            {
+                if (word1[j] != word2[j])
+                {
+                    graph.AddEdge(word1[j] - 'a', word2[j] - 'a');
+                    break;
+                }
+            }
+        }
+
+        Stack<int> stack = new Stack<int>();
+
+        foreach(int vertex in graph.AdjList.Keys)
+        {
+            if (!graph.Visited.Contains(vertex))
+            {
+                TopologicalSortUtil(graph, vertex, stack);
+            }
+        }
+
+        while (stack.Count > 0)
+        {
+            Console.WriteLine((char)('a' + stack.Pop()));
+        }
+    }
+
+    private void TopologicalSortUtil(DirectedGraph graph, int vertex, Stack<int> stack)
+    {
+        graph.Visited.Add(vertex);
+
+        if (graph.AdjList.ContainsKey(vertex))
+        {
+            foreach(int neighbor in graph.AdjList[vertex])
+            {
+                if (! graph.Visited.Contains(neighbor))
+                {
+                    TopologicalSortUtil(graph, neighbor, stack);
+                }
+            }
+        }
+        stack.Push(vertex);
     }
 
     //https://leetcode.com/problems/graph-valid-tree/
@@ -436,29 +500,28 @@ public class Graph
 
     public class DirectedGraph
     {
-        public HashSet<int> Vertices;
-
         public Dictionary<int, List<int>> AdjList;
-
-        public DirectedGraph()
+        public int Vertices;
+        public HashSet<int> Visited;
+        public DirectedGraph(int vertex)
         {
-            this.Vertices = new HashSet<int>();
-            this.AdjList = new Dictionary<int, List<int>>();
+            this.Vertices = vertex;
+            AdjList = new Dictionary<int, List<int>>(vertex);
+            Visited = new HashSet<int>();
         }
 
-        public void AddEdge(int vertex, int edge)
+        public void AddEdge(int vertex, int weight)
         {
-            if (!this.Vertices.Contains(vertex))
+            if (AdjList == null || ! AdjList.ContainsKey(vertex))
             {
-                this.Vertices.Add(vertex);
+                var list = new List<int>();
+                list.Add(weight);
+                AdjList.Add(vertex, list);
             }
-
-            if (!this.AdjList.ContainsKey(vertex))
+            else
             {
-                this.AdjList.Add(vertex, new List<int>());
+                AdjList[vertex].Add(weight);
             }
-
-            this.AdjList[vertex].Add(edge);
         }
     }
 }

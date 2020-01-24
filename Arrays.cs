@@ -219,6 +219,81 @@ public class Arrays
         return count;
     }
 
+    //https://leetcode.com/problems/merge-intervals/
+    public void MergeIntervals()
+    {
+
+    }
+
+    private int[][] MergeIntervals(int[][] intervals)
+    {
+        return null;
+    }
+
+    //https://leetcode.com/problems/remove-invalid-parentheses/
+    public void RemoveInvalidParanthesis()
+    {
+        string s = "()())()";
+        var res = RemoveInvalidParanthesis(s, 0, new HashSet<string>());
+    }
+
+    private HashSet<string> RemoveInvalidParanthesis(string s, int idx, HashSet<string> res)
+    {
+        if (idx >= s.Length)
+        {
+            return res;
+        }
+
+        if (ValidParanthesis(s))
+        {
+            res.Add(s);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (idx >= 1)
+        {
+            sb.Append(s.Substring(0, idx));
+        }
+
+        sb.Append(s.Substring(idx+1, s.Length -1 - idx));
+
+        RemoveInvalidParanthesis(s, idx+1, res);
+        RemoveInvalidParanthesis(sb.ToString(), idx+1, res);
+
+        return res;
+    }
+
+    private bool ValidParanthesis(string s)
+    {
+        Stack<char> stk = new Stack<char>();
+
+        int idx = 0;
+
+        while (idx < s.Length)
+        {
+            if (s[idx] == ')')
+            {
+                if (stk.Count() > 0 && stk.Peek() == '(')
+                {
+                    stk.Pop();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                stk.Push('(');
+            }
+
+            idx++;
+        }
+
+        return stk.Count() == 0;
+    }
+
     public void JumpingOnClouds()
     {
         int[] num = new int[] {0, 1, 0};

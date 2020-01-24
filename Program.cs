@@ -42,7 +42,8 @@ namespace Algorithms
             // arrObj.NextPermutation();
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
-            arrObj.SubArraySumK();
+            // arrObj.SubArraySumK();
+            // arrObj.RemoveInvalidParanthesis();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -101,6 +102,7 @@ namespace Algorithms
             // gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
+            gObj.AlienDictionary();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
