@@ -148,6 +148,7 @@ public class Graph
         return true;
     }
 
+    //https://leetcode.com/problems/connecting-cities-with-minimum-cost/
     //https://leetcode.com/discuss/interview-question/356981
     public void MinCostToConnectNodes()
     {
@@ -308,7 +309,7 @@ public class Graph
             new int[]{2, 0},
             new int[]{0, 3},
             new int[]{3, 1},
-            //new int[]{1,4},
+            //new int[]{1, 4},
         };
 
         Console.WriteLine(ValidGraphTree(5, edges));
@@ -413,7 +414,7 @@ public class Graph
         {
             disc[idx] = -1; // use disc to track if visited (disc[i] == -1)
         }
-
+ 
         for (int i = 0; i < n; i++)
         {
             graph[i] = new List<int>();

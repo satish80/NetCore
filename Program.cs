@@ -44,6 +44,7 @@ namespace Algorithms
             // arrObj.AsteroidCollision();
             // arrObj.SubArraySumK();
             // arrObj.RemoveInvalidParanthesis();
+            arrObj.SearchInRotatedSortedArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -79,6 +80,7 @@ namespace Algorithms
             // treeObj.AllElementsOfBST();
             // treeObj.EvenValuedGrandParent();
             // treeObj.DeleteLeavesWithGivenValue();
+            // treeObj.FindMaxNInBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -94,7 +96,7 @@ namespace Algorithms
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
             // dpObj.MinInsertionStepsToPalindrome();
             // dpObj.MinModificationsToReachEnd();
-            // dpObj.MinPathSum();
+            // dpObj.MinPathSum();            
             
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -102,7 +104,7 @@ namespace Algorithms
             // gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
-            gObj.AlienDictionary();
+            // gObj.AlienDictionary();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

@@ -555,6 +555,41 @@ public class Trees
         dfs(root.Right, target, K, length + 1, res, map);
     }
 
+    //Find the max value less than N in BST
+    public void FindMaxNInBST()
+    {
+        TreeNode node = new TreeNode(5);
+        node.Left = new TreeNode(3);
+        node.Right = new TreeNode(7);
+        node.Left.Left = new TreeNode(2);
+        node.Left.Right = new TreeNode(4);
+        node.Right.Left = new TreeNode(6);
+        node.Right.Right = new TreeNode(8);
+        int? max = null;
+        Console.WriteLine(FindMaxNInBST(node, 4, ref max));
+    }
+
+    private int? FindMaxNInBST(TreeNode node, int n, ref int? max)
+    {
+        if (node == null)
+        {
+            return max;
+        }
+
+        max = ((max == null && node.Value < n) || max != null && node.Value < n && max < node.Value) ? node.Value : max;
+
+        if (node.Value >= n)
+        {
+            FindMaxNInBST(node.Left, n, ref max);
+        }
+        else if (node.Value < n)
+        {
+            FindMaxNInBST(node.Right, n, ref max);
+        }
+
+        return max;
+    }
+
     /*
      Given a Node in the Tree (not the root & not the tree) find its first right neighbor.
      You cannot use extra space.

@@ -1732,6 +1732,43 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return curDimension;
     }
 
+    //Accepted: T:O(log n) : https://leetcode.com/problems/search-in-rotated-sorted-array/
+    public void SearchInRotatedSortedArray()
+    {
+        int[] num = new int[] {1};
+
+        Console.WriteLine(SearchInRotatedSortedArray(num, 1, 0, num.Length-1));
+    }
+
+    private int SearchInRotatedSortedArray(int[] arr, int num, int start, int end)
+    {
+        int res = -1;
+
+        if (start > end)
+        {
+            return -1;
+        }
+
+        if (end - start <= 1)
+        {
+            res = arr[start] == num ? start : arr[end] == num ? end : -1;
+            return res;
+        }
+
+        int mid = (end-start)/2 + start;
+
+        if ((arr[start] < arr[mid] && num >= arr[start] && num <= arr[mid]) || (arr[mid] < arr[end]) && (num < arr[mid] || num > arr[end]))
+        {
+            res = SearchInRotatedSortedArray(arr, num, start, mid);
+        }
+        else if ((arr[start] < arr[mid] && (num < arr[start] || num > arr[end])) || (arr[mid] <= arr[end] && num >= arr[mid] && num <= arr[end]))
+        {
+            res = SearchInRotatedSortedArray(arr, num, mid, end);
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/min-cost-climbing-stairs/solution/
     public void MinCostClimbingStairs()
     {

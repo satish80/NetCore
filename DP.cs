@@ -156,107 +156,67 @@ public class DP
         wordDict.Add("cats");
         wordDict.Add("and");
         wordDict.Add("dog");
+        wordDict.Add("aaaa");
+        wordDict.Add("aa");
         wordDict.Add("apple");
-        wordDict.Add("abc");
-        wordDict.Add("b");
-        wordDict.Add("cd");
 
-        //var coll = WordBreakII("pineapplepenapple", wordDict);
-        var coll = WordBreakII("catsanddog", wordDict);
-        //var coll = WordBreakII("abcd", wordDict);
+        string s = "pineapplepenapple";
 
-        foreach(string str in coll)
+        bool[] dp = new bool[] {false, false, true, true, false, false, true, false, false, true};
+
+        Dictionary<int, List<int>> map = GetWordsMapIndex(s, wordDict);
+
+        List<string> res = new List<string>();
+
+        var coll = WordBreakII(s, wordDict, res, string.Empty, map, 0);
+
+        foreach(string str in res)
         {
             Console.WriteLine(str);
         }
     }
 
-    private List<string> WordBreakII(string s, IList<string> wordDict)
+    private Dictionary<int, List<int>> GetWordsMapIndex(string s, IList<string> dict)
     {
-        Dictionary<int, HashSet<string>> map = new Dictionary<int, HashSet<string>>();
-        List<string> res = new List<string>();
-        int lastIdx = -1;
+        Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
 
-        int i = 0;
-        Queue<int> queue = new Queue<int>();
-
-        while(i < s.Length)
+        for(int i = 0; i < s.Length; i ++)
         {
-            for(int j = 1; j + i -1 < s.Length; j ++)
+            map.Add(i, new List<int>());
+
+            for(int j = 1; i + j <= s.Length; j ++)
             {
-                if(wordDict.Contains(s.Substring(i, j)))
+                if (dict.Contains(s.Substring(i, j)))
                 {
-                    if (!map.ContainsKey(i))
-                    {
-                        map.Add(i, new HashSet<string>());
-                    }
-
-                    map[i].Add(s.Substring(i, j));
-                    lastIdx = i+j;
-                    queue.Enqueue(i+j);
+                    map[i].Add(j);
                 }
-            }
-
-            if (queue.Count == 0)
-            {
-                i++;
-            }
-            else
-            {
-                i = queue.Dequeue();
             }
         }
 
-        if (lastIdx < 0 || (lastIdx < s.Length))
+        return map;
+    }
+
+    private List<string> WordBreakII(string s, IList<string> wordDict, List<string> res, string cur, 
+    Dictionary<int, List<int>> map, int idx)
+    {
+        if (cur.Length - cur.Split(" ").Length +1 == s.Length)
+        {
+            res.Add(cur);
+            return res;
+        }
+
+        if (idx >= s.Length)
         {
             return res;
         }
 
-        var coll = GetSuffix(0, map, new Dictionary<int, HashSet<string>>());
-        foreach(string str in coll)
+        foreach(int i in map[idx])
         {
-            res.Add(str);
+            cur = string.IsNullOrEmpty(cur) ? cur : cur.TrimEnd() + " ";
+            WordBreakII(s, wordDict, res, cur + s.Substring(idx, i), map, idx + i);
         }
 
         return res;
-    }
-
-    private HashSet<string> GetSuffix(int idx, Dictionary<int, HashSet<string>> map, Dictionary<int, HashSet<string>> res)
-    {
-        foreach(string str in map[idx])
-        {
-            int next = idx + str.Length;
-
-            if (map.ContainsKey(next))
-            {
-                HashSet<string> coll = null;
-
-                if (!res.ContainsKey(next))
-                {
-                    coll = GetSuffix(next, map, res);
-                }
-                else
-                {
-                    coll = res[next];
-                }
-
-                foreach(string s in coll)
-                {
-                    if (!res.ContainsKey(idx))
-                    {
-                        res.Add(idx, new HashSet<string>());
-                    }
-
-                    res[idx].Add(str + " " + s);
-                }
-            }
-            else if (!res.ContainsKey(idx))
-            {
-                res[idx] = map[idx];
-            }
-        }
-
-        return res[idx];
     }
 
     //https://leetcode.com/discuss/interview-question/437403/Karat-interview-agentor-phone-or-find-rectangle-coordinates
