@@ -658,6 +658,45 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/contest/weekly-contest-174/problems/maximum-product-of-splitted-binary-tree/
+    public void MaxProductOfSplittedBinaryTree()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Right = new TreeNode(2);
+        node.Right.Left = new TreeNode(3);
+        node.Right.Right = new TreeNode(4);
+        node.Right.Right.Left = new TreeNode(5);
+        node.Right.Right.Right = new TreeNode(6);
+
+        int sum = 21;
+        int min = int.MaxValue;
+        MaxProductOfSplittedBinaryTree(node, sum, ref min);
+        int val = (sum + min) /2;
+        Console.WriteLine(val);
+        Console.WriteLine(sum-val);
+    }
+
+    private int MaxProductOfSplittedBinaryTree(TreeNode node, int sum, ref int min)
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+
+        int left = MaxProductOfSplittedBinaryTree(node.Left, sum, ref min);
+        int right = MaxProductOfSplittedBinaryTree(node.Right, sum, ref min);
+
+        int lowest = Math.Min(Math.Min(Math.Abs(sum - (left + node.Value.Value)), Math.Abs(sum - (right + node.Value.Value))),
+         Math.Abs(sum - (left + right + node.Value.Value)));
+
+        int val1 = sum - lowest;
+        int diff = Math.Abs(val1 - lowest);
+
+        min = Math.Min(min, diff);
+
+        return left + right + node.Value.Value;
+    }
+
     /*
     This problem was recently asked by Apple:
     Given an integer k and a binary search tree, find the floor (less than or equal to) of k, and the ceiling (larger than or equal to) of k.

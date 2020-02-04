@@ -44,7 +44,8 @@ namespace Algorithms
             // arrObj.AsteroidCollision();
             // arrObj.SubArraySumK();
             // arrObj.RemoveInvalidParanthesis();
-            arrObj.SearchInRotatedSortedArray();
+            // arrObj.SearchInRotatedSortedArray();
+            // arrObj.NextGreaterNumber();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -81,6 +82,7 @@ namespace Algorithms
             // treeObj.EvenValuedGrandParent();
             // treeObj.DeleteLeavesWithGivenValue();
             // treeObj.FindMaxNInBST();
+            treeObj.MaxProductOfSplittedBinaryTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

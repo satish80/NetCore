@@ -1769,6 +1769,46 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return res;
     }
 
+    /*
+     Asked by Google
+    Given an array of numbers and an index i, return the index of the nearest larger number of the number at index i, where distance 
+    is measured in array indices. For example, given [4, 1, 3, 5, 6] and index 0, you should return 3.If two distances to larger numbers
+    are the equal, then return any one of them. If the array at i doesn't have a nearest larger integer, then return null.
+    Follow-up: If you can preprocess the array, can you do this in constant time?
+    */
+    public void NextGreaterNumber()
+    {
+        int[] arr = new int[5] {4, 1, 3, 5, 6};
+        Console.WriteLine(NextGreaterNumber(arr, 1));
+    }
+
+    private int NextGreaterNumber(int[] arr, int index)
+    {
+        int[] res = new int[arr.Length];
+        for(int i = 0; i < res.Length; i++)
+        {
+            res[i] = -1;
+        }
+
+        Stack<int> stk = new Stack<int>();
+
+        stk.Push(0);
+        int idx = 1;
+
+        while(idx < arr.Length)
+        {
+            if (arr[stk.Peek()] < arr[idx])
+            {
+                res[stk.Pop()] = idx;
+            }
+
+            stk.Push(idx);
+            idx++;
+        }
+
+        return res[index];
+    }
+
     //https://leetcode.com/problems/min-cost-climbing-stairs/solution/
     public void MinCostClimbingStairs()
     {
