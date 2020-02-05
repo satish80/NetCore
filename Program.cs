@@ -82,7 +82,7 @@ namespace Algorithms
             // treeObj.EvenValuedGrandParent();
             // treeObj.DeleteLeavesWithGivenValue();
             // treeObj.FindMaxNInBST();
-            treeObj.MaxProductOfSplittedBinaryTree();
+            // treeObj.MaxProductOfSplittedBinaryTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -99,6 +99,7 @@ namespace Algorithms
             // dpObj.MinInsertionStepsToPalindrome();
             // dpObj.MinModificationsToReachEnd();
             // dpObj.MinPathSum();            
+            dpObj.NthFibonacci();
             
             Graph gObj = new Graph();
             //gObj.BiPartition();

@@ -219,6 +219,29 @@ public class DP
         return res;
     }
 
+    public void NthFibonacci()
+    {
+        Console.WriteLine(NthFibonacci(5));
+    }
+
+    private int NthFibonacci(int n)
+    {
+        int idx = 1;
+        int val1 = 0;
+        int val2 = 1;
+        int sum = 0;
+
+        while (idx < n)
+        {
+            sum += val2;
+            val2 = val1;
+            val1 = sum;
+            idx++;
+        }
+
+        return sum;
+    }
+
     //https://leetcode.com/discuss/interview-question/437403/Karat-interview-agentor-phone-or-find-rectangle-coordinates
     public void FindRectangleCoordinates()
     {
