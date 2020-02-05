@@ -17,3 +17,5 @@ daily should return false, since there's no rearrangement that can form a palind
 5) https://leetcode.com/problems/friend-circles/
 
 6) https://leetcode.com/problems/max-chunks-to-make-sorted-ii/
+
+7) https://leetcode.com/problems/kth-largest-element-in-an-array/
