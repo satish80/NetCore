@@ -1829,6 +1829,60 @@ You can assume that the messages are decodable. For example, '001' is not allowe
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 
+    //https://leetcode.com/problems/find-median-from-data-stream/
+    public void MedianFromStream()
+    {
+        Heap<int> minHeap = new Heap<int>(true);
+        Heap<int> maxHeap = new Heap<int>(false);
+
+        int[] arr = new int[] {2, 4, 1, 5, 9, 12};
+
+        foreach(int num in arr)
+        {
+            MedianFromStream(num, minHeap, maxHeap);
+        }
+
+        if (minHeap.Count == maxHeap.Count)
+        {
+            Console.WriteLine((minHeap.Pop() + maxHeap.Pop()) / 2);
+        }
+        else
+        {
+            if (minHeap.Count > maxHeap.Count)
+            {
+                Console.WriteLine(minHeap.Pop());
+            }
+            else
+            {
+                Console.WriteLine(maxHeap.Pop());
+            }
+        }
+    }
+
+    private void MedianFromStream(int num, Heap<int> minHeap, Heap<int> maxHeap)
+    {
+        if (minHeap.Count > 0 && num < minHeap.Peek())
+        {
+            maxHeap.Push(num);
+        }
+        else
+        {
+            minHeap.Push(num);
+        }
+        Rebalance(minHeap, maxHeap);
+    }
+
+    private void Rebalance(Heap<int> minHeap, Heap<int> maxHeap)
+    {
+        var bigger = maxHeap.Count >  minHeap.Count ? maxHeap : minHeap;
+        var smaller = maxHeap.Count <  minHeap.Count ? maxHeap : minHeap;
+
+        if (bigger.Count > smaller.Count)
+        {
+            smaller.Push(bigger.Pop());
+        }
+    }
+
     public void HasCircularLoop()
     {
         int[] arr = new int[]{-2,1,-1,-2,-2};

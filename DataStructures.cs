@@ -6,6 +6,19 @@ public class Heap<T>
     IComparer<T> comparer = null;
     List<T> arr = null;
 
+    public int Count
+    {
+        get
+        {
+            return arr.Count;
+        } 
+    }
+
+    public T Peek()
+    {
+        return arr[0];
+    }
+
     public Heap(bool minHeap, IComparer<T> comparer = null)
     {
         arr = new List<T>();
@@ -27,7 +40,12 @@ public class Heap<T>
         {
             int parent = (idx / 2);
 
-            if ((minHeap && comparer.Compare(arr[parent], arr[idx]) > 0))
+            if ((minHeap && Comparer<T>.Default.Compare(arr[parent], arr[idx]) > 0))
+            {
+                Swap(arr, parent, idx);
+            }
+
+            if((!minHeap && Comparer<T>.Default.Compare(arr[idx], arr[parent]) > 0))
             {
                 Swap(arr, parent, idx);
             }
