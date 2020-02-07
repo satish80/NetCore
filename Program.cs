@@ -46,6 +46,7 @@ namespace Algorithms
             // arrObj.RemoveInvalidParanthesis();
             // arrObj.SearchInRotatedSortedArray();
             // arrObj.NextGreaterNumber();
+            arrObj.MedianFromStream();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -99,8 +100,8 @@ namespace Algorithms
             // dpObj.MinInsertionStepsToPalindrome();
             // dpObj.MinModificationsToReachEnd();
             // dpObj.MinPathSum();            
-            dpObj.NthFibonacci();
-            
+            // dpObj.NthFibonacci();
+
             Graph gObj = new Graph();
             //gObj.BiPartition();
             //gObj.CourseScheduling();
