@@ -175,6 +175,48 @@ public class Recursion
         return sum;
     }
 
+    //https://leetcode.com/problems/kth-largest-element-in-an-array/
+    public void KthLargest()
+    {
+        int[] arr = new int[]{3, 2, 11, 4, 8, 7};
+        int k = 2;
+        int n = arr.Length -1;
+        Console.WriteLine(KthLargest(arr, 0, n, k));
+    }
+
+    private int KthLargest(int[] arr, int start, int end, int k)
+    {
+        int j = start;
+        int pivot = start;
+
+        while (j < end)
+        {
+            if (arr[j] <= arr[end])
+            {
+                Helpers.Swap(arr, pivot++, j);
+            }
+
+            j++;
+        }
+
+        Helpers.Swap(arr, pivot, end);
+
+        int m = end - pivot + 1;
+        if (m == k)
+        {
+            return arr[pivot];
+        }
+
+        if (m > k)
+        {
+            return KthLargest(arr, pivot+1, end, k);
+        }
+        else
+        {
+            return KthLargest(arr, start, pivot-1, k - m);
+        }
+    }
+
     //https://leetcode.com/problems/jump-game-iii/discuss/
     public void JumpGameIII()
     {

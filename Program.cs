@@ -46,7 +46,7 @@ namespace Algorithms
             // arrObj.RemoveInvalidParanthesis();
             // arrObj.SearchInRotatedSortedArray();
             // arrObj.NextGreaterNumber();
-            arrObj.MedianFromStream();
+            // arrObj.MedianFromStream();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -138,6 +138,8 @@ namespace Algorithms
             // rObj.LetterCombinations();
             // rObj.MaxRegion();
             // rObj.JumpGameIII();
+            rObj.KthLargest();
+
         }
     }
 }

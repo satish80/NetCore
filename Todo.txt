@@ -18,4 +18,10 @@ daily should return false, since there's no rearrangement that can form a palind
 
 6) https://leetcode.com/problems/max-chunks-to-make-sorted-ii/
 
-7) https://leetcode.com/problems/kth-largest-element-in-an-array/
+7) https://leetcode.com/problems/kth-largest-element-in-an-array/ - Revisit
+
+8) Asked by Quora
+   Given an absolute pathname that may have . or .. as part of it, return the shortest standardized path.
+   For example, given "/usr/bin/../bin/./scripts/../", return "/usr/bin/".
+
+9) https://leetcode.com/problems/max-chunks-to-make-sorted/
