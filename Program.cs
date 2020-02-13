@@ -84,6 +84,7 @@ namespace Algorithms
             // treeObj.DeleteLeavesWithGivenValue();
             // treeObj.FindMaxNInBST();
             // treeObj.MaxProductOfSplittedBinaryTree();
+            treeObj.BstToDoubleLinkedList();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -138,7 +139,7 @@ namespace Algorithms
             // rObj.LetterCombinations();
             // rObj.MaxRegion();
             // rObj.JumpGameIII();
-            rObj.KthLargest();
+            // rObj.KthLargest();
 
         }
     }

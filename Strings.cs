@@ -737,6 +737,19 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return sb.ToString();
     }
 
+    //https://leetcode.com/discuss/interview-question/502496/google-onsite-substrings-that-dont-have-every-character-in-an-alphabet
+    public void SubstringsNotMatchingAlphabets()
+    {
+
+    }
+
+    private int SubstringsNotMatchingAlphabets(string str, HashSet<char> set)
+    {
+        int idx = 0;
+        return idx;
+
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

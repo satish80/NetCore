@@ -18,10 +18,26 @@ daily should return false, since there's no rearrangement that can form a palind
 
 6) https://leetcode.com/problems/max-chunks-to-make-sorted-ii/
 
-7) https://leetcode.com/problems/kth-largest-element-in-an-array/ - Revisit
-
-8) Asked by Quora
+7) Asked by Quora
    Given an absolute pathname that may have . or .. as part of it, return the shortest standardized path.
    For example, given "/usr/bin/../bin/./scripts/../", return "/usr/bin/".
 
-9) https://leetcode.com/problems/max-chunks-to-make-sorted/
+8) https://leetcode.com/problems/max-chunks-to-make-sorted/
+
+9) https://leetcode.com/discuss/interview-question/502496/google-onsite-substrings-that-dont-have-every-character-in-an-alphabet
+
+10) https://leetcode.com/contest/biweekly-contest-19/problems/jump-game-iv/
+
+11) LinkedIn: You are given a string consisting of the letters x and y, such as xyxxxyxyy. In addition, you have an operation called flip, which
+ changes a single x to y or vice versa. Determine how many times you would need to apply this operation to ensure that all x's come before
+  all y's. In the preceding example, it suffices to flip the second and sixth characters, so you should return 2.
+
+12) Asked by Salesforce
+    Write a program to merge two binary trees. Each node in the new tree should hold a value equal to the sum of the values 
+    of the corresponding nodes of the input trees. If only one input tree has a node in a given position, the corresponding node
+    in the new tree should match that input node.
+
+13) Asked by Oracle
+    We say a number is sparse if there are no adjacent ones in its binary representation. For example, 21 (10101) is sparse,
+    but 22 (10110) is not. For a given input N, find the smallest sparse number greater than or equal to N.
+    Do this in faster than O(N log N) time.

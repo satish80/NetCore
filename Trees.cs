@@ -415,6 +415,52 @@ public class Trees
         return res;
     }
 
+    //Accepted: https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
+    public void BstToDoubleLinkedList()
+    {
+        TreeNode node= new TreeNode(4);
+        node.Left = new TreeNode(2);
+        node.Left.Left = new TreeNode(1);
+        node.Left.Right = new TreeNode(3);
+        node.Right = new TreeNode(5);
+
+        TreeNode prev = null;
+        var res = BstToDoubleLinkedList(node, ref prev);
+
+    }
+
+    private TreeNode BstToDoubleLinkedList(TreeNode node, ref TreeNode prev)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        TreeNode dummy = new TreeNode(0, null, null);
+        prev = dummy;
+        ConvertToDLL(node, ref prev);
+        //connect head and tail
+        prev.Right = dummy.Right;
+        dummy.Right.Left = prev;
+        return dummy.Right;
+    }
+
+    private void ConvertToDLL(TreeNode cur, ref TreeNode prev)
+    {
+        if (cur == null)
+        {
+            return;
+        }
+
+        ConvertToDLL(cur.Left, ref prev);
+
+        prev.Right = cur;
+        cur.Left = prev;
+        prev = cur;
+
+        ConvertToDLL(cur.Right, ref prev);
+    }
+
     //Accepted: https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/solution/
     public void BSTFromPreOrder()
     {
@@ -1676,6 +1722,13 @@ public class TreeNode
     public TreeNode(int value)
     {
         this.Value = value;
+    }
+
+    public TreeNode(int value, TreeNode left, TreeNode right)
+    {
+        this.Value = value;
+        this.Left = left;
+        this.Right = right;
     }
 
     public TreeNode Left;
