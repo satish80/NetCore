@@ -22,22 +22,29 @@ daily should return false, since there's no rearrangement that can form a palind
    Given an absolute pathname that may have . or .. as part of it, return the shortest standardized path.
    For example, given "/usr/bin/../bin/./scripts/../", return "/usr/bin/".
 
-8) https://leetcode.com/problems/max-chunks-to-make-sorted/
+8) https://leetcode.com/discuss/interview-question/502496/google-onsite-substrings-that-dont-have-every-character-in-an-alphabet
 
-9) https://leetcode.com/discuss/interview-question/502496/google-onsite-substrings-that-dont-have-every-character-in-an-alphabet
+9) https://leetcode.com/contest/biweekly-contest-19/problems/jump-game-iv/
 
-10) https://leetcode.com/contest/biweekly-contest-19/problems/jump-game-iv/
-
-11) LinkedIn: You are given a string consisting of the letters x and y, such as xyxxxyxyy. In addition, you have an operation called flip, which
+10) LinkedIn: You are given a string consisting of the letters x and y, such as xyxxxyxyy. In addition, you have an operation called flip, which
  changes a single x to y or vice versa. Determine how many times you would need to apply this operation to ensure that all x's come before
   all y's. In the preceding example, it suffices to flip the second and sixth characters, so you should return 2.
 
-12) Asked by Salesforce
+11) Asked by Salesforce
     Write a program to merge two binary trees. Each node in the new tree should hold a value equal to the sum of the values 
     of the corresponding nodes of the input trees. If only one input tree has a node in a given position, the corresponding node
     in the new tree should match that input node.
 
-13) Asked by Oracle
-    We say a number is sparse if there are no adjacent ones in its binary representation. For example, 21 (10101) is sparse,
-    but 22 (10110) is not. For a given input N, find the smallest sparse number greater than or equal to N.
-    Do this in faster than O(N log N) time.
+12) Given an unsorted array, in which all elements are distinct, find a "peak" element in O(log N) time.
+    An element is considered a peak if it is greater than both its left and right neighbors. It is guaranteed that the first 
+    and last elements are lower than all others.
+
+13) Asked by Snapchat
+    Given a string of digits, generate all possible valid IP address combinations.
+    IP addresses must follow the format A.B.C.D, where A, B, C, and D are numbers between 0 and 255. Zero-prefixed numbers, 
+    such as 01 and 065, are not allowed, except for 0 itself. For example, given "2542540123", you should return 
+    ['254.25.40.123', '254.254.0.123'].
+
+14) Asked by Microsoft
+    Given a string and a pattern, find the starting indices of all occurrences of the pattern in the string.
+    For example, given the string "abracadabra" and the pattern "abr", you should return [0, 7].

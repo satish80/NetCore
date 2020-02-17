@@ -750,6 +750,168 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
 
     }
 
+    //https://leetcode.com/problems/find-all-anagrams-in-a-string/
+    public void FindAnagrams()
+    {
+        string s = "xyzbacd";
+        string p = "abc";
+
+        var res = findAnagrams(s, p);
+    }
+
+    private IList<int> FindAnagrams(string s, string p)
+    {
+        Dictionary<char, int> dict = new Dictionary<char, int>();
+        Dictionary<char, int> slidingDict = new Dictionary<char, int>();
+
+        PopulateDict(p, dict);
+        PopulateDict(p, slidingDict);
+
+        int idx = 0;
+        int start = -1;
+
+        List<int> res = new List<int>();
+
+        while (idx < s.Length)
+        {
+            if (!dict.ContainsKey(s[idx]))
+            {
+                start = -1;
+                if(slidingDict.Count < dict.Count)
+                {
+                    slidingDict.Clear();
+                    PopulateDict(p, slidingDict);
+                }
+                idx++;
+                continue;
+            }
+
+            if (slidingDict.Count > 0)
+            {
+                if (!slidingDict.ContainsKey(s[idx]))
+                {
+                    slidingDict.Clear();
+                    PopulateDict(p, slidingDict);
+                    start = -1;
+                }
+
+                start = start == -1 ? idx : start;
+                slidingDict[s[idx]] -=1;
+                if (slidingDict[s[idx]] == 0)
+                {
+                    slidingDict.Remove(s[idx]);
+                }
+            }
+
+            if (slidingDict.Count == 0)
+            {
+                res.Add(start);
+                PopulateDict(p, slidingDict);
+            }
+
+            idx++;
+        }
+
+        return res;
+    }
+
+    public List<int> findAnagrams(String s, String p)
+    {
+        int left = 0;
+        int right = 0;
+        int sLen = s.Length;
+        int pLen = p.Length;
+        int[] hash = new int[256];
+        List<int> pos = new List<int>();
+        
+        for (int i = 0; i<pLen; i++)
+        {
+            hash[(int)p[i]]++;
+        }
+
+        int count = 0;
+
+        while (right < sLen)
+        {
+            if (hash[(int)s[right]] > 0)
+            {
+                hash[(int)s[right]]--;
+                count++;
+                right++;
+            }
+            else
+            {
+                hash[(int)s[left]]++;
+                count--;
+                left++;
+            }
+
+            if(count == pLen)
+            {
+                pos.Add(left);
+            }
+            
+        }
+        return pos;
+    }
+
+    private void PopulateDict(string p, Dictionary<char, int> dict)
+    {
+        foreach(char c in p)
+        {
+            if (!dict.ContainsKey(c))
+            {
+                dict.Add(c, 0);
+            }
+            dict[c] += 1;
+        }
+    }
+
+    //Accepted: T: O(n): https://leetcode.com/problems/longest-valid-parentheses/
+    public void LongestValidParantheses()
+    {
+        Console.WriteLine(LongestValidParantheses("())((())"));
+    }
+
+    private int LongestValidParantheses(string s)
+    {
+        Stack<int> stk = new Stack<int>();
+        int start = -1;
+        int max = 0;
+        int idx = 0;
+
+        while (idx < s.Length)
+        {
+            if (s[idx] == ')')
+            {
+                if (stk.Count > 0)
+                {
+                    var cur = stk.Pop();
+                    if (stk.Count == 0)
+                    {
+                        max = Math.Max(max, idx - start);
+                    }
+                    else
+                    {
+                        max = Math.Max(max, idx - stk.Peek());
+                    }
+                }
+                else
+                {
+                    start = idx;
+                }
+            }
+            else
+            {
+                stk.Push(idx);
+            }
+
+            idx++;
+        }
+
+       return max;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

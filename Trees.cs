@@ -461,6 +461,64 @@ public class Trees
         ConvertToDLL(cur.Right, ref prev);
     }
 
+    //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    public void FlattenBinaryTreeToSLL()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(5);
+        node.Left.Left = new TreeNode(3);
+        node.Left.Right = new TreeNode(4);
+        node.Right.Right = new TreeNode(6);
+
+        var res = FlattenBinaryTreeToSLL(node);
+    }
+
+    private TreeNode FlattenBinaryTreeToSLL(TreeNode node)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        TreeNode left = FlattenBinaryTreeToSLL(node.Left);
+
+        TreeNode temp = node.Right;
+
+        if (left != null)
+        {
+            node.Right = left;
+            var tailNode = GetTailNode(left);
+            if (tailNode != null)
+            {
+                tailNode.Right = temp;
+            }
+            else
+            {
+                left.Right = temp;
+            }
+        }
+
+        TreeNode right = FlattenBinaryTreeToSLL(temp);
+
+        return node;
+    }
+
+    private TreeNode GetTailNode(TreeNode node)
+    {
+        while(node.Right != null)
+        {
+            if (node.Right.Right == null)
+            {
+                return node.Right;
+            }
+
+            node = node.Right;
+        }
+
+        return null;
+    }
+
     //Accepted: https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/solution/
     public void BSTFromPreOrder()
     {
