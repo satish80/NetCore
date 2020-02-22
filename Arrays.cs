@@ -451,6 +451,45 @@ public class Arrays
         }
     }
 
+    //Accepted: T: O(n): https://leetcode.com/problems/max-consecutive-ones-iii/
+    public void MaxConsecutiveOnes()
+    {
+        int[] arr = new int[]{0,0,1,1,1,0,0};
+        int K = 0;
+        Console.WriteLine(MaxConsecutiveOnes(arr, K));
+    }
+
+    private int MaxConsecutiveOnes(int[] A, int K)
+    {
+        int max = 0;
+        int idx = 0;
+        int zCount = 0;
+        int start = 0;
+
+        while (idx < A.Length)
+        {
+            if (A[idx] == 0)
+            {
+                zCount++;
+            }
+
+            while (zCount > K)
+            {
+                if (A[start] == 0)
+                {
+                    zCount--;
+                }
+
+                start++;
+            }
+
+            max = Math.Max(max, idx - start + 1);
+            idx++;
+        }
+
+        return max;
+    }
+
     //https://leetcode.com/problems/game-of-life/discuss/73366/Clean-O(1)-space-O(mn)-time-Java-Solution
     public void GameOfLife()
     {

@@ -602,8 +602,10 @@ public class Trees
         List<int> res = new List<int>();
         int K = 2;
         Dictionary<TreeNode, int> map = new Dictionary<TreeNode, int>();
-        Find(node, node.Right, map);
-        dfs(node, node.Right, K, map[node.Right], res, map);
+        //Find(node, node.Right, map);
+        //dfs(node, node.Right, K, map[node.Right], res, map);
+        KDistanceBinaryTree(node, 1, 0, K, res);
+
     }
 
     private int Find(TreeNode root, TreeNode target, Dictionary<TreeNode, int> map) 
@@ -659,6 +661,43 @@ public class Trees
         dfs(root.Right, target, K, length + 1, res, map);
     }
 
+
+    private IList<int> KDistanceBinaryTree(TreeNode node, int rootVal, int val, int target, IList<int> res)
+    {
+        if (node == null)
+        {
+            return res;
+        }
+
+        if (val > rootVal)
+        {
+            if (Math.Abs(val - rootVal) == target)
+            {
+                res.Add(node.Value.Value);
+            }
+        }
+        else if (val < rootVal)
+        {
+            if (Math.Abs(val + (rootVal - val)) == target)
+            {
+                res.Add(node.Value.Value);
+            }
+        }
+        else 
+        {
+            if (val + rootVal == target)
+            {
+                res.Add(node.Value.Value);
+            }
+        }
+
+        KDistanceBinaryTree(node.Left, rootVal, val +1, target, res);
+
+        KDistanceBinaryTree(node.Right, rootVal, val +1, target, res);
+
+        return res;
+    }
+
     //Find the max value less than N in BST
     public void FindMaxNInBST()
     {
@@ -692,6 +731,49 @@ public class Trees
         }
 
         return max;
+    }
+
+    //https://leetcode.com/problems/binary-tree-level-order-traversal/
+    public void LevelOrderTraversal()
+    {
+        TreeNode node = new TreeNode(3);
+        node.Left = new TreeNode(9);
+        node.Right = new TreeNode(20);
+        node.Right.Left = new TreeNode(15);
+        node.Right.Right = new TreeNode(7);
+
+        var res = LevelOrderTraversal(node);
+    }
+
+    private IList<IList<int>> LevelOrderTraversal(TreeNode node)
+    {
+        Queue<Tuple<int, TreeNode>> queue = new Queue<Tuple<int, TreeNode>>();
+        queue.Enqueue(new Tuple<int,TreeNode>(0, node));
+
+        IList<IList<int>> res = new List<IList<int>>();
+
+        while(queue.Count > 0)
+        {
+            var cur = queue.Dequeue();
+            if (res[cur.Item1] == null)
+            {
+                res[cur.Item1] = new List<int>();
+            }
+
+            res[cur.Item1].Add(cur.Item2.Value.Value);
+
+            if (cur.Item2.Left != null)
+            {
+                queue.Enqueue(new Tuple<int, TreeNode>(cur.Item1+1, cur.Item2.Left));
+            }
+
+            if (cur.Item2.Right != null)
+            {
+                queue.Enqueue(new Tuple<int, TreeNode>(cur.Item1+1, cur.Item2.Right));
+            }
+        }
+
+        return res;
     }
 
     /*
