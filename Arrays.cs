@@ -542,6 +542,73 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/parallel-courses/
+    public void MinimumSemesters()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {1,4},
+            new int[] {2,3},
+            new int[] {3,4},
+            new int[] {5,2},
+            new int[] {6,1}
+        };
+
+        Console.WriteLine(MinimumSemesters(6, arr));
+    }
+
+    public int MinimumSemesters(int N, int[][] relations)
+    {
+        Dictionary<int, List<int>> g = new Dictionary<int, List<int>>(); // key: prerequisite, value: course list. 
+        int[] inDegree = new int[N + 1]; // inDegree[i]: number of prerequisites for i.
+        foreach(int[] r in relations)
+        {
+            if (!g.ContainsKey(r[0]))
+            {
+                var list = new List<int>();
+                list.Add(r[1]);
+                g.Add(r[0], list);
+            }
+
+            ++inDegree[r[1]]; // count prerequisites for r[1].
+        }
+
+        Queue<int> q = new Queue<int>(); // save current 0 in-degree vertices.
+        for (int i = 1; i <= N; ++i)
+        {
+            if (inDegree[i] == 0)
+            {
+                q.Enqueue(i);
+            }
+        }
+
+        int semester = 0;
+        while (q.Count > 0)
+        { // BFS traverse all currently 0 in degree vertices.
+            for (int sz = q.Count; sz > 0; --sz)
+            { // sz is the search breadth.
+                int c = q.Dequeue();
+                --N;
+                if (!g.ContainsKey(c))
+                {
+                    continue; // c's in-degree is currently 0, but it has no prerequisite.
+                }
+
+                foreach (int course in g[c])
+                {
+                    if (--inDegree[course] == 0) // decrease the in-degree of course's neighbors.
+                        q.Enqueue(course); // add current 0 in-degree vertex into Queue.
+                }
+
+                g.Remove(c);
+            }
+
+            ++semester; // need one more semester.
+        }
+
+        return N == 0 ? semester : -1;
+    }
+
     public void Sudoku()
     {
         

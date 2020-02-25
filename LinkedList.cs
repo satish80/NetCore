@@ -236,6 +236,67 @@ public class LinkedList
         return head;
     }
 
+    //https://leetcode.com/problems/copy-list-with-random-pointer/
+    public void CloneList()
+    {
+        SLLNode head = new SLLNode(7);
+        head.Next = new SLLNode(13);
+        head.Next.Next = new SLLNode(11);
+        head.Next.Next.Next = new SLLNode(10);
+        head.Next.Next.Next.Next = new SLLNode(1);
+
+        head.Next.Random = head;
+        head.Next.Next.Random = head.Next.Next.Next.Next;
+        head.Next.Next.Next.Random = head.Next.Next;
+
+        var res = CloneList(head);
+    }
+
+    private SLLNode CloneList(SLLNode head)
+    {
+        SLLNode cur = head;
+        SLLNode cloneHead = null;
+
+        CloneNodes(cur, false);
+
+        cur = head;
+        CloneNodes(cur, true);
+
+        cloneHead = cur.Next;
+
+        while (cur != null)
+        {
+            SLLNode cloneNode = cur.Next;
+            cur.Next = cur?.Next?.Next;
+            cloneNode.Next = cur?.Next?.Next;
+
+            cur = cur?.Next;
+        }
+
+        return cloneHead;
+    }
+
+    private void CloneNodes(SLLNode cur, bool isRandom)
+    {
+        while(cur != null)
+        {
+            if (isRandom)
+            {
+                cur.Next.Random = cur.Random?.Next;
+            }
+            else
+            {
+                SLLNode cloneNode = new SLLNode(cur.Value);
+                SLLNode temp = cur.Next;
+
+                cur.Next = cloneNode;
+                cloneNode.Next = temp;
+            }
+
+            cur = cur?.Next?.Next;
+        }
+    }
+
     //https://leetcode.com/problems/plus-one-linked-list/
     public void PlusOne()
     {
@@ -294,6 +355,9 @@ public class LinkedList
 public class SLLNode
 {
     public SLLNode Next;
+
+    public SLLNode Random;
+
     public int Value;
 
     public SLLNode(int value)

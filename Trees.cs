@@ -844,6 +844,93 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+    public void ConstructBSTFromPreInorder()
+    {
+        int[] pre = new int[] {3, 9, 20, 15, 7};
+        int[] inorder = new int[] {9, 3, 15, 20, 7};
+        int preIdx = 0;
+
+        TreeNode res = ConstructBSTFromPreInorder(pre, inorder, 0, inorder.Length, ref preIdx);
+    }
+
+    private TreeNode ConstructBSTFromPreInorder(int[] pre, int[] inorder, int start, int end, ref int preIdx)
+    {
+        if (preIdx >= pre.Length || start == end)
+        {
+            return null;
+        }
+
+        var preElement = pre[preIdx++];
+        var inIdx = FindInorderIdx(inorder, start, end, preElement);
+
+        TreeNode node = new TreeNode(inorder[inIdx]);
+        node.Left = ConstructBSTFromPreInorder(pre, inorder, start, inIdx, ref preIdx);
+        node.Right = ConstructBSTFromPreInorder(pre, inorder, inIdx+1, end, ref preIdx);
+
+        return node;
+    }
+
+    private int FindInorderIdx(int[] inorder, int start, int end, int element)
+    {
+        for(int idx = start; idx <= end; idx ++)
+        {
+            if (inorder[idx] == element)
+            {
+                return idx;
+            }
+        }
+
+        return -1;
+    }
+
+    //https://leetcode.com/problems/delete-nodes-and-return-forest/
+    public void DeleteNodes()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Left.Left = new TreeNode(4);
+        node.Left.Right = new TreeNode(5);
+        node.Right.Left = new TreeNode(6);
+        node.Right.Right = new TreeNode(7);
+
+        HashSet<int> set = new HashSet<int>();
+        set.Add(3);
+        set.Add(5);
+        var list = new List<TreeNode>();
+        list.Add(node);
+        var res = DeleteNodes(node, set, list);
+    }
+
+    private TreeNode DeleteNodes(TreeNode root, HashSet<int> to_delete, IList<TreeNode> res)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        root.Left = DeleteNodes(root.Left, to_delete, res);
+        root.Right = DeleteNodes(root.Right, to_delete, res);
+
+        if (to_delete.Contains(root.Value.Value))
+        {
+            if (root.Left != null)
+            {
+                res.Add(root.Left);
+            }
+
+            if (root.Right != null)
+            {
+                res.Add(root.Right);
+            }
+
+            return null;
+        }
+
+        return root;
+    }
+
     //https://leetcode.com/contest/weekly-contest-174/problems/maximum-product-of-splitted-binary-tree/
     public void MaxProductOfSplittedBinaryTree()
     {

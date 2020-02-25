@@ -47,7 +47,8 @@ namespace Algorithms
             // arrObj.SearchInRotatedSortedArray();
             // arrObj.NextGreaterNumber();
             // arrObj.MedianFromStream();
-            arrObj.MaxConsecutiveOnes();
+            // arrObj.MaxConsecutiveOnes();
+            // arrObj.MinimumSemesters();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -88,6 +89,8 @@ namespace Algorithms
             // treeObj.BstToDoubleLinkedList();
             // treeObj.FlattenBinaryTreeToSLL();
             // treeObj.LevelOrderTraversal();
+            // treeObj.ConstructBSTFromPreInorder();
+            // treeObj.DeleteNodes();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -137,6 +140,7 @@ namespace Algorithms
             // lObj.ReverseSLL();
             // lObj.PlusOne();
             // lObj.MinCostToMergeStones();
+            lObj.CloneList();
 
             // ThreadedQueue thObj = new ThreadedQueue();
 
