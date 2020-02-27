@@ -270,6 +270,78 @@ public class Recursion
         return false;
     }
 
+    //https://leetcode.com/problems/word-search/
+    public void WordBoggle()
+    {
+        int[][] arr = new int[2][]
+        {
+            new int[]{-1, 1, 0, 0},
+            new int[] {0, 0, -1, 1}
+        };
+
+        char[][] boggle = new char[3][]
+        {
+            new char[]{'A', 'B', 'C', 'E'},
+            new char[]{'S', 'F', 'C', 'S'},
+            new char[]{'A', 'D', 'E', 'E'},
+        };
+
+        bool[,] visited = new bool[3,4];
+
+        string input = "SEE";
+        bool res = false;
+        for(int i = 0; i < boggle.Length; i ++)
+        {
+            if (res)
+            {
+                break;
+            }
+
+            for(int j = 0; j < boggle[i].Length; j ++)
+            {
+                res = WordBoggle(boggle, input, new bool[3,4], i, j, string.Empty, arr);
+                if (res)
+                {
+                    break;
+                }
+            }
+        }
+
+        Console.WriteLine($"Word contained: {res}");
+    }
+
+    private bool WordBoggle(char[][] boggle, string input, bool[,] visited, int row, int col,
+     string str, int[][] arr)
+    {
+        if (input == str)
+        {
+           return true;
+        }
+
+        if(row < 0 || col < 0 || row >= boggle.Length || col >= boggle[0].Length || visited[row, col] || input.Substring(0, str.Length) != str)
+        {
+            return false;
+        }
+
+        bool res = false;
+        visited[row,col] = true;
+
+        str += boggle[row][col];
+        for(int j = 0; j < arr[0].Length; j++)
+        {
+            int r = arr[0][j] + row;
+            int c = arr[1][j] + col;
+
+            res = WordBoggle(boggle, input, visited, r, c, str, arr);
+            if (res)
+            {
+                return res;
+            }
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/discuss/interview-question/267985/
     public void WordDice()
     {
