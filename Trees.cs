@@ -1800,6 +1800,33 @@ public class Trees
         return stk.Count == 0;
     }
 
+    //Accepted: https://leetcode.com/problems/validate-binary-search-tree/
+    public void ValidateBST()
+    {
+        TreeNode node= new TreeNode(5);
+        node.Left = new TreeNode(1);
+        node.Right = new TreeNode(6);
+        node.Left.Right = new TreeNode(4);
+        node.Left.Right.Left = new TreeNode(3);
+
+        Console.WriteLine(ValidateBST(node, long.MinValue, long.MaxValue));
+    }
+
+    private bool ValidateBST(TreeNode root, long min, long max)
+    {
+        if (root == null)
+        {
+            return true;
+        }
+
+        if (root.Value.Value <= min || root.Value.Value >= max)
+        {
+            return false;
+        }
+
+        return ValidateBST(root.Left, min, root.Value.Value) && ValidateBST(root.Right, root.Value.Value, max);
+    }
+
     //https://leetcode.com/contest/weekly-contest-169/problems/all-elements-in-two-binary-search-trees/
     public void AllElementsOfBST()
     {

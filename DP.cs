@@ -851,14 +851,68 @@ public class DP
         return Math.Max(s1[arr.Length-1], s3[arr.Length-1]);
     }
 
-    //Accepted: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+    public void BuySellStock()
+    {
+        int[] arr = new int[] {7, 6, 4, 3, 1};
+
+        Console.WriteLine(BuySellStock(arr));
+    }
+
+    private int BuySellStock(int[] arr)
+    {
+        int max = 0;
+        int start = 0;
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            if (arr[idx] < arr[start])
+            {
+                start = idx;
+            }
+
+            max = Math.Max(max, arr[idx] - arr[start]);
+        }
+
+        return max;
+    }
+
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
     public void BuySellStockII()
+    {
+        int[] arr = new int[] {7,1,5,3,6,4};
+        Console.WriteLine(BuySellStockII(arr));
+    }
+
+    private int BuySellStockII(int[] arr)
+    {
+        int max = 0;
+        int start = 0;
+        int profit = 0;
+
+        for(int idx = 1; idx < arr.Length; idx++)
+        {
+            if (arr[idx] < arr[idx-1])
+            {
+                profit += max;
+                max = 0;
+                start = idx;
+            }
+
+            max = Math.Max(max, arr[idx] - arr[start]);
+        }
+
+        return profit += max;
+    }
+
+    //Accepted: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+    public void BuySellStockIII()
     {
         int[] arr = new int[]{3,3,5,0,0,3,1,4};
         Console.WriteLine(BuySellStockII(arr));
     }
 
-    private int BuySellStockII(int[] arr)
+    private int BuySellStockIII(int[] arr)
     {
         int buy1 = int.MinValue;
         int sell1 = 0;
