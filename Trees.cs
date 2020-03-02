@@ -1800,6 +1800,75 @@ public class Trees
         return stk.Count == 0;
     }
 
+    public void DeleteNode()
+    {
+        TreeNode node = new TreeNode(19);
+        node.Left = new TreeNode(7);
+        node.Left.Left = new TreeNode(2);
+        node.Left.Right = new TreeNode(8);
+        node.Left.Left.Right = new TreeNode(14);
+        node.Left.Left.Right.Right = new TreeNode(16);
+        node.Left.Right = new TreeNode(8);
+        node.Left.Right.Right = new TreeNode(17);
+        node.Right = new TreeNode(43);
+
+        var res = DeleteNode(node, 7);
+    }
+
+    private TreeNode DeleteNode(TreeNode node ,int val)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        if (val > node.Value.Value)
+        {
+            node.Right = DeleteNode(node.Right, val);
+        }
+        else if (val < node.Value.Value)
+        {
+            node.Left = DeleteNode(node.Left, val);
+        }
+        else
+        {
+            if (node.Left == null && node.Right == null)
+            {
+                return null;
+            }
+            else if (node.Right == null && node.Left != null)
+            {
+                return node.Left;
+            }
+            else if (node.Right != null && node.Left == null)
+            {
+                return node.Right;
+            }
+            else
+            {
+                TreeNode big = FindBiggestLeftNode(node.Left);
+                DeleteNode(node.Left, big.Value.Value);
+                big.Left = node.Left;
+                big.Right = node.Right;
+                return big;
+            }
+        }
+
+        return node;
+    }
+
+    private TreeNode FindBiggestLeftNode(TreeNode node)
+    {
+        TreeNode cur = node;
+
+        while (cur.Right!= null)
+        {
+            cur = cur.Right;
+        }
+
+        return cur;
+    }
+
     //Accepted: https://leetcode.com/problems/validate-binary-search-tree/
     public void ValidateBST()
     {

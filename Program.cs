@@ -92,6 +92,7 @@ namespace Algorithms
             // treeObj.ConstructBSTFromPreInorder();
             // treeObj.DeleteNodes();
             // treeObj.ValidateBST();
+            // treeObj.DeleteNode();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -102,7 +103,7 @@ namespace Algorithms
             // dpObj.PoisonousPlants();
             // dpObj.WordBreakII();
             // dpObj.BuySellWithCoolDown();
-             dpObj.BuySellStockII();
+            // dpObj.BuySellStockII();
             // dpObj.CountSquareMatrices();
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
             // dpObj.MinInsertionStepsToPalindrome();
@@ -110,6 +111,7 @@ namespace Algorithms
             // dpObj.MinPathSum();            
             // dpObj.NthFibonacci();
             // dpObj.BuySellStock();
+            dpObj.MinSubsetDifference();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();

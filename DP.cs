@@ -776,6 +776,95 @@ public class DP
         return str.Length - dp[str.Length, str.Length];
     }
 
+    public void MinSubsetDifference()
+    {
+        int[] arr = new int[]{2, 4, 5, 3,6};
+        var res = MinSubsetDifference(arr);
+    }
+
+    public List<List<int>> MinSubsetDifference(int[] arr)
+    {
+        List<List<int>> res = new List<List<int>>();
+
+        int sum = 0;
+        int avg = 0;
+
+        for(int i = 0; i < arr.Length; i++)
+        {
+            sum += arr[i];
+        }
+
+        avg = sum / 2;
+        bool[,] dp = new bool[arr.Length, avg+1];
+
+        int maxCol = -1;
+        int maxRow = -1;
+
+        for(int row = 0; row < dp.GetLength(0); row ++)
+        {
+            for(int col = 1; col < dp.GetLength(1); col ++)
+            {
+                var diff = arr[row] - col;
+
+                if (diff == 0)
+                {
+                    dp[row, col] = true;
+                }
+
+                if (diff < 0)
+                {
+                    dp[row, col] = row > 0 ? dp[row-1, Math.Abs(diff)] : false;
+                }
+                else
+                {
+                    if (row > 0 && dp[row-1, diff])
+                    {
+                        dp[row, col] = dp[row-1, diff];
+                    }
+                }
+
+                if (col == dp.GetLength(1)-1 && dp[row, col])
+                {
+                    maxCol = dp[row,col] == true ? col : maxCol;
+                    maxRow = row;
+                    break;
+                }
+
+                if (row == dp.GetLength(0)-1)
+                {
+                    maxCol = dp[row,col] == true ? col : maxCol;
+                    maxRow = row;
+                }
+            }
+        }
+
+        int r = maxRow;
+        List<int> list = new List<int>();
+        int val = maxCol;
+        int c = maxCol;
+
+        while (r >= 0)
+        {
+            if (val == 0)
+            {
+                break;
+            }
+
+            val -= arr[r];
+            list.Add(arr[r]--);
+
+            while (r >= 0 && dp[r, val] == true)
+            {
+                r --;
+            }
+
+            r++;
+        }
+
+        res.Add(list);
+        return res;
+    }
+
     //https://leetcode.com/contest/weekly-contest-165/problems/count-square-submatrices-with-all-ones/
     public void CountSquareMatrices()
     {
