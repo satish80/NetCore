@@ -1019,6 +1019,76 @@ public class DP
         return sell2;
     }
 
+    //Find min k size sub-sequences in an array.[[1, 1, 2, 3, 2]]
+    // Output: [[1,2,3],[1,2,5],[1,3,4],[1,3,5]]
+    public void KSubsequences()
+    {
+        int[] arr = new int[]{1, 1, 2, 3, 2};
+        int k = 3;
+        var res = KSubsequences(arr, k);
+    }
+
+    private List<List<int>> KSubsequences(int[] arr, int k)
+    {
+        List<List<int>> map = new List<List<int>>();
+
+        for(int i = arr.Length; i >= 0; i--)
+        {
+            map.Add(new List<int>());
+        }
+
+        int smallIdx = -1;
+        int small = int.MaxValue;
+        for(int i = arr.Length; i > 0; i--)
+        {
+            if (arr[i-1] < small)
+            {
+                smallIdx = i;
+            }
+
+            for(int j = arr.Length; j > i; j--)
+            {
+                if ((arr[j-1] - arr[i-1] == 1) || arr[i-1] == arr[j-1])
+                {
+                    map[i].Add(j);
+                }
+            }
+
+            map[i].Sort();
+        }
+
+        List<List<int>> res = new List<List<int>>();
+        return GetSequence(smallIdx, map, k-1, new List<int>(), res);
+    }
+
+    private List<List<int>> GetSequence(int start, List<List<int>> map, int k, List<int> list,
+     List<List<int>> res)
+    {
+        if (start > map.Count)
+        {
+            return res;
+        }
+
+        list.Add(start);
+
+        if (k == 0)
+        {
+            var resList = new List<int>();
+            resList.AddRange(list);
+            res.Add(resList);
+            return res;
+        }
+
+        for(int i = 0; i < map[start].Count; i ++)
+        {
+            var idx = map[start][i];
+            GetSequence(idx, map, k-1, list, res);
+            list.Remove(idx);
+        }
+
+        return res;
+    }
+
     /*
    Company: Google
    Given a string, split it into as few strings as possible such that each string is a palindrome.

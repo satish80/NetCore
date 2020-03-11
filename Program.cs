@@ -49,6 +49,8 @@ namespace Algorithms
             // arrObj.MedianFromStream();
             // arrObj.MaxConsecutiveOnes();
             // arrObj.MinimumSemesters();
+            // arrObj.GCD();
+            // arrObj.Permutations();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -93,6 +95,7 @@ namespace Algorithms
             // treeObj.DeleteNodes();
             // treeObj.ValidateBST();
             // treeObj.DeleteNode();
+            // treeObj.LongestZigZagPathInBinaryTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -111,7 +114,8 @@ namespace Algorithms
             // dpObj.MinPathSum();            
             // dpObj.NthFibonacci();
             // dpObj.BuySellStock();
-            dpObj.MinSubsetDifference();
+            // dpObj.MinSubsetDifference();                       // ** Revisit test case
+            dpObj.KSubsequences();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();

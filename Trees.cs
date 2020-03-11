@@ -1896,6 +1896,38 @@ public class Trees
         return ValidateBST(root.Left, min, root.Value.Value) && ValidateBST(root.Right, root.Value.Value, max);
     }
 
+    //https://leetcode.com/contest/biweekly-contest-21/problems/longest-zigzag-path-in-a-binary-tree/
+    public void LongestZigZagPathInBinaryTree()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Right = new TreeNode(1);
+        node.Right.Left = new TreeNode(1);
+        node.Right.Right = new TreeNode(1);
+        node.Right.Right.Left = new TreeNode(1);
+        node.Right.Right.Right = new TreeNode(1);
+        node.Right.Right.Left.Right = new TreeNode(1);
+        node.Right.Right.Left.Right.Right = new TreeNode(1);
+
+        int max = 0;
+        LongestZigZagPathInBinaryTree(node.Right, false, ref max);
+        Console.WriteLine(max);
+    }
+
+    private int LongestZigZagPathInBinaryTree(TreeNode node, bool left, ref int max)
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+
+        int l = LongestZigZagPathInBinaryTree(node.Left, true, ref max);
+        int r = LongestZigZagPathInBinaryTree(node.Right, false, ref max);
+
+        int res = left == true ? r + 1 : l + 1;
+        max = Math.Max(max, res);
+        return res;
+    }
+
     //https://leetcode.com/contest/weekly-contest-169/problems/all-elements-in-two-binary-search-trees/
     public void AllElementsOfBST()
     {

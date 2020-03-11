@@ -230,6 +230,66 @@ public class Arrays
         return null;
     }
 
+    public void GCD()
+    {
+        Console.WriteLine(GCD(1701, 3768));
+    }
+
+    private int GCD(int x, int y)
+    {
+        if (x < y)
+        {
+            return GCD(y, x);
+        }
+
+        int temp = 0;
+
+        while (y > 0)
+        {
+            temp = x;
+            x = y;
+            y = temp % y;
+        }
+
+        return y == 0 ? x : -1;
+    }
+
+    public void Permutations()
+    {
+        int[] arr = new int[] {1, 2, 3};
+        Permutations(arr, 3, 0);
+    }
+
+    private void Permutations(int[] arr, int k, int n)
+    {
+        if (n > arr.Length)
+        {
+            return;
+        }
+
+        if (k == n)
+        {
+            Print(arr);
+            return;
+        }
+
+        for(int i = n; i < k; i ++)
+        {
+            Swap(arr, i, n);
+            Permutations(arr, k, n+1);
+            Swap(arr, n, i);
+        }
+    }
+
+    private void Print(int[] arr)
+    {
+        for(int i = 0; i < arr.Length; i++)
+        {
+            Console.WriteLine($"{arr[i]} \t");
+        }
+        Console.WriteLine("-----------------");
+    }
+
     //https://leetcode.com/problems/remove-invalid-parentheses/
     public void RemoveInvalidParanthesis()
     {
@@ -1488,6 +1548,11 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
     private void Swap(int[] arr, int source, int target)
     {
+        if (source >= arr.Length || target >= arr.Length)
+        {
+            return;
+        }
+
         int temp = arr[source];
         arr[source] = arr[target];
         arr[target] = temp;

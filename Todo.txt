@@ -68,7 +68,10 @@ daily should return false, since there's no rearrangement that can form a palind
     get to the end of the array. For example, given the array [1, 3, 1, 2, 0, 1], we can go from indices 0 -> 1 -> 3 -> 5, 
     so return true. Given the array [1, 2, 1, 0, 0], we can't reach the end, so return false.
 
-18) Asked by Microsoft
-    Given an array of positive integers, divide the array into two subsets such that the difference between the sum of the subsets
-    is as small as possible. For example, given [5, 10, 15, 20, 25], return the sets {10, 25} and {5, 15, 20}, which has
-    a difference of 5, which is the smallest possible difference.
+18) Asked by Dropbox
+    Given a string s and a list of words words, where each word is the same length, find all starting indices of substrings in s 
+    that is a concatenation of every word in words exactly once. For example, given s = "dogcatcatcodecatdog" and 
+    words = ["cat", "dog"], return [0, 13], since "dogcat" starts at index 0 and "catdog" starts at index 13.
+    Given s = "barfoobazbitbyte" and words = ["dog", "cat"], return [] since there are no substrings composed of "dog" and "cat" in s.
+
+    The order of the indices does not matter.
