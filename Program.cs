@@ -96,6 +96,7 @@ namespace Algorithms
             // treeObj.ValidateBST();
             // treeObj.DeleteNode();
             // treeObj.LongestZigZagPathInBinaryTree();
+            // treeObj.PopulateNextPointers();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -115,7 +116,7 @@ namespace Algorithms
             // dpObj.NthFibonacci();
             // dpObj.BuySellStock();
             // dpObj.MinSubsetDifference();                       // ** Revisit test case
-            dpObj.KSubsequences();
+            // dpObj.KSubsequences();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -141,6 +142,7 @@ namespace Algorithms
             //sobj.SubstringsNotMatchingAlphabets();               //** TBD
             // sObj.FindAnagrams();
             // sObj.LongestValidParantheses();
+            sObj.StringTransformation();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

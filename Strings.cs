@@ -912,6 +912,39 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
        return max;
     }
 
+    //https://leetcode.com/problems/string-transforms-into-another-string/submissions/
+    public void StringTransformation()
+    {
+        string str1 = "abcdefghijklmnopqrstuvwxyz";
+        string str2 = "bcdefghijklmnopqrstuvwxyza";
+
+        Console.WriteLine(CanConvert(str1, str2));
+    }
+
+    public bool CanConvert(string str1, string str2)
+    {
+        Dictionary<char, char> map = new Dictionary<char, char>();
+
+        int idx = 0;
+
+        while (idx < str1.Length)
+        {
+            if (map.ContainsKey(str1[idx]) && map[str1[idx]] != str2[idx])
+            {
+                return false;
+            }
+
+            if (!map.ContainsKey(str1[idx]))
+            {
+                map.Add(str1[idx], str2[idx]);
+            }
+
+            idx++;
+        }
+
+        return map.Count <= 26;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

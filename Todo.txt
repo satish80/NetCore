@@ -75,3 +75,21 @@ daily should return false, since there's no rearrangement that can form a palind
     Given s = "barfoobazbitbyte" and words = ["dog", "cat"], return [] since there are no substrings composed of "dog" and "cat" in s.
 
     The order of the indices does not matter.
+
+19) Asked by Square
+
+Given a list of words, return the shortest unique prefix of each word. For example, given the list:
+
+* dog
+* cat
+* apple
+* apricot
+* fish
+
+Return the list:
+
+* d
+* c
+* app
+* apr
+* f

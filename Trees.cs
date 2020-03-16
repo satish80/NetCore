@@ -1896,6 +1896,59 @@ public class Trees
         return ValidateBST(root.Left, min, root.Value.Value) && ValidateBST(root.Right, root.Value.Value, max);
     }
 
+    //https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
+    public void PopulateNextPointers()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Right = new TreeNode(3);
+        node.Left.Left = new TreeNode(4);
+        node.Left.Right = new TreeNode(5);
+        node.Right.Right = new TreeNode(7);
+
+        var res = PopulateNextPointers(node);
+    }
+
+    private TreeNode PopulateNextPointers(TreeNode node)
+    {
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(node);
+
+        TreeNode prev = null;
+
+        int size = 1;
+
+        while (queue.Count > 0)
+        {
+            size = queue.Count;
+            prev = null;
+
+            while(size > 0)
+            {
+                var cur  = queue.Dequeue();
+
+                if (prev!= null)
+                {
+                    prev.NextRight = cur;
+                }
+
+                if (cur.Left != null)
+                {
+                    queue.Enqueue(cur.Left);
+                }
+                if (cur.Right != null)
+                {
+                    queue.Enqueue(cur.Right);
+                }
+
+                size --;
+                prev = cur;
+            }
+        }
+
+        return node;
+    }
+
     //https://leetcode.com/contest/biweekly-contest-21/problems/longest-zigzag-path-in-a-binary-tree/
     public void LongestZigZagPathInBinaryTree()
     {
