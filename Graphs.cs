@@ -1,6 +1,6 @@
+using DataStructures;
 using System;
 using System.Collections.Generic;
-
 
 public class Graph
 {
@@ -298,6 +298,83 @@ public class Graph
             }
         }
         stack.Push(vertex);
+    }
+
+    //https://leetcode.com/problems/accounts-merge/
+    public void AccountsMerge()
+    {
+        IList<IList<string>> contacts = new List<IList<string>>();
+        var contact1 = new List<string>();
+        contact1.Add("johnsmith@mail.com");
+        contact1.Add("john00@mail.com");
+
+        var contact2 = new List<string>();
+        contact2.Add("johnnybravo@mail.com");
+
+        var contact3 = new List<string>();
+        contact3.Add("johnsmith@mail.com");
+        contact3.Add("john_newyork@mail.com");
+
+        var contact4 = new List<string>();
+        contact4.Add("mary@mail.com");
+
+        contacts.Add(contact1);
+        contacts.Add(contact2);
+        contacts.Add(contact3);
+        contacts.Add(contact4);
+
+        var res = AccountsMerge(contacts);
+    }
+
+    private IList<HashSet<string>> AccountsMerge(IList<IList<string>> accounts)
+    {
+        IList<HashSet<string>> res = new List<HashSet<string>>();
+
+        UndirectedGraph<string> graph = new UndirectedGraph<string>();
+        
+        foreach(List<string> list in accounts)
+        {
+            for(int idx = 1; idx < list.Count; idx++)
+            {
+                if (!graph.Vertices.ContainsKey(list[idx]))
+                {
+                    graph.Vertices.Add(list[idx], false);
+                }
+
+                graph.AddEdge(list[idx], list[idx-1]);
+            }
+        }
+
+        foreach(KeyValuePair<string, bool> contact in graph.Vertices)
+        {
+            var mergedContact = MergeContacts(graph, contact.Key, accounts);
+            res.Add(mergedContact);
+        }
+
+        return res;
+    }
+
+    private HashSet<string> MergeContacts(UndirectedGraph<string> graph, string primary, IList<IList<string>> accounts)
+    {
+        HashSet<String> contacts = new HashSet<String>();
+
+        if (!graph.AdjList.ContainsKey(primary) || (graph.Vertices[primary]))
+        {
+            return contacts;
+        }
+
+        graph.Vertices[primary] = true;
+        foreach(string contact in graph.AdjList[primary])
+        {
+            var res = MergeContacts(graph, contact, accounts);
+            contacts.Add(contact);
+            foreach(string str in res)
+            {
+                contacts.Add(str);
+            }
+        }
+
+        return contacts;
     }
 
     //https://leetcode.com/problems/graph-valid-tree/

@@ -125,6 +125,7 @@ namespace Algorithms
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
+            gObj.AccountsMerge();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
