@@ -532,19 +532,16 @@ public class Graph
             {
                 // if not discovered
                 dfs(v, low, disc, graph, res, u, ref time);
-                low[u] = Math.Min(low[u], low[v]);
-
-                if (low[v] > disc[u])
-                {
-                    // u - v is critical, there is no path for v to reach back to u or previous vertices of u
-                    var list = new List<int>{u, v};
-                    res.Add(list);
-                }
             }
-            else
+
+            // if v discovered and is not parent of u, update low[u], cannot use low[v] because u is not subtree of v
+            low[u] = Math.Min(low[u], disc[v]);
+
+            if (low[v] > disc[u])
             {
-                // if v discovered and is not parent of u, update low[u], cannot use low[v] because u is not subtree of v
-                low[u] = Math.Min(low[u], disc[v]);
+                // u - v is critical, there is no path for v to reach back to u or previous vertices of u
+                var list = new List<int>{u, v};
+                res.Add(list);
             }
         }
     }

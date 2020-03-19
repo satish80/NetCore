@@ -945,6 +945,34 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return map.Count <= 26;
     }
 
+    //Accepted: https://leetcode.com/problems/shortest-palindrome/
+    public void ShortestPalindrome()
+    {
+        string str = "abcd";
+        Console.WriteLine(ShortestPalindrome(str));
+    }
+
+    private string ShortestPalindrome(string s)
+    {
+        int j = 0;
+        for (int i = s.Length - 1; i >= 0; i--)
+        {
+            if (s[i] == s[j])
+            {
+                j += 1;
+            }
+        }
+
+        if (j == s.Length)
+        {
+             return s;
+        }
+
+        String suffix = s.Substring(j);
+
+        return suffix.Reverse() + ShortestPalindrome(s.Substring(0, j)) + suffix;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

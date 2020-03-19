@@ -125,7 +125,7 @@ namespace Algorithms
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
-            gObj.AccountsMerge();
+            // gObj.AccountsMerge();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -143,7 +143,8 @@ namespace Algorithms
             //sobj.SubstringsNotMatchingAlphabets();               //** TBD
             // sObj.FindAnagrams();
             // sObj.LongestValidParantheses();
-            sObj.StringTransformation();
+            // sObj.StringTransformation();
+            sObj.ShortestPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
