@@ -117,6 +117,7 @@ namespace Algorithms
             // dpObj.BuySellStock();
             // dpObj.MinSubsetDifference();                       // ** Revisit test case
             // dpObj.KSubsequences();
+            dpObj.DeleteOperationForTwoStrings();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -144,7 +145,7 @@ namespace Algorithms
             // sObj.FindAnagrams();
             // sObj.LongestValidParantheses();
             // sObj.StringTransformation();
-            sObj.ShortestPalindrome();
+            // sObj.ShortestPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

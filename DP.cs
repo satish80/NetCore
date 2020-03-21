@@ -719,6 +719,52 @@ public class DP
         return dp[row, col];
     }
 
+    //Accepted: T: O(n^2): S: O(n^2): https://leetcode.com/problems/delete-operation-for-two-strings/
+    public void DeleteOperationForTwoStrings()
+    {
+        string str1 = "sea";
+        string str2 = "eat";
+
+        Console.WriteLine(DeleteOperationForTwoStrings(str1, str2));
+    }
+
+    private int DeleteOperationForTwoStrings(string str1, string str2)
+    {
+        int[,] dp = new int[str1.Length, str2.Length];
+
+        for(int i = 0; i < str1.Length; i++)
+        {
+            for(int j = 0; j < str2.Length; j++)
+            {
+                if (str1[i] == str2[j])
+                {
+                    dp[i,j] = 1;
+
+                    if (i > 0 && j > 0)
+                    {
+                        dp[i,j] +=  dp[i-1,j-1];
+                    }
+                }
+                else
+                {
+                    if (i > 0)
+                    {
+                        dp[i,j] = dp[i-1, j];
+                    }
+                    if (j > 0)
+                    {
+                        dp[i,j] = Math.Max(dp[i,j], dp[i, j-1]);
+                    }
+                }
+            }
+        }
+
+        int totalLength = str1.Length + str2.Length;
+        int res = (str1.Length > 0 && str2.Length > 0) ? (dp[str1.Length-1, str2.Length-1] *2) : 0;
+
+        return totalLength - res;
+    }
+
     //Accepted: T:O(n^2) https://leetcode.com/problems/minimum-path-sum/
     public void MinPathSum()
     {
