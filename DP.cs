@@ -359,95 +359,39 @@ public class DP
         return max;
     }
 
-    //https://leetcode.com/problems/palindromic-substrings/
+    //Accepted: https://leetcode.com/problems/palindromic-substrings/
     // Return the palindromic sub strings for a given string
     public void FindPalindromeSubstrings()
     {
-        Console.WriteLine(countSubstrings("abbaefgfl"));
+        Console.WriteLine(FindPalindromicSubstrings("aaa"));
     }
 
-    private int FindPalindromeSubstrings(string input)
+    private int FindPalindromicSubstrings(string str)
     {
-        int[,] dp = new int[input.Length, input.Length];
-
-        char[] arr = input.ToCharArray();
-        Array.Reverse(arr);
-        string rev = new string(arr);
-
-        for(int row = 0; row < input.Length; row ++)
+        if (str.Length == 0)
         {
-            for(int col = 0; col < input.Length; col ++)
-            {
-                if (rev[row] == input[col])
-                {
-                    dp[row, col] = 1;
-                }
-            }
+            return 0;
         }
 
-        int count = input.Length;
-        
-        for(int row = 0; row < input.Length; row ++)
+        int count = 0;
+
+        for(int idx = 0; idx < str.Length; idx ++)
         {
-            for(int col = 0; col < input.Length; col ++)
-            {
-                if (dp[row, col] == 1)
-                {
-                    var r = row;
-                    var c = col;
-
-                    bool found = false;
-
-                    while(r < input.Length && c < input.Length && dp[r,c] == 1)
-                    {
-                        if (r+1 < input.Length && c+1 < input.Length )
-                        {
-                            if (input[c+1] == input[c] && rev[r+1] == rev[r])
-                            {
-                                count +=1;
-                            }
-                            else
-                            {
-                                found = true;
-                            }
-                        }
-
-                        dp[r, c] = 0;
-
-                        r++;
-                        c++;
-                    }
-
-                    if (found)
-                    {
-                        found = false;
-                        count +=1;
-                    }
-                }
-            }
+            CountPalindromicSubstrings(str, idx, idx, ref count);
+            CountPalindromicSubstrings(str, idx, idx+1, ref count);
         }
 
         return count;
     }
 
-    private int countSubstrings(String s) 
+    private void CountPalindromicSubstrings(string str, int left, int right, ref int count)
     {
-        int n = s.Length;
-        int res = 0;
-        bool[,] dp = new bool[n,n];
-        for (int i = n - 1; i >= 0; i--) 
+        while (left >= 0 && right < str.Length && str[left] == str[right])
         {
-            for (int j = i; j < n; j++) 
-            {
-                dp[i,j] = s[i] == s[j] && (j - i < 3 || dp[i + 1, j - 1]);
-                if(dp[i,j])
-                {
-                    ++res;
-                }
-            }
+            count ++;
+            left--;
+            right++;
         }
-        
-        return res;
     }
 
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/

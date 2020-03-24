@@ -99,7 +99,7 @@ namespace Algorithms
             // treeObj.PopulateNextPointers();
 
             DP dpObj = new DP();
-            // dpObj.FindPalindromeSubstrings();
+            dpObj.FindPalindromeSubstrings();
             // dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
@@ -117,7 +117,7 @@ namespace Algorithms
             // dpObj.BuySellStock();
             // dpObj.MinSubsetDifference();                       // ** Revisit test case
             // dpObj.KSubsequences();
-            dpObj.DeleteOperationForTwoStrings();
+            // dpObj.DeleteOperationForTwoStrings();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
