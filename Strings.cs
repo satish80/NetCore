@@ -945,6 +945,35 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return map.Count <= 26;
     }
 
+    //Accepted: https://leetcode.com/problems/construct-k-palindrome-strings/
+    public void ConstructKPalindromeStrings()
+    {
+        string s = "abacacbacab";
+        int k = 3;
+        Console.WriteLine(ConstructKPalindromeStrings(s, k));
+    }
+
+    private bool ConstructKPalindromeStrings(string s, int k)
+    {
+        int oddCount = 0;
+
+        Dictionary<char,int> map = new Dictionary<char, int>();
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (!map.ContainsKey(s[idx]))
+            {
+                map.Add(s[idx], 0);
+            }
+
+            map[s[idx]] ++;
+
+            oddCount +=  map[s[idx]] %2 > 0 ? 1: -1;
+        }
+
+        return oddCount <= k && k <= s.Length;
+    }
+
     //Accepted: https://leetcode.com/problems/shortest-palindrome/
     public void ShortestPalindrome()
     {

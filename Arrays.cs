@@ -186,6 +186,58 @@ public class Arrays
         return len = len == int.MaxValue ? -1 : len;
     }
 
+    //https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+    public void ShortestSubArrayWithSumAtleastK()
+    {
+        int[] arr = new int[] {2, -1, 2};
+        int k = 3;
+        Console.WriteLine(ShortestSubArrayWithSumAtleastK(arr, k));
+    }
+
+    private int ShortestSubArrayWithSumAtleastK(int[] arr, int k)
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        map.Add(0, arr[0]);
+
+        for(int idx = 1; idx < arr.Length; idx ++)
+        {
+            map[idx] = map[idx-1] + arr[idx];
+        }
+
+        int min = int.MaxValue;
+        int start = 0;
+        List<int> range = new List<int>();
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            if (arr[idx] >= k)
+            {
+                min = 1;
+                break;
+            }
+
+            if (map[idx] == k)
+            {
+                min = Math.Min(min, idx+1);
+            }
+
+            while (range.Count > 0 && (map[idx] - map[range[start]] >= k))
+            {
+                min = Math.Min(min, idx - range[start]);
+                range.RemoveAt(start);
+            }
+
+            while (range.Count > 0 && map[idx] <= map[range.Last()])
+            {
+                range.RemoveAt(range.Count-1);
+            }
+
+            range.Add(idx);
+        }
+
+        return min;
+    }
+
     //Accepted: T:(n) S: O(n) https://leetcode.com/problems/subarray-sum-equals-k/
     public void SubArraySumK()
     {
@@ -1344,7 +1396,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 
         for(int row = 0; row < stones.Length; row ++)
         {
-            for(int col = row + 1; col < stones.Length; col ++)
+            for(int col = 0 ; col < stones.Length; col ++)
             {
                 if (stones[row][0] == stones[col][0] || stones[row][1] == stones[col][1])
                 {

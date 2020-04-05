@@ -51,6 +51,7 @@ namespace Algorithms
             // arrObj.MinimumSemesters();
             // arrObj.GCD();
             // arrObj.Permutations();
+            //arrObj.ShortestSubArrayWithSumAtleastK();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -99,7 +100,7 @@ namespace Algorithms
             // treeObj.PopulateNextPointers();
 
             DP dpObj = new DP();
-            dpObj.FindPalindromeSubstrings();
+            // dpObj.FindPalindromeSubstrings();
             // dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
@@ -127,6 +128,7 @@ namespace Algorithms
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
             // gObj.AccountsMerge();
+            //gObj.TreeDiameter();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -146,6 +148,7 @@ namespace Algorithms
             // sObj.LongestValidParantheses();
             // sObj.StringTransformation();
             // sObj.ShortestPalindrome();
+            sObj.ConstructKPalindromeStrings();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

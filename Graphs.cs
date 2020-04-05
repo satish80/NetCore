@@ -300,6 +300,64 @@ public class Graph
         stack.Push(vertex);
     }
 
+    //https://leetcode.com/problems/tree-diameter/
+    public void TreeDiameter()
+    {
+        int[][] edges = new int[5][]
+        {
+            new int[] {0,1},
+            new int[] {1,2},
+            new int[] {2,3},
+            new int[] {1,4},
+            new int[] {4,5},
+        };
+
+        Console.WriteLine(TreeDiameter(edges));
+    }
+
+    private int TreeDiameter(int[][] edges)
+    {
+        UndirectedGraph graph = new UndirectedGraph();
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        HashSet<int> visited = new HashSet<int>();
+
+        for(int i = 0; i < edges.Length; i ++)
+        {
+            graph.AddEdge(edges[i][0], edges[i][1]);
+        }
+
+        int max = 0;
+
+        for(int i = 0; i < edges.Length; i++)
+        {
+            int count = 0;
+            map[i] = Dfs(graph, i, visited, ref count);
+            max = Math.Max(max, map[i]);
+        }
+
+        return max;
+    }
+
+    private int Dfs(UndirectedGraph graph, int vertex, HashSet<int> visited, ref int count)
+    {
+        if (visited.Contains(vertex))
+        {
+            return count;
+        }
+
+        visited.Add(vertex);
+        count += 1;
+
+        foreach(int neighbor in graph.AdjList[vertex])
+        {
+            Dfs(graph, neighbor, visited, ref count);
+        }
+
+        visited.Remove(vertex);
+
+        return count;
+    }
+
     //https://leetcode.com/problems/accounts-merge/
     public void AccountsMerge()
     {
