@@ -119,6 +119,7 @@ namespace Algorithms
             // dpObj.MinSubsetDifference();                       // ** Revisit test case
             // dpObj.KSubsequences();
             // dpObj.DeleteOperationForTwoStrings();
+            dpObj.LongestConsecutiveSequence();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -148,7 +149,7 @@ namespace Algorithms
             // sObj.LongestValidParantheses();
             // sObj.StringTransformation();
             // sObj.ShortestPalindrome();
-            sObj.ConstructKPalindromeStrings();
+            // sObj.ConstructKPalindromeStrings();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

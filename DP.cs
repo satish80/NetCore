@@ -663,6 +663,39 @@ public class DP
         return dp[row, col];
     }
 
+    //Accepted: T:O(n): S:O(n): https://leetcode.com/problems/longest-consecutive-sequence/
+    public void LongestConsecutiveSequence()
+    {
+        int[] arr = new int[] {100, 4, 200, 1, 3, 2};
+        Console.WriteLine(LongestConsecutiveSequence(arr));
+    }
+
+    private int LongestConsecutiveSequence(int[] arr)
+    {
+        int max = 0;
+
+        Dictionary<int, int> map = new Dictionary<int, int>();
+
+        for(int idx = 0; idx < arr.Length; idx ++)
+        {
+            if (!map.ContainsKey(arr[idx]))
+            {
+                int left = map.ContainsKey(arr[idx]-1) ? map[arr[idx]-1] : 0;
+                int right = map.ContainsKey(arr[idx]+1) ? map[arr[idx]+1] : 0;
+
+                int sum = left + right + 1;
+                map[arr[idx]] = sum;
+
+                max = Math.Max(max, sum);
+
+                map[arr[idx] - left] = sum;
+                map[arr[idx] + right] = sum;
+            }
+        }
+
+        return max;
+    }
+
     //Accepted: T: O(n^2): S: O(n^2): https://leetcode.com/problems/delete-operation-for-two-strings/
     public void DeleteOperationForTwoStrings()
     {
