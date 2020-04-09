@@ -688,6 +688,7 @@ public class DP
 
                 max = Math.Max(max, sum);
 
+                //Extend the boundaries
                 map[arr[idx] - left] = sum;
                 map[arr[idx] + right] = sum;
             }

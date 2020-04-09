@@ -2084,6 +2084,35 @@ public class Trees
         return node;
     }
 
+    //Accepted: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/
+    public void ConstructBinaryTreeFromPreAndPostOrder()
+    {
+        int[] pre = new int[] {1,2,4,5,3,6,7};
+        int[] post = new int[] {4,5,2,6,7,3,1};
+        int preIdx = 0;
+        int postIdx = 0;
+
+        var res = ConstructBinaryTreeFromPreAndPostOrder(pre, post, ref preIdx, ref postIdx);
+    }
+
+    private TreeNode ConstructBinaryTreeFromPreAndPostOrder(int[] pre, int[] post, ref int preIdx, ref int postIdx)
+    {
+        TreeNode root = new TreeNode(pre[preIdx++]);
+
+        if (root.Value != post[postIdx])
+        {
+            root.Left = ConstructBinaryTreeFromPreAndPostOrder(pre, post, ref preIdx, ref postIdx);
+        }
+
+        if (root.Value != post[postIdx])
+        {
+            root.Right = ConstructBinaryTreeFromPreAndPostOrder(pre, post, ref preIdx, ref postIdx);
+        }
+
+        postIdx++;
+        return root;
+    }
+
     //Accepted: https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/
     public void EvenValuedGrandParent()
     {

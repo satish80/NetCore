@@ -974,6 +974,32 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return oddCount <= k && k <= s.Length;
     }
 
+    public void CanPermutePalindrome()
+    {
+        string str = "carerac";
+        Console.WriteLine(CanPermutePalindrome(str));
+    }
+
+    private bool CanPermutePalindrome(string s)
+    {
+        Dictionary<char, int> map = new Dictionary<char, int>();
+        int oddCount = 0;
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (!map.ContainsKey(s[idx]))
+            {
+                map.Add(s[idx], 0);
+            }
+
+            map[s[idx]] ++;
+
+            oddCount += map[s[idx]] % 2 > 0 ? 1 : -1;
+        }
+
+        return oddCount <= 1;
+    }
+
     //Accepted: https://leetcode.com/problems/shortest-palindrome/
     public void ShortestPalindrome()
     {

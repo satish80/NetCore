@@ -98,6 +98,7 @@ namespace Algorithms
             // treeObj.DeleteNode();
             // treeObj.LongestZigZagPathInBinaryTree();
             // treeObj.PopulateNextPointers();
+            treeObj.ConstructBinaryTreeFromPreAndPostOrder();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -119,7 +120,7 @@ namespace Algorithms
             // dpObj.MinSubsetDifference();                       // ** Revisit test case
             // dpObj.KSubsequences();
             // dpObj.DeleteOperationForTwoStrings();
-            dpObj.LongestConsecutiveSequence();
+            // dpObj.LongestConsecutiveSequence();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -150,6 +151,7 @@ namespace Algorithms
             // sObj.StringTransformation();
             // sObj.ShortestPalindrome();
             // sObj.ConstructKPalindromeStrings();
+            // sObj.CanPermutePalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
