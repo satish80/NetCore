@@ -98,7 +98,8 @@ namespace Algorithms
             // treeObj.DeleteNode();
             // treeObj.LongestZigZagPathInBinaryTree();
             // treeObj.PopulateNextPointers();
-            treeObj.ConstructBinaryTreeFromPreAndPostOrder();
+            // treeObj.ConstructBinaryTreeFromPreAndPostOrder();
+            treeObj.RangeSumBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

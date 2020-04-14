@@ -1523,6 +1523,43 @@ public class Trees
         return node;
     }
 
+    //Accepted: https://leetcode.com/problems/range-sum-of-bst/
+    public void RangeSumBST()
+    {
+        TreeNode node = new TreeNode(10);
+        node.Left = new TreeNode(5);
+        node.Right = new TreeNode(15);
+        node.Left.Left = new TreeNode(3);
+        node.Left.Right = new TreeNode(7);
+        node.Right.Right = new TreeNode(18);
+
+        Console.WriteLine(RangeSumBST(node, 7, 15));
+    }
+
+    private int RangeSumBST(TreeNode node, int L, int R)
+    {
+        int sum = 0;
+
+        if (node == null)
+        {
+            return sum;
+        }
+
+        sum+= node.Value.Value >= L && node.Value.Value <= R ? node.Value.Value : 0;
+
+        if (node.Value.Value < L || (node.Value.Value >= L && node.Value.Value <=R))
+        {
+            sum+= RangeSumBST(node.Right, L, R);
+        }
+
+        if (node.Value.Value > R || (node.Value.Value >= L && node.Value.Value <=R))
+        {
+            sum+= RangeSumBST(node.Left, L, R);
+        }
+
+        return sum;
+    }
+
     public void RightSibling()
     {
     /*

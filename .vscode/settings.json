@@ -17,5 +17,8 @@
         "panel.border": "#113b42",
         "sideBar.border": "#113b42",
         "editorGroup.border": "#113b42"
-    }
+    },
+    "window.zoomLevel": 1,
+    "editor.fontSize": 15,
+    "terminal.integrated.fontSize": 20,
 }
