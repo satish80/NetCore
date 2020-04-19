@@ -226,6 +226,90 @@ public class Strings
        return length < int.MaxValue && min + length >= T.Length ? S.Substring(min, length) : string.Empty;
     }
 
+    //https://leetcode.com/problems/encode-string-with-shortest-length/
+    #region
+    /*Given a non-empty string, encode the string such that its encoded length is the shortest.
+    The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times.
+
+    Note:
+    k will be a positive integer and encoded string will not be empty or have extra space.
+    You may assume that the input string contains only lowercase English letters. The string's length is at most 160.
+    If an encoding process does not make the string shorter, then do not encode it. If there are several solutions, return any of them is fine.
+
+    Input: "aaa"
+    Output: "aaa"
+    Explanation: There is no way to encode it such that it is shorter than the input string, so we do not encode it.
+
+    Input: "aaaaa"
+    Output: "5[a]"
+    Explanation: "5[a]" is shorter than "aaaaa" by 1 character.
+
+    Input: "aaaaaaaaaa"
+    Output: "10[a]"
+    Explanation: "a9[a]" or "9[a]a" are also valid solutions, both of them have the same length = 5, which is the same as "10[a]".
+
+    Input: "aabcaabcd"
+    Output: "2[aabc]d"
+    Explanation: "aabc" occurs twice, so one answer can be "2[aabc]d".*/
+    #endregion
+    public void ShortenedLetterCount()
+    {
+
+    }
+
+    private string ShortenedLetterCount(string s)
+    {
+        return null;
+    }
+
+    //https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+    /*
+    Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+    A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+    Input: "23"
+    Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].*/
+    public void LetterCombinations()
+    {
+        Dictionary<char, List<char>> map = new Dictionary<char, List<char>>();
+        List<char> list1 = new List<char>();
+        list1.Add('a');
+        list1.Add('b');
+        list1.Add('c');
+
+        List<char> list2 = new List<char>();
+        list2.Add('d');
+        list2.Add('e');
+        list2.Add('f');
+
+        List<char> list3 = new List<char>();
+        list3.Add('g');
+        list3.Add('h');
+        list3.Add('i');
+
+        map.Add('2', list1);
+        map.Add('3', list2);
+        map.Add('4', list3);
+
+        var res = LetterCombinations("234", 0, string.Empty, map, new List<string>());
+    }
+
+    private List<string> LetterCombinations(string digits, int idx, string str, Dictionary<char, List<char>> map, List<string> output)
+    {
+        if (idx == digits.Length)
+        {
+            output.Add(str);
+            return output;
+        }
+
+        for(int i = 0; i < 3; i++)
+        {
+            LetterCombinations(digits, idx+1, str + map[digits[idx]][i], map, output);
+        }
+
+        return output;
+    }
+
     public void IsPalindrome()
     {
         Console.WriteLine(IsPalindrome("amrtmma"));
