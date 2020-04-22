@@ -966,6 +966,76 @@ public class DP
         return Math.Min(dp[cost.Length-1], dp[cost.Length-2]);
     }
 
+    //https://leetcode.com/problems/regular-expression-matching/
+    #region 
+    /* Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
+    '.' Matches any single character.
+    '*' Matches zero or more of the preceding element.
+    The matching should cover the entire input string (not partial).
+
+    s could be empty and contains only lowercase letters a-z.
+    p could be empty and contains only lowercase letters a-z, and characters like . or *.
+    Example 1:
+
+    s = "ab"
+    p = ".*"
+    Output: true
+    Explanation: ".*" means "zero or more (*) of any character (.)".
+
+    s = "aab"
+    p = "c*a*b"
+    Output: true
+    Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches "aab".
+
+    s = "mississippi"
+    p = "mis*is*p*."
+    Output: false */
+    #endregion
+    public void RegexMatch()
+    {
+        string s = "aab";
+        string p = "c*a*b";
+
+        Console.WriteLine(IsMatch(s, p));
+    }
+
+    private bool IsMatch(string s, string p)
+    {
+        bool[,] dp = new bool[s.Length+1, p.Length+1];
+
+        dp[0,0] = true;
+
+        for(int i=1; i<=p.Length; i++)
+        {
+            if(p[i-1] == '*' && dp[0, i-2])
+            {
+                dp[0,i] = true;
+            }
+        }
+
+        for(int row = 1; row < s.Length+1; row++)
+        {
+            for(int col = 1; col < p.Length+1; col++)
+            {
+                if (p[col-1] == '*')
+                {
+                    dp[row,col] = dp[row, col-2];
+                    if(!dp[row,col] && (p[col-2] == s[row-1] || p[col-2] == '.'))
+                    {
+                        dp[row,col] = dp[row-1,col];
+                    }
+                }
+                else if (p[col-1] == '.' || s[row-1] == p[col-1])
+                {
+                    // Take the same column from previous row
+                    dp[row, col] = dp[row-1, col-1];
+                }
+            }
+        }
+
+        return dp[s.Length, p.Length];
+    }
+
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
     public void BuySellWithCoolDown()
     {

@@ -122,7 +122,8 @@ namespace Algorithms
             // dpObj.KSubsequences();
             // dpObj.DeleteOperationForTwoStrings();
             // dpObj.LongestConsecutiveSequence();
-            dpObj.MinCostToClimbStairs();
+            // dpObj.MinCostToClimbStairs();
+            dpObj.RegexMatch();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
