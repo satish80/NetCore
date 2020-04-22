@@ -966,7 +966,7 @@ public class DP
         return Math.Min(dp[cost.Length-1], dp[cost.Length-2]);
     }
 
-    //https://leetcode.com/problems/regular-expression-matching/
+    //aCCEPTED: T:O(n^2): S: O(n^2): https://leetcode.com/problems/regular-expression-matching/
     #region 
     /* Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
