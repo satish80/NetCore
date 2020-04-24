@@ -94,8 +94,6 @@ Return the list:
 * apr
 * f
 
-https://leetcode.com/problems/regular-expression-matching/
-https://leetcode.com/problems/wildcard-matching/
 https://leetcode.com/problems/3sum/
 https://leetcode.com/problems/kth-largest-element-in-an-array/
 https://leetcode.com/problems/palindrome-partitioning-iii/

@@ -123,7 +123,8 @@ namespace Algorithms
             // dpObj.DeleteOperationForTwoStrings();
             // dpObj.LongestConsecutiveSequence();
             // dpObj.MinCostToClimbStairs();
-            dpObj.RegexMatch();
+            // dpObj.RegexMatch();
+            dpObj.WildCardMatch();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();

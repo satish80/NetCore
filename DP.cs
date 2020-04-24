@@ -1022,13 +1022,52 @@ public class DP
                     dp[row,col] = dp[row, col-2];
                     if(!dp[row,col] && (p[col-2] == s[row-1] || p[col-2] == '.'))
                     {
+                        // Take the same column from previous row
                         dp[row,col] = dp[row-1,col];
                     }
                 }
                 else if (p[col-1] == '.' || s[row-1] == p[col-1])
                 {
-                    // Take the same column from previous row
                     dp[row, col] = dp[row-1, col-1];
+                }
+            }
+        }
+
+        return dp[s.Length, p.Length];
+    }
+
+    //Accepted T:O(n^2) S:O(n^2): https://leetcode.com/problems/wildcard-matching/
+    public void WildCardMatch()
+    {
+        string p = "c*a*b";
+        string s = "aab";
+        Console.WriteLine(WildCardMatch(s, p));
+    }
+
+    private bool WildCardMatch(string s, string p)
+    {
+        bool[,] dp = new bool[s.Length+1, p.Length+1];
+        dp[0,0] = true;
+
+        for(int col = 1; col <= p.Length; col++)
+        {
+            if (p.Length > 0 && p[col-1] == '*' && dp[0,col-1])
+            {
+                dp[0, col] = true;
+            }
+        }
+
+        for(int row = 1; row <= s.Length; row ++)
+        {
+            for(int col = 1; col <= p.Length; col++)
+            {
+                if (s[row-1] == p[col-1] || p[col-1] == '?')
+                {
+                    dp[row, col] = dp[row-1, col-1];
+                }
+                else if(p[col-1] == '*')
+                {
+                    dp[row,col] = dp[row-1, col] || dp[row, col-1];
                 }
             }
         }
