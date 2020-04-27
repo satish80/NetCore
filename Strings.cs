@@ -502,6 +502,51 @@ public class Strings
         return "1";
     }
 
+    //Accepted:T:O(n) S:O(n) https://leetcode.com/problems/backspace-string-compare/
+    public bool BackspaceCompare() 
+    {
+        Stack<char> one = new Stack<char>();
+        Stack<char> two = new Stack<char>();
+        string S = "abab#c";
+        string T = "ad#c";
+
+        UpdateStack(one, S);
+        UpdateStack(two, T);
+        
+        if (one.Count != two.Count)
+        {
+            return false;
+        }
+        
+        while(one.Count > 0)
+        {
+            if (one.Pop() != two.Pop())
+            {
+                return false;
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    private void UpdateStack(Stack<char> stk, string str)
+    {
+        foreach(char ch in str)
+        {
+            if (ch != '#')
+            {
+                stk.Push(ch);
+            }
+            else
+            {
+                if (stk.Count > 0)
+                {
+                    stk.Pop();
+                }                
+            }
+        }
+    }
     public void SameCharacterFrequency()
     {
         Console.WriteLine(SameCharacterFrequency("aeeffbbbccc"));

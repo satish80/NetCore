@@ -1075,6 +1075,46 @@ public class DP
         return dp[s.Length, p.Length];
     }
 
+    //Accepted: T: O(n^2) S:O(n):https://leetcode.com/problems/pascals-triangle-ii/
+    public void PascalTriangle()
+    {
+        var res = PascalTriangle(4);
+    }
+
+    private IList<int> PascalTriangle(int k)
+    {
+        IList<int> res = new List<int>();
+        int count = 0;
+
+        while (count<= k)
+        {
+            FillPascalTriangle(res, count++);
+        }
+
+        return res;
+    }
+
+    private void FillPascalTriangle(IList<int> list, int count)
+    {
+        int left = 0;
+        list.Add(1);
+        int right = list.Count-2;
+
+        while(list.Count >2 && left <= right)
+        {
+            list[right--] = list[left] + list[left+1];
+            left++;
+        }
+
+        left = 0;
+        right = list.Count-1;
+
+        while(list.Count > 2 && left <= right)
+        {
+            list[left++] = list[right--];
+        }
+    }
+
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
     public void BuySellWithCoolDown()
     {
