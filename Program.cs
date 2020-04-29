@@ -126,6 +126,7 @@ namespace Algorithms
             // dpObj.RegexMatch();
             // dpObj.WildCardMatch();
             // dpObj.PascalTriangle();
+            dpObj.BuySellStockIV();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -158,7 +159,7 @@ namespace Algorithms
             // sObj.ConstructKPalindromeStrings();
             // sObj.CanPermutePalindrome();
             // sObj.LetterCombinations();
-            sObj.BackspaceCompare();
+            // sObj.BackspaceCompare();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

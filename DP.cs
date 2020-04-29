@@ -1116,6 +1116,12 @@ public class DP
     }
 
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+    #region
+    /* Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share
+    of the stock multiple times) with the following restrictions:
+    You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day) */
+    #endregion
     public void BuySellWithCoolDown()
     {
         int[] arr = new int[] {1,2,3,0,2};
@@ -1224,6 +1230,51 @@ public class DP
         }
 
         return sell2;
+    }
+
+    //Accepted: T:O(n^2) S:O(n^2): https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+    /* Say you have an array for which the i-th element is the price of a given stock on day i.
+    Design an algorithm to find the maximum profit. You may complete at most k transactions.
+    Note:
+    You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again). */
+    public void BuySellStockIV()
+    {
+        int[] arr = new int[] {2, 3, 2, 1, 3};
+        int k = 2;
+        Console.WriteLine(BuySellStockIV(arr, k));
+    }
+
+    private int BuySellStockIV(int[] arr, int k)
+    {
+        // If the transactions are more than half, try buy / sell at alternating days
+        if (k >=  arr.Length/2)
+        {
+            int res = 0;
+            for (int i = 1; i < arr.Length; i++) 
+            {
+                if (arr[i] > arr[i-1])
+                    res += arr[i] - arr[i-1];
+            }
+
+            return res;
+        }
+
+        int[,] dp = new int[k+1, arr.Length];
+        int max = int.MinValue;
+        int maxDiff = int.MinValue;
+
+        for(int row = 1; row <= k; row ++)
+        {
+            maxDiff = int.MinValue;
+            for(int col = 1; col < arr.Length; col ++)
+            {
+                maxDiff = Math.Max((dp[row-1, col-1] - arr[col-1]), maxDiff);
+                max = Math.Max(dp[row, col-1], arr[col] + maxDiff);
+                dp[row, col] = max;
+            }
+        }
+
+        return dp[k, arr.Length-1];
     }
 
     //Find min k size sub-sequences in an array.[[1, 1, 2, 3, 2]]
