@@ -100,6 +100,8 @@ namespace Algorithms
             // treeObj.PopulateNextPointers();
             // treeObj.ConstructBinaryTreeFromPreAndPostOrder();
             // treeObj.RangeSumBST();
+            //treeObj.BinaryTreeRightSideView();
+            treeObj.BinaryTreeBoundary();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -126,7 +128,7 @@ namespace Algorithms
             // dpObj.RegexMatch();
             // dpObj.WildCardMatch();
             // dpObj.PascalTriangle();
-            dpObj.BuySellStockIV();
+            // dpObj.BuySellStockIV();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();

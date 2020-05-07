@@ -966,7 +966,7 @@ public class DP
         return Math.Min(dp[cost.Length-1], dp[cost.Length-2]);
     }
 
-    //aCCEPTED: T:O(n^2): S: O(n^2): https://leetcode.com/problems/regular-expression-matching/
+    //Accepted: T:O(n^2): S: O(n^2): https://leetcode.com/problems/regular-expression-matching/
     #region 
     /* Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
@@ -1415,69 +1415,5 @@ public class DP
         }
         
         return dp[n - 1];
-    }
-
-    //My solution
-    private int SplitIntoPalindromes(string str)
-    {
-        int[,] dp = new int[str.Length, str.Length];
-
-        for(int r = 0; r < str.Length; r++)
-        {
-            for(int c = 0; c < str.Length; c++)
-            {
-                dp[r,c] = c-r;
-            }
-        }
-
-        for(int r = 0; r < str.Length; r++)
-        {
-            for(int c = r+1; c < str.Length; c++)
-            {
-                if (dp[r, c] == c -r)
-                {
-                    UnsetIfPalindrome(str, r, c, dp);
-                }
-
-                for(int l = 0; r + l < c; l++)
-                {
-                    int col = r + l;
-                    if (dp[r, col] == col -r)
-                    {
-                        UnsetIfPalindrome(str, r, col, dp);
-                    }
-
-                    if (dp[col+1, c] == c - (col+1))
-                    {
-                        UnsetIfPalindrome(str, col+1, c, dp);
-                    }
-
-                    dp[r,c] = Math.Min(dp[r, col] + dp[col+1, c] + 1, dp[r,c]);
-                }
-            }
-        }
-
-        return dp[0, str.Length-1];
-    }
-
-    private void UnsetIfPalindrome(string str, int start, int end, int[,] dp)
-    {
-        if (start == end)
-        {
-            return;
-        }
-
-        int s = start;
-        int e = end;
-
-        while (s < e)
-        {
-            if (str[s++] != str[e--])
-            {
-                return;
-            }
-        }
-
-        dp[start, end] = 0;
     }
 }

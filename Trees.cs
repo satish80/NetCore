@@ -18,7 +18,7 @@ public class Trees
 
         ParentTreeNode.MaxNodeValue = 4;
 
-        var res = BalanceTreeNodeValues(node); 
+        var res = BalanceTreeNodeValues(node);
     }
 
     private ParentTreeNode BalanceTreeNodeValues(ParentTreeNode node)
@@ -77,7 +77,7 @@ public class Trees
     }
 
     //https://leetcode.com/problems/sum-of-left-leaves/
-    public void SumOfLeftLeaves() 
+    public void SumOfLeftLeaves()
     {
         TreeNode root = new TreeNode(0);
         root.Left = new TreeNode(2);
@@ -93,11 +93,11 @@ public class Trees
 
        Console.WriteLine(SumOfLeftLeavesInt(root, 0));
     }
-    
+
     private int SumOfLeftLeavesInt(TreeNode root, int? sum)
     {
          int res = 0;
-        
+
         if (root == null)
         {
             return res;
@@ -107,15 +107,15 @@ public class Trees
         {
             return sum.Value;
         }
-        
+
         res +=  SumOfLeftLeavesInt(root.Left, root.Left?.Value);
-        
+
         res +=  SumOfLeftLeavesInt(root.Right, 0);
-        
+
         return res;
     }
 
-    public void CheckEqualTree() 
+    public void CheckEqualTree()
     {
         HashSet<int> map = new HashSet<int>();
 
@@ -143,7 +143,7 @@ public class Trees
         {
             right = CheckEqualTree(node.Right, map);
         }
-        
+
         int rootSum = left + right + node.Value.Value;
         map.Add(rootSum);
 
@@ -202,7 +202,7 @@ public class Trees
         KeyValuePair<int, TreeNode> l =  SubTreeWithDeepestNodes(node.Left);
         KeyValuePair<int, TreeNode> r = SubTreeWithDeepestNodes(node.Right);
 
-        return new KeyValuePair<int, TreeNode>(Math.Max(l.Key, r.Key) +1, 
+        return new KeyValuePair<int, TreeNode>(Math.Max(l.Key, r.Key) +1,
         l.Key == r.Key ? node : (l.Key > r.Key ? l.Value : r.Value));
     }
 
@@ -252,8 +252,8 @@ public class Trees
         TreeNode node = new TreeNode(3);
         node.Left = new TreeNode(9);
         node.Right = new TreeNode(20);
-        node.Right.Left = new TreeNode(15); 
-        node.Right.Right = new TreeNode(7); 
+        node.Right.Left = new TreeNode(15);
+        node.Right.Right = new TreeNode(7);
 
         var res = VerticalOrder(node);
     }
@@ -284,9 +284,9 @@ public class Trees
         {
             TreeNode node = queue.Dequeue();
             int col = colQueue.Dequeue();
-            
+
             cols[col].Add(node.Value.Value);
-            
+
             if (node.Left != null)
             {
                 queue.Enqueue(node.Left);
@@ -311,7 +311,7 @@ public class Trees
         }
         range[0] = Math.Min(range[0], col);
         range[1] = Math.Max(range[1], col);
-        
+
         getRange(root.Left, range, col - 1);
         getRange(root.Right, range, col + 1);
     }
@@ -379,7 +379,7 @@ public class Trees
     }
 
     //https://leetcode.com/problems/validate-binary-search-tree/
-    public void IsValidBST() 
+    public void IsValidBST()
     {
         TreeNode node = new TreeNode(5);
         node.Left = new TreeNode(1);
@@ -390,28 +390,28 @@ public class Trees
         TreeNode prev = null;
         Console.WriteLine(IsBST(node, ref prev));
     }
-    
+
     private bool IsBST(TreeNode node, ref TreeNode prev)
     {
         if (node == null)
         {
             return true;
         }
-        
+
         bool res = IsBST(node.Left, ref prev);
-        
+
         if (res && (prev != null && prev.Value.Value > node.Value.Value))
         {
             return false;
         }
-        
+
         prev = node;
-        
+
         if (res)
         {
             res = IsBST(node.Right, ref prev);
         }
-        
+
         return res;
     }
 
@@ -577,7 +577,7 @@ public class Trees
 
             stack.Push(curr);
         }
-        
+
         while (stack.Count > 1)
         {
             stack.Pop();
@@ -608,14 +608,14 @@ public class Trees
 
     }
 
-    private int Find(TreeNode root, TreeNode target, Dictionary<TreeNode, int> map) 
+    private int Find(TreeNode root, TreeNode target, Dictionary<TreeNode, int> map)
     {
         if (root == null)
         {
              return -1;
         }
 
-        if (root == target) 
+        if (root == target)
         {
             map.Add(root, 0);
             return 0;
@@ -640,7 +640,7 @@ public class Trees
         return -1;
     }
 
-    private void dfs(TreeNode root, TreeNode target, int K, int length, List<int> res, Dictionary<TreeNode, int> map) 
+    private void dfs(TreeNode root, TreeNode target, int K, int length, List<int> res, Dictionary<TreeNode, int> map)
     {
         if (root == null)
         {
@@ -683,7 +683,7 @@ public class Trees
                 res.Add(node.Value.Value);
             }
         }
-        else 
+        else
         {
             if (val + rootVal == target)
             {
@@ -1257,18 +1257,18 @@ public class Trees
     }
 
     //https://leetcode.com/problems/minimum-depth-of-binary-tree/
-    public void MinDepth() 
+    public void MinDepth()
     {
         TreeNode node = new TreeNode(1);
-        node.Left = new TreeNode(2); 
+        node.Left = new TreeNode(2);
 
         int min = int.MaxValue;
         MinDepthInt(node, 0, ref min);
 
         Console.WriteLine(min);
     }
-    
-    private TreeNode MinDepthInt(TreeNode root, int dist, ref int min) 
+
+    private TreeNode MinDepthInt(TreeNode root, int dist, ref int min)
     {
         if (root == null)
         {
@@ -1277,7 +1277,7 @@ public class Trees
 
         TreeNode left = MinDepthInt(root.Left, dist + 1, ref min);
         TreeNode right = MinDepthInt(root.Right, dist + 1, ref min);
-     
+
         if (left == null && right == null)
         {
             min =  dist + 1 < min ? dist + 1 : min;
@@ -1297,19 +1297,19 @@ public class Trees
         node.Right.Left = new TreeNode(0);
         node.Right.Right = new TreeNode(7);
 
-        Console.WriteLine(DistributeCoins(node, null)); 
+        Console.WriteLine(DistributeCoins(node, null));
     }
 
-    private int DistributeCoins(TreeNode node, TreeNode prev) 
+    private int DistributeCoins(TreeNode node, TreeNode prev)
     {
-        if (node == null) 
+        if (node == null)
         {
             return 0;
         }
 
         int res = DistributeCoins(node.Left, node) + DistributeCoins(node.Right, node);
 
-        if (prev != null) 
+        if (prev != null)
         {
             prev.Value += node.Value - 1;
         }
@@ -1433,21 +1433,21 @@ public class Trees
         {
             return 0;
         }
-        
+
         int[] map = new int[10000];
-        
+
         MaxLevelSum(root, 1, map);
-        
+
         int maxIdx = 0;
-        
+
         for(int idx = 1; idx < map.Length; idx++)
         {
             maxIdx = map[idx] > map[maxIdx] ? idx : maxIdx;
         }
-        
+
         return maxIdx;
     }
-    
+
     private void MaxLevelSum(TreeNode node, int level, int[] map)
     {
         if (node == null)
@@ -1572,16 +1572,16 @@ public class Trees
         TreeNode node = new TreeNode(1);
         node.Left = new TreeNode(2);
         node.Left.Parent = node;
-        
+
         node.Left.Left = new TreeNode(4);
         node.Left.Left.Parent = node.Left;
-            
+
         node.Right = new TreeNode(3);
         node.Right.Parent = node;
-        
+
         node.Right.Left = new TreeNode(5);
         node.Right.Left.Parent = node.Right;
-        
+
         node.Right.Right = new TreeNode(6);
         node.Right.Right.Parent = node.Right;
 
@@ -1706,7 +1706,7 @@ public class Trees
     }
 
     //Accepted: https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
-    public void Serialize() 
+    public void Serialize()
     {
         TreeNode root = new TreeNode(1);
         root.Left = new TreeNode(2);
@@ -1742,7 +1742,7 @@ public class Trees
     }
 
     // Decodes your encoded data to tree.
-    private TreeNode Deserialize(string data) 
+    private TreeNode Deserialize(string data)
     {
         int idx = 0;
         return Deserialize(data.Split(","), ref idx);
@@ -2150,6 +2150,119 @@ public class Trees
         return root;
     }
 
+    //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/binary-tree-right-side-view/
+    public void BinaryTreeRightSideView()
+    {
+        TreeNode node= new TreeNode(1);
+        node.Left = new TreeNode(2);
+        node.Left.Right = new TreeNode(5);
+        node.Right = new TreeNode(3);
+
+        var res = BinaryTreeRightSideView(node, new List<int>(), 0);
+    }
+
+    private IList<int> BinaryTreeRightSideView(TreeNode root, IList<int> res, int level)
+    {
+        if (root == null)
+        {
+            return res;
+        }
+
+        if (level == res.Count)
+        {
+            res.Add(root.Value.Value);
+        }
+
+        BinaryTreeRightSideView(root.Right, res, level+1);
+        BinaryTreeRightSideView(root.Left, res, level+1);
+
+        return res;
+    }
+
+    //https://leetcode.com/problems/boundary-of-binary-tree/
+    public void BinaryTreeBoundary()
+    {
+        TreeNode root = new TreeNode(1);
+        root.Left = new TreeNode(2);
+        root.Left.Left = new TreeNode(4);
+        root.Left.Left.Left = new TreeNode(8);
+        root.Left.Left.Right = new TreeNode(9);
+        root.Left.Right = new TreeNode(5);
+        root.Left.Right.Left = new TreeNode(10);
+        root.Left.Right.Right = new TreeNode(11);
+        root.Right = new TreeNode(3);
+        root.Right.Left = new TreeNode(6);
+        root.Right.Right = new TreeNode(7);
+        root.Right.Left.Left = new TreeNode(12);
+
+        var res = new List<int>();
+        res.Add(root.Value.Value);
+        BinaryTreeLeftBoundary(root.Left, res);
+        BinaryTreeLeavesBoundary(root.Left, res);
+        BinaryTreeLeavesBoundary(root.Right, res);
+        BinaryTreeRightBoundary(root.Right, res);
+    }
+
+    private IList<int> BinaryTreeLeftBoundary(TreeNode root, IList<int> res)
+    {
+        if (root == null || root.Left == null || root.Right == null)
+        {
+            return res;
+        }
+
+        res.Add(root.Value.Value);
+
+        if (root.Left == null)
+        {
+            BinaryTreeLeftBoundary(root.Right, res);
+        }
+        else
+        {
+            BinaryTreeLeftBoundary(root.Left, res);
+        }
+
+        return res;
+    }
+
+    private void BinaryTreeLeavesBoundary(TreeNode root, IList<int> res)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        if (root.Left == null && root.Right == null)
+        {
+            res.Add(root.Value.Value);
+        }
+
+        BinaryTreeLeavesBoundary(root.Left, res);
+        BinaryTreeLeavesBoundary(root.Right, res);
+
+        return;
+    }
+
+    private void BinaryTreeRightBoundary(TreeNode root, IList<int> res)
+    {
+        if (root == null || root.Left == null && root.Right == null)
+        {
+            return;
+        }
+
+        if (root.Right == null)
+        {
+            BinaryTreeRightBoundary(root.Left, res);
+        }
+        else
+        {
+            BinaryTreeRightBoundary(root.Right, res);
+        }
+
+        res.Add(root.Value.Value);
+
+        return;
+    }
+
     //Accepted: https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/
     public void EvenValuedGrandParent()
     {
@@ -2327,5 +2440,5 @@ public class ParentTreeNode
         {
             this.Parent.Value += excessValue;
         }
-    }    
+    }
 }
