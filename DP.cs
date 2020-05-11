@@ -932,6 +932,38 @@ public class DP
         return answer;
     }
 
+    //Accepted: T(O(nlog n), S:O(n): https://leetcode.com/problems/longest-increasing-subsequence/
+    public void LongestIncreasingSubsequence()
+    {
+        int[] arr = new int[]{0, 8, 4, 12, 2};
+        Console.WriteLine(LongestIncreasingSubsequence(arr));
+    }
+
+    private int LongestIncreasingSubsequence(int[] arr)
+    {
+        int[] dp = new int[arr.Length];
+        int len = 0;
+
+        foreach(int num in arr)
+        {
+            int idx = Array.BinarySearch(dp, 0, len, num);
+
+            if (idx < 0)
+            {
+                idx  = -(idx + 1);
+            }
+
+            dp[idx] = num;
+
+            if (idx == len)
+            {
+                len++;
+            }
+        }
+
+        return len;
+    }
+
     //Accepted: T:O(n) S:O(n): https://leetcode.com/problems/min-cost-climbing-stairs/
     #region
     /*On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).

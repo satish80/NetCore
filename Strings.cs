@@ -543,10 +543,56 @@ public class Strings
                 if (stk.Count > 0)
                 {
                     stk.Pop();
-                }                
+                }
             }
         }
     }
+
+    //https://leetcode.com/problems/verifying-an-alien-dictionary/
+    public void VerifyAlienDictionary()
+    {
+        string[] words = new string[] {"word","world","row"}; 
+        string order = "worldabcefghijkmnpqstuvxyz";
+
+        Console.WriteLine(VerifyAlienDictionary(words, order));
+    }
+
+    private bool VerifyAlienDictionary(string[] words, string order)
+    {
+        Dictionary<char, int> map = new Dictionary<char, int>();
+
+        for(int idx = 0; idx < order.Length; idx++)
+        {
+            if (!map.ContainsKey(order[idx]))
+            {
+                map[order[idx]] = idx;
+            }
+        }
+
+        for(int idx = 1; idx < words.Length; idx++)
+        {
+            if (bigger(words[idx-1], words[idx], map))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool bigger(string str1, string str2, Dictionary<char, int> map)
+    {
+        for(int idx = 0; idx < Math.Min(str1.Length, str2.Length); idx++)
+        {
+            if (map[str1[idx]] > map[str2[idx]])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void SameCharacterFrequency()
     {
         Console.WriteLine(SameCharacterFrequency("aeeffbbbccc"));

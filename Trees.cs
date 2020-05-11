@@ -2263,6 +2263,49 @@ public class Trees
         return;
     }
 
+    //Accepted: T:O(n), S: O(n): https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+    public void KthSmallestInBst()
+    {
+        // TreeNode node = new TreeNode(5);
+        // node.Left = new TreeNode(3);
+        // node.Right = new TreeNode(6);
+        // node.Left.Left = new TreeNode(2);
+        // node.Left.Right = new TreeNode(4);
+        // node.Left.Left.Left = new TreeNode(1);
+
+        TreeNode node = new TreeNode(1);
+        node.Right = new TreeNode(2);
+
+        int k = 2;
+
+        Console.WriteLine(KthSmallestInBst(node, ref k));
+    }
+
+    private int KthSmallestInBst(TreeNode node, ref int count)
+    {
+        int res = int.MaxValue;
+
+        if (node == null)
+        {
+            return res;
+        }
+
+        res = KthSmallestInBst(node.Left, ref count);
+
+        count--;
+        if (count == 0)
+        {
+            return node.Value.Value;
+        }
+
+        if (res == int.MaxValue)
+        {
+            res = KthSmallestInBst(node.Right, ref count);
+        }
+
+        return res;
+    }
+
     //Accepted: https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/
     public void EvenValuedGrandParent()
     {
