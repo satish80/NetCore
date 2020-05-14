@@ -140,90 +140,59 @@ public class Strings
         }
     }
 
-    //https://leetcode.com/problems/minimum-window-substring/
+    //Accepted: T:O(n), S:O(k) :https://leetcode.com/problems/minimum-window-substring/
     public void MinWindowsSubstring()
     {
-        Console.WriteLine(MinWindowsSubstring("acbbaca", "aba"));
+        //Console.WriteLine(MinWindowsSubstring("acbbaca", "aba"));
+        Console.WriteLine(MinWindowsSubstring("ADOBECODEBANC", "ABC"));
     }
 
-    private string MinWindowsSubstring(string S, string T)
+    private string MinWindowsSubstring(string s, string t)
     {
-        Dictionary<char, List<int>> map = new Dictionary<char, List<int>>();
-        Dictionary<char, int> tMap = new Dictionary<char, int>();
+        int left = 0;
+        int right = 0;
 
-        foreach(char c in T)
+        Dictionary<char, int> map = new Dictionary<char, int>();
+
+        foreach(char ch in t)
         {
-            if (!tMap.ContainsKey(c))
+            if (!map.ContainsKey(ch))
             {
-                tMap.Add(c, 0);
+                map.Add(ch, 0);
             }
 
-            tMap[c]++;
+            map[ch]++;
         }
 
-        int max = 0;
-        int min = 0;
-        int length = int.MaxValue;
-        int count = 0;
-        Queue<int> idxQueue = new Queue<int>();
+        int cur = t.Length;
+        string res = string.Empty;
 
-        for(int idx = 0; idx < S.Length; idx++)
+        while(right < s.Length)
         {
-            if (tMap.ContainsKey(S[idx]))
+            if (map.ContainsKey(s[right]) && map[s[right]]-- > 0)
             {
-                if (!map.ContainsKey(S[idx]))
-                {
-                    map.Add(S[idx], new List<int>());
-                }
-                else
-                {
-                    if (idxQueue.Count > 0 && map[S[idx]]!= null && idxQueue.Peek() == map[S[idx]][0] 
-                    && map[S[idx]].Count >= tMap[S[idx]])
-                    {
-                        idxQueue.Dequeue();
-                        if (idxQueue.Count > 0)
-                        {
-                            min = idxQueue.Peek();
-                        }
-
-                        map[S[idx]].RemoveAt(0);
-                        count--;
-                    }
-                }
-
-                map[S[idx]].Add(idx);
-
-                if (map[S[idx]].Count <= tMap[S[idx]])
-                {
-                    count++;
-                }
-
-                max = Math.Max(idx, max);
-                idxQueue.Enqueue(idx);
+                cur --;
             }
 
-            if (count == T.Length)
+            while (cur == 0)
             {
-                if (max - idxQueue.Peek() < length)
+                if (right - left < res.Length || res.Length == 0)
                 {
-                    length = max - idxQueue.Peek()+1;
-                    min = idxQueue.Peek();
+                    res = s.Substring(left, right-left+1);
                 }
 
-                if (map[S[idxQueue.Peek()]].Count > 1)
+                if (map.ContainsKey(s[left]) &&  map[s[left]] ++ == 0)
                 {
-                    map[S[idxQueue.Dequeue()]].RemoveAt(0);
+                    cur ++;
                 }
-                else
-                {
-                    map.Remove(S[idxQueue.Dequeue()]);
-                }
-                count--;
+
+                left++;
             }
+
+            right++;
         }
 
-        //min = map[S[min]].Count > tMap[S[min]] ? map[S[min]][1]
-       return length < int.MaxValue && min + length >= T.Length ? S.Substring(min, length) : string.Empty;
+        return res;
     }
 
     //https://leetcode.com/problems/encode-string-with-shortest-length/

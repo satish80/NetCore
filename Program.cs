@@ -131,7 +131,7 @@ namespace Algorithms
             // dpObj.WildCardMatch();
             // dpObj.PascalTriangle();
             // dpObj.BuySellStockIV();
-            dpObj.LongestIncreasingSubsequence();
+            // dpObj.LongestIncreasingSubsequence();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -152,7 +152,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
-            // sObj.MinWindowsSubstring();
+             sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
