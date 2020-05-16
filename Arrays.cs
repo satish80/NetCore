@@ -855,6 +855,65 @@ public class Arrays
         return idle_slots > 0 ? idle_slots + tasks.Length : tasks.Length;
     }
 
+    //Accepted: T:O(n^2), S:O(n): https://leetcode.com/problems/3sum/
+    public void ThreeSum()
+    {
+        int[] arr = new int[] {-1, 0, 1, 2, -1, -4};
+
+        var res = ThreeSum(arr);
+    }
+
+    private IList<IList<int>> ThreeSum(int[] arr)
+    {
+        Array.Sort(arr);
+
+        IList<IList<int>> res = new List<IList<int>>();
+
+        for(int i = 0; i < arr.Length-2;i++)
+        {
+            int lo = i+1;
+            int hi = arr.Length-1;
+
+            if (i > 0 && arr[i] == arr[i-1])
+            {
+                continue;
+            }
+
+            while (lo < hi)
+            {
+                int sum = arr[i] + arr[lo] + arr[hi];
+                if (sum == 0)
+                {
+                    var cur = new List<int>();
+                    cur.AddRange(new int[]{arr[i], arr[lo], arr[hi]});
+                    res.Add(cur);
+
+                    while (lo < hi && arr[lo] == arr[lo+1])
+                    {
+                        lo++;
+                    }
+
+                    while (hi < arr.Length-2 && arr[hi] == arr[hi+1])
+                    {
+                        hi--;
+                    }
+
+                    lo++;
+                }
+                else if (sum < 0)
+                {
+                    lo ++;
+                }
+                else 
+                {
+                    hi--;
+                }
+            }
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/articles/missing-element-in-sorted-array/#
     public void FindMissingInSortedArray()
     {

@@ -1172,6 +1172,56 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return suffix.Reverse() + ShortestPalindrome(s.Substring(0, j)) + suffix;
     }
 
+    //https://leetcode.com/problems/valid-palindrome-ii/
+    public void ValidPalindromeII()
+    {
+        Console.WriteLine(ValidPalindromeII("aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga"));
+    }
+
+    private bool ValidPalindromeII(string s)
+    {
+        if (s == null)
+        {
+            return true;
+        }
+
+        int left = 0;
+        int right = s.Length -1;
+        int count = 0;
+
+        while (left < right)
+        {
+            if (s[left] != s[right])
+            {
+                if (count > 0)
+                {
+                    return false;
+                }
+                count++;
+
+                if (s[left+1] == s[right])
+                {
+                    left++;
+                }
+                else if (s[left] == s[right-1])
+                {
+                    right --;
+                }
+                else
+                {
+                    return false;
+                }
+
+                continue;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

@@ -94,7 +94,5 @@ Return the list:
 * apr
 * f
 https://leetcode.com/problems/continuous-subarray-sum/
-https://leetcode.com/problems/3sum/
-https://leetcode.com/problems/kth-largest-element-in-an-array/
 https://leetcode.com/problems/palindrome-partitioning-iii/
 https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/

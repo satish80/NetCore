@@ -53,6 +53,7 @@ namespace Algorithms
             // arrObj.Permutations();
             //arrObj.ShortestSubArrayWithSumAtleastK();
             // arrObj.TaskScheduler();                              //*Tricky */
+            arrObj.ThreeSum();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -142,7 +143,7 @@ namespace Algorithms
             // gObj.AlienDictionary();
             // gObj.AccountsMerge();
             //gObj.TreeDiameter();
-            gObj.CloneGraph();
+            // gObj.CloneGraph();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -167,6 +168,7 @@ namespace Algorithms
             // sObj.LetterCombinations();
             // sObj.BackspaceCompare();
             // sObj.VerifyAlienDictionary();
+            // sObj.ValidPalindromeII();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
