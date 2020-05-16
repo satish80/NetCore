@@ -142,6 +142,7 @@ namespace Algorithms
             // gObj.AlienDictionary();
             // gObj.AccountsMerge();
             //gObj.TreeDiameter();
+            gObj.CloneGraph();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -152,7 +153,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
-             sObj.MinWindowsSubstring();
+            // sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();

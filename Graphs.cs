@@ -530,6 +530,58 @@ public class Graph
         return find(nums, nums[i]);
     }
 
+    //Accepted: T:O(V+E), S:O(V+E): https://leetcode.com/problems/clone-graph/
+    public void CloneGraph()
+    {
+        GraphNode node = new GraphNode(1);
+        GraphNode node2 = new GraphNode(2);
+        GraphNode node3 = new GraphNode(3);
+        GraphNode node4 = new GraphNode(4);
+
+        node.neighbors.Add(node2);
+        node.neighbors.Add(node4);
+
+        node2.neighbors.Add(node);
+        node2.neighbors.Add(node3);
+
+        node3.neighbors.Add(node2);
+        node3.neighbors.Add(node4);
+
+        node4.neighbors.Add(node3);
+        node4.neighbors.Add(node);
+
+        var res = CloneGraph(node);
+    }
+
+    private GraphNode CloneGraph(GraphNode graph)
+    {
+        return CloneGraph(graph, new Dictionary<GraphNode, GraphNode>());
+    }
+
+    private GraphNode CloneGraph(GraphNode graph, Dictionary<GraphNode, GraphNode> cloneNodes)
+    {
+        if (graph == null)
+        {
+            return null;
+        }
+
+        if (cloneNodes.ContainsKey(graph))
+        {
+            return cloneNodes[graph];
+        }
+
+        GraphNode node = new GraphNode(graph.val);
+        cloneNodes.Add(graph, node);
+
+        foreach(GraphNode neighbor in graph.neighbors)
+        {
+            var cloneNode = CloneGraph(neighbor, cloneNodes);
+            node.neighbors.Add(cloneNode);
+        }
+
+        return node;
+    }
+
     //https://leetcode.com/problems/critical-connections-in-a-network/
     //Tarjan algorithm for strongly connected components: https://www.youtube.com/watch?v=TyWtx7q2D7Y
     public void CriticalConnections()
