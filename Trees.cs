@@ -2345,6 +2345,41 @@ public class Trees
 
         return left + right + count;
     }
+
+    //https://leetcode.com/contest/biweekly-contest-26/problems/count-good-nodes-in-binary-tree/
+    public void GoodNodes()
+    {
+        TreeNode node = new TreeNode(3);
+        node.Left = new TreeNode(1);
+        node.Left.Left = new TreeNode(3);
+        node.Right = new TreeNode(4);
+        node.Right.Left = new TreeNode(1);
+        node.Right.Right = new TreeNode(5);
+
+        int count = 0;
+        GoodNodes(node, int.MinValue, ref count);
+        Console.WriteLine(count);
+    }
+
+    private void GoodNodes(TreeNode node, int maxTillNow, ref int count)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        if (node.Value.Value >= maxTillNow)
+        {
+            count++;
+        }
+
+        maxTillNow = Math.Max(node.Value.Value, maxTillNow);
+
+        GoodNodes(node.Left, maxTillNow, ref count);
+        GoodNodes(node.Right, maxTillNow, ref count);
+
+        return;
+    }
 }
 
 public class TreeNode

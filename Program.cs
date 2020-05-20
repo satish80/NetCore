@@ -53,7 +53,7 @@ namespace Algorithms
             // arrObj.Permutations();
             //arrObj.ShortestSubArrayWithSumAtleastK();
             // arrObj.TaskScheduler();                              //*Tricky */
-            arrObj.ThreeSum();
+            // arrObj.ThreeSum();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -105,6 +105,7 @@ namespace Algorithms
             //treeObj.BinaryTreeRightSideView();
             // treeObj.BinaryTreeBoundary();
             // treeObj.KthSmallestInBst();
+            // treeObj.GoodNodes();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -133,6 +134,7 @@ namespace Algorithms
             // dpObj.PascalTriangle();
             // dpObj.BuySellStockIV();
             // dpObj.LongestIncreasingSubsequence();
+            // dpObj.LargestNumber();                             // ** Very tricky
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -169,6 +171,7 @@ namespace Algorithms
             // sObj.BackspaceCompare();
             // sObj.VerifyAlienDictionary();
             // sObj.ValidPalindromeII();
+            sObj.RemoveAdjacentDuplicates();                     //** Elegant & Consise
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

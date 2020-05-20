@@ -964,6 +964,46 @@ public class DP
         return len;
     }
 
+    //LC Hard: https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/
+    public void LargestNumber()
+    {
+        int[] arr = new int[]{4,4,2,5,6,7,2,5,5};
+        Console.WriteLine(LargestNumber(arr, 9));
+    }
+
+    private string LargestNumber(int[] cost, int target)
+    {
+        int[] dp = new int[target + 1];
+        for (int t = 1; t <= target; ++t)
+        {
+            dp[t] = -10000;
+            for (int i = 0; i < 9; ++i)
+            {
+                if (t >= cost[i])
+                {
+                    dp[t] = Math.Max(dp[t], 1 + dp[t - cost[i]]);
+                }
+            }
+        }
+
+        if (dp[target] < 0)
+        {
+            return "0";
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (int i = 8; i >= 0; --i)
+        {
+            while (target >= cost[i] && dp[target] == dp[target - cost[i]] + 1)
+            {
+                res.Append(1 + i);
+                target -= cost[i];
+            }
+        }
+
+        return res.ToString();
+    }
+
     //Accepted: T:O(n) S:O(n): https://leetcode.com/problems/min-cost-climbing-stairs/
     #region
     /*On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).
