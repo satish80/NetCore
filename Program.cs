@@ -54,6 +54,8 @@ namespace Algorithms
             //arrObj.ShortestSubArrayWithSumAtleastK();
             // arrObj.TaskScheduler();                              //*Tricky */
             // arrObj.ThreeSum();
+            // arrObj.NumberOfCornerRectangle();
+            arrObj.ValidTicTacToe();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -171,7 +173,9 @@ namespace Algorithms
             // sObj.BackspaceCompare();
             // sObj.VerifyAlienDictionary();
             // sObj.ValidPalindromeII();
-            sObj.RemoveAdjacentDuplicates();                     //** Elegant & Consise
+            // sObj.RemoveAdjacentDuplicates();                     //** Elegant & Consise
+            // sObj.ValidPalindromeIII();
+            // sObj.FaultyKeyBoard();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -182,6 +186,8 @@ namespace Algorithms
             // lObj.CloneList();
 
             // ThreadedQueue thObj = new ThreadedQueue();
+            SynchronizedStockMarket syncObj = new SynchronizedStockMarket();
+            // syncObj.SimulateThreads();
 
             Recursion rObj = new Recursion();
             //rObj.ExpressionAddOperators();                      //** To Be Completed **

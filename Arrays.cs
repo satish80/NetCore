@@ -1047,6 +1047,116 @@ public class Arrays
         return true;
     }
 
+    //https://leetcode.com/problems/number-of-corner-rectangles/
+    public void NumberOfCornerRectangle()
+    {
+        int[][] grid = new int[][]
+        {
+            new int[] {1,1,1},
+            new int[] {1,1,1},
+            new int[] {1,1,1},
+        };
+
+        Console.WriteLine(NumberOfCornerRectangle(grid));
+    }
+
+    private int NumberOfCornerRectangle(int[][] grid)
+    {
+        int res = 0;
+
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = i+1; j < grid.Length; j++)
+            {
+                int count = 0;
+                for(int k = 0; k <grid[0].Length; k++)
+                {
+                    if (grid[i][k] == 1 && grid[j][k] == 1)
+                    {
+                        count ++;
+                    }
+                }
+
+                res += (count * (count-1)/2);
+            }
+        }
+
+        return res;
+    }
+
+    //Accepted:T:O(n^2) S:O(n): https://leetcode.com/problems/valid-tic-tac-toe-state/
+    public void ValidTicTacToe()
+    {
+        string[] s = new string[]
+        {
+            "XOX",
+            "OXO",
+            "  X"
+        };
+
+        Console.WriteLine(ValidTicTacToe(s));
+    }
+
+    private bool ValidTicTacToe(string[] board)
+    {
+        int[] rows = new int[3];
+        int[] cols = new int[3];
+        int turn = 0;
+        int diag = 0;
+        int antiDiag = 0;
+        bool xWin = false;
+        bool oWin = false;
+
+        for(int row = 0; row < board.Length; row ++)
+        {
+            for(int col = 0; col < 3; col++)
+            {
+                if (board[row][col] == 'X')
+                {
+                    rows[row] ++;
+                    cols[col]++;
+                    turn++;
+
+                    if (row == col)
+                    {
+                        diag++;
+                    }
+
+                    if (row + col == 2)
+                    {
+                        antiDiag++;
+                    }
+                }
+                else if (board[row][col] == 'O')
+                {
+                    rows[row] --;
+                    cols[col]--;
+                    turn--;
+
+                    if (row == col)
+                    {
+                        diag--;
+                    }
+
+                    if (row + col == 2)
+                    {
+                        antiDiag--;
+                    }
+                }
+            }
+        }
+
+        xWin = rows[0] == 3 || rows[1] == 3 || rows[2] == 3 || cols[0] == 3 || cols[1] == 3 || cols[2] == 3 || diag == 3 | antiDiag == 3;
+        oWin = rows[0] == -3 || rows[1] == -3 || rows[2] == -3 || cols[0] == -3 || cols[1] == -3 || cols[2] == -3|| diag == -3 | antiDiag == -3;
+
+        if (xWin && turn == 0 ||  oWin && turn == 1)
+        {
+            return false;
+        }
+
+        return (turn == 0 || turn == 1) && (!xWin || !oWin);
+    }
+
 /*
 This problem was asked by Facebook.
 Given the mapping a = 1, b = 2, ... z = 26, and an encoded message, count the number of ways it can be decoded.

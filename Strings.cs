@@ -1222,6 +1222,108 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return true;
     }
 
+    //:LC Hard:Accepted:T:O(n^2), S:O(n^2): https://leetcode.com/problems/valid-palindrome-iii/
+    public void ValidPalindromeIII()
+    {
+        Console.WriteLine(ValidPalindromeIII("abcdeca", 2));
+    }
+
+    private bool ValidPalindromeIII(string s, int k)
+    {
+        char[] r = s.ToCharArray();
+        Array.Reverse(r);
+        int[,] dp = new int[s.Length+1, s.Length+1];
+
+        for(int row = 1; row <= s.Length; row++)
+        {
+            for(int col = 1; col <= r.Length; col++)
+            {
+                if (s[row-1] != r[col-1])
+                {
+                    dp[row, col] = Math.Max(dp[row-1,col], dp[row,col-1]);
+                }
+                else
+                {
+                    dp[row, col] = dp[row-1,col-1] + 1;
+                }
+            }
+        }
+
+        return s.Length  - dp[s.Length, s.Length] <= k;
+    }
+
+    /* There's a faulty keyboard which types a space whenever key 'e' is hit.
+    Given a string which is the sentence typed using that keyboard and a dictionary of valid words, return all possible correct formation of the sentence.
+    Example:
+    Input: s = "I lik   to   xplor   univ rs ", dictionary  = {"like", "explore", "toe", "universe", "rse"}
+    Output:
+    ["I like to explore universe",
+    "I like toe xplor  universe",
+    "I like to explore univ rse",
+    "I like toe xplor  univ rse"]
+    There are two spaces after "lik", "to" and before "univ" in the sentence indicating one is actual space and another one is resulted by hitting key 'e' */
+    public void FaultyKeyBoard()
+    {
+        string s = "I lik   to   xplor   univ rs ";
+        HashSet<string> dictionary = new HashSet<string>();
+        dictionary.Add("like");
+        dictionary.Add("explore");
+        dictionary.Add("toe");
+        dictionary.Add("universe");
+        dictionary.Add("rse");
+
+        var res = FaultyKeyBoard(s, dictionary, 0, s.Length-1);
+    }
+
+    private IList<string> FaultyKeyBoard(string s, HashSet<string> dictionary, int start, int end)
+    {
+        int idx = start;
+        string cur = string.Empty;
+        IList<string> resWithE = new List<string>();
+        IList<string> resWithoutE = new List<string>();
+        IList<string> res = new List<string>();
+
+        while (idx < s.Length)
+        {
+            if (s[idx] == ' ' && (idx + 1 < s.Length && s[idx+1] == ' '))
+            {
+                var subStringWithE = string.Concat(s.Substring(start, idx), 'e');
+                var subStringWithoutE = string.Concat(s.Substring(start, idx));
+
+                if (dictionary.Contains(subStringWithE))
+                {
+                    cur = subStringWithE;
+                    resWithE = FaultyKeyBoard(s, dictionary, idx+1, end);
+                    ConstructResultString(cur, resWithE);
+                    break;
+                }
+                else if (dictionary.Contains(subStringWithoutE))
+                {
+                    cur = subStringWithoutE;
+                    resWithE = FaultyKeyBoard(s, dictionary, idx+1, end);
+                    ConstructResultString(cur, resWithE);
+                    break;
+                }
+            }
+
+            idx++;
+        }
+
+        return res;
+    }
+
+    private IList<string> ConstructResultString(string s, IList<string> list)
+    {
+        IList<string> res = new List<string>();
+
+        foreach(string str in list)
+        {
+            res.Add(string.Concat(s, str));
+        }
+
+        return res;
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

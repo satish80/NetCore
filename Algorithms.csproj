@@ -16,5 +16,6 @@
     <Content Include="Recursion.cs" />
     <Content Include="DataStructures.cs" />
     <Content Include="Helpers.cs" />
+    <Content Include="SynchronizedStockMarket.cs" />
   </ItemGroup>
 </Project>
