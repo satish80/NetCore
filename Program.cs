@@ -55,7 +55,7 @@ namespace Algorithms
             // arrObj.TaskScheduler();                              //*Tricky */
             // arrObj.ThreeSum();
             // arrObj.NumberOfCornerRectangle();
-            arrObj.ValidTicTacToe();
+            // arrObj.ValidTicTacToe();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -196,6 +196,9 @@ namespace Algorithms
             // rObj.JumpGameIII();
             // rObj.KthLargest();
             // rObj.WordBoggle();
+
+            TicTacToe tObj = new TicTacToe();
+            tObj.MakeMoves();
 
         }
     }
