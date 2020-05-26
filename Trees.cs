@@ -2380,6 +2380,59 @@ public class Trees
 
         return;
     }
+
+    //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/find-largest-value-in-each-tree-row/
+    public void LargestValues()
+    {
+        TreeNode node= new TreeNode(1);
+        node.Left = new TreeNode(3);
+        node.Right = new TreeNode(2);
+        node.Left.Left = new TreeNode(5);
+        node.Left.Right = new TreeNode(3);
+        node.Right.Right = new TreeNode(9);
+
+        var res = LargestValues(node);
+    }
+
+    private IList<int> LargestValues(TreeNode root)
+    {
+        IList<int> res = new List<int>();
+
+        if (root == null)
+        {
+            return res;
+        }
+
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+
+        while(queue.Count > 0)
+        {
+            int count = queue.Count;
+            int val = int.MinValue;
+
+            while(queue.Count > 0 && count > 0)
+            {
+                var item = queue.Dequeue();
+                val = Math.Max(item.Value.Value, val);
+                count--;
+
+                if (item.Left != null)
+                {
+                    queue.Enqueue(item.Left);
+                }
+
+                if (item.Right != null)
+                {
+                    queue.Enqueue(item.Right);
+                }
+            }
+
+            res.Add(val);
+        }
+
+        return res;
+    }
 }
 
 public class TreeNode
