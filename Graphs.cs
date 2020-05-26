@@ -530,6 +530,58 @@ public class Graph
         return find(nums, nums[i]);
     }
 
+    //https://leetcode.com/problems/reconstruct-itinerary/
+    public void ReconstructItinerary()
+    {
+        IList<IList<string>> tickets = new List<IList<string>>();
+        IList<string> t1 = new List<string>(new string[] {"JFK", "SFO"});
+        IList<string> t2 = new List<string>(new string[] {"JFK", "ATL"});
+        IList<string> t3 = new List<string>(new string[] {"SFO", "ATL"});
+        IList<string> t4 = new List<string>(new string[] {"ATL", "JFK"});
+        IList<string> t5 = new List<string>(new string[] {"ATL", "SFO"});
+        tickets.Add(t1);
+        tickets.Add(t2);
+        tickets.Add(t3);
+        tickets.Add(t4);
+        tickets.Add(t5);
+
+        var res = ReconstructItinerary(tickets);
+    }
+
+    private IList<string> ReconstructItinerary(IList<IList<string>> tickets)
+    {
+        Dictionary<string,Heap<string>> map = new Dictionary<string, Heap<string>>();
+
+        foreach(IList<string> ticket in tickets)
+        {
+            if (!map.ContainsKey(ticket[0]))
+            {
+                map.Add(ticket[0], new Heap<string>(true));
+            }
+
+            map[ticket[0]].Push(ticket[1]);
+        }
+
+        var res = new List<string>(new string[] {"JFK"});
+        ReconstructItinerary(map, "JFK", res);
+        return res;
+    }
+
+    private void ReconstructItinerary(Dictionary<string,Heap<string>> map, string source, IList<string> itinerary)
+    {
+        if (!map.ContainsKey(source))
+        {
+            return;
+        }
+
+        while(map[source].Count > 0)
+        {
+            var dest = map[source].Pop();
+            itinerary.Add(dest);
+            ReconstructItinerary(map, dest, itinerary);
+        }
+    }
+
     //Accepted: T:O(V+E), S:O(V+E): https://leetcode.com/problems/clone-graph/
     public void CloneGraph()
     {

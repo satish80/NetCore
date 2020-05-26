@@ -1157,6 +1157,49 @@ public class Arrays
         return (turn == 0 || turn == 1) && (!xWin || !oWin);
     }
 
+    //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/trapping-rain-water/
+    public void TrappingRainWater()
+    {
+        int[] arr = new int[] {0,1,0,2,1,0,1,3,2,1,2,1};
+        Console.WriteLine(TrappingRainWater(arr));
+    }
+
+    private int TrappingRainWater(int[] arr)
+    {
+        if (arr == null || arr.Length == 0)
+        {
+            return 0;
+        }
+        
+        int[] left = new int[arr.Length];
+        int[] right = new int[arr.Length];
+        left[0] = arr[0];
+        right[arr.Length-1] = arr[arr.Length-1];
+        
+        for(int idx = 1; idx < arr.Length; idx++)
+        {
+            left[idx] = Math.Max(arr[idx], left[idx-1]);
+        }
+        
+        for(int idx = arr.Length-2; idx >= 0; idx--)
+        {
+            right[idx] = Math.Max(arr[idx], right[idx+1]);
+        }
+
+        int trap = 0;
+        
+        for(int idx = 1; idx < arr.Length-1; idx++)
+        {
+            var bounds = Math.Min(left[idx], right[idx]);
+            if (arr[idx] < bounds)
+            {
+                trap+= (bounds - arr[idx]);
+            }
+        }
+        
+        return trap;
+    }
+
     /*
     This problem was asked by Facebook.
     Given the mapping a = 1, b = 2, ... z = 26, and an encoded message, count the number of ways it can be decoded.
