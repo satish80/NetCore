@@ -2433,6 +2433,42 @@ public class Trees
 
         return res;
     }
+
+    //https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+    public void SortedListToBST()
+    {
+
+    }
+
+    private TreeNode SortedListToBST(SLLNode head, SLLNode end)
+    {
+        if (head == null || end == null)
+        {
+            return null;
+        }
+
+        SLLNode mid = FindMiddleNode(head, end);
+
+        TreeNode node = new TreeNode(mid.Value);
+        node.Left = SortedListToBST(head, mid);
+        node.Right = SortedListToBST(mid.Next, end);
+
+        return node;
+    }
+
+    private SLLNode FindMiddleNode(SLLNode head, SLLNode end)
+    {
+        SLLNode slow = head;
+        SLLNode fast = head;
+
+        while (fast.Next.Next != null)
+        {
+            slow = slow.Next;
+            fast = fast.Next.Next;
+        }
+
+        return slow;
+    }
 }
 
 public class TreeNode

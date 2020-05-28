@@ -163,6 +163,62 @@ public class LinkedList
         return minCost;
     }
 
+    //https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
+    public void FlattenList()
+    {
+        MultiLevelDLLNode node = new MultiLevelDLLNode(1);
+        node.Next = new MultiLevelDLLNode(2);
+        node.Next.Next = new MultiLevelDLLNode(3);
+        node.Next.Next.Next = new MultiLevelDLLNode(4);
+        node.Next.Next.Next.Next = new MultiLevelDLLNode(5);
+        node.Next.Next.Next.Next.Next = new MultiLevelDLLNode(6);
+
+        MultiLevelDLLNode child3 = new MultiLevelDLLNode(7);
+        child3.Next = new MultiLevelDLLNode(8);
+        child3.Next.Next = new MultiLevelDLLNode(9);
+        child3.Next.Next.Next = new MultiLevelDLLNode(10);
+
+        MultiLevelDLLNode child8 = new MultiLevelDLLNode(11);
+        child8.Next = new MultiLevelDLLNode(12);
+
+        node.Next.Next.Child = child3;
+        child3.Next.Child = child8;
+
+        var res = FlattenList(node);
+    }
+
+    private MultiLevelDLLNode FlattenList(MultiLevelDLLNode cur)
+    {
+        if (cur == null)
+        {
+            return null;
+        }
+
+        while(cur.Next != null)
+        {
+            while(cur.Child == null)
+            {
+                if (cur.Next == null)
+                {
+                    break;
+                }
+                cur = cur.Next;
+            }
+
+            if (cur.Child!= null)
+            {
+                MultiLevelDLLNode temp = cur.Next;
+                cur.Next = cur.Child;
+                var childLastNode = FlattenList(cur.Child);
+                childLastNode = childLastNode == null ? cur.Next : childLastNode;
+                childLastNode.Next = temp;
+                cur = temp;
+            }
+        }
+
+        return cur;
+    }
+
     private void RemoveDllNodes(DLLNode left, DLLNode right, int val)
     {
         left.Value = val;
@@ -373,6 +429,19 @@ public class DLLNode
     public int Value;
 
     public DLLNode(int value)
+    {
+        this.Value = value;
+    }
+}
+
+public class MultiLevelDLLNode
+{
+    public MultiLevelDLLNode Next;
+    public MultiLevelDLLNode Prev;
+    public MultiLevelDLLNode Child;
+    public int Value;
+
+    public MultiLevelDLLNode(int value)
     {
         this.Value = value;
     }

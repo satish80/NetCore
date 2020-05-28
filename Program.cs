@@ -56,6 +56,8 @@ namespace Algorithms
             // arrObj.ThreeSum();
             // arrObj.NumberOfCornerRectangle();
             // arrObj.ValidTicTacToe();
+            // arrObj.MinMeetingRoomsII();
+            arrObj.MergeIntervals();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -108,7 +110,7 @@ namespace Algorithms
             // treeObj.BinaryTreeBoundary();
             // treeObj.KthSmallestInBst();
             // treeObj.GoodNodes();
-            treeObj.LargestValues();
+            // treeObj.LargestValues();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -150,6 +152,7 @@ namespace Algorithms
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();
+            // gObj.CanFinishCourses();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -178,6 +181,8 @@ namespace Algorithms
             // sObj.RemoveAdjacentDuplicates();                     //** Elegant & Consise
             // sObj.ValidPalindromeIII();
             // sObj.FaultyKeyBoard();
+            // sObj.FindAllAnagrams();
+            // sObj.LongestSubstringWithoutRepeatingChars();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -186,6 +191,7 @@ namespace Algorithms
             // lObj.PlusOne();
             // lObj.MinCostToMergeStones();
             // lObj.CloneList();
+            // lObj.FlattenList();
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();

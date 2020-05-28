@@ -582,6 +582,73 @@ public class Graph
         }
     }
 
+    //https://leetcode.com/problems/course-schedule/
+    public void CanFinishCourses()
+    {
+        int[][] prereq = new int[][]
+        {
+            new int[]{1,0},
+            //new int[]{0,1}
+        };
+
+        int numCourses = 2;
+
+        Console.WriteLine(CanFinishCourses(numCourses, prereq));
+    }
+
+    private bool CanFinishCourses(int numCourses, int[][] prerequisites)
+    {
+        Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
+
+        if (prerequisites == null || prerequisites.Length == 0)
+        {
+            return false;
+        }
+
+
+        foreach(int[] prerequisite in prerequisites)
+        {
+            if (!map.ContainsKey(prerequisite[0]))
+            {
+                map.Add(prerequisite[0], new List<int>());
+            }
+
+            map[prerequisite[0]].Add(prerequisite[1]);
+        }
+
+        return CanFinishCourses(map, prerequisites[0][0], numCourses, new HashSet<int>()) >= numCourses;
+    }
+
+    private int CanFinishCourses(Dictionary<int, List<int>> map, int course, int numCourses, HashSet<int> visited)
+    {
+        if (visited.Contains(course))
+        {
+            return -1;
+        }
+
+        if(!map.ContainsKey(course))
+        {
+            return 1;
+        }
+
+        int res = 0;
+        visited.Add(course);
+
+        foreach(int prerequisite in map[course])
+        {
+            var finishCourse = CanFinishCourses(map, prerequisite, numCourses, visited);
+
+            if (finishCourse == -1)
+            {
+                return -1;
+            }
+            res += finishCourse;
+        }
+
+        map.Remove(course);
+        return res = res == -1 ? -1 : res+1;
+    }
+
     //Accepted: T:O(V+E), S:O(V+E): https://leetcode.com/problems/clone-graph/
     public void CloneGraph()
     {

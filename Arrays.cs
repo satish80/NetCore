@@ -272,15 +272,95 @@ public class Arrays
         return count;
     }
 
-    //https://leetcode.com/problems/merge-intervals/
+    //https://leetcode.com/problems/meeting-rooms-ii/
+    public void MinMeetingRoomsII()
+    {
+        int[][] intervals = new int[][]
+        {
+            new int[] {2, 6},
+            new int[] {4, 5},
+            new int[] {7, 10},
+            new int[] {8, 12},
+        };
+
+        Console.WriteLine(MinMeetingRoomsII(intervals));
+    }
+
+    private int MinMeetingRoomsII(int[][] intervals)
+    {
+        int[] starts = new int[intervals.Length];
+        int[] ends = new int[intervals.Length];
+
+        for(int i=0; i<intervals.Length; i++)
+        {
+            starts[i] = intervals[i][0];
+            ends[i] = intervals[i][1];
+        }
+
+        Array.Sort(starts);
+        Array.Sort(ends);
+
+        int rooms = 0;
+        int endsItr = 0;
+
+        for(int i=0; i<starts.Length; i++)
+        {
+            if(starts[i]<ends[endsItr])
+                rooms++;
+            else
+                endsItr++;
+        }
+        return rooms;
+    }
+
+    private void Sort<T>(T[][] data, int col)
+    { 
+        Comparer<T> comparer = Comparer<T>.Default;
+        Array.Sort<T[]>(data, (x,y) => comparer.Compare(x[col],y[col])); 
+    }
+
+    //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/merge-intervals/
     public void MergeIntervals()
     {
+        int[][] intervals = new int[][]
+        {
+            new int[]{1, 4},
+            new int[]{2, 6},
+            new int[]{8, 10},
+            new int[]{15, 18},
+        };
 
+        var res = MergeIntervals(intervals);
     }
 
     private int[][] MergeIntervals(int[][] intervals)
     {
-        return null;
+        if (intervals == null || intervals.Length == 0)
+        {
+            return intervals;
+        }
+
+        Sort(intervals, 0);
+        List<int[]> res = new List<int[]>();
+        int start = 0;
+        int end = 0;
+        int idx = 0;
+
+        while(idx < intervals.Length)
+        {
+            start = intervals[idx][0];
+            end = intervals[idx][1];
+
+            while (idx < intervals.Length && intervals[idx][0] <= end)
+            {
+                end = Math.Max(intervals[idx][1], end);
+                idx++;
+            }
+
+            res.Add(new int[] {start, end});
+        }
+
+        return res.ToArray();
     }
 
     public void GCD()

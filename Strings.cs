@@ -895,6 +895,70 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
     }
 
     //https://leetcode.com/problems/find-all-anagrams-in-a-string/
+    public void FindAllAnagrams()
+    {
+        string s = "cbaebabacd";
+        string p = "abc";
+
+        var res = FindAllAnagrams(s, p);
+    }
+
+    private IList<int> FindAllAnagrams(string s, string p)
+    {
+        Dictionary<char, int> map = new Dictionary<char, int>();
+        IList<int> res = new List<int>();
+
+        foreach(char ch in p)
+        {
+            if(!map.ContainsKey(ch))
+            {
+                map.Add(ch, 0);
+            }
+
+            map[ch]++;
+        }
+
+        int start = 0;
+        int end = 0;
+        int counter = map.Count;
+
+        while(end < s.Length)
+        {
+            if (map.ContainsKey(s[end]))
+            {
+                map[s[end]]--;
+
+                if (map[s[end]] == 0)
+                {
+                    counter--;
+                }
+            }
+
+            end++;
+
+            while(counter == 0)
+            {
+                if (map.ContainsKey(s[start]))
+                {
+                    map[s[start]]++;
+                    if (map[s[start]] > 0)
+                    {
+                        counter++;
+                    }
+                }
+
+                if (end-start == p.Length)
+                {
+                    res.Add(start);
+                }
+                start++;
+            }
+        }
+
+        return res;
+    }
+
+    //https://leetcode.com/problems/find-all-anagrams-in-a-string/
     public void FindAnagrams()
     {
         string s = "xyzbacd";
@@ -1322,6 +1386,43 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         }
 
         return res;
+    }
+
+    //https://leetcode.com/problems/longest-substring-without-repeating-characters/
+    public void LongestSubstringWithoutRepeatingChars()
+    {
+        string s = " ";
+        Console.WriteLine(LongestSubstringWithoutRepeatingChars(s));
+    }
+
+    private int LongestSubstringWithoutRepeatingChars(string s)
+    {
+        int len = 0;
+        int start = 0;
+        int end = 0;
+
+        Dictionary<char, int> map = new Dictionary<char, int>();
+
+        while (end < s.Length && start <= end)
+        {
+            if (map.ContainsKey(s[end]))
+            {
+                var idx = start;
+                var endIdx = map[s[end]];
+                start = map[s[end]]+1;
+
+                while (idx <= endIdx)
+                {
+                    map.Remove(s[idx++]);
+                }
+            }
+
+            len = Math.Max(len, end-start+1);
+
+            map.Add(s[end], end++);
+        }
+
+        return len;
     }
 
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
