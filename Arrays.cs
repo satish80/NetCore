@@ -363,6 +363,45 @@ public class Arrays
         return res.ToArray();
     }
 
+    /*
+    FaceBook
+    Find number of Isnalds in T:O(n^2) & S:O(1)
+    */
+    public void FindIslands()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {1, 1, 1},
+            new int[] {0, 1, 0},
+            new int[] {1, 1, 1},
+        };
+
+        int res = 0;
+
+        for(int row = 0; row < arr.Length; row ++)
+        {
+            for(int col = 0; col < arr[0].Length; col ++)
+            {
+                if (arr[row][col] == 1)
+                {
+                    res +=FindIslands(arr, row, col);
+                }
+            }
+        }
+
+        Console.WriteLine(res);
+    }
+
+    private int FindIslands(int[][] arr, int row, int col)
+    {
+        if ((col -1 >=0  && arr[row][col-1] == 1 || row-1 >= 0 && arr[row-1][col] == 1))
+        {
+            return 0;
+        }
+
+        return 1;
+    }
+
     public void GCD()
     {
         Console.WriteLine(GCD(1701, 3768));
@@ -385,6 +424,60 @@ public class Arrays
         }
 
         return y == 0 ? x : -1;
+    }
+
+    //LCHard Accepted: T:O(n), S:O(n): https://leetcode.com/problems/insert-interval/
+    public void InsertInterval()
+    {
+        int[][] intervals = new int[][]
+        {
+            new int[]{1,2},
+            new int[]{3,5},
+            new int[]{6,7},
+            new int[]{8,10},
+            new int[]{12,16},
+        };
+
+        var res = InsertInterval(intervals, new int[]{4,8});
+    }
+
+    private int[][] InsertInterval(int[][] intervals, int[] newInterval)
+    {
+         List<int[]> resList = new List<int[]>();
+
+        if (intervals == null || intervals.Length == 0)
+        {
+            resList.Add(newInterval);
+            return resList.ToArray();
+        }
+
+        int cur = 0;
+
+        while(cur < intervals.Length && newInterval[0] > intervals[cur][1])
+        {
+            resList.Add(intervals[cur++]);
+        }
+
+        int start = newInterval[0];
+        int end = newInterval[1];
+
+        //merge
+        while (cur < intervals.Length && newInterval[1] >= intervals[cur][0])
+        {
+            start = Math.Min(intervals[cur][0], start);
+            end = Math.Max(intervals[cur][1], end);
+            cur++;
+        }
+
+        resList.Add(new int[]{start, end});
+
+        while (cur < intervals.Length)
+        {
+            resList.Add(new int[]{intervals[cur][0], intervals[cur][1]});
+            cur++;
+        }
+
+        return resList.ToArray();
     }
 
     public void Permutations()

@@ -1349,6 +1349,41 @@ public class DP
         return dp[k, arr.Length-1];
     }
 
+    /*
+    FaceBook
+    A person goes for a movie on certain days in a month. Find the min cost of watching a movie with following conditions:
+    Daily pass: $2, Weekly pass: $6, Monthly pass: $22
+    */
+    public void MinCostForMovie()
+    {
+        int[] arr = new int[]{1, 7, 12, 15, 18, 19, 23};
+        Console.WriteLine(MinCostForMovie(arr));
+    }
+
+    private int MinCostForMovie(int[] arr)
+    {
+        int[] res = new int[arr.Length+1];
+
+        int i = 1;
+        int sow = 1;
+        int count = 0;
+        res[0] = 0;
+
+        while (i <= arr.Length)
+        {
+            while (i-1 < arr.Length && arr[i-1] - arr[sow-1] < 8)
+            {
+                i++;
+            }
+
+            count = i-sow;
+            res[i-1] = res[sow-1] + Math.Min(2* count, 6);
+            sow =  (i-1 < arr.Length) && arr[i-1] - arr[sow-1] > 8 ? i : sow;
+        }
+
+        return res[arr.Length];
+    }
+
     //Find min k size sub-sequences in an array.[[1, 1, 2, 3, 2]]
     // Output: [[1,2,3],[1,2,5],[1,3,4],[1,3,5]]
     public void KSubsequences()

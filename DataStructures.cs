@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+
 namespace DataStructures
 {
     public class Heap<T>
@@ -96,6 +98,63 @@ namespace DataStructures
 
                 return 0;
             }
+        }
+    }
+
+    public class Trie
+    {
+        public TrieNode root = null;
+
+        public Trie()
+        {
+            root = new TrieNode();
+        }
+
+        public class TrieNode
+        {
+            public Dictionary<char, TrieNode> Children = new Dictionary<char, TrieNode>();
+            public List<string> Suggestions = new List<string>();
+            public bool IsEndOfWord;
+
+            public TrieNode()
+            {
+            }
+        }
+
+        public void Insert(string s)
+        {
+            TrieNode cur = root;
+
+            foreach(char ch in s)
+            {
+                if (!cur.Children.ContainsKey(ch))
+                {
+                    cur.Children.Add(ch, new TrieNode());
+                }
+
+                cur = cur.Children[ch];
+                cur.Suggestions.Add(s);
+            }
+        }
+
+        public List<string> Search(string s)
+        {
+            TrieNode cur = root;
+            TrieNode prev = root;
+
+            for(int idx = 0; idx <= s.Length; idx++)
+            {
+                if (idx == s.Length || !cur.Children.ContainsKey(s[idx]))
+                {
+                    prev = cur;
+                    break;
+                }
+
+                prev = cur;
+                cur = cur.Children[s[idx]];
+            }
+
+            return prev.Suggestions;
         }
     }
 

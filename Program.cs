@@ -57,7 +57,9 @@ namespace Algorithms
             // arrObj.NumberOfCornerRectangle();
             // arrObj.ValidTicTacToe();
             // arrObj.MinMeetingRoomsII();
-            arrObj.MergeIntervals();
+            // arrObj.MergeIntervals();
+            // arrObj.FindIslands();
+            arrObj.InsertInterval();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -140,6 +142,7 @@ namespace Algorithms
             // dpObj.BuySellStockIV();
             // dpObj.LongestIncreasingSubsequence();
             // dpObj.LargestNumber();                             // ** Very tricky
+            // dpObj.MinCostForMovie();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -208,6 +211,8 @@ namespace Algorithms
             TicTacToe tObj = new TicTacToe();
             // tObj.MakeMoves();
 
+            Tries trieObj = new Tries();
+            // trieObj.AutoSuggest();
         }
     }
 }

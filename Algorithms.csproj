@@ -18,5 +18,6 @@
     <Content Include="Helpers.cs" />
     <Content Include="SynchronizedStockMarket.cs" />
     <Content Include="TicTacToe.cs" />
+    <Content Include="Tries.cs" />
   </ItemGroup>
 </Project>
