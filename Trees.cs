@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DataStructures;
 
 public class Trees
 {
@@ -584,6 +585,26 @@ public class Trees
         }
 
         return stack.Count == 0 ? null : stack.Pop();
+    }
+
+    //https://leetcode.com/problems/count-of-smaller-numbers-after-self/
+    public void CountSmallNumbersAfterSelf()
+    {
+        int[] arr = new int[] {1, 6, 2, 5};
+        CountSmallNumbersAfterSelf(arr);
+    }
+
+    private void CountSmallNumbersAfterSelf(int[] nums)
+    {
+        IDictionary<int, int> list = new Dictionary<int, int>();
+        BST root = new BST(nums[0]);
+        int small = 0; 
+
+        for(int idx = 1; idx < nums.Length; idx++)
+        {
+            root.Add(nums[idx], root, ref small);
+            small = 0;
+        }
     }
 
     //https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/

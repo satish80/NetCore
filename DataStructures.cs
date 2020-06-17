@@ -158,6 +158,50 @@ namespace DataStructures
         }
     }
 
+    public class BST
+    {
+        public static BST Root = null;
+        public BST(int val)
+        {
+            this.Value = val;
+
+            Root = Root == null ? this : Root;
+        }
+
+        public BST()
+        {
+            Root = Root == null ? this : Root;
+        }
+
+        public BST Left;
+        public BST Right;
+        public int Value;
+        public int SmallNumbers;
+
+        public BST Add(int val, BST node, ref int small)
+        {
+            if (node == null)
+            {
+                var newNode = new BST(val);
+                newNode.SmallNumbers = small;
+
+                return newNode;
+            }
+
+            if (node.Value > val)
+            {
+                node.Left = Add(val, node.Left, ref small);
+            }
+            else
+            {
+                small +=1;
+                node.Right = Add(val, node.Right, ref small);
+            }
+
+            return node;
+        }
+    }
+
     public class UndirectedGraph<U>
     {
         public Dictionary<U, bool> Vertices = new Dictionary<U, bool>();

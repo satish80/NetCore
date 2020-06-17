@@ -59,7 +59,7 @@ namespace Algorithms
             // arrObj.MinMeetingRoomsII();
             // arrObj.MergeIntervals();
             // arrObj.FindIslands();
-            arrObj.InsertInterval();
+            // arrObj.InsertInterval();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -113,6 +113,7 @@ namespace Algorithms
             // treeObj.KthSmallestInBst();
             // treeObj.GoodNodes();
             // treeObj.LargestValues();
+            treeObj.CountSmallNumbersAfterSelf();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
