@@ -113,7 +113,7 @@ namespace Algorithms
             // treeObj.KthSmallestInBst();
             // treeObj.GoodNodes();
             // treeObj.LargestValues();
-            treeObj.CountSmallNumbersAfterSelf();
+            // treeObj.CountSmallNumbersAfterSelf();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -144,6 +144,7 @@ namespace Algorithms
             // dpObj.LongestIncreasingSubsequence();
             // dpObj.LargestNumber();                             // ** Very tricky
             // dpObj.MinCostForMovie();
+            // dpObj.v();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -214,6 +215,7 @@ namespace Algorithms
 
             Tries trieObj = new Tries();
             // trieObj.AutoSuggest();
+            trieObj.LongestDuplicateSubstring();
         }
     }
 }

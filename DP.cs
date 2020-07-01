@@ -1384,6 +1384,54 @@ public class DP
         return res[arr.Length];
     }
 
+    //https://leetcode.com/problems/maximal-rectangle/
+    public void MaximalRectangle()
+    {
+        char[] arr = new char[]{'3','1','3','2','2'};
+        Console.WriteLine(MaximalRectangle(arr));
+    }
+
+    private int MaximalRectangle(char[] matrix)
+    {
+        return MaxRectangle(matrix);
+    }
+
+    private int MaxRectangle(char[] arr)
+    {
+        Stack<int> stk = new Stack<int>();
+
+        stk.Push(0);
+        int idx = 1;
+        int max = 0;
+
+        while(idx < arr.Length && stk.Count > 0)
+        {
+            max = Math.Max(CalcHistogram(stk, arr, int.Parse(arr[idx].ToString()), idx), max);
+
+            stk.Push(idx++);
+        }
+
+        while(stk.Count > 0)
+        {
+            var item = stk.Pop();
+            max = Math.Max(CalcHistogram(stk, arr, item, idx), max);
+        }
+
+        return max;
+    }
+
+    private int CalcHistogram(Stack<int> stk, char[] arr, int item, int idx)
+    {
+        int cur = 0;
+        while (stk.Count > 0 && item <= int.Parse(arr[stk.Peek()].ToString()))
+        {
+            var pop = stk.Pop();
+            cur = stk.Count > 0 ? int.Parse(arr[pop].ToString()) * (idx - stk.Peek() -1) : int.Parse(arr[pop].ToString()) * idx;
+        }
+
+        return cur;
+    }
+
     //Find min k size sub-sequences in an array.[[1, 1, 2, 3, 2]]
     // Output: [[1,2,3],[1,2,5],[1,3,4],[1,3,5]]
     public void KSubsequences()

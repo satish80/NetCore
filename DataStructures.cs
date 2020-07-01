@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -103,11 +104,11 @@ namespace DataStructures
 
     public class Trie
     {
-        public TrieNode root = null;
+        public TrieNode Root = null;
 
         public Trie()
         {
-            root = new TrieNode();
+            this.Root = new TrieNode();
         }
 
         public class TrieNode
@@ -123,7 +124,7 @@ namespace DataStructures
 
         public void Insert(string s)
         {
-            TrieNode cur = root;
+            TrieNode cur = Root;
 
             foreach(char ch in s)
             {
@@ -137,10 +138,49 @@ namespace DataStructures
             }
         }
 
+        public int[] InsertWithIndex(string s, int i, TrieNode cur)
+        {
+            int[] arr = new int[2];
+            arr[0] = -1;
+            arr[1] = -1;
+            int max = int.MinValue;
+            int curIdx = i;
+
+            int[] res = new int[2];
+
+            for(int idx = 0; idx < s.Length; idx++)
+            {
+                if (!cur.Children.ContainsKey(s[idx]))
+                {
+                    arr[0] = -1;
+                    arr[1] = -1;
+                    curIdx = -1;
+
+                    cur.Children.Add(s[idx], new TrieNode());
+                }
+                else
+                {
+                    arr[0] = arr[0] == -1 ? i++ : arr[0];
+                    arr[1] = curIdx++;
+
+                    if(arr[0] > -1 && max < arr[1] - arr[0])
+                    {
+                        res[0] = arr[0];
+                        res[1] = arr[1];
+                        max = res[1] - res[0];
+                    }
+                }
+
+                cur = cur.Children[s[idx]];
+            }
+
+            return res;
+        }
+
         public List<string> Search(string s)
         {
-            TrieNode cur = root;
-            TrieNode prev = root;
+            TrieNode cur = Root;
+            TrieNode prev = Root;
 
             for(int idx = 0; idx <= s.Length; idx++)
             {
