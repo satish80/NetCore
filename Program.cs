@@ -60,6 +60,7 @@ namespace Algorithms
             // arrObj.MergeIntervals();
             // arrObj.FindIslands();
             // arrObj.InsertInterval();
+            arrObj.SplitLargestSum();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -215,7 +216,7 @@ namespace Algorithms
 
             Tries trieObj = new Tries();
             // trieObj.AutoSuggest();
-            trieObj.LongestDuplicateSubstring();
+            // trieObj.LongestDuplicateSubstring();
         }
     }
 }

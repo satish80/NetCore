@@ -480,6 +480,67 @@ public class Arrays
         return resList.ToArray();
     }
 
+    //Accepted: LCDiscussion, LCHard, T: O(n^2): https://leetcode.com/problems/split-array-largest-sum/
+    public void SplitLargestSum()
+    {
+        int[] arr  =new int[]{7, 2, 5, 10, 8, 11, 4};
+        int m = 3;
+        Console.WriteLine(splitArray(arr, m));
+    }
+
+    public int splitArray(int[] nums, int m)
+    {
+        int max = 0; long sum = 0;
+        foreach (int num in nums)
+        {
+            max = Math.Max(num, max);
+            sum += num;
+        }
+        if (m == 1)
+        {
+             return (int)sum;
+        }
+
+        //binary search
+        long l = max; long r = sum;
+        while (l <= r)
+        {
+            long mid = (l + r)/ 2;
+            if (valid(mid, nums, m))
+            {
+                r = mid - 1;
+            }
+            else
+            {
+                l = mid + 1;
+            }
+        }
+
+        return (int)l;
+    }
+
+    public bool valid(long target, int[] nums, int m)
+    {
+        int count = 1;
+        long total = 0;
+
+        foreach(int num in nums)
+        {
+            total += num;
+            if (total > target)
+            {
+                total = num;
+                count++;
+                if (count > m)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public void Permutations()
     {
         int[] arr = new int[] {1, 2, 3};
