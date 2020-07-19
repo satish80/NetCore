@@ -480,7 +480,7 @@ public class Arrays
         return resList.ToArray();
     }
 
-    //Accepted: LCDiscussion, LCHard, T: O(n^2): https://leetcode.com/problems/split-array-largest-sum/
+    //Accepted-LCDiscussSol-LCHard-T: O(n^2): https://leetcode.com/problems/split-array-largest-sum/
     public void SplitLargestSum()
     {
         int[] arr  =new int[]{7, 2, 5, 10, 8, 11, 4};
@@ -539,6 +539,41 @@ public class Arrays
         }
 
         return true;
+    }
+
+    //Accepted-LCMedium-T:O(n): https://leetcode.com/problems/minimum-size-subarray-sum/
+    public void MinSubArrayLen()
+    {
+        Console.WriteLine(MinSubArrayLen(100, new int[] {}));
+    }
+
+    private int MinSubArrayLen(int s, int[] nums)
+    {
+        if (nums == null || nums.Length == 0 || nums.Length == 1)
+        {
+            return 0;
+        }
+
+        int min = int.MaxValue;
+        int sum = 0;
+        int start = 0;
+        int end = 0;
+
+        while (end < nums.Length)
+        {
+            sum += nums[end];
+
+            while (sum >= s)
+            {
+                min = Math.Min(end - start + 1, min);
+                sum -= nums[start];
+                start++;
+            }
+
+            end++;
+        }
+
+        return min == int.MaxValue ? 0 : min;
     }
 
     public void Permutations()

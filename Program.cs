@@ -60,7 +60,8 @@ namespace Algorithms
             // arrObj.MergeIntervals();
             // arrObj.FindIslands();
             // arrObj.InsertInterval();
-            arrObj.SplitLargestSum();
+            // arrObj.SplitLargestSum();
+            arrObj.MinSubArrayLen();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
