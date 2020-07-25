@@ -1425,6 +1425,40 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return len;
     }
 
+    //https://leetcode.com/contest/weekly-contest-197/problems/number-of-substrings-with-only-1s/
+    public void NumberOfSubstringWithOnly1s()
+    {
+        string str = "111111";
+        Console.WriteLine(NumberOfSubstringWithOnly1s(str));
+    }
+
+    private int NumberOfSubstringWithOnly1s(string s)
+    {
+        int count = 0;
+
+        if (string.IsNullOrEmpty(s))
+        {
+            return count;
+        }
+
+        int cur = 0;
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (s[idx] == '0')
+            {
+                count += (cur * (cur+1)) /2;
+                cur = 0;
+            }
+            else 
+            {
+                cur += 1;
+            }
+        }
+
+        return (cur == 0 ? count : count+=((cur * (cur+1)) /2) );
+    }
+
     //Accepted: https://leetcode.com/contest/weekly-contest-149/problems/swap-for-longest-repeated-character-substring/
     public void SwapForLongestRepeatedChar()
     {

@@ -676,6 +676,42 @@ public class Arrays
         return stk.Count() == 0;
     }
 
+    //Accepted: LCMedium - Self - T:O(n): https://leetcode.com/problems/missing-element-in-sorted-array/
+    public void FirstMissingInSortedArray()
+    {
+        int[] arr = new int[] {1, 2, 4};
+        Console.WriteLine(FirstMissingInSortedArray(arr, 3));
+    }
+
+    private int FirstMissingInSortedArray(int[] arr, int k)
+    {
+        int idx = 0;
+        int missingCount = 0;
+        int cur = arr[0];
+        int missing = 0;
+
+        while (idx < arr.Length && missingCount < k)
+        {
+            while (arr[idx] > cur && missingCount < k)
+            {
+                missing = cur;
+                missingCount++;
+                cur++;
+            }
+
+            idx++;
+            cur++;
+        }
+
+        while (missingCount < k)
+        {
+            missing = cur++;
+            missingCount++;
+        }
+
+        return missing;
+    }
+
     public void JumpingOnClouds()
     {
         int[] num = new int[] {0, 1, 0};

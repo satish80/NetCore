@@ -61,7 +61,8 @@ namespace Algorithms
             // arrObj.FindIslands();
             // arrObj.InsertInterval();
             // arrObj.SplitLargestSum();
-            arrObj.MinSubArrayLen();
+            // arrObj.MinSubArrayLen();
+            arrObj.FirstMissingInSortedArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -190,6 +191,7 @@ namespace Algorithms
             // sObj.FaultyKeyBoard();
             // sObj.FindAllAnagrams();
             // sObj.LongestSubstringWithoutRepeatingChars();
+            // sObj.NumberOfSubstringWithOnly1s();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
