@@ -712,6 +712,46 @@ public class Arrays
         return missing;
     }
 
+    //Accepted-LcHard-LCSol-https://leetcode.com/problems/string-compression-ii/
+    public void GetLengthOfOptimalCompression()
+    {
+        string s = "aaabcccd";
+        int k = 2;
+        Console.WriteLine(GetLengthOfOptimalCompression(0, ' ', 0, k, s));
+    }
+
+    private int GetLengthOfOptimalCompression(int start, char last, int last_count, int left, string s)
+    {
+        if (left < 0)
+        {
+            return int.MaxValue;
+        }
+
+        if (start >= s.Length)
+        {
+            return 0;
+        }
+
+        if (s[start] == last)
+        {
+            // we have a stretch of the last_count of the same chars, what is the cost of adding one more? 
+            int incr = last_count == 1 || last_count == 9 || last_count == 99 ? 1 : 0;
+
+            //no need to delete here, if we have a stretch of chars like 'aaaaa' - we delete it from the beginning in the else delete section
+            return incr + GetLengthOfOptimalCompression(start+1, last, last_count+1, left, s); // # we keep this char for compression
+        }
+        else
+        {
+            //# keep this char for compression - it will increase the result length by 1 plus the cost of compressing the rest of the string 
+            int keep_counter = 1 + GetLengthOfOptimalCompression(start+1, s[start], 1, left, s);
+
+            //# delete this char
+            int del_counter =  GetLengthOfOptimalCompression(start + 1, last, last_count, left - 1, s);
+
+            return Math.Min(keep_counter, del_counter);
+        }
+    }
+
     public void JumpingOnClouds()
     {
         int[] num = new int[] {0, 1, 0};
@@ -760,6 +800,22 @@ public class Arrays
             stk.Push(i);
         }
         return ret;
+    }
+
+    //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
+    public void AngleClock()
+    {
+        var angle = AngleClock(12, 30);
+        Console.WriteLine(angle);
+    }
+
+    private double AngleClock(int hour, double minutes)
+    {
+        double hAngle = ((hour%12)*30) + (minutes/60 * 5) * 6;
+        double mAngle = minutes * 6;
+        double res = Math.Abs(mAngle - hAngle);
+
+        return res > 180 ? 360 - res : res;
     }
 
     public void WallsGates()
