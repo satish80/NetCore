@@ -64,7 +64,9 @@ namespace Algorithms
             // arrObj.MinSubArrayLen();
             // arrObj.FirstMissingInSortedArray();
             // arrObj.GetLengthOfOptimalCompression();
-            arrObj.AngleClock();
+            // arrObj.AngleClock();
+            // arrObj.TopKFrequent();
+            // arrObj.KthLargest();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -194,6 +196,7 @@ namespace Algorithms
             // sObj.FindAllAnagrams();
             // sObj.LongestSubstringWithoutRepeatingChars();
             // sObj.NumberOfSubstringWithOnly1s();
+            sObj.ParseBoolExpr();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

@@ -1538,6 +1538,60 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return count;
     }
 
+    //Accepted-LCHard-Self-T:O(n)-https://leetcode.com/problems/parsing-a-boolean-expression/
+    public void ParseBoolExpr()
+    {
+        string expression = "|(&(t,f,t),!(t))";
+        Console.WriteLine(ParseBoolExpr(expression));
+    }
+
+    private bool ParseBoolExpr(string expression)
+    {
+        Stack<char> values = new Stack<char>();
+
+        int idx = 0;
+
+        while (idx < expression.Length)
+        {
+            char ch = expression[idx];
+
+            if (ch == ')')
+            {
+                HashSet<char> set = new HashSet<char>();
+
+                while(values.Peek() != '(')
+                {
+                    set.Add(values.Pop());
+                }
+
+                values.Pop();
+
+                var op = values.Pop();
+
+                if (op == '|')
+                {
+                    values.Push(set.Contains('t') ? 't' : 'f');
+                }
+                else if (op == '&')
+                {
+                    values.Push(set.Contains('f') ? 'f' : 't');
+                }
+                else if (op == '!')
+                {
+                    values.Push(set.Contains('t') ? 'f' : 't');
+                }
+            }
+            else if (ch != ',')
+            {
+                values.Push(ch);
+            }
+
+            idx++;
+        }
+
+        return values.Pop() == 't' ? true : false;
+    }
+
     //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/
     public void RemoveAdjacentDuplicates()
     {

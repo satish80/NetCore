@@ -818,6 +818,96 @@ public class Arrays
         return res > 180 ? 360 - res : res;
     }
 
+    //Accepted-LCMedium-Self-T:O(n)-https://leetcode.com/problems/top-k-frequent-elements/
+    public void TopKFrequent()
+    {
+        //int[] nums = new int[] {1,1,1,2,2,3};
+        int[] nums = new int[]{-1, -1};
+        int k = 1;
+        var res = TopKFrequent(nums, k);
+    }
+
+    private int[] TopKFrequent(int[] nums, int k)
+    {
+        IDictionary<int, int> map = new Dictionary<int, int>();
+        List<int> res = new List<int>();
+
+        foreach(int num in nums)
+        {
+            if (! map.ContainsKey(num))
+            {
+                map.Add(num, 0);
+            }
+
+            map[num]++;
+        }
+
+        Dictionary<int, List<int>> bucket = new Dictionary<int, List<int>>();
+
+        foreach(int val in map.Keys)
+        {
+            int frequency = map[val];
+
+            if (!bucket.ContainsKey(frequency))
+            {
+                bucket.Add(frequency, new List<int>());
+            }
+
+            bucket[frequency].Add(val);
+        }
+
+        for(int idx = nums.Length; idx > 0 && res.Count < k; idx --)
+        {
+            if (bucket.ContainsKey(idx))
+            {
+                res.AddRange(bucket[idx]);
+            }
+        }
+
+        return res.ToArray();
+    }
+
+    //https://leetcode.com/problems/kth-largest-element-in-an-array/
+    public void KthLargest()
+    {
+        int[] nums = new int[]{3,2,1,5,6,4};
+        int k = 3;
+        Console.WriteLine(KthLargest(nums, 0, nums.Length-1, k));
+    }
+
+    private int KthLargest(int[] nums, int start, int end, int k)
+    {
+        int idx = start;
+        int pivot = start;
+
+        while (idx < end)
+        {
+            if(nums[idx] <= nums[end])
+            {
+                Helpers.Swap(nums, pivot++, idx);
+            }
+
+            idx++;
+        }
+
+        Helpers.Swap(nums, pivot, idx);
+
+        int m = end - pivot +1;
+        if (m == k)
+        {
+            return nums[m];
+        }
+
+        if (m > k)
+        {
+            return KthLargest(nums, pivot+1, end, k);
+        }
+        else
+        {
+            return KthLargest(nums, start, pivot-1, k-m);
+        }
+    }
+
     public void WallsGates()
     {
         int[,] arr = new int[4,4]
