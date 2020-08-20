@@ -1282,7 +1282,7 @@ public class Arrays
     #endregion
     public void TaskScheduler()
     {
-        char[] ch = new char[]{'A','B','B','A','B','A','C'};
+        char[] ch = new char[]{'A','A','A','B','B','B'};
         int n = 2;
         Console.WriteLine(TaskScheduler(ch, n));
     }

@@ -353,6 +353,41 @@ public class LinkedList
         }
     }
 
+    //Accepted-LCEasy-LCSol-T:O(n)-SO(n): https://leetcode.com/problems/intersection-of-two-linked-lists/
+    public void GetIntersectionNode()
+    {
+        SLLNode headA = new SLLNode(4);
+        headA.Next = new SLLNode(1);
+        headA.Next.Next = new SLLNode(8);
+        headA.Next.Next.Next = new SLLNode(4);
+        headA.Next.Next.Next.Next = new SLLNode(5);
+
+        SLLNode headB = new SLLNode(5);
+        headB.Next = new SLLNode(6);
+        headB.Next.Next = headA.Next;
+
+        var res = GetIntersectionNode(headA, headB);
+    }
+
+    private SLLNode GetIntersectionNode(SLLNode headA, SLLNode headB)
+    {
+        if(headA == null || headB == null)
+        {
+            return null;
+        }
+
+        SLLNode p1 = headA;
+        SLLNode p2 = headB;
+
+        while (p1 != p2)
+        {
+            p1 = p1 == null ? headB : p1.Next;
+            p2 = p2 == null ? headA : p2.Next;
+        }
+
+        return p1;
+    }
+
     //https://leetcode.com/problems/plus-one-linked-list/
     public void PlusOne()
     {

@@ -196,7 +196,7 @@ namespace Algorithms
             // sObj.FindAllAnagrams();
             // sObj.LongestSubstringWithoutRepeatingChars();
             // sObj.NumberOfSubstringWithOnly1s();
-            sObj.ParseBoolExpr();
+            // sObj.ParseBoolExpr();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -206,6 +206,7 @@ namespace Algorithms
             // lObj.MinCostToMergeStones();
             // lObj.CloneList();
             // lObj.FlattenList();
+            lObj.GetIntersectionNode();
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();
