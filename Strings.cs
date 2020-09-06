@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using DataStructures;
 
 public class Strings
 {
@@ -1058,7 +1059,6 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
             {
                 pos.Add(left);
             }
-            
         }
         return pos;
     }
@@ -1618,6 +1618,50 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         }
 
         return new String(stack, 0, i);
+    }
+
+    //LCMedium-LCSoln-T:O(n) S:O(words length):https://leetcode.com/problems/number-of-matching-subsequences/
+    public void NumMatchingSubSeq()
+    {
+        string S = "abcde";
+        string[] words = {"a", "bb", "acd", "ace"};
+        var res = NumMatchingSubseq(S, words);
+    }
+
+    private int NumMatchingSubseq(String S, String[] words)
+    {
+        int ans = 0;
+        List<Node>[] heads = new List<Node>[26];
+        for (int i = 0; i < 26; ++i)
+            heads[i] = new List<Node>();
+
+        foreach (string word in words)
+        {
+            heads[word[0] - 'a'].Add(new Node(word, 0));
+        }
+
+        foreach (char c in S)
+        {
+            List<Node> old_bucket = heads[c - 'a'];
+            heads[c - 'a'] = new List<Node>();
+
+            foreach (Node node in old_bucket)
+            {
+                node.Idx++;
+                if (node.Idx == node.Word.Length)
+                {
+                    ans++;
+                }
+                else
+                {
+                    heads[node.Word[node.Idx] - 'a'].Add(node);
+                }
+            }
+
+            old_bucket.Clear();
+        }
+
+        return ans;
     }
 
     // Given string abc, print sequence such as 

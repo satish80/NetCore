@@ -292,4 +292,18 @@ namespace DataStructures
             neighbors = _neighbors;
         }
     }
+
+    public class Node
+    {
+        public Node(string word, int idx)
+        {
+            this.Word = word;
+            this.Idx = idx;
+        }
+
+        public string Word;
+
+        public int Idx;
+
+    }
 }
