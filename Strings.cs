@@ -1664,6 +1664,50 @@ private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
         return ans;
     }
 
+    //LCEasy-Self-T:O(N^2):https://leetcode.com/problems/repeated-substring-pattern/
+    public void RepeatedSubstringPattern()
+    {
+        string s = "abab";
+        Console.WriteLine(RepeatedSubstringPattern(s));
+    }
+
+    private bool RepeatedSubstringPattern(string s)
+    {
+        int splitLength = s.Length /2;
+        int firstIdx = 0;
+        int secondIdx = 0;
+
+        while(splitLength > 0)
+        {
+            firstIdx = 0;
+            secondIdx = firstIdx + splitLength;
+
+            while(secondIdx < s.Length)
+            {
+                if (secondIdx+splitLength > s.Length || s.Substring(firstIdx, splitLength) != s.Substring(secondIdx, splitLength))
+                {
+                    break;
+                }
+
+                if (secondIdx + splitLength == s.Length)
+                {
+                    return true;
+                }
+
+                firstIdx = secondIdx;
+                secondIdx = secondIdx + splitLength;
+            }
+
+            splitLength--;
+            if (splitLength > 0 && s.Length % splitLength != 0)
+            {
+                splitLength--;
+            }
+        }
+
+        return false;
+    }
+
     // Given string abc, print sequence such as 
     // a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, aab,..
     public void GenerateSequence()

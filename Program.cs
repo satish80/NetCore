@@ -197,7 +197,8 @@ namespace Algorithms
             // sObj.LongestSubstringWithoutRepeatingChars();
             // sObj.NumberOfSubstringWithOnly1s();
             // sObj.ParseBoolExpr();
-            sObj.NumMatchingSubSeq();                              //** Tricky
+            // sObj.NumMatchingSubSeq();                              //** Tricky
+            sObj.RepeatedSubstringPattern();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
