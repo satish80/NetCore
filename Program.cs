@@ -121,6 +121,7 @@ namespace Algorithms
             // treeObj.GoodNodes();
             // treeObj.LargestValues();
             // treeObj.CountSmallNumbersAfterSelf();
+            treeObj.MinDiffInBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -198,7 +199,7 @@ namespace Algorithms
             // sObj.NumberOfSubstringWithOnly1s();
             // sObj.ParseBoolExpr();
             // sObj.NumMatchingSubSeq();                              //** Tricky
-            sObj.RepeatedSubstringPattern();
+            // sObj.RepeatedSubstringPattern();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

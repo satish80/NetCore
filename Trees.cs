@@ -607,6 +607,43 @@ public class Trees
         }
     }
 
+    //LCEasy-LCSol-T:O(n)-Accepted:https://leetcode.com/problems/minimum-distance-between-bst-nodes/submissions/
+    public void MinDiffInBST()
+    {
+        int min = int.MaxValue;
+        TreeNode prev = null;
+
+        TreeNode node= new TreeNode(4);
+        node.Left = new TreeNode(2);
+        node.Left.Left = new TreeNode(1);
+        node.Left.Right = new TreeNode(3);
+        node.Right = new TreeNode(6);
+
+        MinDiffInBST(node, ref min, ref prev);
+        Console.WriteLine(min);
+    }
+
+    private TreeNode MinDiffInBST(TreeNode root, ref int min, ref TreeNode prev)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        TreeNode left = MinDiffInBST(root.Left, ref min, ref prev);
+
+        if (prev != null)
+        {
+            min = Math.Min(Math.Abs(root.Value.Value - prev.Value.Value), min);
+        }
+
+        prev = root;
+
+        TreeNode right = MinDiffInBST(root.Right, ref min, ref prev);
+
+        return root;
+    }
+
     //https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/
     public void KDistanceBinaryTree()
     {
