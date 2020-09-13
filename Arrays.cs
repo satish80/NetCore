@@ -2552,6 +2552,39 @@ public class Arrays
         return max;
     }
 
+    //LCMedium-Self-O(n)-Accepted: https://leetcode.com/problems/minimum-deletion-cost-to-avoid-repeating-letters/
+    public void MinCostForDeletionToAvoidRepetition()
+    {
+        string s = "aabaa";
+        int[] cost = new int[] {1, 2, 3, 4, 1};
+
+        Console.WriteLine(MinCostForDeletionToAvoidRepetition(s, cost));
+    }
+
+    private int MinCostForDeletionToAvoidRepetition(string s, int[] cost)
+    {
+        int idx = 0;
+        int res = 0;
+        int max = int.MinValue;
+        int curCost = 0;
+
+        while (idx < s.Length)
+        {
+            curCost = cost[idx];
+            max = cost[idx];
+
+            while (++idx < s.Length && s[idx] == s[idx-1])
+            {
+                max = Math.Max(max, cost[idx]);
+                curCost += cost[idx];
+            }
+
+            res += curCost - max;
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/discuss/interview-question/356520
     public void MinChairs()
     {

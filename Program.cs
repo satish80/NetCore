@@ -67,6 +67,7 @@ namespace Algorithms
             // arrObj.AngleClock();
             // arrObj.TopKFrequent();
             // arrObj.KthLargest();
+            arrObj.MinCostForDeletionToAvoidRepetition();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -121,7 +122,7 @@ namespace Algorithms
             // treeObj.GoodNodes();
             // treeObj.LargestValues();
             // treeObj.CountSmallNumbersAfterSelf();
-            treeObj.MinDiffInBST();
+            // treeObj.MinDiffInBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
