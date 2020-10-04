@@ -2834,6 +2834,79 @@ public class Arrays
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 
+    //Accepted-LCMedium-LCSol-T:O(n)-https://leetcode.com/problems/possible-bipartition/
+    public void PossibleBipartition()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {1,2},
+            new int[] {3,4},
+            new int[] {5,6},
+            new int[] {6,7},
+            new int[] {8,9},
+            new int[] {7,8},
+        };
+
+        Console.WriteLine(PossibleBipartition(10, arr));
+    }
+
+    private bool PossibleBipartition(int N, int[][] dislikes)
+    {
+        int[] color = new int[N+1];
+        Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
+
+        foreach(int[] arr in dislikes)
+        {
+            if (!adj.ContainsKey(arr[0]))
+            {
+                adj.Add(arr[0], new List<int>());
+            }
+            adj[arr[0]].Add(arr[1]);
+
+            if (!adj.ContainsKey(arr[1]))
+            {
+                adj.Add(arr[1], new List<int>());
+            }
+            adj[arr[1]].Add(arr[0]);
+        }
+
+        for(int idx = 1; idx<= N; idx++)
+        {
+            if (color[idx] == 0)
+            {
+                color[idx] = 1;
+                Queue<int> queue = new Queue<int>();
+                queue.Enqueue(idx);
+
+                while (queue.Count > 0)
+                {
+                    int cur = queue.Dequeue();
+                    if (!adj.ContainsKey(cur))
+                    {
+                        break;
+                    }
+                    foreach(int neighbor in adj[cur])
+                    {
+                        if (color[neighbor] == 0)
+                        {
+                            color[neighbor] = color[cur] == 1 ? 2 : 1;
+                            queue.Enqueue(neighbor);
+                        }
+                        else
+                        {
+                            if (color[neighbor] == color[cur])
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     //https://leetcode.com/problems/find-median-from-data-stream/
     public void MedianFromStream()
     {
