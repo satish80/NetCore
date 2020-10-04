@@ -717,153 +717,88 @@ public class Strings
         //string str = "3[a2[c]]";
         // string str = 2[abc]3[cd]ef";
         //Console.WriteLine(DecodeString(str, ref start));
-        Console.WriteLine(DecodeString("100[leetcode]"));
+        Console.WriteLine(DecodeString("3[a]2[b4[F]c]"));
     }
 
-    #region commented
-    /*
-    private string DecodeString(string s, ref int start)
+    private string DecodeString(string s)
     {
-        int idx = 0;
-        Stack<char> stk = new Stack<char>();
-        StringBuilder sb = new StringBuilder();
-
-        while(idx < s.Length)
+        if (string.IsNullOrEmpty(s))
         {
-                if (s[idx] == ']')
-                {
-                    var temp = new StringBuilder();
+            return s;
+        }
 
-                    sb = Construct(stk, sb);
-                    stk.Pop();
+        Stack<int> intStk = new Stack<int>();
+        Stack<string> strStk = new Stack<string>();
+        StringBuilder str = new StringBuilder();
+
+        int idx = 0;
+        int count = 0;
+        int product = 10;
+
+        while (idx < s.Length)
+        {
+            while (idx < s.Length && s[idx] != '[' && s[idx] != ']')
+            {
+                if ((s[idx] >= 65 && s[idx] <= 90) || s[idx] >= 97 && s[idx] <= 122)
+                {
+                    str.Append(s[idx++]);
                 }
                 else
                 {
-                    stk.Push(s[idx]);
-                }
+                    if (!string.IsNullOrEmpty(str.ToString()))
+                    {
+                        strStk.Push(str.ToString());
+                        str.Clear();
+                    }
 
-            idx ++;
+                    while(s[idx] >= 48 && s[idx] <= 57)
+                    {
+                        count = count * product + int.Parse(s[idx++].ToString());
+                    }
+
+                    if (count > 0)
+                    {
+                        intStk.Push(count);
+                        count = 0;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(str.ToString()))
+            {
+                strStk.Push(str.ToString());
+                str.Clear();
+            }
+
+            if (idx < s.Length -1 && s[idx] == ']' )
+            {
+                var repeat = Repeat(strStk.Pop(), intStk.Pop());
+                var concatStr = strStk.Count > 0 ? string.Concat(strStk.Pop(), repeat) : repeat;
+                strStk.Push(concatStr);
+            }
+
+            idx++;
         }
 
-        if (stk.Count > 0)
+        if (strStk.Count > 1)
         {
-            sb = Construct(stk, sb);
+            var suffix = strStk.Pop();
+            var concatStr = string.Concat(strStk.Pop(), suffix);
+            strStk.Push(concatStr);
+        }
+
+        return strStk.Pop();
+    }
+
+    private string Repeat(string str, int count)
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int idx = 0; idx < count; idx++)
+        {
+            sb.Append(str);
         }
 
         return sb.ToString();
-    }
-
-private StringBuilder Construct(Stack<char> stk, StringBuilder sb)
-{
-    var temp = new StringBuilder();
-    while(stk.Count > 0 && stk.Peek() != '[')
-    {
-        if (stk.Peek() > 96 && stk.Peek() < 123) // letters
-        {
-            temp = new StringBuilder();
-
-            while (stk.Peek() > 96 && stk.Peek() < 123)
-            {
-                var str = new StringBuilder(stk.Pop().ToString());
-                temp = str.Append(temp);
-            }
-
-            sb = temp.Append(sb);
-        }
-        else if(stk.Peek() > 47 && stk.Peek() < 58) // Numbers
-        {
-            temp = new StringBuilder();
-            if (stk.Peek() > 47 && stk.Peek() < 58)
-            {
-                int.TryParse(stk.Pop().ToString(), out int val);
-                sb = Repeat(sb, val);
-            }
-        }
-    }
-
-    return sb;
-}
-    private StringBuilder Repeat(StringBuilder sb, int times)
-    {
-        var res = new StringBuilder();
-
-        for(int idx = 0; idx < times; idx ++)
-        {
-            res.Append(sb);
-        }
-        
-        return res;
-    }
-
-    */
-
-    #endregion commented
-
-    private string DecodeString(string str)
-    {
-        int idx = 0;
-        Stack<int> countStk = new Stack<int>();
-        Stack<string> strStack = new Stack<string>();
-        StringBuilder res = new StringBuilder();
-
-        while (idx < str.Length)
-        {
-            if (char.IsDigit(str[idx]))
-            {
-                int num = int.Parse(str[idx++].ToString());
-                int product = 10;
-                while(idx < str.Length && char.IsDigit(str[idx]))
-                {
-                    num = (num *product) + int.Parse(str[idx].ToString());
-                    idx++;
-                }
-
-                countStk.Push(num);
-            }
-            else if (str[idx] == '[')
-            {
-                idx ++;
-            }
-            else if (str[idx] == ']')
-            {
-                var sb = RepeatString(countStk, strStack);
-
-                if (strStack.Count > 0)
-                {
-                    var sbStk = new StringBuilder(strStack.Pop());
-                    sbStk.Append(sb.ToString());
-                    strStack.Push(sbStk.ToString());
-                }
-                else
-                {
-                    res.Append(sb.ToString());
-                }
-
-                idx++;
-            }
-            else
-            {
-                if (countStk.Count == strStack.Count)
-                {
-                    countStk.Push(1);
-                }
-
-                StringBuilder cur = new StringBuilder();
-                while(idx < str.Length && char.IsLetter(str[idx]))
-                {
-                    cur.Append(str[idx++]);
-                }
-
-                strStack.Push(cur.ToString());
-            }
-        }
-
-        if (countStk.Count > 0 && strStack.Count > 0)
-        {
-            res.Append(RepeatString(countStk, strStack));
-        }
-
-        return res.ToString();
     }
 
     private string RepeatString(Stack<int> countStk, Stack<string> strStk)

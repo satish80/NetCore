@@ -2585,6 +2585,52 @@ public class Arrays
         return res;
     }
 
+    //https://leetcode.com/problems/shortest-subarray-to-be-removed-to-make-array-sorted/
+    public void FindLengthOfShortestSubarray()
+    {
+        int[] arr = new int[] {1,2,3,10,4,2,3,5};
+        Console.WriteLine(FindLengthOfShortestSubarray(arr));
+    }
+
+    private int FindLengthOfShortestSubarray(int[] arr)
+    {
+        int n = arr.Length;
+        int start = 0, end = n - 1;
+        
+        while(start < n - 1 && arr[start] <= arr[start + 1])
+        {
+            start++;
+        }
+
+        if(start == n - 1)
+        {
+            return 0;
+        }
+
+        while(end >= start && arr[end] >= arr[end - 1])
+        {
+            end--;
+        }
+
+        int result = Math.Min(n - 1 - start, end);
+
+        int i = 0, j = end;
+        while(i <= start && j < n)
+        {
+            if(arr[j] >= arr[i])
+            {
+                result = Math.Min(result, j - i - 1);
+                i++;
+            }
+            else
+            {
+                j++;
+            }
+        }
+
+        return result;
+    }
+
     //https://leetcode.com/discuss/interview-question/356520
     public void MinChairs()
     {

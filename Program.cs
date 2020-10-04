@@ -67,7 +67,8 @@ namespace Algorithms
             // arrObj.AngleClock();
             // arrObj.TopKFrequent();
             // arrObj.KthLargest();
-            arrObj.MinCostForDeletionToAvoidRepetition();
+            // arrObj.MinCostForDeletionToAvoidRepetition();
+            // arrObj.FindLengthOfShortestSubarray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -173,7 +174,7 @@ namespace Algorithms
             // sObj.SwapForLongestRepeatedChar();
             // sObj.WordBreak();
             // sObj.checkPangram();
-             //sObj.DecodeString();
+            sObj.DecodeString();
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
