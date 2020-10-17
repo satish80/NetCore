@@ -830,6 +830,55 @@ public class Strings
 
     }
 
+    //https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/
+    public void LongestSubstringWithKRepeatingChars()
+    {
+        string s = "ababbc";
+        int k = 2;
+        Console.WriteLine(LongestSubstringWithKRepeatingChars(s, k));
+    }
+
+    private int LongestSubstringWithKRepeatingChars(string s, int k)
+    {
+        if (s == null || s.Length == 0) return 0;
+
+        int res = 0;
+        int start = 0;
+        int[] chars = new int[26];
+        int idx = 0;
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            chars[s[i] - 'a'] ++;
+        }
+
+        bool flag = true;
+        for (int i = 0; i < chars.Length; i++)
+        {
+            if (chars[i] < k && chars[i] > 0)
+            {
+                flag = false;
+            }
+        }
+
+        if (flag == true) return s.Length;
+
+        while(idx < s.Length)
+        {
+            if (chars[s[idx]-'a'] < k)
+            {
+                res = Math.Max(res, LongestSubstringWithKRepeatingChars(s.Substring(start, idx), k));
+                start = idx+1;
+            }
+
+            idx++;
+        }
+
+        res = Math.Max(res, LongestSubstringWithKRepeatingChars(s.Substring(start), k));
+
+        return res;
+    }
+
     //https://leetcode.com/problems/find-all-anagrams-in-a-string/
     public void FindAllAnagrams()
     {

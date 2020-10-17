@@ -69,7 +69,7 @@ namespace Algorithms
             // arrObj.KthLargest();
             // arrObj.MinCostForDeletionToAvoidRepetition();
             // arrObj.FindLengthOfShortestSubarray();
-            arrObj.PossibleBipartition();
+            // arrObj.PossibleBipartition();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -203,6 +203,7 @@ namespace Algorithms
             // sObj.ParseBoolExpr();
             // sObj.NumMatchingSubSeq();                              //** Tricky
             // sObj.RepeatedSubstringPattern();
+            sObj.LongestSubstringWithKRepeatingChars();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
