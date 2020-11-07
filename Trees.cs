@@ -2492,6 +2492,63 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/
+    public void MaxAncestorDiff()
+    {
+
+    }
+
+    private int MaxAncestorDiff(TreeNode node)
+    {
+        return 0;
+    }
+
+
+    //https://leetcode.com/problems/find-nearest-right-node-in-binary-tree/
+    public void FindNearestRightNode()
+    {
+        // TreeNode node= new TreeNode(1);
+        // node.Left = new TreeNode(2);
+        // node.Right = new TreeNode(3);
+        // node.Left.Right = new TreeNode(4);
+        // node.Right.Left = new TreeNode(5);
+        // node.Right.Right = new TreeNode(6);
+
+        TreeNode node= new TreeNode(3);
+        node.Right = new TreeNode(4);
+        node.Right.Left = new TreeNode(2);
+
+        int curLevel = 0;
+        int uLevel = -1;
+        TreeNode rightNeighbor = null;
+        FindNearestRightNode(node, node.Right.Left, curLevel, ref uLevel, ref rightNeighbor);
+        Console.WriteLine(rightNeighbor.Value);
+    }
+
+    private TreeNode FindNearestRightNode(TreeNode root, TreeNode u, int curLevel, ref int ulevel, ref TreeNode rightNeighbor)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (ulevel != -1 && curLevel == ulevel && rightNeighbor == null)
+        {
+            rightNeighbor = root;
+            return root;
+        }
+
+        if (root == u)
+        {
+            ulevel = curLevel;
+        }
+
+        TreeNode left = FindNearestRightNode(root.Left, u, curLevel + 1, ref ulevel, ref rightNeighbor);
+        TreeNode right = FindNearestRightNode(root.Right, u, curLevel + 1, ref ulevel, ref rightNeighbor);
+
+        return root;
+    }
+
     //https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
     public void SortedListToBST()
     {

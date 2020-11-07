@@ -394,172 +394,58 @@ public class DP
         }
     }
 
-    //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+    //LCMedium-Accepted-LcSol-https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void PartitionKSubsetsMatchingSum()
     {
-        //int[] arr = new int[] {4, 3, 2, 3, 5, 2, 1};
-        int[] arr = new int[] {10,10,7,7,7,7,6,7};
-        Console.WriteLine(isKPartitionPossible(arr, arr.Length, 2));
-        // Console.WriteLine(PartitionKSubsetsMatchingSum(arr, 0, 2, 0, 30, new bool[arr.Length]));
-        //int sum = 60;
-        //int k = 2;
-        //Console.WriteLine(k != 0 && sum % k == 0 && canPartition(0, arr, new bool[arr.Length], 2, 0, 30));
-    }
+        int[] arr = new int[] {2, 2, 2, 3, 4, 5};
+        //int[] arr = new int[] {10,10,7,7,7,7,6,7};
+        int k = 4;
 
-    private bool PartitionKSubsetsMatchingSum(int[] arr, int k)
-    {
         int sum = 0;
-        int target = 0;
-        
-        foreach(int num in arr)
+        for(int idx = 0; idx < arr.Length; idx++)
         {
-            sum += num;
+            sum += arr[idx];
         }
 
-        target = sum / k;
-        int count = 0;
-
-        bool[,] dp = new bool[arr.Length, target+1];
-        HashSet<int> visited = new HashSet<int>();
-        
-        for(int row = 0; row < arr.Length; row ++)
+        int targetSum = sum % k;
+        if (sum % k != 0)
         {
-            for(int col = 1; col <= target; col++)
-            {
-                if (arr[row] == col)
-                {
-                    dp[row, col] = true;
-
-                    if (col == target)
-                    {
-                        visited.Add(row);
-                        count++;
-                    }
-                }
-                else if (arr[row] < col)
-                {
-                    if (row > 0)
-                    {
-                        var diff = target - arr[row];
-                        int r = row-1;
-
-                        while (r >= 0 && visited.Contains(r))
-                        {
-                            r--;
-                        }
-
-                        if (r >= 0 && dp[r, diff])
-                        {
-                            dp[row, col] = true;
-                            count++;
-                            visited.Add(row);
-                            visited.Add(r);
-                        }
-                    }
-                }
-                else
-                {
-                        int r = row - 1;
-
-                        while (r >= 0 && !visited.Contains(r))
-                        {
-                            r--;
-                        }
-
-                    dp[row, col] = r > 0 ? dp[r, col] : false;
-                }
-            }
+            Console.WriteLine(false);
         }
 
-        return count == k;
+        Console.WriteLine(CanPartitionKSubsets(arr, new bool[arr.Length], 4, 0,sum / k, 0));
     }
 
-
-    private bool isKPartitionPossibleRec(int[] arr, int[] subsetSum, bool[] taken, int subset, int K, int N, int curIdx, int limitIdx) 
+    private bool CanPartitionKSubsets(int[] nums, bool[] visited, int k, int sum, int targetSum, int idx)
     {
-        if (subsetSum[curIdx] == subset)
-        { 
-            /* current index (K - 2) represents (K - 1) subsets of equal 
-                sum last partition will already remain with sum 'subset'*/
-            if (curIdx == K - 2) 
-                return true; 
-      
-            // recursive call for next subsetition 
-            return isKPartitionPossibleRec(arr, subsetSum, taken, subset, 
-                                                K, N, curIdx + 1, N - 1); 
+        if (k == 0)
+        {
+            return true;
         }
-      
-        // start from limitIdx and include elements into current partition 
-        for (int i = limitIdx; i >= 0; i--) 
-        { 
-            // if already taken, continue 
-            if (taken[i]) 
-                continue; 
-            int tmp = subsetSum[curIdx] + arr[i]; 
-      
-            // if temp is less than subset then only include the element 
-            // and call recursively 
-            if (tmp <= subset) 
-            { 
-                // mark the element and include into current partition sum 
-                taken[i] = true; 
-                subsetSum[curIdx] += arr[i]; 
-                bool nxt = isKPartitionPossibleRec(arr, subsetSum, taken, 
-                                                subset, K, N, curIdx, i - 1); 
-      
-                // after recursive call unmark the element and remove from 
-                // subsetition sum 
-                taken[i] = false; 
-                subsetSum[curIdx] -= arr[i]; 
-                if (nxt) 
-                    return true; 
-            } 
-        } 
-        return false; 
-    }
 
-    // Method returns true if arr can be partitioned into K subsets 
-    // with equal sum 
-    private bool isKPartitionPossible(int []arr, int N, int K) 
-    { 
-        // If K is 1, then complete array will be our answer 
-        if (K == 1) 
-            return true; 
-      
-        // If total number of partitions are more than N, then 
-        // division is not possible 
-        if (N < K) 
-            return false; 
-      
-        // if array sum is not divisible by K then we can't divide 
-        // array into K partitions 
-        int sum = 0; 
-        for (int i = 0; i < N; i++) 
-            sum += arr[i]; 
-        if (sum % K != 0) 
-            return false; 
+        if (sum == targetSum)
+        {
+            return CanPartitionKSubsets(nums, visited, k-1, 0, targetSum, 0);
+        }
 
-        // the sum of each subset should be subset (= sum / K) 
-        int subset = sum / K; 
-        int []subsetSum = new int[K]; 
-        bool []taken = new bool[N]; 
-      
-        // Initialize sum of each subset from 0 
-        for (int i = 0; i < K; i++) 
-            subsetSum[i] = 0; 
-      
-        // mark all elements as not taken 
-        for (int i = 0; i < N; i++) 
-            taken[i] = false; 
-      
-        // initialize first subsubset sum as last element of 
-        // array and mark that as taken 
-        subsetSum[0] = arr[N - 1]; 
-        taken[N - 1] = true; 
-      
-        // call recursive method to check K-substitution condition 
-        return isKPartitionPossibleRec(arr, subsetSum, taken, 
-                                        subset, K, N, 0, N - 1); 
+        for(int i = idx; i < nums.Length; i++)
+        {
+            if (visited[i] || sum + nums[i] > targetSum)
+            {
+                continue;
+            }
+
+            visited[i] = true;
+
+            if (CanPartitionKSubsets(nums, visited, k, sum + nums[i], targetSum, i + 1))
+            {
+                return true;
+            }
+
+            visited[i] = false;
+        }
+
+        return false;
     }
 
     //Accepted: https://leetcode.com/problems/word-break/

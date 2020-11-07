@@ -125,10 +125,11 @@ namespace Algorithms
             // treeObj.LargestValues();
             // treeObj.CountSmallNumbersAfterSelf();
             // treeObj.MinDiffInBST();
+            // treeObj.FindNearestRightNode();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
-            // dpObj.PartitionKSubsetsMatchingSum();
+            dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
             // dpObj.FindRectangleCoordinates();
@@ -203,7 +204,7 @@ namespace Algorithms
             // sObj.ParseBoolExpr();
             // sObj.NumMatchingSubSeq();                              //** Tricky
             // sObj.RepeatedSubstringPattern();
-            sObj.LongestSubstringWithKRepeatingChars();
+            // sObj.LongestSubstringWithKRepeatingChars();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

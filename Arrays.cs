@@ -2834,6 +2834,12 @@ public class Arrays
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 
+    //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+    public void CanPartitionKSubsets()
+    {
+
+    }
+
     //Accepted-LCMedium-LCSol-T:O(n)-https://leetcode.com/problems/possible-bipartition/
     public void PossibleBipartition()
     {
