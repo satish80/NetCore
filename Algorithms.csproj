@@ -19,5 +19,6 @@
     <Content Include="SynchronizedStockMarket.cs" />
     <Content Include="TicTacToe.cs" />
     <Content Include="Tries.cs" />
+    <Content Include="Stacks.cs" />
   </ItemGroup>
 </Project>

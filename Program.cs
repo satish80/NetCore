@@ -129,7 +129,7 @@ namespace Algorithms
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
-            dpObj.PartitionKSubsetsMatchingSum();
+            // dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
             // dpObj.FindRectangleCoordinates();
@@ -169,7 +169,8 @@ namespace Algorithms
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();
-            // gObj.CanFinishCourses();
+             // gObj.CanFinishCourses();
+             // gObj.CourseSchedule();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -227,6 +228,10 @@ namespace Algorithms
             // rObj.JumpGameIII();
             // rObj.KthLargest();
             // rObj.WordBoggle();
+            // rObj.CanFinishCourse();
+
+            Stacks stObj = new Stacks();
+            stObj.ValidateStackSequences();
 
             TicTacToe tObj = new TicTacToe();
             // tObj.MakeMoves();

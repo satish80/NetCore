@@ -235,6 +235,56 @@ public class Graph
         return root[x];
     }
 
+    //https://leetcode.com/problems/course-schedule/
+    public void CourseSchedule()
+    {
+        DirectedGraph graph = new DirectedGraph(3);
+        graph.AddEdge(0, 1);
+        graph.AddEdge(0, 2);
+        graph.AddEdge(1, 2);
+
+        Console.WriteLine(CanFinishCourse(graph));
+    }
+
+    private bool CanFinishCourse(DirectedGraph graph)
+    {
+        for(int idx = 0; idx < graph.Vertices; idx++)
+        {
+            if (! CanFinishCoursesDFS(graph, idx))
+            {
+                return false;
+            }
+            graph.Visited.Clear();
+        }
+
+        return true;
+    }
+
+    private bool CanFinishCoursesDFS(DirectedGraph graph, int idx)
+    {
+        if (graph.Visited.Contains(idx))
+        {
+            return false;
+        }
+
+        graph.Visited.Add(idx);
+
+        if (!graph.AdjList.ContainsKey(2))
+        {
+            return true;
+        }
+
+        foreach(int i in graph.AdjList[idx])
+        {
+            if (!CanFinishCoursesDFS(graph, i))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     //https://leetcode.com/problems/alien-dictionary/
     public void AlienDictionary()
     {
