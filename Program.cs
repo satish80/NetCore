@@ -206,6 +206,7 @@ namespace Algorithms
             // sObj.NumMatchingSubSeq();                              //** Tricky
             // sObj.RepeatedSubstringPattern();
             // sObj.LongestSubstringWithKRepeatingChars();
+            sObj.AreSentencesSimilar();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -231,7 +232,7 @@ namespace Algorithms
             // rObj.CanFinishCourse();
 
             Stacks stObj = new Stacks();
-            stObj.ValidateStackSequences();
+            //stObj.ValidateStackSequences();
 
             TicTacToe tObj = new TicTacToe();
             // tObj.MakeMoves();

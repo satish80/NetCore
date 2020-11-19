@@ -879,6 +879,67 @@ public class Strings
         return res;
     }
 
+    //Accepted:LCEasy-SelfSol-T:O(n):https://leetcode.com/problems/sentence-similarity/
+    public void AreSentencesSimilar()
+    {
+        var sentence1 = new string[] {"great","acting","skills"};
+        var sentence2 = new string[] {"fine","painting","talent"};
+
+        var similarPairs = new List<IList<string>>()
+        {
+            new List<string>() {"great","fine"},
+            new List<string>() {"drama","acting"},
+            new List<string>() {"skills","talent"}
+        };
+
+        Console.WriteLine(AreSentencesSimilar(sentence1, sentence2, similarPairs));
+    }
+
+    private bool AreSentencesSimilar(string[] sentence1, string[] sentence2, IList<IList<string>> similarPairs)
+    {
+        if (sentence1.Length != sentence2.Length)
+        {
+            return false;
+        }
+
+        IDictionary<string, HashSet<string>> map = new Dictionary<string, HashSet<string>>();
+
+        foreach(IList<string> similarPair in similarPairs)
+        {
+            if (!map.ContainsKey(similarPair[0]))
+            {
+                map.Add(similarPair[0], new HashSet<string>());
+            }
+
+            if (!map.ContainsKey(similarPair[1]))
+            {
+                map.Add(similarPair[1], new HashSet<string>());
+            }
+
+            map[similarPair[0]].Add(similarPair[1]);
+
+            map[similarPair[1]].Add(similarPair[0]);
+        }
+
+        for(int idx = 0; idx < sentence1.Length; idx++)
+        {
+            if (sentence1[idx] != sentence2[idx])
+            {
+                if (! map.ContainsKey(sentence1[idx]))
+                {
+                    return false;
+                }
+
+                if (! map[sentence1[idx]].Contains(sentence2[idx]))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     //https://leetcode.com/problems/find-all-anagrams-in-a-string/
     public void FindAllAnagrams()
     {
