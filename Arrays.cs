@@ -2834,6 +2834,46 @@ public class Arrays
         return Math.Min(dp[len - 1], dp[len - 2]);
     }
 
+    //https://leetcode.com/problems/friend-circles/
+    public void FriendCircles()
+    {
+        int[][] M = new int[3][]
+        {
+            new int[] {1, 0, 1},
+            new int[] {0, 0, 0},
+            new int[] {1, 0, 1},
+        };
+
+        Console.WriteLine(FriendCircles(M));
+    }
+
+    public int FriendCircles(int[][] M)
+    {
+        int[] visited = new int[M.Length];
+        int count = 0;
+        for (int i = 0; i < M.Length; i++)
+        {
+            if (visited[i] == 0)
+            {
+                dfs(M, visited, i);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void dfs(int[][] M, int[] visited, int i)
+    {
+        for (int j = 0; j < M.Length; j++)
+        {
+            if (M[i][j] == 1 && visited[j] == 0)
+            {
+                visited[j] = 1;
+                dfs(M, visited, j);
+            }
+        }
+    }
+
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void CanPartitionKSubsets()
     {

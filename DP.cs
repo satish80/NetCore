@@ -549,6 +549,70 @@ public class DP
         return dp[row, col];
     }
 
+    //Accepted: LCMedium: LCSol: T:O(n)-https://leetcode.com/problems/knight-dialer/
+    public void KnightDialer()
+    {
+        int n = 3131;
+        Console.WriteLine(KnightDialer(n));
+    }
+
+    private int KnightDialer(int n)
+    {
+        int[][] graph = new int[][]
+        {
+            new int[] {4,6},
+            new int[]{6,8},
+            new int[]{7,9},
+            new int[]{4,8},
+            new int[]{3,9,0},
+            new int[]{},
+            new int[]{1,7,0},
+            new int[]{2,6},
+            new int[]{1,3},
+            new int[]{2,4}
+        };
+
+        int[,] dp = new int[n,10];
+        for(int r = 0; r < n; r++)
+        {
+            for(int c = 0; c < 10; c++)
+            {
+                dp[r,c] = -1;
+            }
+        }
+
+        int res = 0;
+        for(int i = 0; i <= 9; i++)
+        {
+            res = (res + KnightDialer(n-1, i, graph, dp)) % (1000000007);
+        }
+
+        return res;
+    }
+
+    private int KnightDialer(int n, int cur, int[][] graph, int[,] dp)
+    {
+        if (n == 0)
+        {
+            return 1;
+        }
+
+        if (dp[n,cur] != -1)
+        {
+            return dp[n,cur];
+        }
+
+        int res = 0;
+
+        foreach(int i in graph[cur])
+        {
+            res = (res + KnightDialer(n-1, i, graph, dp)) % (1000000007);
+        }
+
+        dp[n,cur] = res;
+        return res;
+    }
+
     //Accepted: T:O(n): S:O(n): https://leetcode.com/problems/longest-consecutive-sequence/
     public void LongestConsecutiveSequence()
     {

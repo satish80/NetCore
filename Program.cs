@@ -70,6 +70,7 @@ namespace Algorithms
             // arrObj.MinCostForDeletionToAvoidRepetition();
             // arrObj.FindLengthOfShortestSubarray();
             // arrObj.PossibleBipartition();
+            // arrObj.FriendCircles();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -156,7 +157,7 @@ namespace Algorithms
             // dpObj.LongestIncreasingSubsequence();
             // dpObj.LargestNumber();                             // ** Very tricky
             // dpObj.MinCostForMovie();
-            // dpObj.v();
+             dpObj.KnightDialer();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();
@@ -206,7 +207,7 @@ namespace Algorithms
             // sObj.NumMatchingSubSeq();                              //** Tricky
             // sObj.RepeatedSubstringPattern();
             // sObj.LongestSubstringWithKRepeatingChars();
-            sObj.AreSentencesSimilar();
+            // sObj.AreSentencesSimilar();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
