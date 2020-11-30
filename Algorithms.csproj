@@ -22,5 +22,6 @@
     <Content Include="Stacks.cs" />
     <Content Include=".devcontainer\Dockerfile" />
     <Content Include=".devcontainer\devcontainer.json" />
+    <Content Include=".devcontainer\library-scripts\azcli-debian.sh" />
   </ItemGroup>
 </Project>

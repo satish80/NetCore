@@ -71,6 +71,7 @@ namespace Algorithms
             // arrObj.FindLengthOfShortestSubarray();
             // arrObj.PossibleBipartition();
             // arrObj.FriendCircles();
+            arrObj.FurthestBuilding();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -157,7 +158,7 @@ namespace Algorithms
             // dpObj.LongestIncreasingSubsequence();
             // dpObj.LargestNumber();                             // ** Very tricky
             // dpObj.MinCostForMovie();
-             dpObj.KnightDialer();
+            // dpObj.KnightDialer();
 
             Graph gObj = new Graph();
             //gObj.BiPartition();

@@ -2953,6 +2953,42 @@ public class Arrays
         return true;
     }
 
+    //https://leetcode.com/problems/furthest-building-you-can-reach/
+    public void FurthestBuilding()
+    {
+        int[] A = new int[] {4,12,2,7,3,18,20,3,19};
+        int bricks = 10, ladders = 2;
+
+        Console.WriteLine(FurthestBuilding(A, bricks, ladders));
+    }
+
+    private int FurthestBuilding(int[] A, int bricks, int ladders)
+    {
+        Heap<int> heap = new Heap<int>(true);
+
+        for(int idx = 0; idx < A.Length-1; idx++)
+        {
+            int diff = A[idx+1] - A[idx];
+
+            if (diff > 0)
+            {
+                heap.Push(diff);
+            }
+
+            if (heap.Count > ladders)
+            {
+                bricks -= heap.Pop();
+            }
+
+            if (bricks <= 0)
+            {
+                return idx;
+            }
+        }
+
+        return A.Length-1;
+    }
+
     //https://leetcode.com/problems/find-median-from-data-stream/
     public void MedianFromStream()
     {
