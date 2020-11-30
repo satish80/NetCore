@@ -20,5 +20,7 @@
     <Content Include="TicTacToe.cs" />
     <Content Include="Tries.cs" />
     <Content Include="Stacks.cs" />
+    <Content Include=".devcontainer\Dockerfile" />
+    <Content Include=".devcontainer\devcontainer.json" />
   </ItemGroup>
 </Project>
