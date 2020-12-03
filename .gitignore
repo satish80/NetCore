@@ -1,3 +1,11 @@
 bin/
 obj/
 .vs/
+User/
+Cache/
+Backups/
+blob_storage/
+CachedData/
+GPUCache/
+logs/
+storage.json
