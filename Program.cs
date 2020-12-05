@@ -71,7 +71,7 @@ namespace Algorithms
             // arrObj.FindLengthOfShortestSubarray();
             // arrObj.PossibleBipartition();
             // arrObj.FriendCircles();
-            arrObj.FurthestBuilding();
+            // arrObj.FurthestBuilding();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -167,7 +167,7 @@ namespace Algorithms
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
-            // gObj.AccountsMerge();
+            gObj.AccountsMerge();
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();

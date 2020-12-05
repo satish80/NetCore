@@ -408,22 +408,26 @@ public class Graph
         return count;
     }
 
-    //https://leetcode.com/problems/accounts-merge/
+    //LCMedium: LCSol: T:O(n^2): https://leetcode.com/problems/accounts-merge/
     public void AccountsMerge()
     {
         IList<IList<string>> contacts = new List<IList<string>>();
         var contact1 = new List<string>();
-        contact1.Add("johnsmith@mail.com");
+        contact1.Add("john");
         contact1.Add("john00@mail.com");
+        contact1.Add("johnsmith@mail.com");
 
         var contact2 = new List<string>();
+        contact2.Add("john");
         contact2.Add("johnnybravo@mail.com");
 
         var contact3 = new List<string>();
+        contact3.Add("john");
         contact3.Add("johnsmith@mail.com");
         contact3.Add("john_newyork@mail.com");
 
         var contact4 = new List<string>();
+        contact4.Add("mary");
         contact4.Add("mary@mail.com");
 
         contacts.Add(contact1);
@@ -431,7 +435,75 @@ public class Graph
         contacts.Add(contact3);
         contacts.Add(contact4);
 
-        var res = AccountsMerge(contacts);
+        var res = AccountMerge(contacts);
+    }
+
+    private IList<IList<string>> AccountMerge(IList<IList<string>> accounts)
+    {
+       Dictionary<string, string> parentMap = new Dictionary<string, string>();
+       Dictionary<string, string> owners = new Dictionary<string, string>();
+       Dictionary<string, List<string>> unions = new Dictionary<string, List<string>>();
+       IList<IList<string>> res = new List<IList<string>>();
+
+        foreach(IList<string> contacts in accounts)
+        {
+            for(int idx = 1; idx < contacts.Count; idx++)
+            {
+                if (!parentMap.ContainsKey(contacts[idx]))
+                {
+                    parentMap.Add(contacts[idx], contacts[idx]);
+                }
+
+                if (!owners.ContainsKey(contacts[idx]))
+                {
+                    owners.Add(contacts[idx], contacts[0]);
+                }
+            }
+        }
+
+        foreach(IList<string> contacts in accounts)
+        {
+            string p = FindParent(contacts[1], parentMap);
+
+            for(int idx = 2; idx < contacts.Count; idx++)
+            {
+                var contactParent = FindParent(contacts[idx], parentMap);
+                parentMap[contactParent] = p;
+            }
+        }
+
+        foreach(IList<string> contacts in accounts)
+        {
+            string p = FindParent(contacts[1], parentMap);
+            if (! unions.ContainsKey(p))
+            {
+                unions.Add(p, new List<string>());
+            }
+
+            for(int idx = 1; idx < contacts.Count; idx++)
+            {
+                if (! unions[p].Contains(contacts[idx]))
+                {
+                    unions[p].Add(contacts[idx]);
+                }
+            }
+        }
+
+        foreach(string p in unions.Keys)
+        {
+            var list = new List<string>();
+            list.Add(owners[p]);
+            unions[p].Sort();
+            list.AddRange(unions[p]);
+            res.Add(list);
+        }
+
+        return res;
+    }
+
+    private string FindParent(string contact, Dictionary<string, string> parentMap)
+    {
+        return parentMap[contact] == contact ? contact : FindParent(parentMap[contact], parentMap);
     }
 
     private IList<HashSet<string>> AccountsMerge(IList<IList<string>> accounts)
