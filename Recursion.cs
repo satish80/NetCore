@@ -175,6 +175,30 @@ public class Recursion
         return sum;
     }
 
+    /*
+    You are presented with an 8 by 8 matrix representing the positions of pieces on a chess board. The only pieces on the board are the black king 
+    and various white pieces. Given this matrix, determine whether the king is in check. For details on how each piece moves,
+    see here https://en.wikipedia.org/wiki/Chess_piece#Moves_of_the_pieces .
+    For example, given the following matrix:
+    ...K....
+    ........
+    .B......
+    ......P.
+    .......R
+    ..N.....
+    ........
+    .....Q..
+    */
+    public void KingCheck()
+    {
+
+    }
+
+    private bool KingCheck(int i)
+    {
+        return true;
+    }
+
     //https://leetcode.com/problems/kth-largest-element-in-an-array/
     public void KthLargest()
     {

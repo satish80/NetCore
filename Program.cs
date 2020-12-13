@@ -72,6 +72,8 @@ namespace Algorithms
             // arrObj.PossibleBipartition();
             // arrObj.FriendCircles();
             // arrObj.FurthestBuilding();
+            // arrObj.FindNumFromSortedArray();
+            arrObj.LetterCombinationsOfPhoneNumber();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -128,6 +130,7 @@ namespace Algorithms
             // treeObj.CountSmallNumbersAfterSelf();
             // treeObj.MinDiffInBST();
             // treeObj.FindNearestRightNode();
+            // treeObj.MostFrequentElementInBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -167,7 +170,7 @@ namespace Algorithms
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
-            gObj.AccountsMerge();
+            // gObj.AccountsMerge();
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();

@@ -2584,6 +2584,51 @@ public class Trees
 
         return slow;
     }
+
+    //https://leetcode.com/discuss/interview-question/963428/google-phone-most-frequent-element-in-a-bst
+    public void MostFrequentElementInBST()
+    {
+        TreeNode node = new TreeNode(50);
+        node.Left = new TreeNode(40);
+        node.Left.Left = new TreeNode(40);
+        node.Left.Right = new TreeNode(40);
+        node.Right = new TreeNode(58);
+        node.Right.Left = new TreeNode(58);
+        node.Right.Right = new TreeNode(62);
+
+        int max = 0, count = 0, prev = 0, val = -1;
+        Console.WriteLine(MostFrequentElementInBST(node, ref prev, ref count, ref max, ref val));
+    }
+
+    private int MostFrequentElementInBST(TreeNode node, ref int prev, ref int count, ref int max, ref int val)
+    {
+        if (node == null)
+        {
+            return val;
+        }
+
+        MostFrequentElementInBST(node.Left, ref prev, ref count, ref max, ref val);
+
+        if (node.Left != null)
+        {
+            prev = node.Left.Value.Value;
+        }
+
+        if (node.Value.Value == prev)
+        {
+            count ++;
+            max = Math.Max(max, count);
+            val = max == count ? node.Value.Value : val;
+        }
+        else
+        {
+            count = 0;
+        }
+
+        MostFrequentElementInBST(node.Right, ref prev, ref count, ref max, ref val);
+
+        return val;
+    }
 }
 
 public class TreeNode

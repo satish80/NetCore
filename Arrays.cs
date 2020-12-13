@@ -2989,6 +2989,36 @@ public class Arrays
         return A.Length-1;
     }
 
+    /*
+    Asked by Netflix
+    Given a sorted list of integers of length N, 
+    determine if an element x is in the list without performing any multiplication, division, or bit-shift operations.
+    */
+    public void FindNumFromSortedArray()
+    {
+        int[] arr = new int[] {2, 3, 5, 9, 12};
+        Console.WriteLine(FindNumFromSortedArray(arr, 2, 0, arr.Length-1));
+    }
+
+    private bool FindNumFromSortedArray(int[] arr, int x, int start, int end)
+    {
+        if (end - start <= 1)
+        {
+            return arr[end] == x || arr[start] == x;
+        }
+
+        int mid = (start + end ) /2;
+
+        if (x > arr[mid])
+        {
+            return FindNumFromSortedArray(arr,x,  mid, end);
+        }
+        else
+        {
+            return FindNumFromSortedArray(arr, x, start, mid);
+        }
+    }
+
     //https://leetcode.com/problems/find-median-from-data-stream/
     public void MedianFromStream()
     {
@@ -3041,6 +3071,94 @@ public class Arrays
         {
             smaller.Push(bigger.Pop());
         }
+    }
+
+    //Accepted:LCMedium:selfSol: T:n! https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+    public void LetterCombinationsOfPhoneNumber()
+    {
+        Dictionary<int, List<char>> map = new Dictionary<int, List<char>>();
+        List<char> list1 = new List<char>();
+        list1.Add('a');
+        list1.Add('b');
+        list1.Add('c');
+
+        List<char> list2 = new List<char>();
+        list2.Add('d');
+        list2.Add('e');
+        list2.Add('f');
+
+        List<char> list3 = new List<char>();
+        list3.Add('g');
+        list3.Add('h');
+        list3.Add('i');
+
+        List<char> list4 = new List<char>();
+        list4.Add('j');
+        list4.Add('k');
+        list4.Add('l');
+
+        List<char> list5 = new List<char>();
+        list5.Add('m');
+        list5.Add('n');
+        list5.Add('o');
+
+        List<char> list6 = new List<char>();
+        list6.Add('p');
+        list6.Add('q');
+        list6.Add('r');
+        list6.Add('s');
+
+        List<char> list7 = new List<char>();
+        list7.Add('t');
+        list7.Add('u');
+        list7.Add('v');
+
+        List<char> list8 = new List<char>();
+        list8.Add('w');
+        list8.Add('x');
+        list8.Add('y');
+        list8.Add('z');
+
+
+        map.Add(2, list1);
+        map.Add(3, list2);
+        map.Add(4, list3);
+        map.Add(5, list4);
+        map.Add(6, list5);
+        map.Add(7, list6);
+        map.Add(8, list7);
+        map.Add(9, list8);
+
+        IList<string> res = LetterCombinationsOfPhoneNumber("23", map, 0);
+    }
+
+    private IList<string> LetterCombinationsOfPhoneNumber(string digits, Dictionary<int, List<char>> map, int idx)
+    {
+        IList<string> res = new List<string>();
+
+        if (idx < digits.Length)
+        {
+            int cur = int.Parse(digits[idx].ToString());
+
+            idx++;
+
+            foreach(char ch in map[cur])
+            {
+                var output = LetterCombinationsOfPhoneNumber(digits, map, idx);
+
+                if (output.Count == 0)
+                {
+                    res.Add(ch.ToString());
+                }
+
+                foreach(string str in output)
+                {
+                    res.Add(string.Concat(ch, str));
+                }
+            }
+        }
+
+        return res;
     }
 
     public void HasCircularLoop()
