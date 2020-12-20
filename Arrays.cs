@@ -3129,10 +3129,38 @@ public class Arrays
         map.Add(8, list7);
         map.Add(9, list8);
 
-        IList<string> res = LetterCombinationsOfPhoneNumber("23", map, 0);
+        IList<string> res = LetterCombinationsOfPhoneNoFIFO("234");
     }
 
-    private IList<string> LetterCombinationsOfPhoneNumber(string digits, Dictionary<int, List<char>> map, int idx)
+    private IList<string> LetterCombinationsOfPhoneNoFIFO(string digits)
+    {
+        IList<String> ans = new List<String>();
+
+		if(string.IsNullOrEmpty(digits))
+        {
+             return ans;
+        }
+
+        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        ans.Add("");
+
+        while(ans[0].Length != digits.Length)
+        {
+            String remove = ans[0];
+            ans.RemoveAt(0);
+            String map = mapping[digits[remove.Length]-'0'];
+
+            foreach(char c in map.ToCharArray())
+            {
+                ans.Add(remove+c);
+            }
+        }
+
+        return ans;
+    }
+
+    //T:O(4n)
+    private IList<string> LetterCombinationsOfPhoneNumberDFS(string digits, Dictionary<int, List<char>> map, int idx)
     {
         IList<string> res = new List<string>();
 
