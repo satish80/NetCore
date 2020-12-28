@@ -2989,6 +2989,42 @@ public class Arrays
         return A.Length-1;
     }
 
+    //LcHard:LcSol:T:O(): https://leetcode.com/problems/permutation-sequence/
+    public void GetPermutation()
+    {
+        Console.WriteLine(GetPermutation(4, 9));
+    }
+
+    private string GetPermutation(int n, int k)
+    {
+        int[] factorials = new int[n+1];
+        List<int> nums = new List<int>();
+
+        factorials[0] = 1;
+        for(int i = 1; i <= n; ++i)
+        {
+            // generate factorial system bases 0!, 1!, ..., (n - 1)!
+            factorials[i] = factorials[i - 1] * i;
+            // generate nums 1, 2, ..., n
+            nums.Add(i);
+        }
+
+        // fit k in the interval 0 ... (n! - 1)
+        k--;
+
+        // compute factorial representation of k
+        StringBuilder sb = new StringBuilder();
+        for(int i = 1; i <= n; i++)
+        {
+            int index = k/factorials[n-i];
+            sb.Append(nums[index]);
+            nums.RemoveAt(index);
+            k-= index * factorials[n-i];
+        }
+
+        return sb.ToString();
+    }
+
     /*
     Asked by Netflix
     Given a sorted list of integers of length N, 
@@ -3172,7 +3208,7 @@ public class Arrays
 
             foreach(char ch in map[cur])
             {
-                var output = LetterCombinationsOfPhoneNumber(digits, map, idx);
+                var output = LetterCombinationsOfPhoneNumberDFS(digits, map, idx);
 
                 if (output.Count == 0)
                 {

@@ -73,7 +73,8 @@ namespace Algorithms
             // arrObj.FriendCircles();
             // arrObj.FurthestBuilding();
             // arrObj.FindNumFromSortedArray();
-            arrObj.LetterCombinationsOfPhoneNumber();
+            // arrObj.LetterCombinationsOfPhoneNumber();
+            // arrObj.GetPermutation();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -176,6 +177,7 @@ namespace Algorithms
             // gObj.ReconstructItinerary();
              // gObj.CanFinishCourses();
              // gObj.CourseSchedule();
+             gObj.DisjointSets();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

@@ -235,6 +235,62 @@ public class Graph
         return root[x];
     }
 
+    /*
+    Given information about the links between various data centers, find the groups of isolated but connected data centers. 
+    For example --> Input : {A<->B, B<->C, D<->E}, Output : {A, B, C}, {D, E}
+    */
+    public void DisjointSets()
+    {
+        int[][] edges = new int[][]
+        {
+            new int[]{2, 3},
+            new int[]{1, 2},
+            new int[]{1, 3},
+            //new int[]{2, 4},
+        };
+
+        Console.WriteLine(DisjointSets(4, edges));
+    }
+
+    private int DisjointSets(int n, int[][] edges)
+    {
+        Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
+        int[] root = new int[n+1];
+
+        foreach(int[] pair in edges)
+        {
+            root[pair[0]] = -1;
+            root[pair[1]] = -1;
+        }
+
+        foreach(int[] pair in edges)
+        {
+            if (root[pair[0]] == -1)
+            {
+                root[pair[0]] = pair[0];
+            }
+
+            if (root[pair[1]] == -1)
+            {
+                root[pair[1]] = pair[0];
+            }
+        }
+
+        foreach(int[] pair in edges)
+        {
+            int parent = Find(pair[1], root);
+            
+            if (!map.ContainsKey(parent))
+            {
+                map.Add(parent, new List<int>());
+            }
+
+            map[parent].Add(pair[1]);
+        }
+
+        return map.Count;
+    }
+
     //https://leetcode.com/problems/course-schedule/
     public void CourseSchedule()
     {
