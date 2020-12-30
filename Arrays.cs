@@ -6,10 +6,42 @@ using System.Text;
 
 public class Arrays
 {
-    //https://leetcode.com/problems/partition-labels/
+    //LCMedium-LCSol-Accepted-T:O(n)-S:O(n): https://leetcode.com/problems/partition-labels/
     public void PartitionStringWithUniqueChars()
     {
-        Console.WriteLine(PartitionStringWithUniqueChars("abacbdefedghiho"));
+        Console.WriteLine(PartitionLabels("ababcbacadefegdehijhklij"));
+    }
+
+    private IList<int> PartitionLabels(string S)
+    {
+        int[] map = new int[26];
+        List<int> res = new List<int>();
+
+        for(int idx = 0; idx < S.Length; idx++)
+        {
+            map[S[idx] - 'a'] = idx;
+        }
+
+        int start = 0;
+        int last = 0;
+
+        for(int idx = 0; idx < S.Length; idx ++)
+        {
+            last = Math.Max(last, map[S[idx] -'a']);
+
+            if (last == idx)
+            {
+                res.Add(last - start +1);
+                start = last + 1;
+            }
+        }
+
+        return res;
+    }
+
+    private int FindPartitionLabel(IDictionary<int, HashSet<char>> map)
+    {
+        return 0;
     }
 
     private IList<int> PartitionStringWithUniqueChars(string input)

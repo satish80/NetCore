@@ -7,7 +7,7 @@ namespace Algorithms
         static void Main(string[] args)
         {
             Arrays arrObj = new Arrays();
-            // arrObj.PartitionStringWithUniqueChars();
+            arrObj.PartitionStringWithUniqueChars();
             // arrObj.MoveZerosAtEnd();
             //arrObj.QueueReconstructionByHeight();
             //arrObj.WallsGates();
@@ -177,7 +177,7 @@ namespace Algorithms
             // gObj.ReconstructItinerary();
              // gObj.CanFinishCourses();
              // gObj.CourseSchedule();
-             gObj.DisjointSets();
+             // gObj.DisjointSets();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

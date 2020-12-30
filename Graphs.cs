@@ -254,41 +254,27 @@ public class Graph
 
     private int DisjointSets(int n, int[][] edges)
     {
-        Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
-        int[] root = new int[n+1];
+        int[] root = new int[n];
 
-        foreach(int[] pair in edges)
+       foreach(int[] edge in edges)
         {
-            root[pair[0]] = -1;
-            root[pair[1]] = -1;
+            root[edge[0]] = edge[0];
+            root[edge[1]] = edge[1];
         }
-
-        foreach(int[] pair in edges)
+        
+        foreach(int[] edge in edges)
         {
-            if (root[pair[0]] == -1)
-            {
-                root[pair[0]] = pair[0];
-            }
-
-            if (root[pair[1]] == -1)
-            {
-                root[pair[1]] = pair[0];
-            }
-        }
-
-        foreach(int[] pair in edges)
-        {
-            int parent = Find(pair[1], root);
+            int root1 = Find(edge[0], root);
+            int root2 = Find(edge[1], root);
             
-            if (!map.ContainsKey(parent))
+            if (root1 != root2)
             {
-                map.Add(parent, new List<int>());
+                root[root1] = root[root2];
+                n--;
             }
-
-            map[parent].Add(pair[1]);
         }
-
-        return map.Count;
+        
+        return n;
     }
 
     //https://leetcode.com/problems/course-schedule/
