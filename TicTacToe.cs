@@ -11,7 +11,6 @@ public class TicTacToe
         new int[3],
         new int[3]
     };
-    int turn = 0;
     int diag = 0;
     int antiDiag = 0;
 

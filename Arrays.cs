@@ -1835,7 +1835,7 @@ public class Arrays
     //https://leetcode.com/problems/decode-ways/
     public void DecodeWays()
     {
-        Console.WriteLine(DecodeWays("110"));
+        Console.WriteLine(DecodeWays("226"));
     }
 
     private int DecodeWays(string s)
@@ -1845,10 +1845,10 @@ public class Arrays
             return 0;
         }
 
-        int[] res = new int[s.Length];
+        int[] res = new int[s.Length+1];
         res[0] = 1;
-
-        for (int idx = 1; idx < s.Length; idx ++)
+        res[1] = s[0] != '0' ? 1 : 0;
+        for (int idx = 2; idx <= s.Length; idx ++)
         {
             int first = int.Parse(s.Substring(idx-1, 1));
             int second = idx >= 2 ? int.Parse(s.Substring(idx-2, 2)) : 0;
@@ -1864,7 +1864,7 @@ public class Arrays
             }
         }
 
-        return res[s.Length-1];
+        return res[s.Length];
     }
 
     //Accepted: https://leetcode.com/problems/valid-mountain-array/
@@ -2128,15 +2128,9 @@ public class Arrays
     {
         DSU d = new DSU(stones.Length);
 
-        for(int row = 0; row < stones.Length; row ++)
+        for(int col = 0 ; col < stones.Length; col ++)
         {
-            for(int col = 0 ; col < stones.Length; col ++)
-            {
-                if (stones[row][0] == stones[col][0] || stones[row][1] == stones[col][1])
-                {
-                    d.Union(row, col);
-                }
-            }
+            d.Union(stones[col][0], stones[col][1]);
         }
 
         return stones.Length - d.Count;

@@ -7,7 +7,7 @@ namespace Algorithms
         static void Main(string[] args)
         {
             Arrays arrObj = new Arrays();
-            arrObj.PartitionStringWithUniqueChars();
+            // arrObj.PartitionStringWithUniqueChars();
             // arrObj.MoveZerosAtEnd();
             //arrObj.QueueReconstructionByHeight();
             //arrObj.WallsGates();
@@ -20,7 +20,7 @@ namespace Algorithms
             // arrObj.DecodeWays();
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
-            // arrObj.RemoveStones();
+            arrObj.RemoveStones();
             // arrObj.FindFirstLastPosInArray();
             // arrObj.DailyTemperatures();
             // arrObj.FindInMountainArray();
