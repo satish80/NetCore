@@ -20,7 +20,7 @@ namespace Algorithms
             // arrObj.DecodeWays();
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
-            arrObj.RemoveStones();
+            // arrObj.RemoveStones();
             // arrObj.FindFirstLastPosInArray();
             // arrObj.DailyTemperatures();
             // arrObj.FindInMountainArray();
@@ -75,6 +75,7 @@ namespace Algorithms
             // arrObj.FindNumFromSortedArray();
             // arrObj.LetterCombinationsOfPhoneNumber();
             // arrObj.GetPermutation();
+            arrObj.CanReach();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

@@ -812,6 +812,43 @@ public class Arrays
         return count;
     }
 
+    //LCMedium-Self-T:O(n)-S:O(n):https://leetcode.com/problems/jump-game-iii/
+    public void CanReach()
+    {
+        int[] arr  = new int[] {4,2,3,0,3,1,2};
+        bool[] visited = new bool[arr.Length];
+        Console.WriteLine(CanReach(arr, visited, 0));
+    }
+
+    private bool CanReach(int[] arr, bool[] visited, int cur)
+    {
+        bool res = false;
+
+        if (visited[cur])
+        {
+            return false;
+        }
+
+        visited[cur] = true;
+
+        if (arr[cur] == 0)
+        {
+            return true;
+        }
+
+        if (cur + arr[cur] < arr.Length)
+        {
+            res = CanReach(arr, visited, cur + arr[cur]);
+        }
+
+        if (!res && cur + arr[cur] >= 0)
+        {
+            res = CanReach(arr, visited, Math.Abs(cur - arr[cur]));
+        }
+
+        return res;
+    }
+
     public void DailyTemperatures()
     {
         int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};
