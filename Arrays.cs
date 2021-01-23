@@ -871,6 +871,17 @@ public class Arrays
         return ret;
     }
 
+    //https://leetcode.com/problems/leftmost-column-with-at-least-a-one/
+    public void LeftMostColumnWithOne()
+    {
+
+    }
+
+    private int LeftMostColumnWithOne(BinaryMatrix binaryMatrix)
+    {
+        return 0;
+    }
+
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
     public void AngleClock()
     {

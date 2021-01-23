@@ -2585,6 +2585,35 @@ public class Trees
         return slow;
     }
 
+    //https://leetcode.com/problems/maximum-average-subtree/
+    public void MaximumAverageSubTree()
+    {
+        TreeNode node = new TreeNode(5);
+        node.Left = new TreeNode(6);
+        node.Right = new TreeNode(1);
+        double max = double.MinValue;
+        Console.WriteLine(MaximumAverageSubTree(node, ref max));
+    }
+
+    private double MaximumAverageSubTree(TreeNode root, ref double max)
+    {
+        if (root == null)
+        {
+            return 0.0;
+        }
+
+        double left = MaximumAverageSubTree(root.Left, ref max);
+        double right = MaximumAverageSubTree(root.Right, ref max);
+
+        int divisor = left == 0.0 ? 0 : 1;
+        divisor += right == 0.0 ? 0 : 1;
+        divisor += 1;
+        double average = (root.Value.Value + left + right) / divisor;
+
+        max = Math.Max(max, average);
+        return average;
+    }
+
     //https://leetcode.com/discuss/interview-question/963428/google-phone-most-frequent-element-in-a-bst
     public void MostFrequentElementInBST()
     {

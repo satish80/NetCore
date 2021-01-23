@@ -306,4 +306,24 @@ namespace DataStructures
         public int Idx;
 
     }
+
+    public class BinaryMatrix
+    {
+        int[,] matrix = null;
+
+        public BinaryMatrix(int[,] matrix)
+        {
+            this.matrix = matrix;
+        }
+
+        public int Get(int row, int col)
+        {
+            return this.matrix[row, col];
+        }
+
+        public IList<int> Dimensions()
+        {
+            return new List<int>() { matrix.GetLength(0),matrix.GetLength(1) };
+        }
+    }
 }

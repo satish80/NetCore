@@ -613,6 +613,40 @@ public class DP
         return res;
     }
 
+    //https://leetcode.com/problems/super-egg-drop/
+    public void EggDrop()
+    {
+        int eggs = 2;
+        int floors = 6;
+
+        Console.WriteLine(EggDrop(eggs, floors));
+    }
+
+    private int EggDrop(int eggs, int floors)
+    {
+        int[,] dp = new int[floors+1, eggs+1];
+
+        for(int i = 1; i <= floors; i++)
+        {
+            for(int j = 1; j <= eggs; j++)
+            {
+                // Add the condition to account for the floors at the current given floor & egg count.
+                // 1 for current floor
+                // egg breaks: (j-1), then look upto i -1 (try the next floor)
+                // egg doesn't break: try the i-1 (try next floor), egg count remains same
+                dp[i,j] = 1 + dp[i-1,j-1] + dp[i-1, j];
+
+                // if the total floors is greater than or equal to the total floors, then return the i (the floor)
+                if (dp[i,j] >= floors)
+                {
+                    return i;
+                }
+            }
+        }
+
+        return dp[eggs, floors];
+    }
+
     //Accepted: T:O(n): S:O(n): https://leetcode.com/problems/longest-consecutive-sequence/
     public void LongestConsecutiveSequence()
     {
