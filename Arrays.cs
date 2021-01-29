@@ -2156,6 +2156,88 @@ public class Arrays
         return false;
     }
 
+    //https://leetcode.com/problems/minimum-number-of-people-to-teach/
+    public void MinTeachings()
+    {
+        int[][] languages = new int[][] 
+        {
+            new int[]{2},
+            new int[]{1,3},
+            new int[]{1,2},
+            new int[] {3}
+        };
+
+        int[][] friendships = new int[][]
+        {
+            new int[] {1,4},
+            new int[]{1,2},
+            new int[]{3,4},
+            new int[]{2,3}
+        };
+
+        Console.WriteLine(MinimumTeachings(3, languages, friendships));
+    }
+
+    private int MinimumTeachings(int n, int[][] languages, int[][] friendships)
+    {
+        Dictionary<int, int> langToSpokenCountMap = new Dictionary<int, int>();
+        HashSet<int> users = new HashSet<int>();
+        Dictionary<int, HashSet<int>> userLanguages = new Dictionary<int, HashSet<int>>();
+
+        for(int idx = 0; idx < languages.Length; idx++)
+        {
+            for(int count = 0; count < languages[idx].Length; count++)
+            {
+                if (!userLanguages.ContainsKey(idx+1))
+                {
+                    userLanguages[idx+1] = new HashSet<int>();
+                }
+
+                userLanguages[idx+1].Add(languages[idx][count]);
+            }
+        }
+
+        bool common = false;
+
+        foreach(int[] friends in friendships)
+        {
+            common = false;
+            foreach(int lang in userLanguages[friends[0]])
+            {
+                if (userLanguages[friends[1]].Contains(lang))
+                {
+                    common = true;
+                    break;
+                }
+            }
+
+            if (!common)
+            {
+                users.Add(friends[0]);
+                users.Add(friends[1]);
+            }
+        }
+
+        int max = int.MinValue;
+
+        foreach(int user in users)
+        {
+            foreach(int lang in userLanguages[user])
+            {
+                if(!langToSpokenCountMap.ContainsKey(lang))
+                {
+                    langToSpokenCountMap.Add(lang, 0);
+                }
+
+                langToSpokenCountMap[lang]++;
+
+                max = Math.Max (max, langToSpokenCountMap[lang]);
+            }
+        }
+
+        return users.Count - max;
+    }
+
     //https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
     public void RemoveStones()
     {

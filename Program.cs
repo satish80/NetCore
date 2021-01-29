@@ -76,6 +76,7 @@ namespace Algorithms
             // arrObj.LetterCombinationsOfPhoneNumber();
             // arrObj.GetPermutation();
             // arrObj.CanReach();
+            arrObj.MinTeachings();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -133,7 +134,7 @@ namespace Algorithms
             // treeObj.MinDiffInBST();
             // treeObj.FindNearestRightNode();
             // treeObj.MostFrequentElementInBST();
-            treeObj.MaximumAverageSubTree();
+            // treeObj.MaximumAverageSubTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
