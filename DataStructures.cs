@@ -86,6 +86,23 @@ namespace DataStructures
             }
         }
 
+        public class ArrayComparer : IComparer<T>
+        {
+            public int Compare(T x, T y)
+            {
+                if (typeof(T) == typeof(int[]))
+                {
+                    object one = (object)x;
+                    object other = (object)y;
+                    int[] first = (int[])one;
+                    int[] second = (int[])other;
+                    return first[0] - second[0];
+                }
+
+                return 0;
+            }
+        }
+
         public class KeyValueComparer : IComparer<T>
         {
             public int Compare(T x, T y)

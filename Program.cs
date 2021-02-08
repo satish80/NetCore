@@ -76,7 +76,7 @@ namespace Algorithms
             // arrObj.LetterCombinationsOfPhoneNumber();
             // arrObj.GetPermutation();
             // arrObj.CanReach();
-            arrObj.MinTeachings();
+            // arrObj.MinTeachings();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -135,6 +135,7 @@ namespace Algorithms
             // treeObj.FindNearestRightNode();
             // treeObj.MostFrequentElementInBST();
             // treeObj.MaximumAverageSubTree();
+            // treeObj.MaxSumBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -182,6 +183,7 @@ namespace Algorithms
              // gObj.CanFinishCourses();
              // gObj.CourseSchedule();
              // gObj.DisjointSets();
+             gObj.FindCheapestPrice();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -218,6 +220,7 @@ namespace Algorithms
             // sObj.RepeatedSubstringPattern();
             // sObj.LongestSubstringWithKRepeatingChars();
             // sObj.AreSentencesSimilar();
+            // sObj.WordSearch();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

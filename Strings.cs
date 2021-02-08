@@ -619,6 +619,51 @@ public class Strings
         return "NO";
     }
 
+    //https://leetcode.com/problems/word-search/
+    public void WordSearch()
+    {
+        char[][] board = new char[][]
+        {
+            new char[]{'A','B','C','E'},
+            new char[]{'S','F','C','S'},
+            new char[]{'A','D','E','E'}
+        };
+
+        bool[,] visited = new bool[board.Length, board[0].Length];
+        Console.WriteLine(WordSearch(board, "ABCCED", 0, 0, 0, string.Empty, visited));
+    }
+
+    private bool WordSearch(char[][] board, string word, int row, int col, int idx, string cur, bool[,] visited)
+    {
+        if (row < 0 || col < 0 || row >= board.Length || col >= board[row].Length || visited[row, col] )
+        {
+            return false;
+        }
+
+        if (word == cur)
+        {
+            return true;
+        }
+
+        bool res = false;
+
+        visited[row, col] = true;
+
+        if (word[idx] == board[row][col])
+        {
+            idx++;
+            cur = cur+board[row][col];
+        }
+
+        res = WordSearch(board, word, row, col+1, idx, cur, visited) ||
+            WordSearch(board, word, row+1, col, idx, cur, visited) ||
+            WordSearch(board, word, row-1, col, idx, cur, visited) ||
+            WordSearch(board, word, row, col-1, idx, cur, visited);
+
+        visited[row, col] = false;
+        return res;
+    }
+
     //Accepted: https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
     public void LongestSubstringKDistinctChars()
     {

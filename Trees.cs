@@ -2658,6 +2658,63 @@ public class Trees
 
         return val;
     }
+
+    //https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/
+    public void MaxSumBST()
+    {
+        // TreeNode node= new TreeNode(1);
+        // node.Left = new TreeNode(4);
+        // node.Right = new TreeNode(3);
+        // node.Left.Left = new TreeNode(2);
+        // node.Left.Right = new TreeNode(4);
+        // node.Right.Left = new TreeNode(2);
+        // node.Right.Right = new TreeNode(5);
+        // node.Right.Right.Left = new TreeNode(4);
+        // node.Right.Right.Right = new TreeNode(6);
+
+        // TreeNode node=  new TreeNode(5);
+        // node.Left = new TreeNode(4);
+        // node.Right = new TreeNode(8);
+        // node.Left.Left = new TreeNode(3);
+        // node.Right.Left = new TreeNode(6);
+        // node.Right.Right= new TreeNode(3);
+
+        TreeNode node =  new TreeNode(1);
+        node.Right= new TreeNode(10);
+        node.Right.Left = new TreeNode(-5);
+        node.Right.Right = new TreeNode(20);
+
+        int max = 0;
+
+        MaxSumBST(node, ref max);
+        Console.WriteLine(max);
+    }
+
+    private int MaxSumBST(TreeNode root, ref int max)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int left = MaxSumBST(root.Left, ref max);
+        int right = MaxSumBST(root.Right, ref max);
+
+        if (left != -1 && right!= -1 && (root.Left != null && root.Value > root.Left.Value || left == 0) 
+            && (root.Right != null && root.Value < root.Right.Value || right == 0))
+        {
+            int res = root.Value.Value + left + right;
+            max = Math.Max(max, res);
+            return res;
+        }
+        else if (left == 0 && right == 0)
+        {
+            max = Math.Max(max, root.Value.Value);
+            return root.Value.Value;
+        }
+
+        return -1;
+    }
 }
 
 public class TreeNode

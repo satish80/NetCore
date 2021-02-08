@@ -2156,7 +2156,7 @@ public class Arrays
         return false;
     }
 
-    //https://leetcode.com/problems/minimum-number-of-people-to-teach/
+    //Accepted:LCMedium-SelfSol-T:O(M*N) https://leetcode.com/problems/minimum-number-of-people-to-teach/
     public void MinTeachings()
     {
         int[][] languages = new int[][] 
@@ -2218,7 +2218,7 @@ public class Arrays
             }
         }
 
-        int max = int.MinValue;
+        int max = 0;
 
         foreach(int user in users)
         {

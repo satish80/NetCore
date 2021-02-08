@@ -48,6 +48,62 @@ public class Graph
         return graph;
     }
 
+    //https://leetcode.com/problems/cheapest-flights-within-k-stops/
+    public void FindCheapestPrice()
+    {
+        int[][] flights = new int[][]
+        {
+            new int[] {0,1,100},
+            new int[] {1,2,100},
+            new int[] {0,2,500}
+        };
+
+        Console.WriteLine(FindCheapestPrice(3,flights, 0, 2, 1));
+    }
+
+    private int FindCheapestPrice(int n, int[][] flights, int src, int dest, int k)
+    {
+        Dictionary<int, List<int[]>> prices = new Dictionary<int, List<int[]>>();
+        foreach (int[] f in flights) 
+        {
+            if (!prices.ContainsKey(f[0]))
+            {
+                prices.Add(f[0], new List<int[]>());
+            }
+
+            prices[f[0]].Add(new int[]{f[1], f[2]});
+        }
+
+        Heap<int[]> pq = new Heap<int[]>(true, new ArrayComparer());
+
+        pq.Push(new int[] {0, src, k + 1});
+
+        while (pq.Count > 0)
+        {
+            int[] top = pq.Pop();
+            int price = top[0];
+            int city = top[1];
+            int stops = top[2];
+
+            if (city == dest)
+            {
+                return price;
+            }
+
+            if (stops > 0)
+            {
+                List<int[]> adj = prices.GetValueOrDefault(city, new List<int[]>());
+
+                foreach (int[] a in adj)
+                {
+                    pq.Push(new int[] {price + a[1], a[0], stops - 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+
     //https://leetcode.com/contest/weekly-contest-97/problems/possible-bipartition/
     public void BiPartition()
     {
