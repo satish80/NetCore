@@ -2156,6 +2156,49 @@ public class Arrays
         return false;
     }
 
+    //LCMedium-LCSol-T:O(nlogn)https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+    public void ShipWithinDays()
+    {
+        int[] arr = new int[]{3,2,2,4,1,4};
+        Console.WriteLine(ShipWithinDays(arr, 3));
+    }
+
+    private int ShipWithinDays(int[] weights, int D)
+    {
+        int left = 0, right = 0;
+        foreach (int w in weights)
+        {
+            left = Math.Max(left, w);
+            right += w;
+        }
+
+        while (left < right)
+        {
+            int mid = (left + right) / 2, need = 1, cur = 0;
+            foreach (int w in weights)
+            {
+                if (cur + w > mid)
+                {
+                    need += 1;
+                    cur = 0;
+                }
+
+                cur += w;
+            }
+
+            if (need > D)
+            {
+                left = mid + 1;
+            }
+            else
+            {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
     //Accepted:LCMedium-SelfSol-T:O(M*N) https://leetcode.com/problems/minimum-number-of-people-to-teach/
     public void MinTeachings()
     {

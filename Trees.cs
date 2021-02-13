@@ -2585,6 +2585,50 @@ public class Trees
         return slow;
     }
 
+    //https://leetcode.com/problems/balance-a-binary-search-tree/
+    public void BalanceBST()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Right = new TreeNode(2);
+        node.Right.Right = new TreeNode(3);
+        node.Right.Right.Right = new TreeNode(4);
+        node.Right.Right.Right.Right = new TreeNode(5);
+
+        List<int> arr = new List<int>();
+        BalanceBST(node, arr);
+        TreeNode res = SortedArrayToBST(arr, 0, arr.Count-1);
+    }
+
+    private void BalanceBST(TreeNode root, List<int> arr)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        BalanceBST(root.Left, arr);
+        arr.Add(root.Value.Value);
+        BalanceBST(root.Right, arr);
+
+        return;
+    }
+
+    private TreeNode SortedArrayToBST(List<int> arr, int start, int end)
+    {
+        if (start > end)
+        {
+            return null;
+        }
+
+        int mid = start + (end-start) / 2;
+
+        TreeNode node = new TreeNode(arr[mid]);
+        node.Left = SortedArrayToBST(arr, start, mid-1);
+        node.Right = SortedArrayToBST(arr, mid+1, end);
+
+        return node;
+    }
+
     //https://leetcode.com/problems/maximum-average-subtree/
     public void MaximumAverageSubTree()
     {

@@ -77,6 +77,7 @@ namespace Algorithms
             // arrObj.GetPermutation();
             // arrObj.CanReach();
             // arrObj.MinTeachings();
+            arrObj.ShipWithinDays();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -136,6 +137,7 @@ namespace Algorithms
             // treeObj.MostFrequentElementInBST();
             // treeObj.MaximumAverageSubTree();
             // treeObj.MaxSumBST();
+            // treeObj.BalanceBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -180,10 +182,10 @@ namespace Algorithms
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();
-             // gObj.CanFinishCourses();
-             // gObj.CourseSchedule();
-             // gObj.DisjointSets();
-             gObj.FindCheapestPrice();
+            // gObj.CanFinishCourses();
+            // gObj.CourseSchedule();
+            // gObj.DisjointSets();
+            // gObj.FindCheapestPrice();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
