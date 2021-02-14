@@ -247,7 +247,7 @@ public class Trees
         return res;
     }
 
-    //https://leetcode.com/problems/binary-tree-vertical-order-traversal/
+    //Accepted-LCMedium-Self-T:O(n)-https://leetcode.com/problems/binary-tree-vertical-order-traversal/
     public void VerticalOrder()
     {
         TreeNode node = new TreeNode(3);
@@ -256,7 +256,56 @@ public class Trees
         node.Right.Left = new TreeNode(15);
         node.Right.Right = new TreeNode(7);
 
-        var res = VerticalOrder(node);
+        var res = VerticalOrderCre(null);
+    }
+
+    private List<List<int>> VerticalOrderCre(TreeNode root)
+    {
+        Queue<Tuple<TreeNode, int>> queue = new Queue<Tuple<TreeNode, int>>();
+        List<List<int>> res = new List<List<int>>();
+
+        if (root == null)
+        {
+            return res;
+        }
+
+        Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
+        int min= int.MaxValue, max =int.MinValue;
+
+        queue.Enqueue(new Tuple<TreeNode, int>(root, 0));
+
+        while (queue.Count > 0)
+        {
+            var cur = queue.Dequeue();
+            var node = cur.Item1;
+            min = Math.Min(min, cur.Item2);
+            max= Math.Max(max, cur.Item2);
+
+            if (!map.ContainsKey(cur.Item2))
+            {
+                map[cur.Item2] = new List<int>();
+            }
+
+            map[cur.Item2].Add(node.Value.Value);
+
+            if (node.Left!= null)
+            {
+                queue.Enqueue(new Tuple<TreeNode, int>(node.Left, cur.Item2-1));
+            }
+            if (node.Right!= null)
+            {
+                queue.Enqueue(new Tuple<TreeNode, int>(node.Right, cur.Item2+1));
+            }
+        }
+
+        for(int idx = min; idx <= max; idx++)
+        {
+            if (map.ContainsKey(idx))
+            {
+                res.Add(map[idx]);
+            }
+        }
+        return res;
     }
 
     private List<List<int>> VerticalOrder(TreeNode root)

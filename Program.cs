@@ -77,7 +77,7 @@ namespace Algorithms
             // arrObj.GetPermutation();
             // arrObj.CanReach();
             // arrObj.MinTeachings();
-            arrObj.ShipWithinDays();
+            // arrObj.ShipWithinDays();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -101,7 +101,7 @@ namespace Algorithms
             // treeObj.FindRightNeighbor();
             // treeObj.SubTreeWithDeepestNodes();
             // treeObj.MaximumBinaryTree();
-            // treeObj.VerticalOrder();
+            treeObj.VerticalOrder();
             // treeObj.PopulateNextRightPointers();
             // treeObj.MaxLevelSum();
             // treeObj.BSTFromPreOrder();
