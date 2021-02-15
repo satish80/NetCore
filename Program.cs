@@ -101,7 +101,7 @@ namespace Algorithms
             // treeObj.FindRightNeighbor();
             // treeObj.SubTreeWithDeepestNodes();
             // treeObj.MaximumBinaryTree();
-            treeObj.VerticalOrder();
+            // treeObj.VerticalOrder();
             // treeObj.PopulateNextRightPointers();
             // treeObj.MaxLevelSum();
             // treeObj.BSTFromPreOrder();
@@ -177,7 +177,7 @@ namespace Algorithms
             // gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
-            // gObj.AlienDictionary();
+            gObj.AlienDictionary();
             // gObj.AccountsMerge();
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
