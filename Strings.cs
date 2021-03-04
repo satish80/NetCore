@@ -145,7 +145,62 @@ public class Strings
     public void MinWindowsSubstring()
     {
         //Console.WriteLine(MinWindowsSubstring("acbbaca", "aba"));
-        Console.WriteLine(MinWindowsSubstring("ADOBECODEBANC", "ABC"));
+        Console.WriteLine(CreMinWindowsSubstring("ADOBECODEBANC", "ABC"));
+    }
+
+    private string CreMinWindowsSubstring(string s, string t)
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+
+        foreach(char ch in s)
+        {
+            if (!map.ContainsKey(ch))
+            {
+                map.Add(ch, 0);
+            }
+        }
+
+        foreach(char ch in t)
+        {
+            if (map.ContainsKey(ch))
+            {
+                map[ch]++;
+            }
+        }
+
+        int counter = t.Length, begin = 0, end = 0, d = int.MaxValue, head = 0;
+
+        while (end < s.Length)
+        {
+            if (map.ContainsKey(s[end]) && map[s[end]] > 0)
+            {
+                counter--;
+            }
+
+            map[s[end]]--;
+            end++;
+            //end += counter > 0 ? 1 : 0;
+
+            while (counter == 0)
+            {
+                if(end-begin < d)
+                {
+                    d = end-begin;
+                    head = begin;
+                }
+
+                map[s[begin]]++;
+                if (map[s[begin]] > 0)
+                {
+                    counter++;
+                }
+
+                begin++;
+                //begin += counter == 0 ? 1 : 0;
+            }
+        }
+
+        return d == int.MaxValue ? "" : s.Substring(head, d);
     }
 
     private string MinWindowsSubstring(string s, string t)
@@ -708,6 +763,73 @@ public class Strings
         }
 
         return max;
+    }
+
+    //https://leetcode.com/problems/word-search-ii/
+    public void WordSearchII()
+    {
+        char[][] board = new char[][]
+        {
+            new char[] {'o','a','a','n'},
+            new char[] {'e','t','a','e'},
+            new char[] {'i','h','k','r'},
+            new char[] {'i','f','l','v'}
+        };
+
+        string[] words = new string[] {"oath","pea","eat","rain"};
+        var node  = ConstructTrie(board, words);
+
+        List<string> res = new List<string>();
+
+        for(int row = 0; row < board.Length; row++)
+        {
+            for(int col = 0; col < board[0].Length; col++)
+            {
+                FindWords(board, node.Root, row, col, res);
+            }
+        }
+    }
+
+    private Trie ConstructTrie(char[][] board, string[] words)
+    {
+        Trie root = new Trie();
+
+        foreach(string word in words)
+        {
+            root.Insert(word);
+        }
+
+        return root;
+    }
+
+    private IList<string> FindWords(char[][] board, TrieNode word, int row, int col, IList<string> res)
+    {
+        if (row < 0 || col < 0|| row >= board.Length || col >= board[0].Length || board[row][col] == '#' || word.Children.Count == 0)
+        {
+            return res;
+        }
+
+        if (word.IsEndOfWord)
+        {
+            res.Add(word.Word);
+            word.Children.Clear();
+        }
+
+        if (!word.Children.ContainsKey(board[row][col]) || word.Children.Count == 0)
+        {
+            return res;
+        }
+
+        word = word.Children[board[row][col]];
+        char ch = board[row][col];
+        board[row][col] = '#';
+        FindWords(board, word, row, col+1, res);
+        FindWords(board, word, row+1, col, res);
+        FindWords(board, word, row, col-1, res);
+        FindWords(board, word, row-1, col, res);
+
+        board[row][col] = ch;
+        return res;
     }
 
     //https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/

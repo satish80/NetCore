@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -128,30 +129,33 @@ namespace DataStructures
             this.Root = new TrieNode();
         }
 
-        public class TrieNode
-        {
-            public Dictionary<char, TrieNode> Children = new Dictionary<char, TrieNode>();
-            public List<string> Suggestions = new List<string>();
-            public bool IsEndOfWord;
-
-            public TrieNode()
-            {
-            }
-        }
-
         public void Insert(string s)
         {
-            TrieNode cur = Root;
+            Insert(s.ToCharArray());
+        }
 
-            foreach(char ch in s)
+        public void Insert(char[] s)
+        {
+            TrieNode cur = Root;
+            StringBuilder sb = new StringBuilder();
+             
+            for(int idx = 0; idx < s.Length; idx++)
             {
-                if (!cur.Children.ContainsKey(ch))
+                if (!cur.Children.ContainsKey(s[idx]))
                 {
-                    cur.Children.Add(ch, new TrieNode());
+                    cur.Children.Add(s[idx], new TrieNode());
                 }
 
-                cur = cur.Children[ch];
-                cur.Suggestions.Add(s);
+                sb.Append(s[idx]);
+
+                if (idx == s.Length-1)
+                {
+                cur.IsEndOfWord = true;
+                cur.Word = sb.ToString();
+                cur.Suggestions.Add(sb.ToString());
+                }
+
+                cur = cur.Children[s[idx]];
             }
         }
 
@@ -212,6 +216,19 @@ namespace DataStructures
             }
 
             return prev.Suggestions;
+        }
+    }
+
+    public class TrieNode
+    {
+        public Dictionary<char, TrieNode> Children = new Dictionary<char, TrieNode>();
+        public List<string> Suggestions = new List<string>();
+        public bool IsEndOfWord;
+
+        public string Word {get; set;}
+
+        public TrieNode()
+        {
         }
     }
 

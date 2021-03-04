@@ -138,6 +138,7 @@ namespace Algorithms
             // treeObj.MaximumAverageSubTree();
             // treeObj.MaxSumBST();
             // treeObj.BalanceBST();
+            // treeObj.RecoverTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -177,7 +178,7 @@ namespace Algorithms
             // gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
-            gObj.AlienDictionary();
+            // gObj.AlienDictionary();
             // gObj.AccountsMerge();
             //gObj.TreeDiameter();
             // gObj.CloneGraph();
@@ -196,7 +197,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
-            // sObj.MinWindowsSubstring();
+            sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
@@ -223,6 +224,7 @@ namespace Algorithms
             // sObj.LongestSubstringWithKRepeatingChars();
             // sObj.AreSentencesSimilar();
             // sObj.WordSearch();
+            // sObj.WordSearchII();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

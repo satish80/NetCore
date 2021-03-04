@@ -247,6 +247,50 @@ public class Trees
         return res;
     }
 
+    //https://leetcode.com/problems/recover-binary-search-tree/
+    public void RecoverTree()
+    {
+        TreeNode node = new TreeNode(1);
+        node.Left = new TreeNode(3);
+        node.Left.Right= new TreeNode(2);
+
+        RecoverTree(node, null, null, null);
+    }
+
+    private void RecoverTree(TreeNode root, TreeNode pre, TreeNode first, TreeNode second)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        RecoverTree(root.Left, pre, first, second);
+
+        if (pre != null && pre.Value.Value > root.Value.Value)
+        {
+            if (first == null)
+            {
+                first = pre;
+                second = root;
+            }
+            else
+            {
+                second = root;
+            }
+        }
+
+        pre = root;
+
+        if (first != null && second!= null)
+        {
+            int temp = first.Value.Value;
+            first.Value = second.Value.Value;
+            second.Value = temp;
+        }
+
+        RecoverTree(root.Right, pre, first, second);
+    }
+
     //Accepted-LCMedium-Self-T:O(n)-https://leetcode.com/problems/binary-tree-vertical-order-traversal/
     public void VerticalOrder()
     {
