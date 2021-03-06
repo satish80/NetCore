@@ -644,6 +644,36 @@ public class Arrays
         Console.WriteLine("-----------------");
     }
 
+    //LCHard-Accepted-LCSol-T:O(n) S:O(1):https://leetcode.com/problems/first-missing-positive/
+    public void FirstMissingPositive()
+    {
+        int[] arr = new int[] {0, 3,4,1};
+
+        Console.WriteLine(FirstMissingPositive(arr, 3));
+    }
+
+    private int FirstMissingPositive(int[] nums, int n)
+    {
+        for(int idx = 0; idx < nums.Length; idx++)
+        {
+            // Place the array contents at the index positions
+            while (nums[idx] > 0 && nums[idx] <= n && nums[nums[idx]-1] != nums[idx])
+            {
+                Swap(nums, idx, nums[idx]-1);
+            }
+        }
+
+        for(int idx = 0; idx < nums.Length; idx++)
+        {
+            if (nums[idx] != idx+1)
+            {
+                return idx+1;
+            }
+        }
+
+        return n+1;
+    }
+
     //https://leetcode.com/problems/remove-invalid-parentheses/
     public void RemoveInvalidParanthesis()
     {

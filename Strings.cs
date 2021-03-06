@@ -179,7 +179,6 @@ public class Strings
 
             map[s[end]]--;
             end++;
-            //end += counter > 0 ? 1 : 0;
 
             while (counter == 0)
             {
@@ -196,7 +195,6 @@ public class Strings
                 }
 
                 begin++;
-                //begin += counter == 0 ? 1 : 0;
             }
         }
 
