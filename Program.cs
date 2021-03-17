@@ -188,6 +188,7 @@ namespace Algorithms
             // gObj.CourseSchedule();
             // gObj.DisjointSets();
             // gObj.FindCheapestPrice();
+            // gObj.RedundantConnection();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
@@ -198,7 +199,7 @@ namespace Algorithms
             // sObj.LongestSubstringKDistinctChars();
             // sObj.IsPalindrome();
             // sObj.ReorderLogFiles();                            // ** Fails Leetcode test case
-            sObj.MinWindowsSubstring();
+            // sObj.MinWindowsSubstring();
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
@@ -226,6 +227,10 @@ namespace Algorithms
             // sObj.AreSentencesSimilar();
             // sObj.WordSearch();
             // sObj.WordSearchII();
+            // sObj.ReverseString();
+            // sObj.FindAnagramIndices();
+            // sObj.AddBinary();
+            sObj.GroupAnagrams();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -236,6 +241,7 @@ namespace Algorithms
             // lObj.CloneList();
             // lObj.FlattenList();
             // lObj.GetIntersectionNode();
+            // lObj.ReverseKGroup();
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();

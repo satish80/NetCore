@@ -2339,58 +2339,7 @@ public class Arrays
         return stones.Length - d.Count;
     }
 
-    public class DSU
-    {
-        private int[] size;
-        private int[] root;
-        public int Count;
-
-        public DSU(int n)
-        {
-            size = new int[n];
-            root = new int[n];
-            Count = n;
-
-            for(int i = 0; i < n; i++)
-            {
-                root[i] = i;
-            }
-        }
-
-        public int Find(int x)
-        {
-            if (root[x] != x)
-            {
-                root[x] = Find(root[x]);
-            }
-
-            return root[x];
-        }
-
-        public void Union(int x, int y)
-        {
-            int rootX = Find(x);
-            int rootY = Find(y);
-
-            if (rootX == rootY)
-            {
-                return;
-            }
-
-            if (size[rootX] <= size[rootY])
-            {
-                root[rootX] = rootY;
-                size[rootY]++;
-            }
-            else
-            {
-                root[rootY] = rootX;
-                size[rootX]++;
-            }
-
-            Count--;
-        }
-    }
+    
 
     //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     public void FindFirstLastPosInArray()

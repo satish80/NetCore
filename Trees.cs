@@ -472,6 +472,23 @@ public class Trees
         return node;
     }
 
+    /*
+    Typically, an implementation of in-order traversal of a binary tree has O(h) space complexity, 
+    where h is the height of the tree. Write a program to compute the in-order traversal of a binary tree using O(1) space.
+    */
+    public void InOrderTraversal_O1Space()
+    {
+
+    }
+
+    //Use Morris traversal
+    private void InOrderTraversal_O1Space(TreeNode node)
+    {
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.Push(node);
+
+    }
+
     //https://leetcode.com/problems/validate-binary-search-tree/
     public void IsValidBST()
     {
@@ -555,7 +572,7 @@ public class Trees
         ConvertToDLL(cur.Right, ref prev);
     }
 
-    //https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    //Accepted:LCMedium:LCSol-T:O(n), S:O(1): https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
     public void FlattenBinaryTreeToSLL()
     {
         TreeNode node = new TreeNode(1);
@@ -565,7 +582,22 @@ public class Trees
         node.Left.Right = new TreeNode(4);
         node.Right.Right = new TreeNode(6);
 
-        var res = FlattenBinaryTreeToSLL(node);
+        TreeNode prev = null;
+        FlattenBinaryTreeToSLLCre(node, ref prev);
+    }
+
+    private void FlattenBinaryTreeToSLLCre(TreeNode node, ref TreeNode prev)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        FlattenBinaryTreeToSLLCre(node.Right, ref prev);
+        FlattenBinaryTreeToSLLCre(node.Left, ref prev);
+        node.Right = prev;
+        node.Left = null;
+        prev = node;
     }
 
     private TreeNode FlattenBinaryTreeToSLL(TreeNode node)
@@ -610,6 +642,17 @@ public class Trees
             node = node.Right;
         }
 
+        return null;
+    }
+
+    //https://leetcode.com/problems/correct-a-binary-tree/
+    public void CorrectBinaryTree()
+    {
+
+    }
+
+    private TreeNode CorrectBinaryTree(TreeNode node)
+    {
         return null;
     }
 
@@ -1684,7 +1727,21 @@ public class Trees
         node.Left.Right = new TreeNode(7);
         node.Right.Right = new TreeNode(18);
 
-        Console.WriteLine(RangeSumBST(node, 7, 15));
+        Console.WriteLine(RangeSumBSTCre(node, 7, 15));
+    }
+
+    private int RangeSumBSTCre(TreeNode root, int low, int high)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+        
+        int left = RangeSumBST(root.Left, low, high);
+        int right = RangeSumBST(root.Right, low, high);
+
+        int rval = root.Value > low && root.Value < high ? root.Value.Value : 0;
+        return rval + left + right;
     }
 
     private int RangeSumBST(TreeNode node, int L, int R)

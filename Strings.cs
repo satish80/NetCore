@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using DataStructures;
@@ -141,11 +142,79 @@ public class Strings
         }
     }
 
+    //https://leetcode.com/problems/add-binary/
+    public void AddBinary()
+    {
+        Console.WriteLine(AddBinary("11", "1"));
+    }
+
+    private string AddBinary(string a, string b)
+    {
+        StringBuilder sb = new StringBuilder();
+        int i = a.Length - 1, j = b.Length -1, carry = 0;
+
+        while (i >= 0 || j >= 0)
+        {
+            int sum = carry;
+            if (j >= 0)
+            {
+                sum += b[j--] - '0';
+            }
+
+            if (i >= 0)
+            {
+                sum += a[i--] - '0';
+            }
+
+            sb.Append(sum % 2);
+            carry = sum / 2;
+        }
+
+        if (carry != 0)
+        {
+            sb.Append(carry);
+        }
+
+        return sb.ToString().Reverse();
+    }
+
+    //Accepted:LCMedium:T:O(nlogn *m):https://leetcode.com/problems/group-anagrams/
+    public void GroupAnagrams()
+    {
+        string[] strs = new string[]{"eat","tea","tan","ate","nat","bat"};
+        var res = GroupAnagrams(strs);
+    }
+
+    private IList<IList<string>> GroupAnagrams(string[] strs)
+    {
+        Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
+        IList<IList<string>> res = new List<IList<string>>();
+
+        foreach(string str in strs)
+        {
+            var sortedStr = string.Concat(str.OrderBy(c=>c));
+
+            if (!map.ContainsKey(sortedStr))
+            {
+                map.Add(sortedStr, new List<string>());
+            }
+
+            map[sortedStr].Add(str);
+        }
+
+        foreach(KeyValuePair<string, List<string>> pair in map)
+        {
+            res.Add(pair.Value);
+        }
+
+        return res;
+    }
+
     //Accepted: T:O(n), S:O(k) :https://leetcode.com/problems/minimum-window-substring/
     public void MinWindowsSubstring()
     {
-        //Console.WriteLine(MinWindowsSubstring("acbbaca", "aba"));
-        Console.WriteLine(CreMinWindowsSubstring("ADOBECODEBANC", "ABC"));
+        Console.WriteLine(CreMinWindowsSubstring("acbbaca", "aba"));
+        //Console.WriteLine(CreMinWindowsSubstring("ADOBECODEBANC", "ABC"));
     }
 
     private string CreMinWindowsSubstring(string s, string t)
@@ -443,6 +512,123 @@ public class Strings
         }
 
         return false;
+    }
+
+    /*
+    Asked by Google
+    Given a string of words delimited by spaces, reverse the words in string. For example, given "hello world here", return "here world hello"
+    Follow-up: given a mutable string representation, can you perform this operation in-place?
+    */
+    public void ReverseString()
+    {
+        string str = "hello world here";
+        var res = ReverseString(str);
+    }
+
+    private char[] ReverseString(string str)
+    {
+        char[] arr = str.ToCharArray();
+        int left = 0, right = arr.Length-1;
+
+        Reverse(arr, left, right);
+
+        left = 0; right = 0;
+
+        while (right < arr.Length)
+        {
+            while (right+1 < arr.Length && arr[right+1] != ' ' )
+            {
+                right++;
+            }
+
+            Reverse(arr, left, right);
+            left = right = right+2;
+        }
+
+        return arr;
+    }
+
+    private void Reverse(char[] arr, int left, int right)
+    {
+        while(left < right)
+        {
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    /*
+    [ 124 ] Asked by Google
+    Given a word W and a string S, find all starting indices in S which are anagrams of W.
+    For example, given that W is "ab", and S is "abxaba", return 0, 3, and 4.
+    */
+    public void FindAnagramIndices()
+    {
+        string word = "ab";
+        string str = "abxaba";
+        var res = FindAnagramIndices(word, str);
+    }
+
+    private List<int> FindAnagramIndices(string word, string str)
+    {
+        List<int> res = new List<int>();
+        Dictionary<char, int> map = new Dictionary<char, int>();
+        int count = 0;
+
+        foreach(char ch in str)
+        {
+            if (!map.ContainsKey(ch))
+            {
+                map.Add(ch, 0);
+            }
+        }
+
+        foreach(char ch in word)
+        {
+            if(map.ContainsKey(ch))
+            {
+                map[ch]++;
+            }
+        }
+
+        count = word.Length;
+
+        int left = 0, right = 0;
+
+        while(right < str.Length)
+        {
+            while (count > 0 && map[str[right]] > 0)
+            {
+                map[str[right++]]--;
+                count--;
+            }
+
+            if (count == 0)
+            {
+                res.Add(left);
+            }
+
+            while (left < right)
+            {
+                map[str[left]]++;
+                if (map[str[left]] >0)
+                {
+                    count++;
+                }
+
+                left++;
+            }
+
+            if (count < word.Length)
+            {
+                // map.Values.
+            }
+        }
+
+        return res;
     }
 
     public void MakeAnagram()

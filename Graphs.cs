@@ -487,6 +487,37 @@ public class Graph
         return result;
     }
 
+    //https://leetcode.com/problems/redundant-connection/
+    public void RedundantConnection()
+    {
+        int[][] edges = new int[][]
+        {
+            new int[] {1,2},
+            new int[] {2,3},
+            new int[] {3,4},
+            new int[] {1,4},
+            new int[] {1,5}
+        };
+
+        var res = FindRedundantConnection(edges);
+        Console.WriteLine(res[0].ToString(), res[1].ToString());
+    }
+
+    private int[] FindRedundantConnection(int[][] edges)
+    {
+        DSU dsu  = new DSU(edges.Length);
+
+        foreach(int[] edge in edges)
+        {
+            if (!dsu.Union(edge[0], edge[1]))
+            {
+                return edge;
+            }
+        }
+
+        throw new ArgumentException("Invalid argument");
+    }
+
     private void AlienDictionary(string[] dict, DirectedGraph graph)
     {
         for(int i = 0; i < dict.Length -1; i++)
