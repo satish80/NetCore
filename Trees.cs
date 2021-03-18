@@ -645,15 +645,46 @@ public class Trees
         return null;
     }
 
-    //https://leetcode.com/problems/correct-a-binary-tree/
+    //Accepted:LCMedium:Self:T:O(n)-S:O(n):https://leetcode.com/problems/correct-a-binary-tree/
     public void CorrectBinaryTree()
     {
+        TreeNode node = new TreeNode(8);
+        node.Left = new TreeNode(3);
+        node.Right = new TreeNode(1);
+        node.Left.Left = new TreeNode(7);
+        node.Left.Left.Left = new TreeNode(2);
+        node.Right.Left = new TreeNode(9);
+        node.Right.Right = new TreeNode(4);
+        node.Right.Right.Left = new TreeNode(5);
+        node.Right.Right.Right = new TreeNode(6);
+        node.Left.Left.Right = node.Right.Right;
 
+        // TreeNode node = new TreeNode(1);
+        // node.Left = new TreeNode(2);
+        // node.Right = new TreeNode(3);
+        // node.Left.Right = node.Right;
+
+        var res = CorrectBinaryTree(node, new HashSet<TreeNode>());
     }
 
-    private TreeNode CorrectBinaryTree(TreeNode node)
+    private TreeNode CorrectBinaryTree(TreeNode node, HashSet<TreeNode> set)
     {
-        return null;
+        if (node == null)
+        {
+            return null;
+        }
+
+        if (set.Contains(node.Right) || set.Contains(node.Left))
+        {
+            return null;
+        }
+
+        set.Add(node);
+
+        node.Right =  CorrectBinaryTree(node.Right, set);
+        node.Left =  CorrectBinaryTree(node.Left, set);
+
+        return node;
     }
 
     //Accepted: https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/solution/

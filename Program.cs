@@ -140,6 +140,7 @@ namespace Algorithms
             // treeObj.MaxSumBST();
             // treeObj.BalanceBST();
             // treeObj.RecoverTree();
+            treeObj.CorrectBinaryTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -230,7 +231,7 @@ namespace Algorithms
             // sObj.ReverseString();
             // sObj.FindAnagramIndices();
             // sObj.AddBinary();
-            sObj.GroupAnagrams();
+            // sObj.GroupAnagrams();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
