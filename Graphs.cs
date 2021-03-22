@@ -76,6 +76,7 @@ public class Graph
 
         Heap<int[]> pq = new Heap<int[]>(true, new ArrayComparer());
 
+        //              Price, src, stops
         pq.Push(new int[] {0, src, k + 1});
 
         while (pq.Count > 0)
@@ -117,7 +118,74 @@ public class Graph
         List<Pair> dislikes = new List<Pair>();
         dislikes.AddRange(new Pair[] {p1, p2, p3, p4, p5, p6});
 
-        Console.WriteLine(BiPartition(dislikes));
+        int[][] arr = new int[][]
+        {
+            new int[] {1,2},
+            new int[] {1,3},
+            new int[] {2,4}
+        };
+        Console.WriteLine(BiPartitionUsingGraphColor(5, arr));
+    }
+
+    private bool BiPartitionUsingGraphColor(int N, int[][] dislikes)
+    {
+        if (N ==1)
+        {
+            return true;
+        }
+        int[] color = new int[N+1];
+        Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
+
+        foreach(int[] arr in dislikes)
+        {
+            if (!adj.ContainsKey(arr[0]))
+            {
+                adj.Add(arr[0], new List<int>());
+            }
+            adj[arr[0]].Add(arr[1]);
+
+            if (!adj.ContainsKey(arr[1]))
+            {
+                adj.Add(arr[1], new List<int>());
+            }
+            adj[arr[1]].Add(arr[0]);
+        }
+
+        for(int idx = 1; idx<= N; idx++)
+        {
+            if (color[idx] == 0)
+            {
+                color[idx] = 1;
+                Queue<int> queue = new Queue<int>();
+                queue.Enqueue(idx);
+
+                while (queue.Count > 0)
+                {
+                    int cur = queue.Dequeue();
+                    if (!adj.ContainsKey(cur))
+                    {
+                        break;
+                    }
+                    foreach(int neighbor in adj[cur])
+                    {
+                        if (color[neighbor] == 0)
+                        {
+                            color[neighbor] = color[cur] == 1 ? 2 : 1;
+                            queue.Enqueue(neighbor);
+                        }
+                        else
+                        {
+                            if (color[neighbor] == color[cur])
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     private bool BiPartition(List<Pair> dislikes)
@@ -210,21 +278,40 @@ public class Graph
     {
         int[][] input = new int[][]
         {
-            new int[] {1, 4},
-            new int[] {4, 5},
-            new int[] {2, 3}
+            new int[] {1,2,5},
+            new int[] {1,3,6},
+            new int[] {2,3,1}
         };
 
-        Tuple<int, int, int> newEdge1 = new Tuple<int, int, int>(1, 2, 5);
-        Tuple<int, int, int> newEdge2 = new Tuple<int, int, int>(1, 3, 10);
-        Tuple<int, int, int> newEdge3 = new Tuple<int, int, int>(1, 6, 2);
-        Tuple<int, int, int> newEdge4 = new Tuple<int, int, int>(5, 6, 5);
-        List<Tuple<int, int, int>> newEdges = new List<Tuple<int, int, int>>(){newEdge1, newEdge2, newEdge3, newEdge4};
+        Console.WriteLine(MinCostToConnectNodes(3, input));
 
-        Console.WriteLine(MinCostToConnectNodes(input, newEdges, 6));
+        // Tuple<int, int, int> newEdge1 = new Tuple<int, int, int>(1, 2, 5);
+        // Tuple<int, int, int> newEdge2 = new Tuple<int, int, int>(1, 3, 10);
+        // Tuple<int, int, int> newEdge3 = new Tuple<int, int, int>(1, 6, 2);
+        // Tuple<int, int, int> newEdge4 = new Tuple<int, int, int>(5, 6, 5);
+        // List<Tuple<int, int, int>> newEdges = new List<Tuple<int, int, int>>(){newEdge1, newEdge2, newEdge3, newEdge4};
+
+        // Console.WriteLine(MinCostToConnectNodes_OldImpl(input, newEdges, 6));
     }
 
-    private int MinCostToConnectNodes(int[][] input, List<Tuple<int, int, int>> newEdges, int n)
+    private int MinCostToConnectNodes(int N, int[][] connections)
+    {
+        Array.Sort(connections, (a,b) => a[2]- b[2]);
+        DSU dsu = new DSU(N+1);
+        int cost = 0;
+
+        foreach(int[] arr in connections)
+        {
+            if (!dsu.Union(arr[0], arr[1]))
+            {
+                cost+= arr[2];
+            }
+        }
+
+        return dsu.Count == 2 ? cost : -1;
+    }
+
+    private int MinCostToConnectNodes_OldImpl(int[][] input, List<Tuple<int, int, int>> newEdges, int n)
     {
         int[] size = new int[n+1];
         int[] root = new int[n+1];

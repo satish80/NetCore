@@ -18,6 +18,41 @@ public class Helpers
         arr[target] = arr[src];
         arr[src] = temp;
     }
+
+    public static void SwapValues(TreeNode a, TreeNode b)
+    {
+        int temp = a.Value.Value;
+        a.Value = b.Value.Value;
+        b.Value = temp;
+    }
+
+    public static TreeNode ConstructTree(int?[] arr)
+    {
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        TreeNode head = new TreeNode((int)arr[0]);
+        queue.Enqueue(head);
+
+        int idx = 0;
+
+        while (queue.Count > 0 && idx < arr.Length)
+        {
+            var cur =  queue.Dequeue();
+
+            if (idx+1 < arr.Length && arr[++idx] != null)
+            {
+                cur.Left = new TreeNode((int)arr[idx]);
+                queue.Enqueue(head.Left);
+            }
+
+            if (idx+1 < arr.Length && arr[++idx] != null)
+            {
+                cur.Right = new TreeNode((int)arr[idx]);
+                queue.Enqueue(cur.Right);
+            }
+        }
+
+        return head;
+    }
 }
 
 public static class StringExtensions

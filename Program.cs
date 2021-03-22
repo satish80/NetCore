@@ -78,7 +78,9 @@ namespace Algorithms
             // arrObj.CanReach();
             // arrObj.MinTeachings();
             // arrObj.ShipWithinDays();
-            //arrObj.FirstMissingPositive();
+            // arrObj.FirstMissingPositive();
+            // arrObj.LeftMostColumnWithOne();
+            // arrObj.GenerateMatrix();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -140,7 +142,9 @@ namespace Algorithms
             // treeObj.MaxSumBST();
             // treeObj.BalanceBST();
             // treeObj.RecoverTree();
-            treeObj.CorrectBinaryTree();
+            // treeObj.CorrectBinaryTree();
+            // treeObj.MaxAncestorDiff();
+            // treeObj.LCADeepestLeaves();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -175,9 +179,9 @@ namespace Algorithms
             // dpObj.EggDrop();
 
             Graph gObj = new Graph();
-            //gObj.BiPartition();
+            // gObj.BiPartition();
             //gObj.CourseScheduling();
-            // gObj.MinCostToConnectNodes();
+             gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();

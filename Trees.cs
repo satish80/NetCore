@@ -250,11 +250,112 @@ public class Trees
     //https://leetcode.com/problems/recover-binary-search-tree/
     public void RecoverTree()
     {
-        TreeNode node = new TreeNode(1);
+        TreeNode node = new TreeNode(2);
         node.Left = new TreeNode(3);
-        node.Left.Right= new TreeNode(2);
+        node.Right= new TreeNode(1);
 
-        RecoverTree(node, null, null, null);
+        TreeNode prev = null, first = null, second = null;
+
+        RecoverBST(node, ref prev, ref first, ref second);
+
+        Helpers.SwapValues(first, second);
+    }
+
+    private void RecoverBST(TreeNode node, ref TreeNode prev, ref TreeNode first, ref TreeNode second)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        RecoverBST(node.Left, ref prev, ref first, ref second);
+
+        if (prev!= null)
+        {
+            if (first == null && node.Value.Value <= prev.Value.Value)
+            {
+                first = prev;
+            }
+
+            if (first != null && node.Value.Value <= prev.Value.Value)
+            {
+                second = node;
+            }
+        }
+
+        prev = node;
+
+        RecoverBST(node.Right, ref prev, ref first, ref second);
+    }
+
+    //https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/
+    public void LCADeepestLeaves()
+    {
+        int?[] arr = new int?[]{3,5,1,6,2,0,8,null,null,7,4};
+        TreeNode node = Helpers.ConstructTree(arr);
+        var res = LCADeepestLeaves(node);
+    }
+
+    private TreeNode LCADeepestLeaves(TreeNode root)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        Queue<Tuple<TreeNode, int>> queue = new Queue<Tuple<TreeNode, int>>();
+        queue.Enqueue(new Tuple<TreeNode, int>(root, 1));
+        TreeNode first = null, second = null;
+        int maxLevel = 1;
+
+        while (queue.Count > 0)
+        {
+            var cur = queue.Dequeue();
+
+            if (cur.Item1.Left != null)
+            {
+                queue.Enqueue(new Tuple<TreeNode, int>(cur.Item1.Left, cur.Item2+1));
+            }
+
+            if (cur.Item1.Right != null)
+            {
+                queue.Enqueue(new Tuple<TreeNode, int>(cur.Item1.Right, cur.Item2+1));
+            }
+
+            if (maxLevel < cur.Item2 && cur.Item1.Left!= null && cur.Item1.Right != null)
+            {
+                first = cur.Item1.Left;
+                second = cur.Item1.Right;
+                maxLevel = cur.Item2;
+            }
+        }
+
+        return LCA(root, first, second);
+    }
+
+    private TreeNode LCA(TreeNode root, TreeNode first, TreeNode second)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (root.Left == first || root .Right == first)
+        {
+            return root;
+        }
+
+        if (root.Left == second || root.Right == second)
+        {
+            return root;
+        }
+
+        TreeNode left = LCA(root.Left, first, second);
+        TreeNode right = LCA(root.Right, first, second);
+
+        TreeNode lcaNode = left != null && right != null ? root : left != null ? left : right;
+
+        return lcaNode;
     }
 
     private void RecoverTree(TreeNode root, TreeNode pre, TreeNode first, TreeNode second)
@@ -2673,15 +2774,46 @@ public class Trees
         return res;
     }
 
-    //https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/
+    //Accepted:LCMedium:Self:T:O(n):S:O(1):https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/
     public void MaxAncestorDiff()
     {
+        // TreeNode node = new TreeNode(8);
+        // node.Left = new TreeNode(3);
+        // node.Left.Left = new TreeNode(1);
+        // node.Left.Right = new TreeNode(6);
+        // node.Left.Right.Left = new TreeNode(4);
+        // node.Left.Right.Right = new TreeNode(7);
+        // node.Right = new TreeNode(10);
+        // node.Right.Right = new TreeNode(14);
+        // node.Right.Right.Left = new TreeNode(13);
 
+        TreeNode node = new TreeNode(1);
+        node.Right = new TreeNode(2);
+        node.Right.Right = new TreeNode(0);
+        node.Right.Right.Left  = new TreeNode(3);
+
+        Console.WriteLine(MaxAncestorDiff(node, int.MinValue, int.MaxValue));
     }
 
-    private int MaxAncestorDiff(TreeNode node)
+    private int MaxAncestorDiff(TreeNode node, int max, int min)
     {
-        return 0;
+        max = Math.Max(max, node.Value.Value);
+        min = Math.Min(min, node.Value.Value);
+
+        int diff = max - min;
+        int curDiff = 0;
+
+        if (node.Left != null)
+        {
+            curDiff = MaxAncestorDiff(node.Left, max, min);
+        }
+
+        if (node.Right != null)
+        {
+            curDiff = Math.Max(curDiff, MaxAncestorDiff(node.Right, max, min));
+        }
+
+        return diff > curDiff ? diff : curDiff;
     }
 
 

@@ -904,12 +904,111 @@ public class Arrays
     //https://leetcode.com/problems/leftmost-column-with-at-least-a-one/
     public void LeftMostColumnWithOne()
     {
+        int[][] arr = new int[][]
+        {
+            new int[] {0, 0, 0, 1},
+            new int[] {0, 0, 1, 1},
+            new int[] {0, 1, 1, 1},
+        };
 
+        var res = LeftMostColumnWithOne(arr);
     }
 
-    private int LeftMostColumnWithOne(BinaryMatrix binaryMatrix)
+    private int LeftMostColumnWithOne(int[][] arr)
     {
-        return 0;
+        int row = 0, col = 0;
+        int res = -1;
+
+        int start = 0, end = arr[0].Length-1;
+
+        while(row < arr.Length)
+        {
+            while (start < end && row < arr.Length && col <= end)
+            {
+                if (arr[row][col] == 1)
+                {
+                    res = col;
+                    if (row < arr.Length-1)
+                    {
+                        row ++;
+                    }
+
+                    int mid = (end-start)/2 + start;
+
+                    if (arr[row][mid] == 1)
+                    {
+                        end = mid-1;
+                    }
+                    else
+                    {
+                        start = mid+1;
+                    }
+
+                    col = start;
+                }
+                else
+                {
+                    col++;
+                }
+            }
+
+            row++;
+            col = start;
+        }
+
+        return res;
+    }
+
+    //LCMedium-LCSol-T:O(n^2):S:O(n^2) https://leetcode.com/problems/spiral-matrix-ii/
+    public void GenerateMatrix()
+    {
+        int n = 3;
+        var res = GenerateMatrix(n);
+    }
+
+    private int[,] GenerateMatrix(int n)
+    {
+        int[,] matrix = new int[n,n];
+        int rowStart = 0;
+        int rowEnd = n-1;
+        int colStart = 0;
+        int colEnd = n-1;
+        int num = 1; //change
+        
+        while (rowStart <= rowEnd && colStart <= colEnd)
+        {
+            for (int i = colStart; i <= colEnd; i ++)
+            {
+                matrix[rowStart,i] = num ++; //change
+            }
+
+            rowStart ++;
+            
+            for (int i = rowStart; i <= rowEnd; i ++)
+            {
+                matrix[i,colEnd] = num ++; //change
+            }
+
+            colEnd --;
+            
+            for (int i = colEnd; i >= colStart; i --)
+            {
+                if (rowStart <= rowEnd)
+                    matrix[rowEnd,i] = num ++; //change
+            }
+
+            rowEnd --;
+            
+            for (int i = rowEnd; i >= rowStart; i --)
+            {
+                if (colStart <= colEnd)
+                    matrix[i,colStart] = num ++; //change
+            }
+
+            colStart ++;
+        }
+        
+        return matrix;
     }
 
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
