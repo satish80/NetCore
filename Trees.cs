@@ -358,6 +358,35 @@ public class Trees
         return lcaNode;
     }
 
+    //Accepted:LCMedium-LCSol-T:O(n):S:O(1) https://leetcode.com/problems/house-robber-iii/
+    public void HouseRobberIII()
+    {
+        int?[] arr = new int?[] {3,1,1,1,3,null,1};
+        TreeNode node = Helpers.ConstructTree(arr);
+        var res = Rob(node);
+        Console.WriteLine(Math.Max(res[0], res[1]));
+    }
+
+    private int[] Rob(TreeNode root)
+    {
+        if (root == null)
+        {
+            return new int[2];
+        }
+
+        int[] left = Rob(root.Left);
+        int[] right = Rob(root.Right);
+        int[] res = new int[2];
+
+        //previous
+        res[0] = Math.Max(left[0], left[1]) + Math.Max(right[0], right[1]);
+
+        //current
+        res[1] = root.Value.Value + left[0] + right[0];
+
+         return res;
+    }
+
     private void RecoverTree(TreeNode root, TreeNode pre, TreeNode first, TreeNode second)
     {
         if (root == null)

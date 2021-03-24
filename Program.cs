@@ -145,6 +145,7 @@ namespace Algorithms
             // treeObj.CorrectBinaryTree();
             // treeObj.MaxAncestorDiff();
             // treeObj.LCADeepestLeaves();
+            treeObj.HouseRobberIII();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -181,12 +182,12 @@ namespace Algorithms
             Graph gObj = new Graph();
             // gObj.BiPartition();
             //gObj.CourseScheduling();
-             gObj.MinCostToConnectNodes();
+            //gObj.MinCostToConnectNodes();
             // gObj.ValidGraphTree();
             // gObj.CriticalConnections();
             // gObj.AlienDictionary();
             // gObj.AccountsMerge();
-            //gObj.TreeDiameter();
+            // gObj.TreeDiameter();
             // gObj.CloneGraph();
             // gObj.ReconstructItinerary();
             // gObj.CanFinishCourses();
