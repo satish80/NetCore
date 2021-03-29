@@ -938,6 +938,7 @@ public class Arrays
                     if (arr[row][mid] == 1)
                     {
                         end = mid-1;
+                        start = 0;
                     }
                     else
                     {
@@ -957,6 +958,146 @@ public class Arrays
         }
 
         return res;
+    }
+
+    //Accepted-LCHard-SelfSol-T:O(n^2)-S:O(n^2)-https://leetcode.com/problems/making-a-large-island/
+    public void LargestIsLand()
+    {
+        // int[][] grid = new int[][]
+        // {
+        //     new int[]{1, 0, 1, 1},
+        //     new int[]{0, 0, 0, 1},
+        //     new int[]{1, 1, 0, 0},
+        //     new int[]{0, 0, 1, 1}
+        // };
+
+        int[][] grid = new int[][]
+        {
+            new int[]{1, 0, 1},
+            new int[]{0, 0, 0},
+            new int[]{0, 1, 1}
+        };
+
+        Console.WriteLine(LargestIsland(grid));
+    }
+
+    private int LargestIsland(int[][] grid)
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        int color = 2;
+        int count = 0;
+        int max = int.MinValue;
+
+        for(int row = 0; row < grid.Length; row++)
+        {
+            for(int col = 0; col < grid[0].Length; col++)
+            {
+                if (grid[row][col] == 1)
+                {
+                    map[color] = MapIslands(grid, row, col, color, ref count);
+                    max = Math.Max(max, map[color]);
+                    count = 0;
+                    color++;
+                }
+            }
+        }
+
+        HashSet<int> set = new HashSet<int>();
+
+        for(int row = 0; row < grid.Length; row ++)
+        {
+            for(int col = 0; col < grid[0].Length; col++)
+            {
+                if (grid[row][col] == 0)
+                {
+                    if (col-1 >= 0 && map.ContainsKey(grid[row][col-1]) && !set.Contains(grid[row][col-1]))
+                    {
+                        count = map[grid[row][col-1]];
+                        set.Add(grid[row][col-1]);
+                    }
+
+                    if (col+1 < grid[0].Length && map.ContainsKey(grid[row][col+1]) && !set.Contains(grid[row][col+1]))
+                    {
+                        count += map[grid[row][col+1]];
+                        set.Add(grid[row][col+1]);
+                    }
+
+                    if (row-1 >= 0 && map.ContainsKey(grid[row-1][col]) && !set.Contains(grid[row-1][col]))
+                    {
+                        count += map[grid[row-1][col]];
+                        set.Add(grid[row-1][col]);
+                    }
+
+                    if (row+1 < grid.Length && map.ContainsKey(grid[row+1][col]) && !set.Contains(grid[row+1][col]))
+                    {
+                        count += map[grid[row+1][col]];
+                        set.Add(grid[row+1][col]);
+                    }
+
+                    max = Math.Max(max, ++count);
+                }
+
+                count = 0;
+                set.Clear();
+            }
+        }
+
+        return max;
+    }
+
+    private int MapIslands(int[][] grid, int row, int col, int color, ref int count)
+    {
+        if (row < 0 || col < 0 || row >= grid.Length || col >= grid[0].Length || grid[row][col] == 0)
+        {
+            return 0;
+        }
+
+        if (grid[row][col] > 1 )
+        {
+            return 0;
+        }
+
+        grid[row][col] = color;
+        count++;
+
+        MapIslands(grid, row, col+1, color, ref count);
+        MapIslands(grid, row, col-1, color, ref count);
+        MapIslands(grid, row+1, col, color, ref count);
+        MapIslands(grid, row-1, col, color, ref count);
+
+        return count;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/container-with-most-water/
+    public void MaxArea()
+    {
+        int[] arr = new int[] {1,8,6,2,5,4,8,3,7};
+        Console.WriteLine(MaxArea(arr));
+    }
+
+    private int MaxArea(int[] height)
+    {
+        int left = 0, right = height.Length -1;
+        int max = 0, cur = 0;
+
+        while (left < right)
+        {
+            int diff = Math.Abs(left - right);
+            cur =  diff * Math.Min(height[left], height[right]);
+            max = Math.Max(max, cur);
+            cur = 0;
+
+            if (height[left] < height[right])
+            {
+                left++; 
+            }
+            else
+            {
+                right--;
+            }
+        }
+
+        return max;
     }
 
     //LCMedium-LCSol-T:O(n^2):S:O(n^2) https://leetcode.com/problems/spiral-matrix-ii/
@@ -1079,9 +1220,39 @@ public class Arrays
     //https://leetcode.com/problems/kth-largest-element-in-an-array/
     public void KthLargest()
     {
-        int[] nums = new int[]{3,2,1,5,6,4};
-        int k = 3;
+        int[] nums = new int[]{3,2,3,1,2,4,5,5,6};
+        int k = 5;
         Console.WriteLine(KthLargest(nums, 0, nums.Length-1, k));
+    }
+
+    private int KthLargestWithLastPivot(int[] nums, int start, int end, int k)
+    {
+        int idx = start;
+        int pivot = end;
+
+        while (idx < pivot)
+        {
+            if (nums[idx++] > nums[pivot])
+            {
+                Helpers.Swap(nums, idx, pivot);
+            }
+
+            pivot--;
+        }
+
+        if (pivot - start + 1 == k)
+        {
+            return nums[pivot];
+        }
+
+        if (pivot > k)
+        {
+            return KthLargestWithLastPivot(nums, start, pivot-1, k);
+        }
+        else
+        {
+            return KthLargestWithLastPivot(nums, pivot + 1, end, k);
+        }
     }
 
     private int KthLargest(int[] nums, int start, int end, int k)
@@ -1099,12 +1270,12 @@ public class Arrays
             idx++;
         }
 
-        Helpers.Swap(nums, pivot, idx);
+        Helpers.Swap(nums, pivot, end);
 
         int m = end - pivot +1;
         if (m == k)
         {
-            return nums[m];
+            return nums[pivot];
         }
 
         if (m > k)

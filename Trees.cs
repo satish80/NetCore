@@ -1672,6 +1672,7 @@ public class Trees
         return res + Math.Abs(node.Value.Value - 1);
     }
 
+    //Accepted-LCMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/binary-search-tree-iterator/
     public void IterateBST()
     {
         TreeNode node = new TreeNode(11);
@@ -1685,50 +1686,43 @@ public class Trees
         node.Right.Right = new TreeNode(18);
 
         BSTIterator iterator = new BSTIterator(node);
-        TreeNode cur = iterator.GetNextBST();
 
-        while(cur != null)
+        while(iterator.HasNext())
         {
-            Console.WriteLine(cur.Value);
-            cur = iterator.GetNextBST();
+            Console.WriteLine(iterator.Next());
         }
     }
 
     public class BSTIterator
     {
-        private TreeNode cur = null;
-        private TreeNode lastNode = null;
-
         Stack<TreeNode> stk = new Stack<TreeNode>();
+        TreeNode cur = null;
 
-        public BSTIterator(TreeNode node)
+        public BSTIterator(TreeNode root)
         {
-            stk.Push(node);
-            cur = node;
+            Queue(root);
         }
 
-        public TreeNode GetNextBST()
+        public int Next()
         {
-            if (stk.Count > 0)
+            cur = stk.Pop();
+            Queue(cur.Right);
+
+            return cur.Value.Value;
+        }
+
+        public bool HasNext()
+        {
+            return stk.Count > 0;
+        }
+
+        private void Queue(TreeNode node)
+        {
+            while(node != null)
             {
-                while (cur.Left != null && ((lastNode != null && cur.Left.Value > lastNode.Value) || lastNode == null))
-                {
-                    cur = cur.Left;
-                    stk.Push(cur);
-                }
-
-                lastNode = stk.Pop();
-                cur = lastNode;
-
-                if (cur.Right != null)
-                {
-                    cur = cur.Right;
-                    stk.Push(cur);
-                }
-                return lastNode;
+                stk.Push(node);
+                node = node.Left;
             }
-
-            return null;
         }
     }
 

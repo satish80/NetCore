@@ -383,7 +383,25 @@ public class Strings
         map.Add('3', list2);
         map.Add('4', list3);
 
-        var res = LetterCombinations("234", 0, string.Empty, map, new List<string>());
+        var res = LetterCombinationsCre("234", 0, string.Empty, map, new List<string>());
+    }
+
+    private List<string> LetterCombinationsCre(string str, int idx, string cur, Dictionary<char, List<char>> map, List<String> res)
+    {
+        if (idx == str.Length)
+        {
+            res.Add(cur);
+            return res;
+        }
+
+        var mStr = map[str[idx]];
+
+        for(int i = 0; i < 3; i++)
+        {
+            LetterCombinationsCre(str, idx+1, cur + mStr[i], map, res);
+        }
+
+        return res;
     }
 
     private List<string> LetterCombinations(string digits, int idx, string str, Dictionary<char, List<char>> map, List<string> output)
@@ -400,6 +418,56 @@ public class Strings
         }
 
         return output;
+    }
+
+    //https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
+    public void MinRemoveToMakeValid()
+    {
+        string s = "))((";
+        Console.WriteLine(MinRemoveToMakeValid(s));
+    }
+
+    private string MinRemoveToMakeValid(string s) 
+    {
+        Stack<int> stk = new Stack<int>();
+        StringBuilder sb = new StringBuilder();
+        
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (s[idx] == '(')
+            {
+                stk.Push(idx);
+            }
+            else if (s[idx] == ')')
+            {
+                if (stk.Count > 0 && stk.Peek() == '(')
+                {
+                    stk.Pop();
+                }
+                else
+                {
+                    stk.Push(idx);
+                }
+            }
+        }
+
+        int  i = -1;
+        char[] arr = s.ToCharArray();
+
+        for(int idx = s.Length-1; idx >= 0; idx--)
+        {
+            if (stk.Count > 0)
+            {
+               i = stk.Pop();
+            }
+
+            if (idx == i)
+            {
+                arr[idx] = ' ';
+            }
+        }
+
+        return arr.ToString().Replace(" ", "");
     }
 
     public void IsPalindrome()

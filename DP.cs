@@ -169,11 +169,42 @@ public class DP
         List<string> res = new List<string>();
 
         var coll = WordBreakII(s, wordDict, res, string.Empty, map, 0);
+        //var coll = WordBreakII(s, wordDict);
 
         foreach(string str in res)
         {
             Console.WriteLine(str);
         }
+    }
+
+    private IList<string> WordBreakII(string s, IList<string> wordDict)
+    {
+        IList<string> res = new List<string>();
+        StringBuilder sb = new StringBuilder();
+        bool[] dp = new bool[s.Length];
+        dp[0] = true;
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (!dp[idx])
+            {
+                continue;
+            }
+
+            for(int i = idx+1; i < s.Length-1; i++)
+            {
+                var str = s.Substring(idx, i-idx);
+                if (wordDict.Contains(str))
+                {
+                    dp[i] = true;
+                    sb.Append(str + " ");
+                }
+            }
+            res.Add(sb.ToString());
+            sb.Clear();
+        }
+
+        return res;
     }
 
     private Dictionary<int, List<int>> GetWordsMapIndex(string s, IList<string> dict)

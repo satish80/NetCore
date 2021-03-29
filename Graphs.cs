@@ -133,6 +133,7 @@ public class Graph
         {
             return true;
         }
+
         int[] color = new int[N+1];
         Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
 
@@ -142,12 +143,14 @@ public class Graph
             {
                 adj.Add(arr[0], new List<int>());
             }
+
             adj[arr[0]].Add(arr[1]);
 
             if (!adj.ContainsKey(arr[1]))
             {
                 adj.Add(arr[1], new List<int>());
             }
+
             adj[arr[1]].Add(arr[0]);
         }
 
@@ -162,10 +165,12 @@ public class Graph
                 while (queue.Count > 0)
                 {
                     int cur = queue.Dequeue();
+
                     if (!adj.ContainsKey(cur))
                     {
                         break;
                     }
+
                     foreach(int neighbor in adj[cur])
                     {
                         if (color[neighbor] == 0)
@@ -297,6 +302,7 @@ public class Graph
     private int MinCostToConnectNodes(int N, int[][] connections)
     {
         Array.Sort(connections, (a,b) => a[2]- b[2]);
+
         DSU dsu = new DSU(N+1);
         int cost = 0;
 
@@ -754,11 +760,13 @@ public class Graph
         {
             for(int idx = 1; idx < contacts.Count; idx++)
             {
+                //Each contact is a parent for itself
                 if (!parentMap.ContainsKey(contacts[idx]))
                 {
                     parentMap.Add(contacts[idx], contacts[idx]);
                 }
 
+                //Only one owner for contacts[idx]
                 if (!owners.ContainsKey(contacts[idx]))
                 {
                     owners.Add(contacts[idx], contacts[0]);
@@ -766,6 +774,7 @@ public class Graph
             }
         }
 
+        //Merge the parents for the contacts
         foreach(IList<string> contacts in accounts)
         {
             string p = FindParent(contacts[1], parentMap);
@@ -777,6 +786,7 @@ public class Graph
             }
         }
 
+        //For a parent, union all the contacts
         foreach(IList<string> contacts in accounts)
         {
             string p = FindParent(contacts[1], parentMap);
@@ -794,6 +804,7 @@ public class Graph
             }
         }
 
+        //Add the owner & contact list for that owner
         foreach(string p in unions.Keys)
         {
             var list = new List<string>();
