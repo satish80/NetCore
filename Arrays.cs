@@ -1152,6 +1152,105 @@ public class Arrays
         return matrix;
     }
 
+    //https://leetcode.com/problems/verifying-an-alien-dictionary/
+    public void IsAlienSorted()
+    {
+        string[] words = new string[] {"hello","leetcode"};
+        string order = "hlabcdefgijkmnopqrstuvwxyz";
+        Console.WriteLine(IsAlienSorted(words, order));
+    }
+
+    private bool IsAlienSorted(string[] words, string order)
+    {
+        int[] mapping = new int[26];
+
+        for(int idx = 0; idx < order.Length; idx++)
+        {
+            mapping[order[idx]-'a'] = idx;
+        }
+
+        for(int idx = 1; idx < words.Length; idx++)
+        {
+            if (Bigger(words[idx-1], words[idx], mapping))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool Bigger(string s1, string s2, int[] mapping)
+    {
+        for(int idx = 0; idx < Math.Min(s1.Length, s2.Length); idx++)
+        {
+            if (mapping[s1[idx]-'a'] > mapping[s2[idx]-'a'])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //Accepted-LCMedium-LCSol-T:O(n)-S:O(1) https://leetcode.com/problems/sort-colors/
+    public void SortColors()
+    {
+        int[] nums = new int[] {2,0,2,1,1,0};
+        SortColors(nums);
+    }
+
+    private void SortColors(int[] nums)
+    {
+        int j = 0, k = nums.Length-1;
+        for (int i=0; i <= k; i++)
+        {
+            if (nums[i] == 0)
+                Helpers.Swap(nums,i, j++);
+            else if (nums[i] == 2)
+                Helpers.Swap(nums, i--, k--);
+        }
+    }
+
+    //Accepted:LCMedium:LCSol-T:O(2^n) https://leetcode.com/problems/combination-sum/
+    public void CombinationSum()
+    {
+        int[] arr=  new int[] {2,3,6, 7};
+        var res = CombinationSum(arr, 7);
+    }
+
+    private IList<IList<int>> CombinationSum(int[] candidates, int target)
+    {
+        IList<IList<int>> res = new List<IList<int>>();
+        List<int> list = new List<int>();
+
+        CombinationSum(candidates, 0, target, list, res);
+
+        return res;
+    }
+
+    private void CombinationSum(int[] candidates, int start, int remain, List<int> list, IList<IList<int>> res)
+    {
+        if (remain < 0)
+        {
+            return;
+        }
+
+        if (remain == 0)
+        {
+            res.Add(new List<int>(list));
+        }
+        else
+        {
+            for(int i = start; i < candidates.Length; i++)
+            {
+                list.Add(candidates[i]);
+                CombinationSum(candidates, i, remain - candidates[i], list, res);
+                list.Remove(candidates[i]);
+            }
+        }
+    }
+
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
     public void AngleClock()
     {

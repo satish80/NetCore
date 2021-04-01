@@ -82,7 +82,10 @@ namespace Algorithms
             // arrObj.LeftMostColumnWithOne();
             // arrObj.GenerateMatrix();
             // arrObj.LargestIsLand();
-            arrObj.MaxArea();
+            // arrObj.MaxArea();
+            // arrObj.IsAlienSorted();
+            // arrObj.SortColors();
+            arrObj.CombinationSum();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

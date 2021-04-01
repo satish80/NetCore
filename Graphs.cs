@@ -1,5 +1,6 @@
 using DataStructures;
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 public class Graph
@@ -479,17 +480,24 @@ public class Graph
     //https://leetcode.com/problems/alien-dictionary/
     public void AlienDictionary()
     {
+        // string[] s = new string[]
+        // {
+        //   "wrt",
+        //   "wrf",
+        //   "er",
+        //   "ett",
+        //   "rftt"
+        // };
+
         string[] s = new string[]
         {
-          "wrt",
-          "wrf",
-          "er",
-          "ett",
-          "rftt"
+            "abc","ab"
         };
 
         // AlienDictionary(s, new DirectedGraph(5));
-        var res = AlienDictionaryUsingBFSQueue(s);
+        //var res = AlienDictionaryUsingBFSQueue(s);
+        var res = AlienDictionary(s);
+        Console.WriteLine(res);
     }
 
     public String AlienDictionaryUsingBFSQueue(String[] words)
@@ -580,35 +588,82 @@ public class Graph
         return result;
     }
 
-    //https://leetcode.com/problems/redundant-connection/
-    public void RedundantConnection()
+    private string AlienDictionary(string[] words)
     {
-        int[][] edges = new int[][]
+        Dictionary<char, HashSet<char>> map = new Dictionary<char, HashSet<char>>();
+        Dictionary<char, int> degree = new Dictionary<char, int>();
+
+        foreach(string str in words)
         {
-            new int[] {1,2},
-            new int[] {2,3},
-            new int[] {3,4},
-            new int[] {1,4},
-            new int[] {1,5}
-        };
-
-        var res = FindRedundantConnection(edges);
-        Console.WriteLine(res[0].ToString(), res[1].ToString());
-    }
-
-    private int[] FindRedundantConnection(int[][] edges)
-    {
-        DSU dsu  = new DSU(edges.Length);
-
-        foreach(int[] edge in edges)
-        {
-            if (!dsu.Union(edge[0], edge[1]))
+            foreach(char ch in str)
             {
-                return edge;
+                degree[ch] = 0;
             }
         }
 
-        throw new ArgumentException("Invalid argument");
+        for(int idx = 1; idx < words.Length; idx++)
+        {
+            string cur = words[idx-1];
+            string next = words[idx];
+
+            int len = Math.Min(words[idx-1].Length, words[idx].Length);
+
+            for(int i = 0; i < len; i++)
+            {
+                char c1 = cur[i];
+                char c2 = next[i];
+                if (cur[i] != next[i])
+                {
+                    HashSet<char> set = new HashSet<char>();
+                    if (map.ContainsKey(c1))
+                    {
+                        set = map[cur[i]];
+                    }
+
+                    if (!set.Contains(c2))
+                    {
+                        set.Add(c2);
+                        map[c1] = set;
+                        degree[c2]++;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        Queue<char> queue = new Queue<char>();
+
+        foreach(KeyValuePair<char,int> pair in degree)
+        {
+            if (pair.Value == 0)
+            {
+                queue.Enqueue(pair.Key);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while (queue.Count > 0)
+        {
+            var cur = queue.Dequeue();
+            sb.Append(cur);
+
+            if (!map.ContainsKey(cur))
+            {
+                continue;
+            }
+
+            foreach(char ch in map[cur])
+            {
+                degree[ch]--;
+                if (degree[ch] == 0)
+                {
+                    queue.Enqueue(ch);
+                }
+            }
+        }
+
+        return sb.ToString().Length != degree.Count ? "" : sb.ToString();
     }
 
     private void AlienDictionary(string[] dict, DirectedGraph graph)
@@ -659,6 +714,37 @@ public class Graph
             }
         }
         stack.Push(vertex);
+    }
+
+    //https://leetcode.com/problems/redundant-connection/
+    public void RedundantConnection()
+    {
+        int[][] edges = new int[][]
+        {
+            new int[] {1,2},
+            new int[] {2,3},
+            new int[] {3,4},
+            new int[] {1,4},
+            new int[] {1,5}
+        };
+
+        var res = FindRedundantConnection(edges);
+        Console.WriteLine(res[0].ToString(), res[1].ToString());
+    }
+
+    private int[] FindRedundantConnection(int[][] edges)
+    {
+        DSU dsu  = new DSU(edges.Length);
+
+        foreach(int[] edge in edges)
+        {
+            if (!dsu.Union(edge[0], edge[1]))
+            {
+                return edge;
+            }
+        }
+
+        throw new ArgumentException("Invalid argument");
     }
 
     //https://leetcode.com/problems/tree-diameter/
