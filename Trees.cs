@@ -1325,6 +1325,42 @@ public class Trees
         return left + right + node.Value.Value;
     }
 
+    //Accepted-LCMedium-SelfSol-T:O(n):S:O(1) https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/
+    public void LongestZigZag()
+    {
+        //int?[] arr = new int?[]{1,2,3,null,4,null,null,5,6,null,7};
+        int?[] arr = new int?[]{1,null,1,1,1,null,null,1,1,null,1,null,null,null,1,null,1};
+        TreeNode root = Helpers.ConstructTree(arr);
+
+        int max =0;
+        LongestZigZag(root, null, ref max);
+        Console.WriteLine(max-1);
+    }
+
+    private int LongestZigZag(TreeNode root, bool? isLeft, ref int max)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int left = LongestZigZag(root.Left, true, ref max);
+        int right = LongestZigZag(root.Right, false, ref max);
+        int cur = 0;
+
+        if (isLeft == null)
+        {
+            max = 1+ (Math.Max(max, Math.Max(left, right)));
+        }
+        else
+        {
+            cur = 1 + (isLeft.Value == true ? right: left);
+            max = Math.Max(max, cur);
+        }
+
+        return cur;
+    }
+
     /*
     This problem was recently asked by Apple:
     Given an integer k and a binary search tree, find the floor (less than or equal to) of k, and the ceiling (larger than or equal to) of k.

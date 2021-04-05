@@ -38,10 +38,15 @@ public class Helpers
         {
             var cur =  queue.Dequeue();
 
+            if (cur == null)
+            {
+                continue;
+            }
+
             if (idx+1 < arr.Length && arr[++idx] != null)
             {
                 cur.Left = new TreeNode((int)arr[idx]);
-                queue.Enqueue(head.Left);
+                queue.Enqueue(cur.Left);
             }
 
             if (idx+1 < arr.Length && arr[++idx] != null)

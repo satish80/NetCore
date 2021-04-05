@@ -85,7 +85,10 @@ namespace Algorithms
             // arrObj.MaxArea();
             // arrObj.IsAlienSorted();
             // arrObj.SortColors();
-            arrObj.CombinationSum();
+            //arrObj.CombinationSum();
+            // arrObj.CombinationSumII();
+            // arrObj.MaxSumTwoNoOverlap();
+            // arrObj.MinDeletionSize();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -151,6 +154,7 @@ namespace Algorithms
             // treeObj.MaxAncestorDiff();
             // treeObj.LCADeepestLeaves();
             // treeObj.HouseRobberIII();
+            // treeObj.LongestZigZag();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -243,6 +247,7 @@ namespace Algorithms
             // sObj.AddBinary();
             // sObj.GroupAnagrams();
             // sObj.MinRemoveToMakeValid();
+            sObj.PalindromePartition();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

@@ -1251,6 +1251,109 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/combination-sum-ii/
+    public void CombinationSumII()
+    {
+        int[] arr = new int[] {2,5,2,1,2};
+        IList<IList<int>> res = new List<IList<int>>();
+
+        CombinationSumII(arr, 5, 0, new List<int>(), res);
+    }
+
+    private void CombinationSumII(int[] candidates, int remain, int idx, List<int> list, IList<IList<int>> res)
+    {
+        if (remain < 0 || idx >= candidates.Length)
+        {
+            return;
+        }
+
+        if (remain == 0)
+        {
+            res.Add(new List<int>(list));
+            return;
+        }
+
+        for(int i = idx; i < candidates.Length; i++)
+        {
+            list.Add(candidates[i]);
+            CombinationSumII(candidates, remain - candidates[i], i+1, list, res);
+            list.Remove(candidates[i]);
+        }
+
+        return;
+    }
+
+    //https://leetcode.com/problems/maximum-sum-of-two-non-overlapping-subarrays/
+    public void MaxSumTwoNoOverlap()
+    {
+        int[] arr = new int[]{2,1,5,6,0,9,5,0,3,8};
+        Console.WriteLine(MaxSumTwoNoOverlap(arr, 4, 3));
+    }
+
+     private int MaxSumTwoNoOverlap(int[] A, int L, int M)
+     {
+        for (int i = 1; i < A.Length; ++i)
+        {
+            A[i] += A[i - 1];
+        }
+
+        int res = A[L + M - 1], Lmax = A[L - 1], Mmax = A[M - 1];
+
+        for (int i = L + M; i < A.Length; ++i)
+        {
+            Lmax = Math.Max(Lmax, A[i - M] - A[i - L - M]);
+            Mmax = Math.Max(Mmax, A[i - L] - A[i - L - M]);
+            res = Math.Max(res, Math.Max(Lmax + A[i] - A[i - M], Mmax + A[i] - A[i - L]));
+        }
+
+        return res;
+     }
+
+    private int SlidingWindowMaxSum(int[] A, int size, int otherSize, ref int left)
+    {
+        int sum = 0;
+        int start = 0;
+        int cur = 0;
+        int max = int.MinValue;
+
+        for(int idx = 0; idx < A.Length; idx++)
+        {
+            if (cur < left && cur+size > left)
+            {
+                idx = left + otherSize;
+            }
+            else if (idx == left )
+            {
+                idx += size;
+                sum = 0;
+            }
+
+            if (sum == 0)
+            {
+                cur = idx;
+                while(idx < A.Length && idx-cur < size)
+                {
+                    sum += A[idx++];
+                }
+                idx--;
+            }
+            else
+            {
+                sum += A[idx];
+                sum-= A[cur++];
+            }
+
+            if (max < sum)
+            {
+                max = sum;
+                start = cur;
+            }
+        }
+
+        left = start;
+        return max;
+    }
+
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
     public void AngleClock()
     {
@@ -1265,6 +1368,48 @@ public class Arrays
         double res = Math.Abs(mAngle - hAngle);
 
         return res > 180 ? 360 - res : res;
+    }
+
+    //Accepted-LCHard-LCSol-T:O(MN^2)-S:O(N) https://leetcode.com/problems/delete-columns-to-make-sorted-iii/
+    public void MinDeletionSize()
+    {
+        string[] strs = new string[] {"babca","bbazb"};
+        //string[] strs = new string[] {"ghi","def","abc"};
+        Console.WriteLine(MinDeletionSizeCre(strs));
+    }
+
+    private int MinDeletionSizeCre(string[] strs)
+    {
+        int m = strs.Length, n = strs[0].Length, res = n - 1, k;
+
+        //dp holds the max subsequence at ith position
+        int[] dp = new int[n];
+
+        for(int idx= 0; idx < n; idx++)
+        {
+            dp[idx] = 1;
+        }
+
+        for (int j = 0; j < n; ++j)
+        {
+            for (int i = 0; i < j; ++i)
+            {
+                for (k = 0; k < m; ++k)
+                {
+                    if (strs[k].ElementAt(i) > strs[k].ElementAt(j)) break;
+                }
+
+                if (k == m && dp[i] + 1 > dp[j])
+                {
+                    dp[j] = dp[i] + 1;
+                }
+            }
+
+            //n-dp[j] : No of chars to be deleted
+            res = Math.Min(res, n - dp[j]);
+        }
+
+        return res;
     }
 
     //Accepted-LCMedium-Self-T:O(n)-https://leetcode.com/problems/top-k-frequent-elements/

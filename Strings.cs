@@ -582,6 +582,80 @@ public class Strings
         return false;
     }
 
+    //https://leetcode.com/problems/palindrome-partitioning/
+    public void PalindromePartition()
+    {
+        string s = "aab";
+        var res = PalindromePartition(s);
+    }
+
+    private IList<IList<string>> PalindromePartition(string s)
+    {
+        bool[,] dp = new bool[s.Length,s.Length];
+        IList<IList<string>> res = new List<IList<string>>();
+        List<string> path = new List<string>();
+
+        //No of chars
+        for(int i = 0; i < s.Length; i++)
+        {
+            //Position
+            for(int j = 0; j <= i; j++)
+            {
+                if(s.ElementAt(i) == s.ElementAt(j) && (i - j < 2 || dp[j-1,i-1]))
+                {
+                    dp[j,i] = true;
+                }
+            }
+        }
+
+        bool[,] credp = new bool[,]
+        {
+            {true, true, true},
+            {true, false, false},
+            {false, false, false}
+        };
+        PalindromePartitionHelper(credp, res, path, s, 0);
+        return res;
+    }
+
+    private void PalindromePartitionHelper(bool[,] dp, IList<IList<string>> res, List<string> path, string s, int pos)
+    {
+        if (pos == s.Length)
+        {
+            res.Add(new List<string>(path));
+            return;
+        }
+
+        for(int i = pos; i < s.Length; i++)
+        {
+            if (dp[pos, i-pos+1])
+            {
+                var cur = s.Substring(pos, i-pos+1);
+                path.Add(cur);
+                PalindromePartitionHelper(dp, res, path, s, i+1);
+                path.RemoveAt(path.Count-1);
+            }
+        }
+    }
+
+    private bool Palindrome(string s, int i, int length)
+    {
+        string str = s.Substring(i, length);
+
+        int left = 0;
+        int right = str.Length-1;
+
+        while (left < right)
+        {
+            if (s[left++] != s[right++])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /*
     Asked by Google
     Given a string of words delimited by spaces, reverse the words in string. For example, given "hello world here", return "here world hello"
