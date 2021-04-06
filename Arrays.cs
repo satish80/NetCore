@@ -1283,6 +1283,60 @@ public class Arrays
         return;
     }
 
+    //https://leetcode.com/problems/subsets/
+    public void Subsets()
+    {
+        int[] nums = new int[] {1, 2, 3};
+        IList<IList<int>> coll = new List<IList<int>>();
+        var list = new List<int>();
+        var res = Subsets(nums, 0, coll, list);
+    }
+
+    private IList<IList<int>> Subsets(int[] nums, int idx, IList<IList<int>> res, List<int> list)
+    {
+        res.Add(new List<int>(list));
+
+        for(int i = idx; i < nums.Length; i++)
+        {
+            list.Add(nums[i]);
+            Subsets(nums, i+1, res, list);
+            list.RemoveAt(list.Count-1);
+        }
+
+        return res;
+    }
+
+    //https://leetcode.com/problems/subsets-ii/
+    public void SubsetsWithDuplicates()
+    {
+        int[] nums = new int[] {1, 2, 2};
+        IList<IList<int>> coll = new List<IList<int>>();
+        var list = new List<int>();
+        SubsetsWithDuplicates(nums, 0, list, coll, false);
+    }
+
+    private void SubsetsWithDuplicates(int[] nums, int idx, List<int> path, IList<IList<int>> res, bool choosePre)
+    {
+        if (idx == nums.Length)
+        {
+            res.Add(new List<int>(path));
+            return;
+        }
+
+        SubsetsWithDuplicates(nums, idx+1, path, res, false);
+
+        if(idx >=1 && nums[idx] ==nums[idx-1] && !choosePre)
+        {
+            return;
+        }
+
+        path.Add(nums[idx]);
+
+        SubsetsWithDuplicates(nums, idx+1, path, res, true);
+
+        path.RemoveAt(path.Count-1);
+    }
+
     //https://leetcode.com/problems/maximum-sum-of-two-non-overlapping-subarrays/
     public void MaxSumTwoNoOverlap()
     {

@@ -89,6 +89,8 @@ namespace Algorithms
             // arrObj.CombinationSumII();
             // arrObj.MaxSumTwoNoOverlap();
             // arrObj.MinDeletionSize();
+            // arrObj.Subsets();
+            arrObj.SubsetsWithDuplicates();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -247,7 +249,7 @@ namespace Algorithms
             // sObj.AddBinary();
             // sObj.GroupAnagrams();
             // sObj.MinRemoveToMakeValid();
-            sObj.PalindromePartition();
+            // sObj.PalindromePartition();                            //TBD
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
