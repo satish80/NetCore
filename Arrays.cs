@@ -1306,35 +1306,84 @@ public class Arrays
         return res;
     }
 
-    //https://leetcode.com/problems/subsets-ii/
+    //Accepted-LCMedium-LCSol-T:O(2^n)-S:O(n) https://leetcode.com/problems/subsets-ii/
     public void SubsetsWithDuplicates()
     {
         int[] nums = new int[] {1, 2, 2};
         IList<IList<int>> coll = new List<IList<int>>();
         var list = new List<int>();
-        SubsetsWithDuplicates(nums, 0, list, coll, false);
+        Array.Sort(nums);
+        SubsetsWithDuplicates(nums, 0, list, coll);
     }
 
-    private void SubsetsWithDuplicates(int[] nums, int idx, List<int> path, IList<IList<int>> res, bool choosePre)
+    private void SubsetsWithDuplicates(int[] nums, int idx, List<int> path, IList<IList<int>> res)
     {
-        if (idx == nums.Length)
+        res.Add(new List<int>(path));
+
+        for(int i = idx; i < nums.Length; i ++)
         {
-            res.Add(new List<int>(path));
-            return;
+            if(i == idx || nums[i] != nums[i-1])
+            {
+                path.Add(nums[i]);
+                SubsetsWithDuplicates(nums, i+1, path, res);
+                path.RemoveAt(path.Count-1);
+            }
+        }
+    }
+
+    //https://leetcode.com/problems/exclusive-time-of-functions/
+    public void ExclusiveTime()
+    {
+        List<string> logs = new List<string>()
+        {
+            "0:start:0","0:start:1","0:start:2","0:end:3","0:end:4","0:end:5"
+            //"0:start:0","0:start:2","0:end:5","1:start:7","1:end:7","0:end:8"
+        };
+
+        var res = ExclusiveTime(2, logs);
+    }
+
+    public int[] ExclusiveTime(int n, IList<string> logs) 
+    {
+        int[] res = new int[n];
+        
+        Stack<Tuple<int, int>> stk = new  Stack<Tuple<int, int>>();
+        var first = logs[0].Split(":");
+
+        stk.Push(new Tuple<int, int>(int.Parse(first[0]), int.Parse(first[2])));
+        int idx = 1;
+        int lastEndTime = 0;
+
+        while (idx < logs.Count)
+        {
+            string[] cur = logs[idx].Split(":");
+
+            int id = int.Parse(cur[0]);
+            string operation = cur[1];
+            int time = int.Parse(cur[2]);
+            time -= lastEndTime;
+
+            if (operation == "start")
+            {
+                if (stk.Count > 0)
+                {
+                    var peekItem = stk.Peek();
+                    res[peekItem.Item1] += time - peekItem.Item2;
+                }
+
+                stk.Push(new Tuple<int, int>(id, time));
+            }
+            else
+            {
+                var peekItem = stk.Pop();
+                res[peekItem.Item1] += time - peekItem.Item2 +1;
+                lastEndTime = int.Parse(cur[2])+1;
+            }
+
+            idx++;
         }
 
-        SubsetsWithDuplicates(nums, idx+1, path, res, false);
-
-        if(idx >=1 && nums[idx] ==nums[idx-1] && !choosePre)
-        {
-            return;
-        }
-
-        path.Add(nums[idx]);
-
-        SubsetsWithDuplicates(nums, idx+1, path, res, true);
-
-        path.RemoveAt(path.Count-1);
+        return res;
     }
 
     //https://leetcode.com/problems/maximum-sum-of-two-non-overlapping-subarrays/
@@ -2019,6 +2068,7 @@ public class Arrays
             c[t - 'A']++;
         }
 
+        //Sort the array by Ascending
         Array.Sort(c);
 
         int max_val = c[25] - 1, idle_slots = max_val * n;
