@@ -90,7 +90,8 @@ namespace Algorithms
             // arrObj.MaxSumTwoNoOverlap();
             // arrObj.MinDeletionSize();
             // arrObj.Subsets();
-            arrObj.SubsetsWithDuplicates();
+            // arrObj.SubsetsWithDuplicates();
+            arrObj.LongestIncreasingPath();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();

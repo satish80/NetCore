@@ -1424,6 +1424,52 @@ public class Arrays
         return res > 180 ? 360 - res : res;
     }
 
+    //https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
+    public void LongestIncreasingPath()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {2147483647,1},
+            // new int[] {3,2,6},
+            // new int[] {2,2,1}
+        };
+
+        int max = int.MinValue;
+        bool[,] visited = new bool[arr.Length, arr[0].Length];
+
+        for(int row=0; row < arr.Length; row++)
+        {
+            for(int col = 0; col < arr[0].Length; col++)
+            {
+                LongestIncreasingPath(arr, row, col, visited, new List<int>(), ref max);
+            }
+        }
+
+        Console.WriteLine(max);
+    }
+
+    private void LongestIncreasingPath(int[][] matrix, int row, int col, bool[,] visited, List<int> path, ref int maxLength)
+    {
+        if (row < 0 || col < 0 || row >= matrix.Length || col >= matrix[0].Length || visited[row,col] || (path.Count > 0 && matrix[row][col] <= path[path.Count-1]))
+        {
+            return;
+        }
+
+        visited[row,col] = true;
+
+        path.Add(matrix[row][col]);
+        maxLength = maxLength < path.Count ? path.Count : maxLength;
+
+        LongestIncreasingPath(matrix, row, col+1, visited, path, ref maxLength);
+        LongestIncreasingPath(matrix, row, col-1, visited, path, ref maxLength);
+        LongestIncreasingPath(matrix, row+1, col, visited, path, ref maxLength);
+        LongestIncreasingPath(matrix, row-1, col, visited, path, ref maxLength);
+
+        path.Remove(matrix[row][col]);
+
+        visited[row, col] = false;
+    }
+
     //Accepted-LCHard-LCSol-T:O(MN^2)-S:O(N) https://leetcode.com/problems/delete-columns-to-make-sorted-iii/
     public void MinDeletionSize()
     {
@@ -3855,6 +3901,48 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/median-of-two-sorted-arrays/
+    public void FindMedianSortedArrays()
+    {
+
+    }
+
+    double findMedianSortedArrays(int[] nums1, int[] nums2)
+    {
+        int N1 = nums1.Length;
+        int N2 = nums2.Length;
+        //                                         bigger, smaller
+        if (N1 < N2) return findMedianSortedArrays(nums2, nums1);	// Make sure A2 is the shorter one.
+        
+        int lo = 0, hi = N2 * 2;
+
+        while (lo <= hi)
+        {
+            int mid2 = (lo + hi) / 2;   // Try Cut 2 
+            int mid1 = N1 + N2 - mid2;  // Calculate Cut 1 accordingly
+            
+            double L1 = (mid1 == 0) ? int.MinValue : nums1[(mid1-1)/2];	// Get L1, R1, L2, R2 respectively
+            double L2 = (mid2 == 0) ? int.MinValue : nums2[(mid2-1)/2];
+            double R1 = (mid1 == N1 * 2) ? int.MaxValue : nums1[(mid1)/2];
+            double R2 = (mid2 == N2 * 2) ? int.MaxValue : nums2[(mid2)/2];
+            
+            if (L1 > R2)
+            {
+                lo = mid2 + 1;	// A1's lower half is too big; need to move C1 left (C2 right)
+            }
+            else if (L2 > R1)
+            {
+                hi = mid2 - 1;	// A2's lower half too big; need to move C2 left.
+            }
+            else
+            {
+                return (Math.Max(L1,L2) + Math.Min(R1, R2)) / 2;	// Otherwise, that's the right cut.
+            }
+        }
+
+        return -1;
+    }
+ 
     //Accepted:LCMedium:selfSol: T:n! https://leetcode.com/problems/letter-combinations-of-a-phone-number/
     public void LetterCombinationsOfPhoneNumber()
     {
