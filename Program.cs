@@ -42,7 +42,6 @@ namespace Algorithms
             // arrObj.NextPermutation();
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
-            // arrObj.SubArraySumK();
             // arrObj.RemoveInvalidParanthesis();
             // arrObj.SearchInRotatedSortedArray();
             // arrObj.NextGreaterNumber();
@@ -91,8 +90,12 @@ namespace Algorithms
             // arrObj.MinDeletionSize();
             // arrObj.Subsets();
             // arrObj.SubsetsWithDuplicates();
-            arrObj.LongestIncreasingPath();
+            // arrObj.LongestIncreasingPath();
             // arrObj.ExclusiveTime();
+            // arrObj.FindMedianSortedArrays();
+            // arrObj.FriendsOfAppropriateAge();
+            // arrObj.FindKthMissingPositive();
+            arrObj.ShortestDistanceFromAllBuildings();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -159,6 +162,8 @@ namespace Algorithms
             // treeObj.LCADeepestLeaves();
             // treeObj.HouseRobberIII();
             // treeObj.LongestZigZag();
+            // treeObj.CountSmallerNumbersAfterSelf();
+            // treeObj.FindDuplicateSubTrees();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -263,6 +268,7 @@ namespace Algorithms
             // lObj.FlattenList();
             // lObj.GetIntersectionNode();
             // lObj.ReverseKGroup();
+            // lObj.MergeKSortedList();
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();

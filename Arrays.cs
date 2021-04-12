@@ -674,6 +674,46 @@ public class Arrays
         return n+1;
     }
 
+    //Accepted:LCEasy-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/kth-missing-positive-number/
+    public void FindKthMissingPositive()
+    {
+        int[] arr = new int[] {5,6,7,8,9};
+        int  k = 9;
+        Console.WriteLine(FindKthPositive(arr, k));
+    }
+
+    private int FindKthPositive(int[] arr, int k)
+    {
+        int prev = 0;
+        int max = int.MinValue;
+
+        for(int idx = 0; idx < arr.Length && k > 0; idx++)
+        {
+            prev = idx > 0 ? arr[idx-1] : prev;
+
+            if (arr[idx] - prev > 1)
+            {
+                int diff = arr[idx] - (prev +1);
+                k -= diff;
+
+                if (k == 0)
+                {
+                    return prev + diff;
+                }
+                else if (k < 0)
+                {
+                    return arr[idx] + k-1;
+                }
+            }
+
+            max = Math.Max (max, arr[idx]);
+        }
+
+        int res = k > 0 ? max + k : 0;
+        
+        return res;
+    }
+
     //https://leetcode.com/problems/remove-invalid-parentheses/
     public void RemoveInvalidParanthesis()
     {
@@ -1679,6 +1719,47 @@ public class Arrays
         {
             return KthLargest(nums, start, pivot-1, k-m);
         }
+    }
+
+
+    //https://leetcode.com/problems/friends-of-appropriate-ages/
+    public void FriendsOfAppropriateAge()
+    {
+        int[] nums = new int[] {20,30,100,110,120};
+        Console.WriteLine(FriendsOfAppropriateAge(nums));
+    }
+
+    public int FriendsOfAppropriateAge(int[] ages)
+    {
+        Dictionary<int, int> count = new Dictionary<int, int>();
+
+        foreach (int age in ages)
+        {
+            if (!count.ContainsKey(age))
+            {
+                count.Add(age, 0);
+            }
+            count[age] += 1;
+        }
+
+        int res = 0;
+        foreach (int a in count.Keys)
+        {
+            foreach (int b in count.Keys)
+            {
+                if (ValidFriendRequest(a, b))
+                {
+                     res += count[a] * (count[b] - (a == b ? 1 : 0));
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private bool ValidFriendRequest(int a, int b)
+    {
+        return !(b <= 0.5 * a + 7 || b > a || (b > 100 && a < 100));
     }
 
     public void WallsGates()
@@ -3831,6 +3912,68 @@ public class Arrays
         return A.Length-1;
     }
 
+    //https://leetcode.com/problems/shortest-distance-from-all-buildings/
+    public int ShortestDistanceFromAllBuildings()
+    {
+        int[][] grid = new int[][]
+        {
+            new int[] {1,0,2,0,1},
+            new int[] {0,0,0,0,0},
+            new int[] {0,0,1,0,0}
+        };
+
+        int min = int.MaxValue;
+        int[,] dist = new int[grid.Length, grid[0].Length];
+        int start = 1;
+
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[0].Length; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    ShortestDistanceFromAllBuildings(grid, dist, i, j, --start, ref min);
+                }
+            }
+        }
+
+        return min == int.MaxValue ? -1 : min;
+    }
+
+    private void ShortestDistanceFromAllBuildings(int[][] grid, int[,] dist, int row, int col, int start, ref int min)
+    {
+        int[] delta = new int[]{ 0, 1, 0, -1, 0 };
+
+        Queue<int[]> queue = new Queue<int[]>();
+        queue.Enqueue(new int[]{row, col});
+
+        int level = 0;
+        min = int.MaxValue;
+
+        while(queue.Count > 0)
+        {
+            int size = queue.Count;
+            level++;
+            for(int k = 0; k < size; k++)
+            {
+                int[] node = queue.Dequeue();
+                for(int i = 1; i < delta.Length; i++)
+                {
+                    int newRow = node[0] + delta[i - 1];
+                    int newCol = node[1] + delta[i];
+                    
+                    if (newRow >= 0 && newRow < grid.Length && newCol >= 0 && newCol < grid[0].Length && grid[newRow][newCol] == start)
+                    {
+                        queue.Enqueue(new int[]{ newRow, newCol });
+                        dist[newRow,newCol] += level;
+                        min = Math.Min(min, dist[newRow,newCol]);
+                        grid[newRow][newCol]--;
+                    }
+                }
+            }
+        }
+    }
+
     //LcHard:LcSol:T:O(): https://leetcode.com/problems/permutation-sequence/
     public void GetPermutation()
     {
@@ -3954,15 +4097,18 @@ public class Arrays
     //https://leetcode.com/problems/median-of-two-sorted-arrays/
     public void FindMedianSortedArrays()
     {
-
+        int[] arr1 = new int[] {2,4,6,9,10};
+        int[] arr2 = new int[] {1, 4, 8, 11};
+        var res = FindMedianSortedArrays(arr1, arr2);
+        Console.WriteLine(res);
     }
 
-    double findMedianSortedArrays(int[] nums1, int[] nums2)
+    private double FindMedianSortedArrays(int[] nums1, int[] nums2)
     {
         int N1 = nums1.Length;
         int N2 = nums2.Length;
         //                                         bigger, smaller
-        if (N1 < N2) return findMedianSortedArrays(nums2, nums1);	// Make sure A2 is the shorter one.
+        if (N1 < N2) return FindMedianSortedArrays(nums2, nums1);	// Make sure A2 is the shorter one.
         
         int lo = 0, hi = N2 * 2;
 

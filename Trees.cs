@@ -77,6 +77,127 @@ public class Trees
         return -1;
     }
 
+    //https://leetcode.com/problems/find-duplicate-subtrees/
+    public void FindDuplicateSubTrees()
+    {
+        int?[] arr=  new int?[]{1,2,3,4,null,2,4,null,null,4};
+        var node = Helpers.ConstructTree(arr);
+        var res = new List<TreeNode>();
+        FindDuplicateSubTrees(node, new Dictionary<string, TreeNode>(), res);
+    }
+
+    private string FindDuplicateSubTrees(TreeNode root, Dictionary<string, TreeNode> map, IList<TreeNode> res)
+    {
+        if (root == null)
+        {
+            return string.Empty;
+        }
+
+        string left = FindDuplicateSubTrees(root.Left, map, res);
+        string right = FindDuplicateSubTrees(root.Left, map, res);
+
+        string cur = root.Value + "L" + left + "R" + right;
+        
+        if (!map.ContainsKey(cur))
+        {
+            map.Add(cur, root);
+        }
+        else
+        {
+            if (map[cur] != null)
+            {           
+                res.Add(root);
+            }
+            map[cur] = null;
+        }
+
+        return cur;
+    }
+
+    //https://leetcode.com/problems/count-of-smaller-numbers-after-self/
+    public void CountSmallerNumbersAfterSelf()
+    {
+        int[] nums = new int[] {3, 2, 2, 6, 1};
+        var res = CountSmallerNumbersAfterSelf(nums);
+    }
+
+    private IList<int> CountSmallerNumbersAfterSelf(int[] nums)
+    {
+        TreeNodeWithSum root = null;
+        int[] ans = new int[nums.Length];
+
+        for(int idx = nums.Length-1; idx >= 0; idx--)
+        {
+            root = Insert(nums, root, idx, ans, 0);
+        }
+
+        return new List<int>(ans);
+    }
+
+    private TreeNodeWithSum Insert(int[] nums, TreeNodeWithSum root, int idx, int[] ans, int preSum)
+    {
+        if (root == null)
+        {
+            root = new TreeNodeWithSum(nums[idx], 0, 0);
+            ans[idx] = preSum;
+        }
+        
+        if (nums[idx] < root.Value)
+        {
+            root.SmallerCount++;
+            root.Left = Insert(nums, root.Left, idx, ans, preSum);
+        }
+        else if (nums[idx] > root.Value)
+        {
+            preSum += root.DupeCount+ root.SmallerCount;
+            root.Right = Insert(nums, root.Right, idx, ans, preSum);
+        }
+        else
+        {
+            root.DupeCount++;
+            ans[idx] = preSum + root.SmallerCount;
+        }
+
+        return root;
+    }
+
+    //Accepted-LCMedium-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/closest-binary-search-tree-value/
+    public int ClosestValue() 
+    {
+        int?[] arr = new int?[] {4,2,5,1,3};
+        var root = Helpers.ConstructTree(arr);
+        double target = 3.714286;
+        double minDiff = int.MaxValue;
+        int rootVal = -1;
+        ClosestValue(root, target, ref minDiff, ref rootVal);
+        return rootVal;
+    }
+    
+    private void ClosestValue(TreeNode root, double target, ref double minDiff, ref int rootVal)
+    {
+        if (root == null)
+        {
+            return;
+        }
+        
+        double diff = Math.Abs(root.Value.Value - target);
+        
+        if (diff < minDiff)
+        {
+            minDiff = diff;
+            rootVal = root.Value.Value;
+        }
+        
+        if (root.Value  > target)
+        {
+            ClosestValue(root.Left, target, ref minDiff, ref rootVal);
+        }
+        else
+        {
+            ClosestValue(root.Right, target, ref minDiff, ref rootVal);
+        }
+    }
+
     //https://leetcode.com/problems/sum-of-left-leaves/
     public void SumOfLeftLeaves()
     {
@@ -3154,6 +3275,29 @@ public class TreeNode
 
     public int Rank;
     public int? Value;
+}
+
+public class TreeNodeWithSum
+{
+    public TreeNodeWithSum(int value)
+    {
+        this.Value = value;
+    }
+
+    public TreeNodeWithSum(int value, int smallerCount, int dupeCount)
+    {
+        this.Value = value;
+        this.DupeCount = dupeCount;
+        this.SmallerCount = smallerCount;
+    }
+
+    public TreeNodeWithSum Left;
+    public TreeNodeWithSum Right;
+
+    public int DupeCount;
+    public int Value;
+
+    public int SmallerCount;
 }
 
 public class TreeNodeIterator

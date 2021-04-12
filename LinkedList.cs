@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using DataStructures;
 public class LinkedList
 {
     //https://leetcode.com/problems/swap-nodes-in-pairs/
@@ -42,6 +45,102 @@ public class LinkedList
         }
 
         return head;
+    }
+
+    //Accepted:LCHard:LCSol:T:O(nLogn)-S:O(n) https://leetcode.com/problems/merge-k-sorted-lists/
+    public void MergeKSortedList()
+    {
+        SLLNode node = new SLLNode(1);
+        node.Next = new SLLNode(4);
+        node.Next.Next = new SLLNode(5);
+
+        SLLNode node2 = new SLLNode(1);
+        node2.Next = new SLLNode(3);
+        node2.Next.Next = new SLLNode(4);
+
+        SLLNode node3 = new SLLNode(2);
+        node3.Next = new SLLNode(6);
+
+        SLLNode[] lists = new SLLNode[]
+        {
+            node3, node2, node
+        };
+
+        var res = Partition(lists, 0, lists.Length-1);
+    }
+
+    private SLLNode Partition(SLLNode[] lists, int start, int end)
+    {
+        if (start == end)
+        {
+            return lists[start];
+        }
+        
+        int mid = (end-start)/2 + start;
+
+        var l1 = Partition(lists, start, mid);
+        var l2 = Partition(lists, mid+1, end);
+
+        var res = Merge(l1, l2);
+
+        return res;
+    }
+
+    private SLLNode Merge(SLLNode l1, SLLNode l2)
+    {
+        SLLNode res = null;
+        if (l1 == null)
+        {
+            return l2;
+        }
+
+        if (l2 == null)
+        {
+            return l1;
+        }
+
+        if (l1.Value > l2.Value)
+        {
+            l2.Next = Merge(l1, l2.Next);
+            res = l2;
+        }
+        else
+        {
+            l1.Next = Merge(l1.Next, l2);
+            res = l1;
+        }
+
+        return res;
+    }
+
+    private SLLNode MergeKSortedListUsingHeap(SLLNode[] lists)
+    {
+        Heap<SLLNode> heap = new Heap<SLLNode>(true);
+
+        foreach(SLLNode node in lists)
+        {
+            if (node!= null)
+            {
+                heap.Push(node);
+            }
+        }
+
+        SLLNode head = new SLLNode(0);
+        SLLNode tail = head;
+
+        while (heap.Count > 0)
+        {
+            var cur = heap.Pop();
+            tail.Next = cur;
+            tail = tail.Next;
+
+            if (tail.Next != null)
+            {
+                heap.Push(tail.Next);
+            }
+        }
+
+        return head.Next;
     }
 
     // 1->2->3->4

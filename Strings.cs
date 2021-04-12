@@ -177,6 +177,36 @@ public class Strings
 
         return sb.ToString().Reverse();
     }
+    
+    //https://leetcode.com/problems/palindrome-permutation/
+    public void CanPermutePalindrome()
+    {
+        string s = "carerac";
+        Console.WriteLine(CanPermutePalindrome(s));
+    }
+
+    private bool CanPermutePalindrome(string s)
+    {
+        Dictionary<char, int>  map = new Dictionary<char, int>();
+        
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (!map.ContainsKey(s[idx]))
+            {
+                map.Add(s[idx], 1);
+            }
+            else
+            {
+                map[s[idx]]--;
+                if (map[s[idx]] == 0)
+                {
+                    map.Remove(s[idx]);
+                }
+            }
+        }
+        
+        return map.Count <= 1;
+    }
 
     //Accepted:LCMedium:T:O(nlogn *m):https://leetcode.com/problems/group-anagrams/
     public void GroupAnagrams()
@@ -1718,32 +1748,6 @@ public class Strings
         }
 
         return oddCount <= k && k <= s.Length;
-    }
-
-    public void CanPermutePalindrome()
-    {
-        string str = "carerac";
-        Console.WriteLine(CanPermutePalindrome(str));
-    }
-
-    private bool CanPermutePalindrome(string s)
-    {
-        Dictionary<char, int> map = new Dictionary<char, int>();
-        int oddCount = 0;
-
-        for(int idx = 0; idx < s.Length; idx++)
-        {
-            if (!map.ContainsKey(s[idx]))
-            {
-                map.Add(s[idx], 0);
-            }
-
-            map[s[idx]] ++;
-
-            oddCount += map[s[idx]] % 2 > 0 ? 1 : -1;
-        }
-
-        return oddCount <= 1;
     }
 
     //Accepted: https://leetcode.com/problems/shortest-palindrome/

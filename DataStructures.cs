@@ -45,12 +45,12 @@ namespace DataStructures
             {
                 int parent = (idx / 2);
 
-                if ((minHeap && Comparer<T>.Default.Compare(arr[parent], arr[idx]) > 0))
+                if ((minHeap && comparer.Compare(arr[parent], arr[idx]) > 0))
                 {
                     Swap(arr, parent, idx);
                 }
 
-                if((!minHeap && Comparer<T>.Default.Compare(arr[idx], arr[parent]) > 0))
+                if((!minHeap && comparer.Compare(arr[idx], arr[parent]) > 0))
                 {
                     Swap(arr, parent, idx);
                 }
@@ -82,10 +82,18 @@ namespace DataStructures
                 {
                     return Comparer<T>.Default.Compare(x, y);
                 }
+                else if (typeof(T) == typeof(SLLNode))
+                {
+                    object one = (object)x;
+                    object other = (object)y;
+                    return ((SLLNode)one).Value - ((SLLNode)other).Value;
+                }
 
                 return 0;
             }
         }
+
+        
 
         public class ArrayComparer : IComparer<T>
         {
