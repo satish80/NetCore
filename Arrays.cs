@@ -2121,6 +2121,58 @@ public class Arrays
         return true;
     }
 
+    //https://leetcode.com/problems/best-meeting-point/
+    public void BestMeetingPoint()
+    {
+        // int[][] arr = new int[][]
+        // {
+        //     new int[]{1,0,0,0,1},
+        //     new int[]{0,0,0,0,0},
+        //     new int[]{0,0,1,0,0}
+        // };
+
+        int[][] arr = new int[][]
+        {
+            new int[]{1,1}
+        };
+
+        Console.WriteLine(BestMeetingPoint(arr));
+    }
+
+    private int BestMeetingPoint(int[][] grid)
+    {
+        List<int> rows = new List<int>();
+        List<int> cols = new List<int>();
+
+        for(int row = 0; row < grid.Length; row++)
+        {
+            for(int col = 0; col < grid[0].Length; col++)
+            {
+                if (grid[row][col] == 1)
+                {
+                    rows.Add(row);
+                    cols.Add(col);
+                }
+            }
+        }
+
+        return MinMoveToBestMeetingPoint(rows) + MinMoveToBestMeetingPoint(cols);
+    }
+
+    private int MinMoveToBestMeetingPoint(List<int> list)
+    {
+        list.Sort();
+        int left = 0, right = list.Count-1;
+        int dist = 0;
+
+        while(left < right)
+        {
+            dist += list[right--] - list[left++];
+        }
+
+        return dist;
+    }
+
     //https://leetcode.com/problems/task-scheduler/
     #region
     /*Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.

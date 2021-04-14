@@ -1360,6 +1360,48 @@ public class Trees
         return -1;
     }
 
+    //https://leetcode.com/problems/balance-a-binary-search-tree/
+    public void BalanceBSTCre()
+    {
+        int?[] arr = new int?[]{1,null,2,null,3,null,4,null,null};
+        var node = Helpers.ConstructTree(arr);
+        var list = new List<TreeNode>();
+        InorderBalanceBST(node, list) ;
+        var res= BalanceBST(list, 0, list.Count-1);
+    }
+
+    private TreeNode InorderBalanceBST(TreeNode root, List<TreeNode> arr)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        TreeNode left = InorderBalanceBST(root.Left, arr);
+
+        arr.Add(root);
+
+        TreeNode right = InorderBalanceBST(root.Right, arr);
+
+        return root;
+    }
+
+    private TreeNode BalanceBST(List<TreeNode> arr, int start, int end)
+    {
+        if (start > end)
+        {
+            return null;
+        }
+
+        int mid = (end-start)/2 + start;
+
+        TreeNode node = arr[mid];
+        node.Left = BalanceBST(arr, start, mid-1);
+        node.Right = BalanceBST(arr, mid+1, end);
+
+        return node;
+    }
+
     //https://leetcode.com/problems/delete-nodes-and-return-forest/
     public void DeleteNodes()
     {

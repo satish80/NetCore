@@ -95,7 +95,8 @@ namespace Algorithms
             // arrObj.FindMedianSortedArrays();
             // arrObj.FriendsOfAppropriateAge();
             // arrObj.FindKthMissingPositive();
-            arrObj.ShortestDistanceFromAllBuildings();
+            // arrObj.ShortestDistanceFromAllBuildings();
+            // arrObj.BestMeetingPoint();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -164,6 +165,7 @@ namespace Algorithms
             // treeObj.LongestZigZag();
             // treeObj.CountSmallerNumbersAfterSelf();
             // treeObj.FindDuplicateSubTrees();
+            // treeObj.BalanceBSTCre();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -213,6 +215,7 @@ namespace Algorithms
             // gObj.DisjointSets();
             // gObj.FindCheapestPrice();
             // gObj.RedundantConnection();
+            gObj.CloneGraphCre();
 
             Strings sObj = new Strings();
             //sObj.StrStr();

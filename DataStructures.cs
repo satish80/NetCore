@@ -366,6 +366,24 @@ namespace DataStructures
         }
     }
 
+    public class UndirectedGraphNode
+    {
+        public int val;
+        public List<UndirectedGraphNode> neighbors = new List<UndirectedGraphNode>();
+
+        public UndirectedGraphNode(int val)
+        {
+            this.val = val;
+            this.neighbors = new List<UndirectedGraphNode>();
+        }
+
+        public UndirectedGraphNode(int val, List<UndirectedGraphNode> neighbors)
+        {
+            this.val = val;
+            this.neighbors = neighbors;
+        }
+    }
+
     public class GraphNode
     {
         public int val;

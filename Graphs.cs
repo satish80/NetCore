@@ -716,6 +716,46 @@ public class Graph
         stack.Push(vertex);
     }
 
+    //https://leetcode.com/problems/clone-graph/
+    public void CloneGraphCre()
+    {
+        UndirectedGraphNode node1 = new UndirectedGraphNode(1);
+        UndirectedGraphNode node2 = new UndirectedGraphNode(2);
+        UndirectedGraphNode node3 = new UndirectedGraphNode(3);
+        UndirectedGraphNode node4 = new UndirectedGraphNode(4);
+
+        node1.neighbors.AddRange(new UndirectedGraphNode[] {node2, node4});
+        node2.neighbors.AddRange(new UndirectedGraphNode[] {node1, node3});
+        node3.neighbors.AddRange(new UndirectedGraphNode[] {node2, node4});
+        node4.neighbors.AddRange(new UndirectedGraphNode[] {node1, node3});
+
+        var res = CloneGraphCre(node1, new Dictionary<int, UndirectedGraphNode>());
+    }
+
+    private UndirectedGraphNode CloneGraphCre(UndirectedGraphNode node, Dictionary<int, UndirectedGraphNode> map)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        if (map.ContainsKey(node.val))
+        {
+            return map[node.val];
+        }
+
+        UndirectedGraphNode cloneNode = new UndirectedGraphNode(node.val);
+        map.Add(node.val, cloneNode);
+
+        foreach(UndirectedGraphNode neighbor in node.neighbors)
+        {
+            var cloneNeighbor = CloneGraphCre(neighbor, map);
+            cloneNode.neighbors.Add(cloneNeighbor);
+        }
+
+        return cloneNode;
+    }
+
     //https://leetcode.com/problems/redundant-connection/
     public void RedundantConnection()
     {
