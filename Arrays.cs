@@ -2121,6 +2121,64 @@ public class Arrays
         return true;
     }
 
+    //Accepted:LcMEdium-LCSol-T:O(logn)-S:O(1) https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+    public void SearchRange()
+    {
+        int[] nums = new int[] {5,7,7,8,8,10};
+        int target = 8;
+        var output = SearchRange(nums, target);
+    }
+
+    private int[] SearchRange(int[] nums, int target)
+    {
+        int start = 0, end = nums.Length - 1;
+        int[] ret = new int[] {-1, -1};
+
+        if(nums == null || nums.Length == 0)
+            return new int[]{-1, -1 };
+
+        // Search for the left one
+        while (start < end)
+        {
+            int mid = (end-start) /2 + start;
+            if (nums[mid] < target)
+            {
+                start = mid + 1;
+            }
+            else
+            {
+                end = mid;
+            }
+        }
+
+        if (nums[start]!=target)
+        {
+            return ret;
+        }
+        else
+        {
+            ret[0] = start;
+        }
+
+        // Search for the right one
+        end = nums.Length-1;  // We don't have to set start to 0 the second time.
+        while (start < end)
+        {
+            int mid = (end-start) /2 + start + 1; // Make mid biased to the right
+            if (nums[mid] > target)
+            {
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid;        // So that this won't make the search range stuck.
+            }
+        }
+
+        ret[1] = end;
+        return ret;
+    }
+
     //https://leetcode.com/problems/best-meeting-point/
     public void BestMeetingPoint()
     {
@@ -2171,6 +2229,84 @@ public class Arrays
         }
 
         return dist;
+    }
+
+    //https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+    public void KthSmallestInSortedMatrix()
+    {
+
+    }
+
+    private int KthSmallestInSortedMatrix(int[][] matrix, int k)
+    {
+        return 0;
+    }
+
+    //https://leetcode.com/problems/minimum-size-subarray-sum/
+    public void MinSubArraySum()
+    {
+        int[] nums = new int[] {2,3,1,2,4,3};
+        int target = 7;
+        Console.WriteLine(MinSubArraySumTwoPointers(target, nums));
+    }
+
+    private int MinSubArraySumTwoPointers(int target, int[] nums)
+    {
+        int left = 0;
+        int right = 0;
+        int min = int.MaxValue;
+        int sum = 0;
+
+        while (right < nums.Length)
+        {
+            sum += nums[right];
+
+            while (sum >= target)
+            {
+                min = Math.Min(min, right- left + 1);
+                sum-= nums[left++];
+            }
+
+            right++;
+        }
+
+        return min == int.MaxValue ? 0 : min;
+    }
+
+    public int MinSubArraySumPrefixSum(int target, int[] nums)
+    {
+        int[] res = new int[nums.Length];
+        res[0] = nums[0];
+        
+        for(int idx = 1; idx < nums.Length; idx++)
+        {
+             res[idx] += res[idx-1] + nums[idx];
+        }
+
+        int min = int.MaxValue;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for(int j = i; j < nums.Length; j++)
+            {
+                if (res[j]-res[i] + nums[i] >= target)
+                {
+                    min = Math.Min(min, j-i+1);
+                }
+            }
+        }
+
+        return min == int.MaxValue ? 0 : min;
+    }
+
+    //https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+    public void KthSmallest()
+    {
+
+    }
+
+    private int KthSmallest(int[][] matrix, int k)
+    {
+
     }
 
     //https://leetcode.com/problems/task-scheduler/
