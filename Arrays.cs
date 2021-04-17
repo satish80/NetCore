@@ -2306,7 +2306,7 @@ public class Arrays
 
     private int KthSmallest(int[][] matrix, int k)
     {
-
+        return 0;
     }
 
     //https://leetcode.com/problems/task-scheduler/

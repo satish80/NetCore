@@ -1402,6 +1402,33 @@ public class Trees
         return node;
     }
 
+    //https://leetcode.com/problems/binary-tree-right-side-view/
+    public void RightSideView()
+    {
+        int?[] arr = new int?[] {1,2,3,null,5,null,4};
+        var node = Helpers.ConstructTree(arr);
+        List<int> res = new List<int>();
+        RightSideView(node, res, 0);
+    }
+
+    private void RightSideView(TreeNode root, List<int> res, int level)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        if (res.Count == level)
+        {
+            res.Add(root.Value.Value);
+        }
+
+        RightSideView(root.Right, res, level+1);
+        RightSideView(root.Left, res, level+1);
+
+        return;
+    }
+
     //https://leetcode.com/problems/delete-nodes-and-return-forest/
     public void DeleteNodes()
     {
