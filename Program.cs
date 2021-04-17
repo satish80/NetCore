@@ -99,6 +99,7 @@ namespace Algorithms
             // arrObj.BestMeetingPoint();
             //arrObj.SearchRange();
             //arrObj.MinSubArraySum();
+            arrObj.MinRotatedSortedArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -168,7 +169,7 @@ namespace Algorithms
             // treeObj.CountSmallerNumbersAfterSelf();
             // treeObj.FindDuplicateSubTrees();
             // treeObj.BalanceBSTCre();
-            treeObj.RightSideView();
+            // treeObj.RightSideView();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

@@ -2309,6 +2309,36 @@ public class Arrays
         return 0;
     }
 
+    //Accepted-LCMedium-SelfSol-T:O(logn)-S:O(1)https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+    public void MinRotatedSortedArray()
+    {
+        int[] arr = new int[] {3,4,5,1,2};
+        Console.WriteLine(MinRotatedSortedArray(arr));
+    }
+
+    private int MinRotatedSortedArray(int[] arr)
+    {
+        int min = arr[0];
+        int start = 0;
+        int end = arr.Length-1;
+
+        while (start < end-1)
+        {
+            int mid = (end-start)/2 +start;
+            
+            if (arr[start] < arr[mid])
+            {
+                start = mid;
+            }
+            else
+            {
+                end = mid;
+            }
+        }
+        
+        return Math.Min(min, arr[start] < arr[end] ? arr[start] : arr[end]);
+    }
+
     //https://leetcode.com/problems/task-scheduler/
     #region
     /*Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.
