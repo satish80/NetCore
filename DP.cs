@@ -1213,7 +1213,31 @@ public class DP
     public void BuySellWithCoolDown()
     {
         int[] arr = new int[] {1,2,3,0,2};
-        Console.WriteLine(BuySellWithCoolDown(arr));
+        Console.WriteLine(BuySellWithCoolDownCre(arr));
+    }
+
+    private int BuySellWithCoolDownCre(int[] prices)
+    {
+        if (prices.Length <=1)
+        {
+            return 0;
+        }
+
+        int[,] dp = new int[prices.Length,2];
+
+        dp[0,0] = 0; // Did nothing on day 0
+        dp[0,1] = -prices[0]; // Bought stock on day 0
+
+        dp[1,0] = Math.Max(dp[0,0], dp[0,1]+ prices[1]);  // No stock on day 1: No stock on day 0 or Sold stock acquired on day 0
+        dp[1,1] = Math.Max(dp[1,1], dp[0,0] - prices[1]); // 1 stock on day 1: Retained same stock from previous day or bought on day 1
+
+        for(int idx = 2; idx< prices.Length; idx++)
+        {
+            dp[idx,0] = Math.Max(dp[idx-1,0], dp[idx-1,1] + prices[idx]);  // No stock on day 0: No stock previous day or Sold stock today
+            dp[idx,1] = Math.Max(dp[idx-1,1], dp[idx-2,0] - prices[idx]);  // 1 stock : Retained same stock previous day or bought stock after cool down
+        }
+
+        return dp[prices.Length-1,0];
     }
 
     private int BuySellWithCoolDown(int[] arr)
@@ -1299,7 +1323,7 @@ public class DP
     public void BuySellStockIII()
     {
         int[] arr = new int[]{3,3,5,0,0,3,1,4};
-        Console.WriteLine(BuySellStockII(arr));
+        Console.WriteLine(BuySellStockIII(arr));
     }
 
     private int BuySellStockIII(int[] arr)
