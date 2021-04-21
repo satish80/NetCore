@@ -99,7 +99,9 @@ namespace Algorithms
             // arrObj.BestMeetingPoint();
             //arrObj.SearchRange();
             //arrObj.MinSubArraySum();
-            arrObj.MinRotatedSortedArray();
+            // arrObj.MinRotatedSortedArray();
+            // arrObj.CombinationSumIV();
+            //arrObj.ExpressionAddOperators();                          //TBD: Failing test case
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -173,7 +175,7 @@ namespace Algorithms
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
-            // dpObj.PartitionKSubsetsMatchingSum();
+            dpObj.PartitionKSubsetsMatchingSum();
             // dpObj.WordBreak();
             // dpObj.MinCostToMergeStones();
             // dpObj.FindRectangleCoordinates();
@@ -181,6 +183,7 @@ namespace Algorithms
             // dpObj.WordBreakII();
             // dpObj.BuySellWithCoolDown();
             // dpObj.BuySellStockII();
+            // dpObj.BuySellStockIII();
             // dpObj.CountSquareMatrices();
             // dpObj.SplitIntoPalindromes(); // Brilliant Sol
             // dpObj.MinInsertionStepsToPalindrome();
@@ -202,6 +205,7 @@ namespace Algorithms
             // dpObj.MinCostForMovie();
             // dpObj.KnightDialer();
             // dpObj.EggDrop();
+            // dpObj.CombinationSumIV();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();

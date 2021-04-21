@@ -428,9 +428,10 @@ public class DP
     //LCMedium-Accepted-LcSol-https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void PartitionKSubsetsMatchingSum()
     {
-        int[] arr = new int[] {2, 2, 2, 3, 4, 5};
+
+        int[] arr = new int[] {2,2,2,2,2,2,2,2,2,2,2,2,2,3,3};
         //int[] arr = new int[] {10,10,7,7,7,7,6,7};
-        int k = 4;
+        int k = 8;
 
         int sum = 0;
         for(int idx = 0; idx < arr.Length; idx++)
@@ -444,9 +445,9 @@ public class DP
             Console.WriteLine(false);
         }
 
-        Console.WriteLine(CanPartitionKSubsets(arr, new bool[arr.Length], 4, 0,sum / k, 0));
+        Console.WriteLine(CanPartitionKSubsets(arr, new bool[arr.Length], k, 0, sum / k, 0));
     }
-
+    
     private bool CanPartitionKSubsets(int[] nums, bool[] visited, int k, int sum, int targetSum, int idx)
     {
         if (k == 0)
@@ -1107,7 +1108,7 @@ public class DP
             {
                 if (p[col-1] == '*')
                 {
-                    dp[row,col] = dp[row, col-2];
+                    dp[row,col] = dp[row, col-2]; // Consider Zero occurance of the 2 characters before *
                     if(!dp[row,col] && (p[col-2] == s[row-1] || p[col-2] == '.'))
                     {
                         // Take the same column from previous row
@@ -1161,6 +1162,62 @@ public class DP
         }
 
         return dp[s.Length, p.Length];
+    }
+
+    //Accepted-LCMedium-LCSol-T:O(target*N)-S:O(target) https://leetcode.com/problems/combination-sum-iv/
+    public void CombinationSumIV()
+    {
+        int[] arr = new int[] {1,2,3};
+        int target = 4;
+        int[] dp = new int[target+1];
+        
+        for(int idx = 0; idx <= target; idx++)
+        {
+            dp[idx] = -1;
+        }
+        
+        dp[0] = 1;
+        
+        Console.WriteLine(helper(arr, dp, target));
+    }
+
+    private int helper(int[] nums, int[] dp, int target)
+    {
+        if (dp[target] != -1)
+        {
+            return dp[target];
+        }
+
+        int res = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (target >= nums[i])
+            {
+                res += helper(nums, dp, target - nums[i]);
+            }
+        }
+
+        dp[target] = res;
+        return res;
+    }
+
+    private int CombinationSumIV(int[] nums, int target)
+    {
+        int[] comb = new int[target + 1];
+        comb[0] = 1;
+
+        for (int i = 1; i < comb.Length; i++)
+        {
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (i - nums[j] >= 0)
+                {
+                    comb[i] += comb[i - nums[j]];
+                }
+            }
+        }
+
+        return comb[target];
     }
 
     //Accepted: T: O(n^2) S:O(n):https://leetcode.com/problems/pascals-triangle-ii/
@@ -1397,7 +1454,53 @@ public class DP
     public void MinCostForMovie()
     {
         int[] arr = new int[]{1, 7, 12, 15, 18, 19, 23};
-        Console.WriteLine(MinCostForMovie(arr));
+        int[] week = new int[]{2, 3, 4, 3, 3, 2, 1};
+
+        Console.WriteLine(MinCostForMovieCre(arr, week));
+    }
+
+    private int MinCostForMovieCre(int[] arr, int[] week)
+    {
+       int TotalCost = 0;
+       int idx = 0;
+       int count = 0;
+       int weekCount = 0;
+       int weekEndIdx = 0;;
+
+       while (idx < arr.Length)
+       {
+           if (week[idx] <= 3)
+           {
+               TotalCost+= 2;
+               idx++;
+           }
+
+           if (idx < arr.Length && week[idx] > 3)
+           {
+               weekCount = week[idx];
+               weekEndIdx = idx + weekCount;
+
+               while(idx < arr.Length && idx < weekEndIdx)
+               {
+                   if (week[idx] > weekCount )
+                   {
+                        TotalCost = count <= 3 ? count * 2 : 6;
+                        count = 0;
+                        break;
+                   }
+
+                   count++;
+                   idx++;
+               }
+
+               if (count > 0)
+               {
+                   TotalCost += 6;
+               }
+           }
+       }
+    
+        return Math.Min(TotalCost, 22);
     }
 
     private int MinCostForMovie(int[] arr)
@@ -1423,6 +1526,7 @@ public class DP
 
         return res[arr.Length];
     }
+
 
     //https://leetcode.com/problems/maximal-rectangle/
     public void MaximalRectangle()

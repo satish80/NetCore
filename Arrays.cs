@@ -4015,6 +4015,110 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/combination-sum-iv/
+    public void CombinationSumIV()
+    {
+        int[] arr = new int[] {1,2,3};
+        int target = 4;
+        Console.WriteLine(CombinationSumIV(arr, target, 0, 0));
+    }
+
+    private int CombinationSumIV(int[] nums, int target, int sum, int idx)
+    {
+        if (sum == target)
+        {
+            return 1;
+        }
+
+        if (sum> target || idx >= nums.Length)
+        {
+            return 0;
+        }
+
+        int res = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            res += CombinationSumIV(nums, target, sum+ nums[i], i);
+        }
+
+        return res;
+    }
+
+    //https://leetcode.com/problems/expression-add-operators/
+    public void ExpressionAddOperators()
+    {
+        string s = "232", exp = string.Empty;
+        int target = 8;
+        char op = ' ';
+        int idx = 0, val = 0;
+        var res = new List<string>();
+        ExpressionAddOperators(s, op, exp, val, target, idx, new Dictionary<string, int>(), res);
+    }
+
+    private IList<string> ExpressionAddOperators(string num, char op, string exp, int val, int target, int idx, Dictionary<string, int> map, IList<string> res)
+    {
+        if (map.ContainsKey(exp))
+        {
+            val += map[exp];
+
+            if (val == target && !res.Contains(exp))
+            {
+                res.Add(exp);
+            }
+
+            return res;
+        }
+
+        if (val == target && !res.Contains(exp))
+        {
+            res.Add(exp);
+            return res;
+        }
+
+        if (idx >= num.Length)
+        {
+            return res;
+        }
+
+        switch(op)
+        {
+            case '+':
+            {
+                exp = exp + "+" +num[idx];
+                val+= int.Parse(num[idx].ToString());
+                break;
+            }
+            case '-':
+            {
+                exp = exp + "-" +num[idx];
+                val-= int.Parse(num[idx].ToString());
+                break;
+            }
+            case '*':
+            {
+                exp = exp + "*" +num[idx];
+                val*= int.Parse(num[idx].ToString());
+                break;
+            }
+            default:
+            {
+                exp = num[idx].ToString();
+                val = int.Parse(num[idx].ToString());
+                break;
+            }
+        }
+
+        for(int i = idx; i < num.Length; i ++)
+        {
+            ExpressionAddOperators(num, '+', exp, val, target, i+1, map, res);
+            ExpressionAddOperators(num, '-', exp, val, target, i+1, map, res);
+            ExpressionAddOperators(num, '*', exp, val, target, i+1, map, res);
+        }
+
+        map.Add(exp, val);
+        return res;
+    }
+
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void CanPartitionKSubsets()
     {
