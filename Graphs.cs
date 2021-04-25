@@ -106,6 +106,57 @@ public class Graph
         return -1;
     }
 
+    //Accepted-LCMedium-LCSol-O(V+E) S:O(V) https://leetcode.com/problems/is-graph-bipartite/
+    public void IsBipartite()
+    {
+        int[][] graph = new int[][]
+        {
+            new int[] {1,3},
+            new int[]{0,2},
+            new int[]{1,3},
+            new int[]{0,2}
+        };
+
+        Console.WriteLine(IsBipartite(graph));
+    }
+
+    private bool IsBipartite(int[][] graph)
+    {
+        Queue<int> queue = new Queue<int>();
+        int[] colors = new int[graph.Length];
+
+        for(int idx = 0; idx < graph.Length; idx++)
+        {
+            if (colors[idx] != 0)
+            {
+                continue;
+            }
+
+            queue.Enqueue(idx);
+            colors[idx] = 1;
+
+            while (queue.Count > 0)
+            {
+                int cur = queue.Dequeue();
+
+                foreach(int neighbor in graph[cur])
+                {
+                    if (colors[neighbor] == 0)
+                    {
+                        colors[neighbor] = -colors[cur];
+                        queue.Enqueue(neighbor);
+                    }
+                    else if (colors[neighbor] == colors[cur])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     //https://leetcode.com/contest/weekly-contest-97/problems/possible-bipartition/
     public void BiPartition()
     {
@@ -730,6 +781,29 @@ public class Graph
         node4.neighbors.AddRange(new UndirectedGraphNode[] {node1, node3});
 
         var res = CloneGraphCre(node1, new Dictionary<int, UndirectedGraphNode>());
+    }
+
+    private UndirectedGraphNode CloneGraph(UndirectedGraphNode node, Dictionary<int, UndirectedGraphNode> map)
+    {
+        if (node == null)
+        {
+            return null;
+        }
+
+        if (map.ContainsKey(node.val))
+        {
+            return map[node.val];
+        }
+
+        UndirectedGraphNode clone = new UndirectedGraphNode(node.val);
+
+        foreach(UndirectedGraphNode neighbor in node.neighbors)
+        {
+            var cloneNeighbor = CloneGraph(neighbor, map);
+            clone.neighbors.Add(cloneNeighbor);
+        }
+
+        return clone;
     }
 
     private UndirectedGraphNode CloneGraphCre(UndirectedGraphNode node, Dictionary<int, UndirectedGraphNode> map)
