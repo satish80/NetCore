@@ -161,6 +161,80 @@ public class Trees
         return root;
     }
 
+    //Accepted-LCMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/construct-binary-tree-from-string/
+    public void Str2tree()
+    {
+        string s = "4";
+        var res = Str2Tree_Stack(s);
+    }
+
+    private TreeNode Str2Tree_Stack(string s)
+    {
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        int idx = 0;
+
+        TreeNode head = null;
+
+        while (idx < s.Length)
+        {
+            if (s[idx] == '(')
+            {
+                idx++;
+            }
+            else if (s[idx] == ')')
+            {
+                stk.Pop();
+                idx++;
+            }
+            else
+            {
+                var top = stk.Count > 0 ? stk.Peek() : null;
+                int val = 0;
+                string valStr = string.Empty;
+                bool negative = false;
+
+                while(idx < s.Length && (char.IsDigit(s[idx]) || s[idx] == '-'))
+                {
+                    if (s[idx] == '-')
+                    {
+                        negative = true;
+                    }
+                    else
+                    {
+                        valStr = valStr + s[idx];
+                    }
+
+                    idx++;
+                }
+
+                val = negative ? -int.Parse(valStr) : int.Parse(valStr);
+
+                var curNode = new TreeNode(val);
+
+                if (head == null)
+                {
+                    head = curNode;
+                }
+
+                if (top != null)
+                {
+                    if (top.Left == null)
+                    {
+                        top.Left = curNode;
+                    }
+                    else
+                    {
+                        top.Right = curNode;
+                    }
+                }
+
+                stk.Push(curNode);
+            }
+        }
+
+        return head;
+    }
+
     //Accepted-LCMedium-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/closest-binary-search-tree-value/
     public int ClosestValue() 
     {
@@ -834,66 +908,21 @@ public class Trees
         node.Right.Right = new TreeNode(6);
 
         TreeNode prev = null;
-        FlattenBinaryTreeToSLLCre(node, ref prev);
+        FlattenBinaryTreeToSLL(node, ref prev);
     }
 
-    private void FlattenBinaryTreeToSLLCre(TreeNode node, ref TreeNode prev)
+    private void FlattenBinaryTreeToSLL(TreeNode node, ref TreeNode prev)
     {
         if (node == null)
         {
             return;
         }
 
-        FlattenBinaryTreeToSLLCre(node.Right, ref prev);
-        FlattenBinaryTreeToSLLCre(node.Left, ref prev);
+        FlattenBinaryTreeToSLL(node.Right, ref prev);
+        FlattenBinaryTreeToSLL(node.Left, ref prev);
         node.Right = prev;
         node.Left = null;
         prev = node;
-    }
-
-    private TreeNode FlattenBinaryTreeToSLL(TreeNode node)
-    {
-        if (node == null)
-        {
-            return null;
-        }
-
-        TreeNode left = FlattenBinaryTreeToSLL(node.Left);
-
-        TreeNode temp = node.Right;
-
-        if (left != null)
-        {
-            node.Right = left;
-            var tailNode = GetTailNode(left);
-            if (tailNode != null)
-            {
-                tailNode.Right = temp;
-            }
-            else
-            {
-                left.Right = temp;
-            }
-        }
-
-        TreeNode right = FlattenBinaryTreeToSLL(temp);
-
-        return node;
-    }
-
-    private TreeNode GetTailNode(TreeNode node)
-    {
-        while(node.Right != null)
-        {
-            if (node.Right.Right == null)
-            {
-                return node.Right;
-            }
-
-            node = node.Right;
-        }
-
-        return null;
     }
 
     //Accepted:LCMedium:Self:T:O(n)-S:O(n):https://leetcode.com/problems/correct-a-binary-tree/

@@ -208,6 +208,31 @@ public class Strings
         return map.Count <= 1;
     }
 
+    //https://leetcode.com/discuss/interview-question/1167901/facebook-onsite-interview-london-21
+    public void RemoveConsecutiveChars()
+    {
+        string str = "abba";
+    }
+
+    private string RemoveConsecutiveChars(string str)
+    {
+        int idx = 1;
+        StringBuilder sb = new StringBuilder();
+
+        while (idx < str.Length)
+        {
+            sb.Append(str[idx]);
+            idx++;
+
+            while (idx < str.Length && str[idx] == str[idx-1])
+            {
+                idx++;
+            }
+        }
+
+        return sb.ToString();
+    }
+
     //Accepted:LCMedium:T:O(nlogn *m):https://leetcode.com/problems/group-anagrams/
     public void GroupAnagrams()
     {

@@ -47,7 +47,7 @@ public class LinkedList
         return head;
     }
 
-    //Accepted:LCHard:LCSol:T:O(nLogn)-S:O(n) https://leetcode.com/problems/merge-k-sorted-lists/
+    //Accepted:LCHard:LCSol:T:O(nLogk)-S:O(n) https://leetcode.com/problems/merge-k-sorted-lists/
     public void MergeKSortedList()
     {
         SLLNode node = new SLLNode(1);
@@ -66,7 +66,35 @@ public class LinkedList
             node3, node2, node
         };
 
-        var res = Partition(lists, 0, lists.Length-1);
+        var res = MergeKSortedListPQueue(lists);
+        //var res = Partition(lists, 0, lists.Length-1);
+    }
+
+    private SLLNode MergeKSortedListPQueue(SLLNode[] lists)
+    {
+        Heap<SLLNode> heap = new Heap<SLLNode>(true);
+
+        foreach(SLLNode node in lists)
+        {
+            heap.Push(node);
+        }
+
+        SLLNode head = new SLLNode(0);
+        SLLNode tail = head;
+
+        while (heap.Count > 0)
+        {
+            var cur = heap.Pop();
+            tail.Next = cur;
+            tail = cur;
+
+            if (cur.Next != null)
+            {
+                heap.Push(cur.Next);
+            }
+        }
+
+        return head.Next;
     }
 
     private SLLNode Partition(SLLNode[] lists, int start, int end)
@@ -322,6 +350,40 @@ public class LinkedList
     {
         left.Value = val;
         left.Next = right.Next;
+    }
+
+    //Given a LinkedList and an integer k, remove the k-st element of the list from the end (1 pass)
+    public void RemoveKthNode()
+    {
+        SLLNode node = new SLLNode(1);
+        node.Next = new SLLNode(2);
+        node.Next.Next = new SLLNode(3);
+        node.Next.Next.Next = new SLLNode(4);
+        node.Next.Next.Next.Next = new SLLNode(5);
+
+        var res = RemoveKthNode(node, 4);
+    }
+
+    private SLLNode RemoveKthNode(SLLNode node, int k)
+    {
+        int slow = 1;
+        int fast = 1;
+        SLLNode slowNode = node;
+        SLLNode fastNode = node;
+
+        while (fast - slow +1 < k)
+        {
+            fastNode = fastNode.Next;
+            fast++;
+        }
+
+        while (fastNode.Next != null)
+        {
+            fastNode = fastNode.Next;
+            slowNode = slowNode.Next;
+        }
+
+        return slowNode;
     }
 
     //https://leetcode.com/contest/weekly-contest-151/problems/remove-zero-sum-consecutive-nodes-from-linked-list/

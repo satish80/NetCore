@@ -11,6 +11,8 @@ namespace DataStructures
         IComparer<T> comparer = null;
         List<T> arr = null;
 
+        Func<T,T,bool> comparerFunc = null;
+
         public int Count
         {
             get
@@ -28,7 +30,12 @@ namespace DataStructures
         {
             arr = new List<T>();
             this.minHeap = minHeap;
-            this.comparer = comparer == null ? new MyComparer() : comparer;
+            this.comparer = comparer == null ? new MyComparer(null) : comparer;
+        }
+
+        public Heap(bool minHeap, Func<T, T, int> comparerFunc)
+        {
+            this.comparer = comparer == null ? new MyComparer(comparerFunc) : comparer;
         }
 
         public void Push(T val)
@@ -76,6 +83,12 @@ namespace DataStructures
 
         public class MyComparer : IComparer<T>
         {
+            Func<T, T, int> comparerFunc = null;
+            public MyComparer(Func<T, T, int> comparerFunc)
+            {
+                this.comparerFunc = comparerFunc;
+            }
+
             public int Compare(T x, T y)
             {
                 if (typeof(T) == typeof(int))
@@ -87,6 +100,10 @@ namespace DataStructures
                     object one = (object)x;
                     object other = (object)y;
                     return ((SLLNode)one).Value - ((SLLNode)other).Value;
+                }
+                else if (comparerFunc != null)
+                {
+                    return this.comparerFunc(x, y);
                 }
 
                 return 0;

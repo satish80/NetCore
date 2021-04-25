@@ -4044,6 +4044,43 @@ public class Arrays
         return res;
     }
 
+    //https://leetcode.com/problems/3sum-closest/
+    public void ThreeSumClosest()
+    {
+        int[] nums = new int[]{1,1,-1,-1,3};
+        Console.WriteLine(ThreeSumClosest(nums, 3));
+    }
+
+    private int ThreeSumClosest(int[] nums, int target)
+    {
+        int left = 0;
+        int right = left+2;
+        int sum = 0;
+
+        sum = nums[0] + nums[1] + nums[2];
+        int diff = int.MaxValue;
+        int res = sum;
+
+        while(right < nums.Length)
+        {
+            if (diff > Math.Abs(target - sum))
+            {
+                diff = Math.Abs(target - sum);
+                res = sum;
+            }
+
+            if (right +1 >= nums.Length)
+            {
+                break;
+            }
+
+            sum-= nums[left++];
+            sum+=nums[++right];
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/expression-add-operators/
     public void ExpressionAddOperators()
     {
@@ -4117,6 +4154,128 @@ public class Arrays
 
         map.Add(exp, val);
         return res;
+    }
+
+    /*
+    Given a list of N triangles with integer side lengths, determine how many different triangles there are. Two triangles are considered to be the same if they can both be placed on the plane such that their vertices occupy exactly the same three points.
+    arr is a list of structs/objects that each represent a single triangle with side lengths a, b, and c.
+    It's guaranteed that all triplets of side lengths represent real triangles.
+    All side lengths are in the range [1, 1,000,000,000]
+    1 <= N <= 1,000,000
+    Output
+    Return the number of distinct triangles in the list.
+    Example 1
+    arr = [[2, 2, 3], [3, 2, 2], [2, 5, 6]]
+    output = 2
+    The first two triangles are the same, so there are only 2 distinct triangles.
+    Example 2
+    arr = [[8, 4, 6], [100, 101, 102], [84, 93, 173]]
+    output = 3
+    All of these triangles are distinct.
+    Example 3
+    arr = [[5, 8, 9], [5, 9, 8], [9, 5, 8], [9, 8, 5], [8, 9, 5], [8, 5, 9]]
+    output = 1
+    */
+    public void CountingTriangles()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[] {5, 8, 9},
+            new int[] {5, 9, 8},
+            new int[] {9, 5, 8},
+            new int[] {9, 8, 5},
+            new int[] {8, 9, 5},
+            new int[] {8, 5, 9},
+        };
+
+        Console.WriteLine(CountDistinctTriangles(arr));
+    }
+
+    private int CountDistinctTriangles(int[][] arr) 
+    {
+        HashSet<string> map = new HashSet<string>();
+        
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            var sortedArr = arr[idx];
+            Array.Sort(sortedArr);
+            var str = ConstructString(sortedArr);
+            
+            if (map.Count > 0 && map.Contains(str))
+            {
+                continue;
+            }
+            
+            map.Add(str);
+        }
+
+        // Write your code here
+        return map.Count();
+    }
+  
+    private string ConstructString(int[] arr)
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            sb.Append(arr[idx].ToString());
+        }
+        
+        return sb.ToString();
+    }
+
+    //Accepted-LCMedium-SelfSol-T:O(n) S:O(1) https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/submissions/
+    public void InsertIntoSortedCircularLinkedList()
+    {
+        SLLNode node = new SLLNode(3);
+        node.Next = new SLLNode(5);
+        node.Next.Next = new SLLNode(1);
+        var res = InsertIntoSortedCircularLinkedList(node, 0);
+    }
+
+    private SLLNode InsertIntoSortedCircularLinkedList(SLLNode node, int val)
+    {
+        SLLNode insertNode = new SLLNode(val);
+        
+        if (node == null)
+        {
+            insertNode.Next = insertNode;
+            return insertNode;
+        }
+        
+        SLLNode prev = node;
+        SLLNode head = node;
+        node = node.Next;
+        
+        while (node.Next != head.Next)
+        {
+            //between
+            if ((node.Next.Value >= val && node.Value <= val) )
+            {
+                prev = node;
+                break;
+            }
+            //smallest
+            else if (node.Value >= node.Next.Value && node.Next.Value <= prev.Value && node.Next.val >= val)
+            {
+                prev = node;
+            }
+            //largest
+            else if (node.Value <= val && node.Next.Value < node.Value )
+            {
+                prev = node;
+            }
+            
+            node = node.Next;
+        }
+        
+        
+        SLLNode next = prev.Next;
+        prev.Next = insertNode;
+        insertNode.Next = next;
+        
+        return head;
     }
 
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
