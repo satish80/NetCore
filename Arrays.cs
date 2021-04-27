@@ -1869,12 +1869,45 @@ public class Arrays
         }
     }
 
-    //Accepted: T: O(n): https://leetcode.com/problems/max-consecutive-ones-iii/
+    //Accepted:LcMedium-SelfSol-T: O(n) S:O(1): https://leetcode.com/problems/max-consecutive-ones-iii/
     public void MaxConsecutiveOnes()
     {
-        int[] arr = new int[]{0,0,1,1,1,0,0};
-        int K = 0;
-        Console.WriteLine(MaxConsecutiveOnes(arr, K));
+        int[] arr = new int[]{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1};
+        int K = 3;
+        Console.WriteLine(MaxConsecutiveOnesCre(arr, K));
+    }
+
+    private int MaxConsecutiveOnesCre(int[] nums, int k)
+    {
+        int left = 0;
+        int right = 0;
+        int max = nums[0] == 1 ? 1 : 0;
+        int count = k;
+        
+        while (right < nums.Length)
+        {
+            if (nums[right] == 0)
+            {
+                if (count == 0)
+                {
+                    while (left < right && nums[left] != 0)
+                    {
+                        left++;
+                    }
+
+                    left++;
+                }
+                else
+                {
+                    count--;
+                }
+            }
+            
+            max = Math.Max(max, right-left+1);
+            right++;
+        }
+        
+        return max;
     }
 
     private int MaxConsecutiveOnes(int[] A, int K)
@@ -4257,7 +4290,7 @@ public class Arrays
                 break;
             }
             //smallest
-            else if (node.Value >= node.Next.Value && node.Next.Value <= prev.Value && node.Next.val >= val)
+            else if (node.Value >= node.Next.Value && node.Next.Value <= prev.Value && node.Next.Value >= val)
             {
                 prev = node;
             }
@@ -4281,7 +4314,49 @@ public class Arrays
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void CanPartitionKSubsets()
     {
+        int[] arr = new int[] {2,2,2,2,3,4,5};
+        int k = 4;
+        int sum = 0;
 
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            sum += arr[idx];
+        }
+
+        Console.WriteLine(CanPartitionKSubsets(arr, k, 0, 0, sum/ k, new bool[arr.Length]));
+    }
+
+    private bool CanPartitionKSubsets(int[] nums, int k, int idx, int sum, int targetSum, bool[] visited)
+    {
+        if (k == 0)
+        {
+            return true;
+        }
+
+        if (idx >= nums.Length || sum > targetSum)
+        {
+            return false;
+        }
+
+        if (sum == targetSum)
+        {
+            return CanPartitionKSubsets(nums, k-1, 0, 0, targetSum, visited);
+        }
+
+        bool res = false;
+
+        for(int i = idx; i < nums.Length; i++)
+        {
+            visited[i] = true;
+            res = CanPartitionKSubsets(nums, k, i+1, sum + nums[idx], targetSum, visited);
+            visited[i] = false;
+            if (res)
+            {
+                return true;
+            }
+        }
+
+        return res;
     }
 
     //Accepted-LCMedium-LCSol-T:O(n)-https://leetcode.com/problems/possible-bipartition/

@@ -103,7 +103,8 @@ namespace Algorithms
             // arrObj.CombinationSumIV();
             //arrObj.ExpressionAddOperators();                          //TBD: Failing test case
             // arrObj.ThreeSumClosest();                                //TBD
-            arrObj.CountingTriangles();
+            // arrObj.CountingTriangles();
+            // arrObj.CanPartitionKSubsets();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -175,6 +176,7 @@ namespace Algorithms
             // treeObj.BalanceBSTCre();
             // treeObj.RightSideView();
             // treeObj.Str2tree();
+            // treeObj.LCAIII();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -209,6 +211,7 @@ namespace Algorithms
             // dpObj.KnightDialer();
             // dpObj.EggDrop();
             // dpObj.CombinationSumIV();
+            dpObj.LongestPalindromicSubstring();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();

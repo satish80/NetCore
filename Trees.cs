@@ -814,6 +814,28 @@ public class Trees
 
     }
 
+    //https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii
+    public void LCAIII()
+    {
+        int?[] arr = new int?[] {-1,0,3,-2,4,null,null,8};
+        var node = Helpers.ConstructTree(arr);
+        var p = node.Left.Left.Left;
+        var q = node.Left.Right;
+        var res = LCAIII(p, q);
+    }
+
+    private TreeNode LCAIII(TreeNode p, TreeNode q)
+    {
+        TreeNode a = p, b = q;
+        while (a != b)
+        {
+            a = a == null? q : a.Parent;
+            b = b == null? p : b.Parent;    
+        }
+
+        return a;
+    }
+
     //https://leetcode.com/problems/validate-binary-search-tree/
     public void IsValidBST()
     {

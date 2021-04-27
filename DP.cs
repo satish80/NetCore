@@ -480,6 +480,34 @@ public class DP
         return false;
     }
 
+    //https://leetcode.com/problems/longest-palindromic-substring/
+    public void LongestPalindromicSubstring()
+    {
+        string str = "babad";
+        Console.WriteLine(LongestPalindromicSubstring(str));
+    }
+
+    private string LongestPalindromicSubstring(string s)
+    {
+        bool[,] dp = new bool[s.Length, s.Length];
+        string res = null;
+
+        for(int i = s.Length-1; i >= 0; i--)
+        {
+            for(int j = i; j < s.Length; j++)
+            {
+                dp[i,j] = s[i] == s[j]  && (j-i < 3 || dp[i+1,j-1]);
+
+                if (dp[i,j])
+                {
+                    res = res == null || res.Length < j-1+1 ? s.Substring(i, j-i+1) : res;
+                }
+            }
+        }
+
+        return res;
+    }
+
     //Accepted: https://leetcode.com/problems/word-break/
     public void WordBreak()
     {

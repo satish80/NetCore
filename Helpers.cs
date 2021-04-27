@@ -46,12 +46,14 @@ public class Helpers
             if (idx+1 < arr.Length && arr[++idx] != null)
             {
                 cur.Left = new TreeNode((int)arr[idx]);
+                cur.Left.Parent = cur;
                 queue.Enqueue(cur.Left);
             }
 
             if (idx+1 < arr.Length && arr[++idx] != null)
             {
                 cur.Right = new TreeNode((int)arr[idx]);
+                cur.Right.Parent = cur;
                 queue.Enqueue(cur.Right);
             }
         }
