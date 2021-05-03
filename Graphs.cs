@@ -528,6 +528,60 @@ public class Graph
         return true;
     }
 
+    //https://leetcode.com/problems/course-schedule-ii/
+    public void CourseScheduleII()
+    {
+        int[][] prerequisites = new int[][]
+        {
+            new int[]{1,0},
+            new int[]{2,0},
+            new int[]{3,0},
+            new int[]{4,0},
+        };
+        int numCourses = 4;
+
+        IDictionary<int, List<int>> map = new Dictionary<int, List<int>>();
+
+        foreach(int[] arr in prerequisites)
+        {
+            if (!map.ContainsKey(arr[0]))
+            {
+                map.Add(arr[0], new List<int>());
+            }
+
+            map[arr[0]].Add(arr[1]);
+        }
+
+        IList<int> res = new List<int>();
+        bool[] visited = new bool[numCourses];
+        for(int i = 0; i < numCourses; i++)
+        {
+            CourseScheduleII(numCourses, map, visited, i, res);
+        }
+    }
+
+    private IList<int> CourseScheduleII(int numCourses, IDictionary<int, List<int>> map, bool[] visited, int idx, IList<int> res)
+    {
+        if (visited[idx])
+        {
+            return res;
+        }
+
+        visited[idx] = true;
+
+        if (map.ContainsKey(idx))
+        {
+            foreach(int prerequisite in map[idx])
+            {
+                CourseScheduleII(numCourses, map, visited, prerequisite, res);
+            }
+        }
+
+        res.Add(idx);
+
+        return res;
+    }
+
     //https://leetcode.com/problems/alien-dictionary/
     public void AlienDictionary()
     {

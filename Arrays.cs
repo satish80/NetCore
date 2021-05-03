@@ -1658,6 +1658,39 @@ public class Arrays
         Console.WriteLine(KthLargest(nums, 0, nums.Length-1, k));
     }
 
+    private int KthLargestFirstPivot(int[] nums, int k, int start, int end)
+    {
+        int pivot = start;
+        int idx = start;
+
+        while (idx < end)
+        {
+            if (nums[idx] <= nums[end])
+            {
+                Helpers.Swap(nums, idx, pivot);
+                pivot++;
+            }
+
+            Helpers.Swap(nums, idx, pivot);
+        }
+
+        int m = nums.Length - pivot;
+
+        if (m == k)
+        {
+            return nums[pivot];
+        }
+
+        if (m < k)
+        {
+            return KthLargestFirstPivot(nums, k-m, start, pivot-1);
+        }
+        else
+        {
+            return KthLargestFirstPivot(nums, k, pivot+1, end);
+        }
+    }
+
     private int KthLargestWithLastPivot(int[] nums, int start, int end, int k)
     {
         int idx = start;
@@ -3445,10 +3478,145 @@ public class Arrays
         }
     }
 
+    //Accepted-LcMedium-SelfSol-T:O(n) S:O(n) https://leetcode.com/problems/simplify-path/
+    public void SimplifyPath()
+    {
+        string path = "/../";
+        Console.WriteLine(SimplifyPath(path));
+    }
+
+    private string SimplifyPath(string path)
+    {
+        Stack<string> stk = new Stack<string>();
+
+        string[] strs = path.Split("/");
+
+        foreach(string str in strs)
+        {
+            if (str == ".." )
+            {
+                if (stk.Count > 0)
+                {
+                    stk.Pop();
+                }
+            }
+            else if (str == "." || str == "")
+            {
+
+            }
+            else
+            {
+                stk.Push(str);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        string res = string.Empty;
+
+        foreach(string val in stk)
+        {
+            res =  "/" + val + res;
+        }
+
+        return res == string.Empty ? "/" : res;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(N*N) S:O(n^2) https://leetcode.com/problems/rotting-oranges/
+    public int OrangesRotting() 
+    {
+        int[][] grid = new int[][]
+        {
+            new int[] {2,0,1,1,1,1,1,1,1,1},
+            new int[] {1,0,1,0,0,0,0,0,0,1},
+            new int[] {1,0,1,0,1,1,1,1,0,1},
+            new int[] {1,0,1,0,1,0,0,1,0,1},
+            new int[] {1,0,1,0,1,0,0,1,0,1},
+            new int[] {1,0,1,0,1,1,0,1,0,1},
+            new int[] {1,0,1,0,0,0,0,1,0,1},
+            new int[] {1,0,1,1,1,1,1,1,0,1},
+            new int[] {1,0,0,0,0,0,0,0,0,1},
+            new int[] {1,1,1,1,1,1,1,1,1,1}
+        };
+
+        int max = 2;
+
+        Queue<Tuple<int, int, int>> queue = new Queue<Tuple<int, int, int>>();
+
+        for(int r = 0; r < grid.Length; r++)
+        {
+            for(int c = 0; c < grid[0].Length; c++)
+            {
+                if (grid[r][c] == 2)
+                {
+                    var newItem = new Tuple<int, int, int>(r,c,2);
+                    queue.Enqueue(newItem);
+                }
+            }
+        }
+
+        OrangesRotting(grid, queue, ref max);
+
+        for(int r = 0; r < grid.Length; r++)
+        {
+            for(int c = 0; c < grid[0].Length; c++)
+            {
+                if (grid[r][c] == 1)
+                {
+                    return -1;
+                }
+            }
+        }
+        
+        return max-2;
+    }
+    
+    private void OrangesRotting(int[][] grid, Queue<Tuple<int, int, int>> queue, ref int max)
+    {
+        while(queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+            var r = item.Item1;
+            var c = item.Item2;
+            var val = item.Item3;
+
+            if (c > 0 && grid[r][c-1] == 1)
+            {
+                var newItem = new Tuple<int, int, int>(r, c-1, val+1);
+                max = Math.Max(max, val+1);
+                queue.Enqueue(newItem);
+                grid[r][c-1] = val+1;
+            }
+
+            if (c+1 < grid[0].Length && grid[r][c+1] == 1)
+            {
+                var newItem = new Tuple<int, int, int>(r, c+1, val+1);
+                max = Math.Max(max, val+1);
+                queue.Enqueue(newItem);
+                grid[r][c+1] = val+1;
+            }
+
+            if (r > 0 &&  grid[r-1][c] == 1)
+            {
+                var newItem = new Tuple<int, int, int>(r-1, c, val+1);
+                max = Math.Max(max, val+1);
+                queue.Enqueue(newItem);
+                grid[r-1][c] = val+1;
+            }
+
+            if (r+1 < grid.Length && grid[r+1][c] == 1)
+            {
+                var newItem = new Tuple<int, int, int>(r+1, c, val+1);
+                max = Math.Max(max, val+1);
+                queue.Enqueue(newItem);
+                grid[r+1][c] = val+1;
+            }
+        }
+    }
+
     //Accepted: https://leetcode.com/problems/next-permutation/
     public void NextPermutation()
     {
-        int[] arr = new int[]{1,5,1};
+        int[] arr = new int[]{1, 2, 3};
         NextPermutation(arr);
     }
 
@@ -3456,7 +3624,7 @@ public class Arrays
     {
         int idx = arr.Length -2;
 
-        while (idx >= 0 && arr[idx] >= arr[idx+1])
+        while (idx >= 0 && arr[idx] >= arr[idx+1]) // Find the biggest number in the sequence, break when it is smaller
         {
             idx--;
         }
@@ -3464,12 +3632,12 @@ public class Arrays
         if (idx >= 0)
         {
             int i = arr.Length-1;
-            while(i > idx && arr[idx] >= arr[i]) 
+            while(i > idx && arr[idx] >= arr[i]) // Find the smallest 
             {
                 i--;
             }
 
-            Swap(arr, i, idx);
+            Swap(arr, i, idx); //Swap them
         }
 
         ReverseArray(arr, idx+1);
@@ -3500,6 +3668,216 @@ public class Arrays
         }
     }
 
+    /*
+    Microsoft Azure Storage: Given lists of integer list, return the list of integers which are duplicated across all the lists
+    */
+    public void FindDuplicates()
+    {
+        List<int> list1 = new List<int>() {1, 2, 2, 5, 6};
+        List<int> list2 = new List<int>() {1, 2, 2, 5, 6};
+        List<int> list3 = new List<int>() {1, 2, 2, 4, 5};
+
+        List<List<int>> lists = new List<List<int>>()
+        {
+            list1, list2, list3
+        };
+
+        var res = FindDuplicates(lists);
+    }
+
+    private IList<int> FindDuplicates(List<List<int>> lists)
+    {
+        List<int> pointers = new List<int>();
+        List<int> res = new List<int>();
+        
+        for(int idx = 0; idx < lists.Count; idx++)
+        {
+            pointers.Add(0);
+        }
+
+        int max = int.MinValue;
+        while(pointers[0] < lists[0].Count)
+        {
+            bool isMatch = true;
+
+            for(int idx = 0; idx < lists.Count; idx++)
+            {
+                var pointer = pointers[idx];
+                if (pointers[idx] >= lists[idx].Count)
+                {
+                    return res;
+                }
+
+                max = Math.Max(max, lists[idx][pointer]);
+
+                if (lists[idx][pointer] < max)
+                {
+                    isMatch = false;
+                    pointers[idx]++;
+                }
+            }
+
+            if (isMatch)
+            {
+                res.Add(lists[0][pointers[0]]);
+
+                for(int i = 0; i < lists.Count; i++)
+                {
+                    pointers[i]++;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    /*
+    Given a set of integers, find the minimum number of shuffle to get the array in sequence.
+    */
+    public void MinShuffleToArrange()
+    {
+        int[] arr = new int[] {2,5,1,3,4};
+        Console.WriteLine(MinShuffleToArrange(arr));
+    }
+
+    private int MinShuffleToArrange(int[] arr)
+    {
+        int[] dp = new int[arr.Length];
+        int len = 0;
+
+        foreach(int num in arr)
+        {
+            int idx = Array.BinarySearch(dp, 0, len, num);
+
+            if (idx < 0)
+            {
+                idx = -(idx+ 1);
+            }
+
+            dp[idx] = num;
+
+            if (len == idx)
+            {
+                len++;
+            }
+        }
+
+        return len;
+    }
+
+    /*
+    Description : You are given an array and a integer k.
+    Let's define the target position of every element as the index at which it would appear if this element was sorted.
+    For example, if the array is [1, 2, 3, 4, 5] then the target position for 1 is 0, for 2 is 1 and so on.
+
+    Now, every element in the array is present at either its target position or k indexes away from its target position.
+
+    For instance, if the target position of an element is index 5, and k = 2, then this element may be present anywhere between indexes [3, 7] included.
+
+    The task is to sort the array.
+
+    Example input : [1, 4, 5, 2, 3, 8, 7, 6], k = 2
+    Expected output : [1, 2, 3, 4, 5, 6, 7, 8]
+    */
+    public void SortArrayWithKPositionDisplaced()
+    {
+        int[] arr = new int[] {1, 4, 5, 2, 3, 8, 7, 6};
+        int k = 2;
+
+        SortArrayWithKPositionDisplaced(arr, k);
+    }
+
+    private void SortArrayWithKPositionDisplaced(int[] arr, int k)
+    {
+        int idx = 0;
+
+        while(idx < arr.Length)
+        {
+            while(arr[idx]-1 != idx)
+            {
+                Helpers.Swap(arr, idx, idx+k);
+            }
+
+            idx++;
+        }
+    }
+
+    //Accepted-LCMedium-LCSol-T:O(9^m) S:O(1) https://leetcode.com/problems/sudoku-solver/
+    public void SolveSudoku()
+    {
+        char[][] board = new char[9][]
+        {
+            new char[] {'5','3','.','.','7','.','.','.','.'},
+            new char[] {'6','.','.','1','9','5','.','.','.'},
+            new char[] {'.','9','8','.','.','.','.','6','.'},
+            new char[] {'8','.','.','.','6','.','.','.','3'},
+            new char[] {'4','.','.','8','.','3','.','.','1'},
+            new char[] {'7','.','.','.','2','.','.','.','6'},
+            new char[] {'.','6','.','.','.','.','2','8','.'},
+            new char[] {'.','.','.','4','1','9','.','.','5'},
+            new char[] {'.','.','.','.','8','.','.','7','9'}
+        };
+
+        SolveSudoku(board);
+    }
+
+    private bool SolveSudoku(char[][] board)
+    {
+        for(int row = 0; row < 9; row++)
+        {
+            for(int col = 0; col < 9; col++)
+            {
+                if (board[row][col] != '.')
+                {
+                    continue;
+                }
+
+                for(int i = 1; i <= 9; i++)
+                {
+                    if (CanPlaceInSudoku(board, row, col, i))
+                    {
+                        char temp = board[row][col];
+                        board[row][col] = char.Parse(i.ToString());
+
+                        if (SolveSudoku(board))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            board[row][col] = temp;
+                        }
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool CanPlaceInSudoku(char[][] board, int row, int col, int num)
+    {
+        int boxR = (row / 3) * 3;
+        int boxC = (col / 3) *3;
+        char ch = char.Parse(num.ToString());
+
+        for(int i=0; i < 9; i++)
+        {
+            if(board[row][i] == ch || board[i][col] == ch) //check in row or column
+            {
+                 return false; 
+            }
+
+            if(board[boxR + (i/3)][boxC + (i%3)] == ch)
+            {
+                return false; //check in box
+            }
+        }
+
+        return true;
+    }
 
     //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
     public void QueensAttackKing()
@@ -4657,6 +5035,53 @@ public class Arrays
         int[] arr2 = new int[] {1, 4, 8, 11};
         var res = FindMedianSortedArrays(arr1, arr2);
         Console.WriteLine(res);
+    }
+
+    private double FindMedianSortedArraysCre(int[] nums1, int[] nums2)
+    {
+        if (nums1.Length > nums2.Length)
+        {
+            return FindMedianSortedArrays(nums2, nums1);
+        }
+
+        int x = nums1.Length;
+        int y = nums2.Length;
+
+        int lo = 0, hi = x;
+
+        while (lo <= hi)
+        {
+            int partitionX = (lo + hi) / 2;
+            int partitionY = (x+y+1)/2 - partitionX;
+
+            int maxLeftX = partitionX == 0 ? int.MinValue : nums1[partitionX-1];
+            int minRightX = partitionX == x ? int.MaxValue : nums1[partitionX];
+
+            int maxLeftY = (partitionY == 0) ? int.MinValue : nums2[partitionY-1];
+            int minRightY = (partitionY == y) ? int.MaxValue : nums2[partitionY];
+
+            if (maxLeftX > minRightY)
+            {
+                hi = partitionX-1;
+            }
+            else if (maxLeftY > minRightX)
+            {
+                lo = partitionX+1;
+            }
+            else 
+            {
+                if ((x + y) % 2 == 0)
+                {
+                    return Math.Max(Math.Max(maxLeftX, maxLeftY) , Math.Max(minRightX, minRightY));
+                }
+                else
+                {
+                    return Math.Max(maxLeftX, maxLeftY);
+                }
+            }
+        }
+
+        return -1;
     }
 
     private double FindMedianSortedArrays(int[] nums1, int[] nums2)

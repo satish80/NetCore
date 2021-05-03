@@ -39,7 +39,7 @@ namespace Algorithms
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
-            // arrObj.NextPermutation();
+            // arrObj.NextPermutation();                      // Revisit
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
             // arrObj.RemoveInvalidParanthesis();
@@ -105,6 +105,12 @@ namespace Algorithms
             // arrObj.ThreeSumClosest();                                //TBD
             // arrObj.CountingTriangles();
             // arrObj.CanPartitionKSubsets();
+            //arrObj.FindDuplicates();
+            // arrObj.MinShuffleToArrange();
+            // arrObj.SortArrayWithKPositionDisplaced();
+            arrObj.SolveSudoku();
+            // arrObj.OrangesRotting();
+            // arrObj.SimplifyPath();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -211,7 +217,7 @@ namespace Algorithms
             // dpObj.KnightDialer();
             // dpObj.EggDrop();
             // dpObj.CombinationSumIV();
-            dpObj.LongestPalindromicSubstring();
+            // dpObj.LongestPalindromicSubstring();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -231,6 +237,7 @@ namespace Algorithms
             // gObj.RedundantConnection();
             // gObj.CloneGraphCre();
             // gObj.IsBipartite();
+            // gObj.CourseScheduleII();
 
             Strings sObj = new Strings();
             //sObj.StrStr();
