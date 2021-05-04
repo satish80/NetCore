@@ -3766,6 +3766,58 @@ public class Arrays
     }
 
     /*
+    Find the element in a sorted unbounded array
+    */
+    public void FindElementInSortedUnboundArray()
+    {
+        int upper = 100;
+        int[] arr= new int[10000000];
+        int num = 10000000;
+        int lower = 0;
+
+        while(true)
+        {
+            if (! FindElementInSortedUnboundArray(arr, num, 0, upper))
+            {
+                lower = upper;
+                upper*=2;
+            }
+        }
+    }
+
+    private bool FindElementInSortedUnboundArray(int[] arr, int num, int start, int end)
+    {
+        if (end-start == 1 && arr[start] != num)
+        {
+            return false;
+        }
+
+        try
+        {
+            int mid = (end-start)/2 + start;
+
+            if (num < arr[mid])
+            {
+                return FindElementInSortedUnboundArray(arr, num, start, mid-1);
+            }
+            else if (num > arr[mid])
+            {
+                return FindElementInSortedUnboundArray(arr, num, mid+1, end);
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch(Exception ex)
+        {
+            end = (end -start)/2+ start;
+
+            return FindElementInSortedUnboundArray(arr, num, start, end);
+        }
+    }
+
+    /*
     Description : You are given an array and a integer k.
     Let's define the target position of every element as the index at which it would appear if this element was sorted.
     For example, if the array is [1, 2, 3, 4, 5] then the target position for 1 is 0, for 2 is 1 and so on.
