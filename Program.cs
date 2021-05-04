@@ -108,9 +108,10 @@ namespace Algorithms
             //arrObj.FindDuplicates();
             // arrObj.MinShuffleToArrange();
             // arrObj.SortArrayWithKPositionDisplaced();
-            arrObj.SolveSudoku();
+            // arrObj.SolveSudoku();
             // arrObj.OrangesRotting();
             // arrObj.SimplifyPath();
+            arrObj.FindElementInSortedUnboundArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
