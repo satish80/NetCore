@@ -233,6 +233,57 @@ public class Strings
         return sb.ToString();
     }
 
+    //https://leetcode.com/problems/group-shifted-strings/
+    public void GroupStrings()
+    {
+        string[] strings = new string[]
+        {
+            //"abc","bcd","acef","bdfg","xyz","az","ba","a","z"
+            "az", "yx"
+        };
+
+        var res = GroupStrings(strings);
+    }
+
+    private IList<IList<string>> GroupStrings(string[] strings)
+    {
+        Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
+
+        foreach(string str in strings)
+        {
+            string res = string.Empty;
+            int offset = str[0] - 'a';
+
+            for(int idx = 0; idx < str.Length; idx++)
+            {
+                int diff = str[idx] - offset;
+
+                if (diff < 0)
+                {
+                    diff+= 26;
+                }
+
+                res += diff;
+            }
+
+            if (!map.ContainsKey(res))
+            {
+                map.Add(res, new List<string>());
+            }
+
+            map[res].Add(str);
+        }
+
+        IList<IList<string>> r = new List<IList<string>>();
+
+        foreach(string key in map.Keys)
+        {
+            r.Add(map[key]);
+        }
+
+        return r;
+    }
+
     //Accepted:LCMedium:T:O(nlogn *m):https://leetcode.com/problems/group-anagrams/
     public void GroupAnagrams()
     {

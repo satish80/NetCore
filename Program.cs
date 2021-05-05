@@ -111,7 +111,7 @@ namespace Algorithms
             // arrObj.SolveSudoku();
             // arrObj.OrangesRotting();
             // arrObj.SimplifyPath();
-            arrObj.FindElementInSortedUnboundArray();
+            // arrObj.FindElementInSortedUnboundArray();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -283,6 +283,7 @@ namespace Algorithms
             // sObj.GroupAnagrams();
             // sObj.MinRemoveToMakeValid();
             // sObj.PalindromePartition();                            //TBD
+            sObj.GroupStrings();                                      //Fails LC test case  
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
