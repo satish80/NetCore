@@ -3766,7 +3766,7 @@ public class Arrays
     }
 
     /*
-    Find the element in a sorted unbounded array
+    Microsoft Azure Storage: Find the element in a sorted unbounded array
     */
     public void FindElementInSortedUnboundArray()
     {
@@ -3774,13 +3774,26 @@ public class Arrays
         int[] arr= new int[10000000];
         int num = 10000000;
         int lower = 0;
+        int factor = 1000;
 
         while(true)
         {
-            if (! FindElementInSortedUnboundArray(arr, num, 0, upper))
+            try
             {
-                lower = upper;
-                upper*=2;
+                if (num > arr[upper])
+                {
+                    lower = upper;
+                    upper*=factor;
+                }
+                else
+                {
+                    FindElementInSortedUnboundArray(arr, num, lower, upper);
+                }
+            }
+            catch(Exception)
+            {
+                upper = (upper-lower)/2 + upper;
+                factor = 1000;
             }
         }
     }
