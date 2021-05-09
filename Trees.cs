@@ -2921,28 +2921,28 @@ public class Trees
         Console.WriteLine(KthSmallestInBst(node, ref k));
     }
 
-    private int KthSmallestInBst(TreeNode node, ref int count)
+    private int KthSmallestInBst(TreeNode root, ref int k)
     {
-        int res = int.MaxValue;
-
-        if (node == null)
+        int res = -1;
+        
+        if (root == null)
         {
             return res;
         }
+        
+        res = KthSmallestInBst(root.Left, ref k);
+        k--;
 
-        res = KthSmallestInBst(node.Left, ref count);
-
-        count--;
-        if (count == 0)
+        if (k == 0)
         {
-            return node.Value.Value;
+            return root.Value.Value;
         }
 
-        if (res == int.MaxValue)
+        if (k > 0)
         {
-            res = KthSmallestInBst(node.Right, ref count);
+            res = KthSmallestInBst(root.Right, ref k);
         }
-
+        
         return res;
     }
 

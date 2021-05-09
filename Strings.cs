@@ -1603,6 +1603,86 @@ public class Strings
         return res;
     }
 
+    /*
+    Asked by Dropbox
+    Given a string s and a list of words words, where each word is the same length, find all starting indices of substrings in s that is
+    a concatenation of every word in words exactly once. For example, given s = "dogcatcatcodecatdog" and words = ["cat", "dog"], return [0, 13], 
+    since "dogcat" starts at index 0 and "catdog" starts at index 13.
+    Given s = "barfoobazbitbyte" and words = ["dog", "cat"], return [] since there are no substrings composed of "dog" and "cat" in s.
+
+    The order of the indices does not matter.
+    */
+    public void FindConcatenationOfWords()
+    {
+        string s = "dogcatcatcodecatdog";
+        string[] words = new string[] {"cat", "dog"};
+        var res = FindConcatenationOfWords(s, words);
+    }
+
+    private List<int> FindConcatenationOfWords(string str, string[] words)
+    {
+        int counter = 0;
+        Dictionary<char, int> map = new Dictionary<char, int>();
+        List<int> res = new List<int>();
+        int wordCount = 0;
+
+        foreach(string word in words)
+        {
+            foreach(char ch in word)
+            {
+                wordCount++;
+                if (!map.ContainsKey(ch))
+                {
+                    map.Add(ch, 0);
+                }
+
+                map[ch]++;
+            }
+
+            counter = map.Count;
+        }
+
+        int start = 0;
+        int end = 0;
+
+        while (end < str.Length)
+        {
+            if (map.ContainsKey(str[end]) && counter > 0)
+            {
+                map[str[end]]--;
+
+                if (map[str[end]] == 0)
+                {
+                    counter--;
+                }
+            }
+
+            end++;
+
+            while (counter == 0)
+            {
+                if (end-start == wordCount)
+                {
+                    res.Add(start);
+                }
+
+                if (map.ContainsKey(str[start]) )
+                {
+                    map[str[start]]++;
+                    
+                    if (map[str[start]] > 0)
+                    {
+                        counter++;
+                    }
+                }
+
+                start++;
+            }
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/find-all-anagrams-in-a-string/
     public void FindAnagrams()
     {
