@@ -262,7 +262,7 @@ namespace Algorithms
             // sObj.ShortestPalindrome();
             // sObj.ConstructKPalindromeStrings();
             // sObj.CanPermutePalindrome();
-            // sObj.LetterCombinations();
+            sObj.LetterCombinations();
             // sObj.BackspaceCompare();
             // sObj.VerifyAlienDictionary();
             // sObj.ValidPalindromeII();
@@ -311,7 +311,7 @@ namespace Algorithms
             // rObj.MaxRegion();
             // rObj.JumpGameIII();
             // rObj.KthLargest();
-             rObj.WordBoggle();
+             // rObj.WordBoggle();
             // rObj.CanFinishCourse();
 
             Stacks stObj = new Stacks();

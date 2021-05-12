@@ -488,7 +488,29 @@ public class Strings
         map.Add('3', list2);
         map.Add('4', list3);
 
-        var res = LetterCombinationsCre("234", 0, string.Empty, map, new List<string>());
+        var res = LetterCombinations("234", 0, string.Empty, map, new List<string>());
+    }
+
+    private IList<string> LetterCombinations(string digits, int idx, string cur, Dictionary<char, List<char>> map, List<String> res)
+    {
+        if (cur.Length == digits.Length)
+        {
+            if (!res.Contains(cur))
+            {
+                res.Add(cur);
+            }
+
+            return res;
+        }
+    
+        char ch = digits[idx];
+
+        foreach(char c in map[ch])
+        {
+            LetterCombinations(digits, idx + 1, cur + c, map, res);
+        }
+
+        return res;
     }
 
     private List<string> LetterCombinationsCre(string str, int idx, string cur, Dictionary<char, List<char>> map, List<String> res)
@@ -509,21 +531,21 @@ public class Strings
         return res;
     }
 
-    private List<string> LetterCombinations(string digits, int idx, string str, Dictionary<char, List<char>> map, List<string> output)
-    {
-        if (idx == digits.Length)
-        {
-            output.Add(str);
-            return output;
-        }
+    // private List<string> LetterCombinations(string digits, int idx, string str, Dictionary<char, List<char>> map, List<string> output)
+    // {
+    //     if (idx == digits.Length)
+    //     {
+    //         output.Add(str);
+    //         return output;
+    //     }
 
-        for(int i = 0; i < 3; i++)
-        {
-            LetterCombinations(digits, idx+1, str + map[digits[idx]][i], map, output);
-        }
+    //     for(int i = 0; i < 3; i++)
+    //     {
+    //         LetterCombinations(digits, idx+1, str + map[digits[idx]][i], map, output);
+    //     }
 
-        return output;
-    }
+    //     return output;
+    // }
 
     //https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
     public void MinRemoveToMakeValid()
