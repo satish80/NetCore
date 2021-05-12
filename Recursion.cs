@@ -294,36 +294,36 @@ public class Recursion
         return false;
     }
 
-    //https://leetcode.com/problems/word-search/
+    //Accepted:LcMedium:SelfSol-T:O(4n):S:O(n^2) https://leetcode.com/problems/word-search/
     public void WordBoggle()
     {
+        // char[][] board = new char[3][]
+        // {
+        //     new char[]{'A', 'B', 'C', 'E'},
+        //     new char[]{'S', 'F', 'C', 'S'},
+        //     new char[]{'A', 'D', 'E', 'E'},
+        // };
+
+        char[][] board = new char[1][]
+        {
+            new char[]{'a', 'b'}
+        };
+
+        bool[,] visited = new bool[board.Length, board[0].Length];
+
         int[][] arr = new int[2][]
         {
             new int[]{-1, 1, 0, 0},
             new int[] {0, 0, -1, 1}
         };
 
-        char[][] boggle = new char[3][]
-        {
-            new char[]{'A', 'B', 'C', 'E'},
-            new char[]{'S', 'F', 'C', 'S'},
-            new char[]{'A', 'D', 'E', 'E'},
-        };
-
-        bool[,] visited = new bool[3,4];
-
-        string input = "SEE";
+        string input = "ba";
         bool res = false;
-        for(int i = 0; i < boggle.Length; i ++)
+        for(int i = 0; i < board.Length; i ++)
         {
-            if (res)
+            for(int j = 0; j < board[i].Length; j ++)
             {
-                break;
-            }
-
-            for(int j = 0; j < boggle[i].Length; j ++)
-            {
-                res = WordBoggle(boggle, input, new bool[3,4], i, j, string.Empty, arr);
+                res = WordBoggle(board, input, visited, i, j, string.Empty, arr);
                 if (res)
                 {
                     break;
@@ -342,7 +342,7 @@ public class Recursion
            return true;
         }
 
-        if(row < 0 || col < 0 || row >= boggle.Length || col >= boggle[0].Length || visited[row, col] || input.Substring(0, str.Length) != str)
+        if(row < 0 || col < 0 || row >= boggle.Length || col >= boggle[0].Length || visited[row, col] || str.Length == input.Length)
         {
             return false;
         }
@@ -356,12 +356,19 @@ public class Recursion
             int r = arr[0][j] + row;
             int c = arr[1][j] + col;
 
+            if (r == row && c == col)
+            {
+                continue;
+            }
+
             res = WordBoggle(boggle, input, visited, r, c, str, arr);
             if (res)
             {
                 return res;
             }
         }
+
+        visited[row,col] = false;
 
         return res;
     }

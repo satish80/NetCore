@@ -483,7 +483,7 @@ public class DP
     //https://leetcode.com/problems/longest-palindromic-substring/
     public void LongestPalindromicSubstring()
     {
-        string str = "babad";
+        string str = "bbb";
         Console.WriteLine(LongestPalindromicSubstring(str));
     }
 
@@ -498,9 +498,9 @@ public class DP
             {
                 dp[i,j] = s[i] == s[j]  && (j-i < 3 || dp[i+1,j-1]);
 
-                if (dp[i,j])
+                if (dp[i,j] && (res == null || res.Length < j-i+1))
                 {
-                    res = res == null || res.Length < j-1+1 ? s.Substring(i, j-i+1) : res;
+                    res = s.Substring(i, j-i+1);
                 }
             }
         }

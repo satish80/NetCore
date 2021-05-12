@@ -2405,6 +2405,40 @@ public class Arrays
         return Math.Min(min, arr[start] < arr[end] ? arr[start] : arr[end]);
     }
 
+    //https://leetcode.com/problems/water-and-jug-problem/
+    public void CanMeasureWater()
+    {
+        int jug1Capacity = 3, jug2Capacity = 5, targetCapacity = 4;
+        Console.WriteLine(CanMeasureWater(jug2Capacity, jug1Capacity, targetCapacity));
+    }
+
+    private bool CanMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity)
+    {
+        if (jug1Capacity + jug2Capacity < targetCapacity)
+        {
+            return false;
+        }
+
+        if (jug1Capacity == targetCapacity || jug2Capacity == targetCapacity || jug1Capacity + jug2Capacity == targetCapacity )
+        {
+            return true;
+        }
+
+        if (jug1Capacity > jug2Capacity)
+        {
+            return CanMeasureWater(jug1Capacity, jug2Capacity, targetCapacity);
+        }
+
+        while(jug1Capacity != 0)
+        {
+            int temp = jug1Capacity;
+            jug1Capacity = jug2Capacity % jug1Capacity;
+            jug2Capacity = temp;
+        }
+
+        return (targetCapacity) % jug2Capacity == 0;
+    }
+
     //https://leetcode.com/problems/task-scheduler/
     #region
     /*Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.
@@ -2937,6 +2971,41 @@ public class Arrays
         }
 
         return count;
+    }
+
+    //https://www.geeksforgeeks.org/painters-partition-problem-set-2/
+    public void PainterPartition()
+    {
+        int[] arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int k = 3;
+        Console.WriteLine(PainterPartition(arr, k));
+    }
+
+    private int PainterPartition(int[] arr, int n)
+    {
+        int sum = 0;
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            sum += arr[idx];
+        }
+
+        var avg= sum / n;
+        var max = int.MinValue;
+        int cur = 0;
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            cur+= arr[idx];
+
+            if (cur >= avg)
+            {
+                max = Math.Max(max, cur);
+                cur = 0;
+            }
+        }
+
+        return max;
     }
 
     //https://leetcode.com/problems/decode-ways/
@@ -4757,7 +4826,7 @@ public class Arrays
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
     public void CanPartitionKSubsets()
     {
-        int[] arr = new int[] {2,2,2,2,3,4,5};
+        int[] arr = new int[] {4,3,2,3,5,2,1};
         int k = 4;
         int sum = 0;
 
@@ -4769,37 +4838,36 @@ public class Arrays
         Console.WriteLine(CanPartitionKSubsets(arr, k, 0, 0, sum/ k, new bool[arr.Length]));
     }
 
-    private bool CanPartitionKSubsets(int[] nums, int k, int idx, int sum, int targetSum, bool[] visited)
+    private bool CanPartitionKSubsets(int[] arr, int k, int idx, int sum, int target, bool[] visited)
     {
         if (k == 0)
         {
             return true;
         }
 
-        if (idx >= nums.Length || sum > targetSum)
+        if (sum == target)
         {
-            return false;
+            return CanPartitionKSubsets(arr, k-1, 0, 0, target, visited);
         }
 
-        if (sum == targetSum)
+        for(int i = idx; i < arr.Length; i ++)
         {
-            return CanPartitionKSubsets(nums, k-1, 0, 0, targetSum, visited);
-        }
+            if (visited[i] || sum + arr[i] > target || (i > 0 && arr[i] == arr[i-1]))
+            {
+                continue;
+            }
 
-        bool res = false;
-
-        for(int i = idx; i < nums.Length; i++)
-        {
             visited[i] = true;
-            res = CanPartitionKSubsets(nums, k, i+1, sum + nums[idx], targetSum, visited);
-            visited[i] = false;
-            if (res)
+
+            if (CanPartitionKSubsets(arr, k, i+1, sum+arr[i], target, visited))
             {
                 return true;
             }
+
+            visited[i] = false;
         }
 
-        return res;
+        return false;
     }
 
     //Accepted-LCMedium-LCSol-T:O(n)-https://leetcode.com/problems/possible-bipartition/

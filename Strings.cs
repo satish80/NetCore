@@ -252,25 +252,24 @@ public class Strings
         foreach(string str in strings)
         {
             string res = string.Empty;
-            int offset = str[0] - 'a';
 
             for(int idx = 0; idx < str.Length; idx++)
             {
-                int diff = str[idx] - offset;
+                int diff = str[idx] - str[0];
 
                 if (diff < 0)
                 {
-                    diff+= 26;
+                    diff+= 26 ;
                 }
 
-                res += diff;
+                res += diff + "_";
             }
 
             if (!map.ContainsKey(res))
             {
                 map.Add(res, new List<string>());
             }
-
+            
             map[res].Add(str);
         }
 
@@ -1669,7 +1668,7 @@ public class Strings
                 if (map.ContainsKey(str[start]) )
                 {
                     map[str[start]]++;
-                    
+
                     if (map[str[start]] > 0)
                     {
                         counter++;
@@ -1681,6 +1680,26 @@ public class Strings
         }
 
         return res;
+    }
+
+    /*
+     Asked by Facebook
+    Given a start word, an end word, and a dictionary of valid words, find the shortest transformation sequence from start to end 
+    such that only one letter is changed at each step of the sequence, and each transformed word exists in the dictionary. If there is no
+    possible transformation, return null. Each word in the dictionary have the same length as start and end and is lowercase.
+
+    For example, given start = "dog", end = "cat", and dictionary = {"dot", "dop", "dat", "cat"}, return ["dog", "dot", "dat", "cat"].
+    Given start = "dog", end = "cat", and dictionary = {"dot", "tod", "dat", "dar"}, return null as there is no possible transformation 
+    from dog to cat.
+    */
+    public void CanTransformString()
+    {
+
+    }
+
+    private bool CanTransformString(HashSet<string> words, string start, string target)
+    {
+        return true;
     }
 
     //https://leetcode.com/problems/find-all-anagrams-in-a-string/

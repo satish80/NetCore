@@ -112,6 +112,8 @@ namespace Algorithms
             // arrObj.OrangesRotting();
             // arrObj.SimplifyPath();
             // arrObj.FindElementInSortedUnboundArray();
+            // arrObj.CanMeasureWater();
+            // arrObj.PainterPartition();                                  //TBD
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -284,7 +286,7 @@ namespace Algorithms
             // sObj.MinRemoveToMakeValid();
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                      //Fails LC test case  
-            sObj.FindConcatenationOfWords();
+            // sObj.FindConcatenationOfWords();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -309,7 +311,7 @@ namespace Algorithms
             // rObj.MaxRegion();
             // rObj.JumpGameIII();
             // rObj.KthLargest();
-            // rObj.WordBoggle();
+             rObj.WordBoggle();
             // rObj.CanFinishCourse();
 
             Stacks stObj = new Stacks();
