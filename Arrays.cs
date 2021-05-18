@@ -814,6 +814,160 @@ public class Arrays
         return missing;
     }
 
+    //Accepted:LCHard:LCSol:T:O(n^2):S:O(n) https://leetcode.com/problems/largest-rectangle-in-histogram/
+    public void LargestRectangleArea()
+    {
+        int[] arr = new int[]{2,1,2};
+        Console.WriteLine(LargestRectangleArea(arr));
+    }
+
+    private int LargestRectangleArea(int[] heights)
+    {
+        Stack<int> stk = new Stack<int>();
+        int max = int.MinValue;
+        int area = 0;
+        int idx = 0;
+
+        for(;idx < heights.Length;)
+        {
+            // Push if the upcoming height is greater than the current in the stack
+            if (stk.Count == 0 || heights[idx] >= heights[stk.Peek()])
+            {
+                stk.Push(idx++);
+            }
+            else
+            {
+                //Pop if the upcoming one is less than the stk.Peek()
+                var top = stk.Pop();
+
+                if (stk.Count == 0)
+                {
+                    area = heights[top] * idx;
+                }
+                else
+                {
+                    area = heights[top] * (idx - stk.Peek() - 1);
+                }
+
+                max = Math.Max(area , max);
+            }
+        }
+
+        while (stk.Count > 0)
+        {
+            var top = stk.Pop();
+
+            if (stk.Count == 0)
+            {
+                area = heights[top] * idx;
+            }
+            else
+            {
+                area = heights[top] * (idx - stk.Peek() - 1);
+            }
+
+            max = Math.Max(area , max);
+        }
+
+        return max;
+    }
+
+    //Accepted:LCHard:LCSol:T:O(n^2):S:O(n) https://leetcode.com/problems/maximal-rectangle/
+    public void MaximalRectangle()
+    {
+        char[][] matrix = new char[][]
+        {
+            new char[] {'1','0','1','0','0'},
+            new char[] {'1','0','1','1','1'},
+            new char[] {'1','1','1','1','1'},
+            new char[] {'1','0','0','1','0'}
+        };
+
+        Console.WriteLine(MaximalRectangle(matrix));
+    }
+
+    private int MaximalRectangle(char[][] matrix)
+    {
+        if (matrix.Length == 0)
+        {
+            return 0;
+        }
+
+        int[] res = new int[matrix[0].Length];
+        int max = int.MinValue;
+        
+        for(int r = 0; r < matrix.Length; r++)
+        {
+            for(int c = 0; c < matrix[r].Length; c++)
+            {
+                if (r == 0)
+                {
+                    res[c] = int.Parse(matrix[r][c].ToString());
+                }
+                else
+                {
+                    res[c] = (matrix[r][c] == '1' && matrix[r-1][c] == '1') ? res[c] + 1 : int.Parse(matrix[r][c].ToString());
+                }
+            }
+
+            int val = LargestRectangle(res);
+            max = Math.Max(max, val);                                                                                       
+        }
+        
+        return max;
+    }
+
+    private int LargestRectangle(int[] res)
+    {
+        int area = 0;
+        int max = int.MinValue;
+        
+        Stack<int> stk = new Stack<int>();
+        
+        int idx = 0;
+        
+        while (idx < res.Length)
+        {
+            if (stk.Count == 0 || res[idx] >= res[stk.Peek()])
+            {
+                stk.Push(idx++);
+            }
+            else
+            {
+                int top = stk.Pop();
+                
+                if (stk.Count == 0)
+                {
+                    area = res[top] * idx;
+                }
+                else
+                {
+                     area = res[top] * (idx - stk.Peek() -1);
+                }
+                
+                max = Math.Max(area, max);
+            }
+        }
+        
+        while (stk.Count > 0)
+        {
+            int top = stk.Pop();
+                
+            if (stk.Count() == 0)
+            {
+                area = res[top] * idx;
+            }
+            else
+            {
+                 area = res[top] * (idx - stk.Peek() -1);
+            }
+
+            max = Math.Max(area, max);
+        }
+        
+        return max;
+    }
+
     //Accepted-LcHard-LCSol-https://leetcode.com/problems/string-compression-ii/
     public void GetLengthOfOptimalCompression()
     {
@@ -2185,6 +2339,154 @@ public class Arrays
         }
 
         return true;
+    }
+
+    /*
+    Implement Rand17() which returns a random number between 0 & 16. You can use Rand13() which returns a random number between 0 & 12.
+    */
+    public void RandomNumber()
+    {
+        HashSet<int> map = new HashSet<int>();
+        bool allPresent = false;
+        int sum = 0;
+
+        for(int i = 0; i < 17; i ++)
+        {
+            Console.WriteLine(Rand17(map, ref sum, ref allPresent));
+        }
+    }
+
+    private int Rand17()
+    {
+        int rand = Rand13();
+
+        while(rand > 16)
+        {
+            rand = (Rand13() *2)%17;
+        }
+
+        return rand;
+    }
+
+    private int Rand17(HashSet<int> map, ref int sum, ref bool allPresent)
+    {
+        int rand = -1;
+        int newRand = -1;
+        
+        while(true)
+        {
+            rand = Rand13();
+            //Console.WriteLine($"rand is {rand}");
+            if (!map.Contains(rand))
+            {
+                map.Add(rand);
+                return rand;
+            }
+
+            if (allPresent)
+            {
+                continue;
+            }
+
+            newRand = rand % 4;
+            
+            while (map.Contains(12 + newRand + 1)) 
+            {
+                //Console.WriteLine($"The new rand {12 + newRand} exists already");
+                newRand = Rand13() %4;
+            }
+
+            if (!map.Contains(12 + newRand+1))
+            {
+                break;
+            }
+        }
+        
+        rand = 12 + newRand+1;
+        sum+= rand;
+        allPresent = sum == 58;
+
+        map.Add(rand);
+        return rand;
+    }
+
+    private int Rand13()
+    {
+        Random random = new Random();
+        return random.Next(13);
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(m+n)-S:O(1) https://leetcode.com/problems/meeting-scheduler
+    public void MinAvailableDuration()
+    {
+        int[][] slots1 = new int[][] 
+        {
+            new int[]{216397070,363167701},
+            new int[]{98730764,158208909},
+            new int[]{441003187,466254040},
+            new int[]{558239978,678368334},
+            new int[]{683942980,717766451}
+        };
+
+        int[][] slots2 = new int[][] 
+        {
+            new int[]{50490609,222653186},
+            new int[]{512711631,670791418},
+            new int[]{730229023,802410205},
+            new int[]{812553104,891266775},
+            new int[]{230032010,399152578}
+        };
+
+        int duration = 456085;
+        var res = MinAvailableDuration(slots1, slots2, duration);
+    }
+
+    private IList<int> MinAvailableDuration(int[][] slots1, int[][] slots2, int duration)
+    {
+        Array.Sort(slots1, (a,b) => a[0]- b[0]);
+        Array.Sort(slots2, (a,b) => a[0]- b[0]);
+
+        int minSize = Math.Min(slots1.Length, slots2.Length);
+        int s1 = 0, s2 = 0;
+        int start = 0, end = 0;
+        
+        while (s1 < slots1.Length && s2 < slots2.Length)
+        {
+            if (slots1[s1][0] > slots2[s2][0] && slots1[s1][0] > slots2[s2][1])
+            {
+                s2++;
+            }
+            else if (slots2[s2][0] > slots1[s1][0] && slots2[s2][0] > slots1[s1][1])
+            {
+                s1++;
+            }
+            else
+            {
+                start = Math.Max(slots1[s1][0], slots2[s2][0]);
+                end = Math.Min(slots1[s1][1], slots2[s2][1]);
+                
+                if (start + duration <= end)
+                {
+                    return new int[]{start, start+ duration};    
+                }
+                
+                if ((s2 == slots2.Length -1 && s1 < slots1.Length-1) || slots1[s1][1] < slots2[s2][1] )
+                {
+                    s1++;
+                }
+                else if ((s1 == slots1.Length -1 && s2 < slots2.Length-1) || slots2[s2][1] < slots1[s1][1])
+                {
+                    s2++;
+                }
+                else
+                {
+                    s1++;
+                    s2++;
+                }
+            }
+        }
+        
+        return new int[0];
     }
 
     //Accepted:LcMEdium-LCSol-T:O(logn)-S:O(1) https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
@@ -4500,12 +4802,27 @@ public class Arrays
         return res[index];
     }
 
-    //https://leetcode.com/problems/min-cost-climbing-stairs/solution/
+    //Accepted-LCEasy-LCSol-T:O(n):S:O(n) https://leetcode.com/problems/min-cost-climbing-stairs/solution/
     public void MinCostClimbingStairs()
     {
         int[] cost = new int[] {0,0,1,1};
         Console.WriteLine(MinCostClimbingStairs(cost));
     }
+
+    private int MinCostClimbingStairsCre(int[] cost)
+    {
+        int[] dp = new int[cost.Length];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+
+        for(int idx = 2; idx < cost.Length; idx++)
+        {
+            dp[idx] = Math.Min(cost[idx-1] + cost[idx], cost[idx-2] + cost[idx]);
+        }
+
+        return Math.Min(dp[cost.Length-1], dp[cost.Length-2]);
+    }
+
     private int MinCostClimbingStairs(int[] cost) 
     {
         int len = cost.Length;

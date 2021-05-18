@@ -114,6 +114,10 @@ namespace Algorithms
             // arrObj.FindElementInSortedUnboundArray();
             // arrObj.CanMeasureWater();
             // arrObj.PainterPartition();                                  //TBD
+            // arrObj.RandomNumber();
+            // arrObj.MinAvailableDuration();
+            // arrObj.LargestRectangleArea();
+            // arrObj.MaximalRectangle();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -186,6 +190,7 @@ namespace Algorithms
             // treeObj.RightSideView();
             // treeObj.Str2tree();
             // treeObj.LCAIII();
+            treeObj.CountNodes();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -255,14 +260,14 @@ namespace Algorithms
             // sObj.MakeAnagram();
             // sObj.SameCharacterFrequency();
             // sObj.LongestWordInDictionary();
-            //sobj.SubstringsNotMatchingAlphabets();               //** TBD
+            // sobj.SubstringsNotMatchingAlphabets();               //** TBD
             // sObj.FindAnagrams();
             // sObj.LongestValidParantheses();
             // sObj.StringTransformation();
             // sObj.ShortestPalindrome();
             // sObj.ConstructKPalindromeStrings();
             // sObj.CanPermutePalindrome();
-            sObj.LetterCombinations();
+            // sObj.LetterCombinations();
             // sObj.BackspaceCompare();
             // sObj.VerifyAlienDictionary();
             // sObj.ValidPalindromeII();
@@ -285,7 +290,7 @@ namespace Algorithms
             // sObj.GroupAnagrams();
             // sObj.MinRemoveToMakeValid();
             // sObj.PalindromePartition();                            //TBD
-            // sObj.GroupStrings();                                      //Fails LC test case  
+            // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
 
             LinkedList lObj = new LinkedList();
@@ -300,6 +305,7 @@ namespace Algorithms
             // lObj.ReverseKGroup();
             // lObj.MergeKSortedList();
             // lObj.RemoveKthNode();
+            lObj.IsPalindrome();                                        // TBD
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();

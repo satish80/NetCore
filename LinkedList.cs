@@ -186,19 +186,80 @@ public class LinkedList
     private SLLNode ReverseSLL(SLLNode node)
     {
         SLLNode prev = null;
-        SLLNode next = node.Next;
 
         while (node != null)
         {
+            var next = node.Next;
             node.Next = prev;
             prev = node;
             node = next;
-            next = node?.Next;
         }
 
         return prev;
     }
 
+    //https://leetcode.com/problems/palindrome-linked-list/
+    public void IsPalindrome()
+    {
+        SLLNode node = new SLLNode(1);
+        node.Next = new SLLNode(2);
+        // node.Next.Next = new SLLNode(2);
+        // node.Next.Next.Next = new SLLNode(1);
+        var res = IsPalindrome(node);
+    }
+
+    private bool IsPalindrome(SLLNode head) 
+    {
+        var middle = FindMiddle(head);
+       
+        middle = Reverse(middle);
+        
+        while (middle != null)
+        {
+             Console.WriteLine("head is " + middle.Value);
+             Console.WriteLine("middle is " + middle.Value);
+            
+            if (head.Value != middle.Value)
+            {
+                return false;
+            }
+            middle = middle.Next;
+            head = head.Next;
+        }
+        
+        return true;
+    }
+    
+    private SLLNode FindMiddle(SLLNode node)
+    {
+        SLLNode slow = node;
+        SLLNode fast = slow.Next.Next;
+        
+        while(fast != null)
+        {
+            Console.WriteLine("fast node " + fast.Value);
+            Console.WriteLine("slow node " + slow.Value);
+            fast = fast.Next.Next;
+            slow = slow.Next;
+        }
+        
+        return slow.Next;
+    }
+
+    private SLLNode Reverse(SLLNode node)
+    {
+        SLLNode prev = null;
+        while (node != null)
+        {
+            var next = node.Next;
+            node.Next = prev;
+            prev = node;
+            node = next;
+        }
+
+        return prev;
+    }
+    
     //https://leetcode.com/problems/minimum-cost-to-merge-stones/
     public void MinCostToMergeStones()
     {

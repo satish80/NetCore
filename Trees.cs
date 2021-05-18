@@ -2946,6 +2946,52 @@ public class Trees
         return res;
     }
 
+    //Accepted:LcMedium:LCSol:T:O(Logn^2)S:O(1) https://leetcode.com/problems/count-complete-tree-nodes/
+    public void CountNodes()
+    {
+        int?[] arr = new int?[] {1,2,3,4,5,6};
+        TreeNode node = Helpers.ConstructTree(arr);
+        var res = CountNodes(node);
+    }
+
+    private int CountNodes(TreeNode root)
+    {
+        int left = HeightOfLeftTree(root);
+        int right = HeightOfRightTree(root);
+
+        if (left == right)
+        {
+            return (int)Math.Pow(2, left)-1;
+        }
+
+        var res = CountNodes(root.Left) + CountNodes(root.Right) + 1;
+        return res;
+    }
+
+    private int HeightOfLeftTree(TreeNode root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int left = HeightOfLeftTree(root.Left) + 1;
+
+        return left;
+    }
+
+    private int HeightOfRightTree(TreeNode root)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int right = HeightOfRightTree(root.Right) + 1;
+
+        return right;
+    }
+
     //Accepted: https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent/
     public void EvenValuedGrandParent()
     {
