@@ -35,6 +35,8 @@ namespace DataStructures
 
         public Heap(bool minHeap, Func<T, T, int> comparerFunc)
         {
+            arr = new List<T>();
+            this.minHeap = minHeap;
             this.comparer = comparer == null ? new MyComparer(comparerFunc) : comparer;
         }
 

@@ -1570,7 +1570,7 @@ public class Trees
     public void LongestZigZag()
     {
         //int?[] arr = new int?[]{1,2,3,null,4,null,null,5,6,null,7};
-        int?[] arr = new int?[]{1,null,1,1,1,null,null,1,1,null,1,null,null,null,1,null,1};
+        int?[] arr = new int?[]{1,null,2,3,4,null,null,5,6,null,7,null,null,null,8,null,9};
         TreeNode root = Helpers.ConstructTree(arr);
 
         int max =0;
@@ -2557,7 +2557,6 @@ public class Trees
 
         Console.WriteLine(ValidateBST(node, long.MinValue, long.MaxValue));
     }
-
     private bool ValidateBST(TreeNode root, long min, long max)
     {
         if (root == null)
@@ -2655,6 +2654,82 @@ public class Trees
 
         int res = left == true ? r + 1 : l + 1;
         max = Math.Max(max, res);
+        return res;
+    }
+
+    //https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+    public void ZigzagLevelOrder()
+    {
+        int?[] arr = new int?[] {3,9,20,null,null,15,7};
+        TreeNode node = Helpers.ConstructTree(arr);
+        var res = ZigzagLevelOrder(node);
+    }
+
+    private IList<IList<int>> ZigzagLevelOrder(TreeNode root)
+    {
+        Stack<TreeNode> s1 = new  Stack<TreeNode>();
+        Stack<TreeNode> s2 = new  Stack<TreeNode>();
+        
+        IList<IList<int>> res = new List<IList<int>>();
+        
+        if (root == null)
+        {
+            return res;
+        }
+        
+        s1.Push(root);
+        
+        while (s1.Count > 0 || s2.Count > 0)
+        {
+            TreeNode cur = null;
+            var list = new List<int>();
+            
+            while (s1.Count > 0)
+            {
+                cur = s1.Pop();
+                list.Add(cur.Value.Value);
+                
+                if (cur.Left != null)
+                {
+                    s2.Push(cur.Left);
+                }
+                
+                if (cur.Right != null)
+                {
+                    s2.Push(cur.Right);
+                }
+            }
+            
+            if (list.Count > 0)
+            {
+                res.Add(list);
+            }
+            
+            var stkList = new List<int>();
+            
+            while (s2.Count > 0)
+            {
+                cur = s2.Pop();
+               
+                if (cur.Right != null)
+                {
+                    s1.Push(cur.Right);
+                }
+                
+                if (cur.Left != null)
+                {
+                    s1.Push(cur.Left);
+                }
+                
+                stkList.Add(cur.Value.Value);
+            }
+            
+            if (stkList.Count > 0)
+            {
+                res.Add(stkList);
+            }
+        }
+        
         return res;
     }
 
@@ -3065,6 +3140,42 @@ public class Trees
         GoodNodes(node.Right, maxTillNow, ref count);
 
         return;
+    }
+
+    //https://leetcode.com/problems/largest-bst-subtree/
+    public void LargestBSTSubtree()
+    {
+        int?[] arr = new int?[]{3, 2, 4, null, null, 1};
+
+        TreeNode root = Helpers.ConstructTree(arr);
+
+        var res = LargestBSTSubtree(root);
+        Console.WriteLine(res[2]);
+    }
+
+    private int[] LargestBSTSubtree(TreeNode node)
+    {
+        // return array for each node: 
+        //     [0] --> min
+        //     [1] --> max
+        //     [2] --> largest BST in its subtree(inclusive)
+
+        if (node == null)
+        {
+            return new int[]{int.MaxValue, int.MinValue, 0};
+        }
+        
+        int[] left = LargestBSTSubtree(node.Left);
+        int[] right = LargestBSTSubtree(node.Right);
+        
+        if(node.Value > left[1] && node.Value < right[0])
+        {
+            return new int[]{ Math.Min(node.Value.Value, left[0]), Math.Max(node.Value.Value, right[1]), left[2] + right[2] + 1};
+        }
+        else
+        {
+            return new int[]{int.MinValue, int.MaxValue, Math.Max(left[2], right[2])};
+        }
     }
 
     //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/find-largest-value-in-each-tree-row/

@@ -4315,6 +4315,145 @@ public class Arrays
         return true;
     }
 
+    /*
+     Microsoft Azure Machine Learning: Given list of flights and cost, return the min cost to reach the destination
+    */
+    //https://leetcode.com/problems/cheapest-flights-within-k-stops/
+    public void FlightCost()
+    {
+        // Tuple<string, string, int> d1 = new Tuple<string, string, int>("s", "c", 10);
+        // Tuple<string, string, int> d2 = new Tuple<string, string, int>("s", "n", 50);
+        // Tuple<string, string, int> d3 = new Tuple<string, string, int>("c", "n", 10);
+        // Tuple<string, string, int> d4 = new Tuple<string, string, int>("n", "o", 10);
+
+        // List<Tuple<string, string, int>> flightDetails = new List<Tuple<string, string, int>>(){d1, d2, d3, d4};
+        // string start = "s";
+        // string dest = "o";
+        // int k = 99;
+
+        //Console.WriteLine(FlightCost(flightDetails, start, dest, k));
+
+
+        int[][] arr = new int[][]
+        {
+            new int[] {0,1,100},
+            new int[] {1,2,100},
+            new int[] {0,2,500}
+        };
+
+        int start = 0;
+        int dest =  2;
+        int k = 1;
+
+        Console.WriteLine(FindCheapestPrice(arr.Length, arr, start, dest, k));
+    }
+
+    private int FindCheapestPrice(int n, int[][] flights, int start, int dest, int k)
+    {
+        Dictionary<int, Dictionary<int, int>> map = new Dictionary<int, Dictionary<int, int>>();
+
+        foreach(int[] flight in flights)
+        {
+            if (!map.ContainsKey(flight[0]))
+            {
+                map.Add(flight[0], new Dictionary<int, int>());
+            }
+
+            map[flight[0]].Add(flight[1], flight[2]);
+        }
+
+        Heap<int[]> queue = new Heap<int[]>(true, (a,b)=> {return a[1].CompareTo(b[1]);});
+        var startItem = new int[]{start, 0, 0};
+
+        queue.Push(startItem);
+        while (queue.Count > 0)
+        {
+            var cur = queue.Pop();
+
+            if (cur[0] == dest && cur[2] <= k)
+            {
+                return cur[1];
+            }
+
+            if (!map.ContainsKey(cur[0]))
+            {
+                continue;
+            }
+
+            foreach(KeyValuePair<int, int> pair in map[cur[0]])
+            {
+                var newItem = new int[]{pair.Key, pair.Value + cur[1], cur[2]+1};
+                queue.Push(newItem);
+            }
+        }
+
+        return -1;
+    }
+
+    private int FlightCost(List<Tuple<string, string, int>> flightDetails, string start, string dest, int k)
+    {
+        Dictionary<string, List<FlightData>> map = new Dictionary<string, List<FlightData>>();
+
+        foreach(Tuple<string, string, int> flightDetail in flightDetails)
+        {
+            var startCity = flightDetail.Item1;
+            if (! map.ContainsKey(startCity))
+            {
+                map.Add(startCity, new List<FlightData>());
+            }
+
+            var flightData = new FlightData(flightDetail.Item2, flightDetail.Item3, 0);
+            map[startCity].Add(flightData);
+        }
+
+        Queue<FlightData> queue = new Queue<FlightData>();
+        var startData = new FlightData(start, 0, 0);
+        queue.Enqueue(startData);
+        int minCost = int.MaxValue;
+        HashSet<string> visited = new HashSet<string>();
+
+        while (queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+
+            if (item.City == dest && item.Hop <= k)
+            {
+                minCost = Math.Min(minCost, item.cost);
+            }
+
+            visited.Add(item.City);
+
+            if (map.ContainsKey(item.City))
+            {
+                foreach(FlightData connectingCity in map[item.City])
+                {
+                    if (!visited.Contains(connectingCity.City))
+                    {
+                        var cur = new FlightData(connectingCity.City, connectingCity.cost +item.cost, item.Hop + 1);
+                        queue.Enqueue(cur);
+                    }
+                }
+            }
+        }
+
+        return minCost;
+    }
+
+    public class FlightData
+    {
+        public FlightData(string city, int cost, int hop)
+        {
+            this.City = city;
+            this.cost = cost;
+            this.Hop = hop;
+        }
+
+        public string City;
+        public int cost;
+
+        public int Hop;
+    }
+
     //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
     public void QueensAttackKing()
     {
