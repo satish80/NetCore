@@ -184,7 +184,7 @@ namespace Algorithms
             // treeObj.MaxAncestorDiff();
             // treeObj.LCADeepestLeaves();
             // treeObj.HouseRobberIII();
-             treeObj.LongestZigZag();
+            // treeObj.LongestZigZag();
             // treeObj.CountSmallerNumbersAfterSelf();
             // treeObj.FindDuplicateSubTrees();
             // treeObj.BalanceBSTCre();
@@ -193,6 +193,7 @@ namespace Algorithms
             // treeObj.LCAIII();
             // treeObj.CountNodes();
             // treeObj.LargestBSTSubtree();
+            treeObj.BinaryTreeFromInorderPostOrder();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

@@ -1602,6 +1602,80 @@ public class Trees
         return cur;
     }
 
+    //Accepted-LcMedium-LcSol:T:O(h)-S:O(1) https://leetcode.com/problems/binary-tree-coloring-game/
+    public void BtreeGameWinningMove()
+    {
+        int left = 0, right =0;
+        int n = 11, x = 3;
+        int?[] arr = new int?[]{1,2,3,4,5,6,7,8,9,10,11};
+        var  root = Helpers.ConstructTree(arr);
+        BtreeGameWinningMove(root, n, x, ref left, ref right);
+
+        Console.WriteLine(Math.Max(Math.Max(left, right), n-left-right-1) > n/2);
+    }
+
+    private int BtreeGameWinningMove(TreeNode root, int n, int x, ref int left, ref int right)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+
+        int l = BtreeGameWinningMove(root.Left, n, x, ref left, ref right);
+        int r = BtreeGameWinningMove(root.Right, n, x, ref left, ref right);
+
+        if (root.Value.Value == x)
+        {
+            left = l;
+            right = r;
+        }
+
+        return 1 + l + r;
+    }
+
+    //Accepted:LcMedium-LcSol-T:O(nlogn)-S:O(n) https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+    public void BinaryTreeFromInorderPostOrder()
+    {
+        int[] inorder = new int[]{9,3,15,20,7};
+        int[] postOrder = new int[] {9,15,7,20,3};
+
+        int idx = postOrder.Length-1;
+        var res = BinaryTreeFromInorderPostOrder(inorder, postOrder, 0, inorder.Length-1, ref idx);
+    }
+
+    private TreeNode BinaryTreeFromInorderPostOrder(int[] inorder, int[] postorder, int start, int end, ref int idx)
+    {
+        if (idx < 0 || start > end)
+        {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(postorder[idx--]);
+
+        if (start == end)
+        {
+            return root;
+        }
+
+        var inIdx = FindInorderIndex(inorder, root.Value.Value, start, end);
+        root.Right = BinaryTreeFromInorderPostOrder(inorder, postorder, inIdx+1, end, ref idx);
+        root.Left = BinaryTreeFromInorderPostOrder(inorder, postorder, start, inIdx-1, ref idx);
+
+        return root;
+    }
+
+    private int FindInorderIndex(int[] inorder, int val, int start, int end)
+    {
+        int idx = start;
+
+        while (idx <= end && val != inorder[idx])
+        {
+            idx++;
+        }
+
+        return idx;
+    }
+
     /*
     This problem was recently asked by Apple:
     Given an integer k and a binary search tree, find the floor (less than or equal to) of k, and the ceiling (larger than or equal to) of k.
