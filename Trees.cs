@@ -41,40 +41,32 @@ public class Trees
     //Accepted: https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
     public void ConstructBinaryTreeFromInAndPreorder()
     {
-        int[] pre = new int[] {5, 2, 12, 4, 6, 3, 7};
-        int[] inOrder = new int[] {12, 2, 4, 5, 3, 6, 7};
-        int pIdx = -1;
-        var res = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, 0, inOrder.Length-1);
+        int[] pre = new int[] {3,9,20,15,7};
+        int[] inOrder = new int[] {9,3,15,20,7};
+        int idx = 0;
+
+        var res = ConstructBinaryTreeFromInAndPreorder(inOrder, pre, 0, pre.Length-1, ref idx);
     }
 
-    private TreeNode ConstructBinaryTreeFromInAndPreorder(int[] pre, int[] inOrder, ref int pIdx, int start, int end)
+    private TreeNode ConstructBinaryTreeFromInAndPreorder(int[] inorder, int[] preOrder, int start, int end, ref int idx)
     {
-        if (start > end || end < 0)
+        if (idx >= preOrder.Length)
         {
             return null;
         }
 
-        pIdx++;
-        int iIdx = FindInOrderIndex(inOrder, pre[pIdx]);
+        TreeNode node = new TreeNode(preOrder[idx++]);
 
-        TreeNode node = new TreeNode(inOrder[iIdx]);
-        node.Left = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, start, iIdx - 1);
-        node.Right = ConstructBinaryTreeFromInAndPreorder(pre, inOrder, ref pIdx, iIdx + 1, end);
-
-        return node;
-    }
-
-    private int FindInOrderIndex(int[] inOrder, int val)
-    {
-        for(int idx = 0; idx < inOrder.Length; idx ++)
+        if (start == end)
         {
-            if (inOrder[idx] == val)
-            {
-                return idx;
-            }
+            return node;
         }
 
-        return -1;
+        int inIdx = FindInorderIndex(inorder, node.Value.Value, start, end);
+        node.Left = ConstructBinaryTreeFromInAndPreorder(inorder, preOrder, start, inIdx-1, ref idx);
+        node.Right = ConstructBinaryTreeFromInAndPreorder(inorder, preOrder, inIdx+1, end, ref idx);
+
+        return node;
     }
 
     //https://leetcode.com/problems/find-duplicate-subtrees/
@@ -346,29 +338,56 @@ public class Trees
         return rootSum;
     }
 
-    //https://leetcode.com/problems/delete-nodes-and-return-forest/
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(H+N) https://leetcode.com/problems/delete-nodes-and-return-forest/
     public void DeleteNodeReturnForest()
     {
+        int?[] arr = new int?[]{1,2,3,4,5,6,7};
+        int[] to_delete = new int[] {3,5};
 
+        TreeNode root = Helpers.ConstructTree(arr);
+
+        HashSet<int> delList = new HashSet<int>();
+        
+        foreach(int del in to_delete)
+        {
+            delList.Add(del);
+        }
+        
+        IList<TreeNode> res = new List<TreeNode>();
+
+        if (!delList.Contains(root.Value.Value))
+        {
+            res.Add(root);
+        }
+
+        DelNodes(root, delList, res);
     }
 
-    private TreeNode DelNodes(TreeNode root, int[] to_delete, ref int idx, IList<TreeNode> res)
+    private TreeNode DelNodes(TreeNode root, HashSet<int> delList, IList<TreeNode> res)
     {
         if (root == null)
         {
             return null;
         }
-
-        TreeNode left = DelNodes(root.Left, to_delete, ref idx, res);
-        TreeNode right = DelNodes(root.Right, to_delete, ref idx, res);
-
-        if (root.Value.Value == to_delete[idx])
+        
+        root.Left =  DelNodes(root.Left, delList, res);
+        root.Right =  DelNodes(root.Right, delList, res);
+        
+        if (delList.Contains(root.Value.Value))
         {
-            res.Add(root);
-            idx++;
+            if (root.Left!= null)
+            {
+                res.Add(root.Left);
+            }
+            
+            if (root.Right!= null)
+            {
+                res.Add(root.Right);
+            }
+            
             return null;
         }
-
+        
         return root;
     }
 
@@ -1369,46 +1388,6 @@ public class Trees
         res = FindRightSibling(node.Right, level-1);
 
         return res;
-    }
-
-    //https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
-    public void ConstructBSTFromPreInorder()
-    {
-        int[] pre = new int[] {3, 9, 20, 15, 7};
-        int[] inorder = new int[] {9, 3, 15, 20, 7};
-        int preIdx = 0;
-
-        TreeNode res = ConstructBSTFromPreInorder(pre, inorder, 0, inorder.Length, ref preIdx);
-    }
-
-    private TreeNode ConstructBSTFromPreInorder(int[] pre, int[] inorder, int start, int end, ref int preIdx)
-    {
-        if (preIdx >= pre.Length || start == end)
-        {
-            return null;
-        }
-
-        var preElement = pre[preIdx++];
-        var inIdx = FindInorderIdx(inorder, start, end, preElement);
-
-        TreeNode node = new TreeNode(inorder[inIdx]);
-        node.Left = ConstructBSTFromPreInorder(pre, inorder, start, inIdx, ref preIdx);
-        node.Right = ConstructBSTFromPreInorder(pre, inorder, inIdx+1, end, ref preIdx);
-
-        return node;
-    }
-
-    private int FindInorderIdx(int[] inorder, int start, int end, int element)
-    {
-        for(int idx = start; idx <= end; idx ++)
-        {
-            if (inorder[idx] == element)
-            {
-                return idx;
-            }
-        }
-
-        return -1;
     }
 
     //https://leetcode.com/problems/balance-a-binary-search-tree/

@@ -119,6 +119,7 @@ namespace Algorithms
             // arrObj.LargestRectangleArea();
             // arrObj.MaximalRectangle();
             // arrObj.FlightCost();
+            arrObj.SlidingWindowMedian();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -193,7 +194,8 @@ namespace Algorithms
             // treeObj.LCAIII();
             // treeObj.CountNodes();
             // treeObj.LargestBSTSubtree();
-            treeObj.BinaryTreeFromInorderPostOrder();
+            // treeObj.BinaryTreeFromInorderPostOrder();
+            // treeObj.DeleteNodeReturnForest();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

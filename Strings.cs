@@ -713,8 +713,86 @@ public class Strings
     public void PalindromePartition()
     {
         string s = "aab";
-        var res = PalindromePartition(s);
+        var res = Partition(s);
     }
+
+    private List<List<String>> Partition(string s) {
+        List<List<String>> res = new List<List<String>>();
+        bool[,] dp = new bool[s.Length,s.Length];
+
+        for(int i = 0; i < s.Length; i++)
+        {
+            for(int j = 0; j <= i; j++)
+            {
+                if(s[i] == s[j] && (i - j <= 2 || dp[j+1,i-1]))
+                {
+                    dp[j,i] = true;
+                }
+            }
+        }
+
+        helper(res, new List<String>(), dp, s, 0);
+        return res;
+    }
+    
+    private void helper(List<List<String>> res, List<String> path, bool[,] dp, String s, int pos)
+    {
+        if(pos == s.Length)
+        {
+            res.Add(new List<string>(path));
+            return;
+        }
+        
+        for(int i = 0; pos+i < s.Length; i++)
+        {
+            if(dp[pos,i])
+            {
+                path.Add(s.Substring(pos, i));
+                helper(res, path, dp, s, pos+i+1);
+                path.RemoveAt(path.Count()-1);
+            }
+        }
+    }
+
+    // private IList<IList<string>> Partition(string s) 
+    // {
+    //     bool[,] dp = new bool[s.Length, s.Length];
+
+    //     for(int i = 0; i < s.Length; i++)
+    //     {
+    //         for(int j = 0; j <= i; j++)
+    //         {
+    //             if (s[i] == s[j] && (i-j <= 2 || dp[j+1,i-1]))
+    //             {
+    //                 dp[j,i] = true;
+    //             }
+    //         }
+    //     }
+
+    //     var res = new List<IList<string>>();
+    //     return PartitionHelper(s, dp, 0, res, new List<string>());
+    // }
+
+    // private IList<IList<string>> PartitionHelper(string s, bool[,] dp, int pos, IList<IList<string>> res, List<string> cur)
+    // {
+    //     if (pos == s.Length)
+    //     {
+    //         res.Add(new List<string>(cur));
+    //         return res;
+    //     }
+
+    //     for(int i = pos; i < s.Length; i++)
+    //     {
+    //         if (dp[pos,i])
+    //         {
+    //             cur.Add(s.Substring(pos,i+1));
+    //             PartitionHelper(s, dp, i+1, res, cur);
+    //             cur.RemoveAt(cur.Count-1);
+    //         }
+    //     }
+
+    //     return res;
+    // }
 
     private IList<IList<string>> PalindromePartition(string s)
     {
@@ -2028,33 +2106,35 @@ public class Strings
     //:LC Hard:Accepted:T:O(n^2), S:O(n^2): https://leetcode.com/problems/valid-palindrome-iii/
     public void ValidPalindromeIII()
     {
-        Console.WriteLine(ValidPalindromeIII("abcdeca", 2));
+        Console.WriteLine(IsValidPalindrome("abcdeca", 2));
     }
 
-    private bool ValidPalindromeIII(string s, int k)
+    private bool IsValidPalindrome(string s, int k) 
     {
-        char[] r = s.ToCharArray();
-        Array.Reverse(r);
+        char[] rev = s.ToCharArray();
+        Array.Reverse(rev);
+
         int[,] dp = new int[s.Length+1, s.Length+1];
 
-        for(int row = 1; row <= s.Length; row++)
+        for(int r = 1; r <= s.Length; r++)
         {
-            for(int col = 1; col <= r.Length; col++)
+            for(int c = 1; c <= rev.Length; c++)
             {
-                if (s[row-1] != r[col-1])
+                if (s[r-1] == rev[c-1])
                 {
-                    dp[row, col] = Math.Max(dp[row-1,col], dp[row,col-1]);
+                    dp[r,c] = 1;
+                    dp[r,c] += dp[r-1, c-1];
                 }
                 else
                 {
-                    dp[row, col] = dp[row-1,col-1] + 1;
-                }
+                    dp[r,c] = Math.Max(dp[r-1, c], dp[r, c-1]);
+                }   
             }
         }
-
-        return s.Length  - dp[s.Length, s.Length] <= k;
+        
+        return s.Length - dp[s.Length, s.Length] <= k;
     }
-
+    
     /* There's a faulty keyboard which types a space whenever key 'e' is hit.
     Given a string which is the sentence typed using that keyboard and a dictionary of valid words, return all possible correct formation of the sentence.
     Example:

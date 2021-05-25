@@ -40,6 +40,12 @@ namespace DataStructures
             this.comparer = comparer == null ? new MyComparer(comparerFunc) : comparer;
         }
 
+        public void Remove(T val)
+        {
+            arr.Remove(val);
+            Heapify();
+        }
+
         public void Push(T val)
         {
             arr.Add(val);

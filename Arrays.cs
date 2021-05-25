@@ -4454,6 +4454,99 @@ public class Arrays
         public int Hop;
     }
 
+    //https://leetcode.com/problems/sliding-window-median/
+    public void SlidingWindowMedian()
+    {
+        int[] arr = new int[] {1,3,-1,-3,5,3,6,7};
+        int k = 3;
+
+        var res = SlidingWindowMedian(arr, k);
+    }
+
+    private double[] SlidingWindowMedian(int[] nums, int k)
+    {
+        int n = nums.Length - k +1;
+        double[] res = new double[n];
+        Heap<int> minHeap = new Heap<int>(true);
+        Heap<int> maxHeap = new Heap<int>(false);
+
+        for(int i = 0; i <= nums.Length; i++)
+        {
+            if (i >= k)
+            {
+                res[i-k] = GetMedian(minHeap, maxHeap);
+                RemoveElementFromSlidingWindowMedian(nums[i-k], minHeap, maxHeap);
+            }
+            if (i < nums.Length)
+            {
+                AddElementToSlidingWindowMedian(nums[i], minHeap, maxHeap);
+            }
+        }
+
+        return res;
+    }
+
+    private void AddElementToSlidingWindowMedian(int num, Heap<int> minHeap, Heap<int> maxHeap)
+    {
+        if (num < GetMedian(minHeap, maxHeap))
+        {
+            maxHeap.Push(num);
+        }
+        else
+        {
+            minHeap.Push(num);
+        }
+
+        if (maxHeap.Count > minHeap.Count)
+        {
+            minHeap.Push(maxHeap.Pop());
+        }
+
+        if (minHeap.Count - maxHeap.Count > 1)
+        {
+            maxHeap.Push(minHeap.Pop());
+        }
+    }
+
+    private void RemoveElementFromSlidingWindowMedian(int num, Heap<int> minHeap, Heap<int> maxHeap)
+    {
+        if (num < GetMedian(minHeap, maxHeap))
+        {
+            maxHeap.Remove(num);
+        }
+        else
+        {
+            minHeap.Remove(num);
+        }
+
+        if (maxHeap.Count > minHeap.Count)
+        {
+            minHeap.Push(maxHeap.Pop());
+        }
+
+        if (minHeap.Count - maxHeap.Count > 1)
+        {
+            maxHeap.Push(minHeap.Pop());
+        }
+    }
+
+    private double GetMedian(Heap<int> minHeap, Heap<int> maxHeap)
+    {
+        if (minHeap.Count == 0 && maxHeap.Count == 0)
+        {
+            return 0;
+        }
+
+        if (minHeap.Count == maxHeap.Count)
+        {
+            return (minHeap.Peek() + maxHeap.Peek()) / 2;
+        }
+        else
+        {
+            return minHeap.Peek();
+        }
+    }
+
     //Accepted: https://leetcode.com/problems/queens-that-can-attack-the-king/
     public void QueensAttackKing()
     {
