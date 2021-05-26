@@ -2135,6 +2135,88 @@ public class Strings
         return s.Length - dp[s.Length, s.Length] <= k;
     }
     
+    //https://leetcode.com/problems/stickers-to-spell-word/
+    public void MinStickers()
+    {
+        string[] stickers = new string[] {"with","example","science"};
+        string target = "thehat";
+        Dictionary<char, int> map = new Dictionary<char, int>();
+
+        foreach(char ch in target)
+        {
+            if (!map.ContainsKey(ch))
+            {
+                map.Add(ch, 0);
+            }
+
+            map[ch]++;
+        }
+
+        int min = int.MaxValue;
+        var resStr = GetStringFromDictionary(map);
+        Console.WriteLine(MinStickers(stickers, resStr, string.Empty, map, 0, 0, ref min));
+    }
+
+    private int MinStickers(string[] stickers, string target, string prev, Dictionary<char, int> map, int idx, int count, ref int min)
+    {
+        if (map.Count == 0)
+        {
+            min = Math.Min(min, count);
+            return min;
+        }
+
+        if (idx == stickers.Length)
+        {
+            return int.MaxValue;
+        }
+
+        Dictionary<char, int> temp = map;
+        var resStr = UpdateDictionary(stickers[idx], map);
+        int res = int.MaxValue;
+
+        for(int i = idx; i < stickers.Length; i ++)
+        {
+            if (resStr.Length == prev.Length && idx == i)
+            {
+                continue;
+            }
+
+            MinStickers(stickers, target, resStr, map, i, count +1, ref min);
+            map = temp;
+        }
+        
+        return res;
+    }
+
+    private string GetStringFromDictionary(Dictionary<char, int> map)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach(char ch in map.Keys)
+        {
+            sb.Append(ch.ToString());
+        }
+
+        return sb.ToString();
+    }
+
+    private string UpdateDictionary(string sticker, Dictionary<char, int> map)
+    {
+        foreach(char ch in sticker)
+        {
+            if (map.ContainsKey(ch))
+            {
+                map[ch]--;
+            
+                if (map[ch] == 0)
+                {
+                    map.Remove(ch);
+                }
+            }
+        }
+
+        return GetStringFromDictionary(map);
+    }
+
     /* There's a faulty keyboard which types a space whenever key 'e' is hit.
     Given a string which is the sentence typed using that keyboard and a dictionary of valid words, return all possible correct formation of the sentence.
     Example:

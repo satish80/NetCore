@@ -119,7 +119,7 @@ namespace Algorithms
             // arrObj.LargestRectangleArea();
             // arrObj.MaximalRectangle();
             // arrObj.FlightCost();
-            arrObj.SlidingWindowMedian();
+            // arrObj.SlidingWindowMedian();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -297,6 +297,7 @@ namespace Algorithms
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
+            sObj.MinStickers();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
