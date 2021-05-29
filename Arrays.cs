@@ -1448,33 +1448,40 @@ public class Arrays
     //https://leetcode.com/problems/combination-sum-ii/
     public void CombinationSumII()
     {
-        int[] arr = new int[] {2,5,2,1,2};
+        int[] arr = new int[] {1,1,2,5,6,7,10};
+        
         IList<IList<int>> res = new List<IList<int>>();
-
-        CombinationSumII(arr, 5, 0, new List<int>(), res);
+        Array.Sort(arr);
+        CombinationSumII(arr, 8, 0, 0, new List<int>(), res);
     }
 
-    private void CombinationSumII(int[] candidates, int remain, int idx, List<int> list, IList<IList<int>> res)
+    private IList<IList<int>> CombinationSumII(int[] candidates, int target, int idx, int sum, List<int> list, IList<IList<int>> res)
     {
-        if (remain < 0 || idx >= candidates.Length)
+        if (sum == target)
         {
-            return;
+            var cur = new List<int>(list);
+            res.Add(cur);
+            return res;
         }
-
-        if (remain == 0)
+        
+        if (idx == candidates.Length)
         {
-            res.Add(new List<int>(list));
-            return;
+            return res;
         }
-
-        for(int i = idx; i < candidates.Length; i++)
+        
+        for(int i = idx; i < candidates.Length; i ++)
         {
+            if (i > idx && candidates[i] == candidates[i-1])
+            {
+                continue;
+            }
+            
             list.Add(candidates[i]);
-            CombinationSumII(candidates, remain - candidates[i], i+1, list, res);
-            list.Remove(candidates[i]);
+            CombinationSumII(candidates, target, i+1, sum + candidates[i], list, res);
+            list.RemoveAt(list.Count()-1);
         }
-
-        return;
+        
+        return res;
     }
 
     //https://leetcode.com/problems/subsets/
@@ -1507,7 +1514,27 @@ public class Arrays
         IList<IList<int>> coll = new List<IList<int>>();
         var list = new List<int>();
         Array.Sort(nums);
-        SubsetsWithDuplicates(nums, 0, list, coll);
+        SubsetsWithDup(nums, 0, list, coll);
+    }
+    private IList<IList<int>> SubsetsWithDup(int[] nums, int idx, IList<int> list, IList<IList<int>> res)
+    {
+        if (idx == nums.Length)
+        {
+            res.Add(new List<int>(list));
+            return res;
+        }
+        
+
+        for(int i = idx; i < nums.Length; i ++)
+        {
+            list.Add(nums[idx]);
+            SubsetsWithDup(nums, i+1, list, res);
+            list.RemoveAt(list.Count()-1);
+
+        }
+        
+        
+        return res;
     }
 
     private void SubsetsWithDuplicates(int[] nums, int idx, List<int> path, IList<IList<int>> res)
@@ -1521,6 +1548,44 @@ public class Arrays
                 path.Add(nums[i]);
                 SubsetsWithDuplicates(nums, i+1, path, res);
                 path.RemoveAt(path.Count-1);
+            }
+        }
+    }
+
+    //https://leetcode.com/problems/permutations-ii/
+    public void PermuteUnique()
+    {
+        var res = new List<IList<int>>();
+        var list = new List<int>();
+        HashSet<int> visited = new HashSet<int>();
+
+        int[] nums = new int[]{1,2,3};
+        PermuteUnique(nums, res, 0);
+    }
+
+    private void PermuteUnique(int[] nums, List<IList<int>> ans, int index)
+    {
+        if (index == nums.Length)
+        { 
+            List<int> temp = new List<int>();
+
+            foreach(int num in nums)
+            { 
+                temp.Add(num); 
+            }
+
+            ans.Add(temp);
+            return;
+        }
+
+        HashSet<int> appeared = new HashSet<int>();
+        for (int i=index; i < nums.Length; ++i)
+        {
+            if (!appeared.Contains(nums[i]))
+            {
+                Helpers.Swap(nums, index, i);
+                PermuteUnique(nums, ans, index+1);
+                Helpers.Swap(nums, index, i);
             }
         }
     }

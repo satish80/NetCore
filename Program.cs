@@ -120,6 +120,7 @@ namespace Algorithms
             // arrObj.MaximalRectangle();
             // arrObj.FlightCost();
             // arrObj.SlidingWindowMedian();
+            arrObj.PermuteUnique();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -297,7 +298,7 @@ namespace Algorithms
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
-            sObj.MinStickers();
+            // sObj.MinStickers();                                    // TBD
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

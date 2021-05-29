@@ -2154,7 +2154,7 @@ public class Strings
 
         int min = int.MaxValue;
         var resStr = GetStringFromDictionary(map);
-        Console.WriteLine(MinStickers(stickers, resStr, string.Empty, map, 0, 0, ref min));
+        Console.WriteLine(MinStickers(stickers, target, string.Empty, map, 0, 0, ref min));
     }
 
     private int MinStickers(string[] stickers, string target, string prev, Dictionary<char, int> map, int idx, int count, ref int min)
@@ -2170,13 +2170,14 @@ public class Strings
             return int.MaxValue;
         }
 
-        Dictionary<char, int> temp = map;
-        var resStr = UpdateDictionary(stickers[idx], map);
         int res = int.MaxValue;
 
         for(int i = idx; i < stickers.Length; i ++)
         {
-            if (resStr.Length == prev.Length && idx == i)
+            Dictionary<char, int> temp = map;
+            var resStr = UpdateDictionary(stickers[i], map);
+
+            if ((resStr.Length == prev.Length && idx == i))
             {
                 continue;
             }
