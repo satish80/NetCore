@@ -39,7 +39,7 @@ namespace Algorithms
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
-            // arrObj.NextPermutation();                      // Revisit
+            arrObj.NextPermutation();                      // Revisit
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
             // arrObj.RemoveInvalidParanthesis();
