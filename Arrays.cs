@@ -3987,8 +3987,54 @@ public class Arrays
     //Accepted: https://leetcode.com/problems/next-permutation/
     public void NextPermutation()
     {
-        int[] arr = new int[]{1, 2, 3};
-        NextPermutation(arr);
+        //int[] arr = new int[]{1, 2, 3};
+        var arr = PopulateArray("abc");
+        for(int i = 0; i < 6; i ++)
+        {
+            NextPermutationCre(arr);
+
+            for(int j = 0; j < arr.Length; j++)
+            {
+                Console.WriteLine((char)(arr[j]+ 'a'));
+            }
+        }
+    }
+
+    private int[] PopulateArray(string str)
+    {
+        int[] arr = new int[str.Length];
+        for(int idx = 0; idx < str.Length; idx++)
+        {
+            arr[idx] = str[idx] - 'a';
+        }
+
+        return arr;
+    }
+
+    private void NextPermutationCre(int[] arr)
+    {
+        int idx = arr.Length-2;
+
+        while(idx >= 0 && arr[idx] > arr[idx+1]) // break on first smaller number
+        {
+            idx--;
+        }
+
+        if (idx == -1)
+        {
+            return;
+        }
+
+        if (arr[idx] <= arr[arr.Length-1])
+        {
+            Helpers.Swap(arr, idx, arr.Length-1);
+        }
+        else
+        {
+            Helpers.Swap(arr, idx, idx+1);
+        }
+
+        ReverseArray(arr, idx+1);
     }
 
     private void NextPermutation(int[] arr)

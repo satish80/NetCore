@@ -39,7 +39,7 @@ namespace Algorithms
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
-            // arrObj.NextPermutation();                      // Revisit
+            arrObj.NextPermutation();                      // Revisit
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
             // arrObj.RemoveInvalidParanthesis();
@@ -297,7 +297,7 @@ namespace Algorithms
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
-            sObj.MinStickers();
+            // sObj.MinStickers();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
