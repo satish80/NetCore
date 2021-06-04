@@ -39,7 +39,7 @@ namespace Algorithms
             // arrObj.NoOfBurgers();
             // arrObj.InterleaveFirstHalfWithReversed();
             // arrObj.RotateImage();
-            arrObj.NextPermutation();                      // Revisit
+            // arrObj.NextPermutation();                      // Revisit
             // arrObj.NonOverlapingIntervals();
             // arrObj.AsteroidCollision();
             // arrObj.RemoveInvalidParanthesis();
@@ -120,7 +120,9 @@ namespace Algorithms
             // arrObj.MaximalRectangle();
             // arrObj.FlightCost();
             // arrObj.SlidingWindowMedian();
-            arrObj.PermuteUnique();
+            // arrObj.PermuteUnique();
+            // arrObj.MinimumEffortPath();
+            arrObj.PaintHouseII();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -197,6 +199,7 @@ namespace Algorithms
             // treeObj.LargestBSTSubtree();
             // treeObj.BinaryTreeFromInorderPostOrder();
             // treeObj.DeleteNodeReturnForest();
+            // treeObj.MaxPathSum();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();

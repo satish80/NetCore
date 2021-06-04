@@ -629,9 +629,9 @@ public class Arrays
 
         for(int i = n; i < k; i ++)
         {
-            Swap(arr, i, n);
+            Helpers.Swap(arr, i, n);
             Permutations(arr, k, n+1);
-            Swap(arr, n, i);
+            Helpers.Swap(arr, n, i);
         }
     }
 
@@ -659,7 +659,7 @@ public class Arrays
             // Place the array contents at the index positions
             while (nums[idx] > 0 && nums[idx] <= n && nums[nums[idx]-1] != nums[idx])
             {
-                Swap(nums, idx, nums[idx]-1);
+                Helpers.Swap(nums, idx, nums[idx]-1);
             }
         }
 
@@ -1552,7 +1552,7 @@ public class Arrays
         }
     }
 
-    //https://leetcode.com/problems/permutations-ii/
+    //Accepted-LcMedium-LcSol-T:O(n!)-S:O(n!) https://leetcode.com/problems/permutations-ii/
     public void PermuteUnique()
     {
         var res = new List<IList<int>>();
@@ -1563,31 +1563,112 @@ public class Arrays
         PermuteUnique(nums, res, 0);
     }
 
-    private void PermuteUnique(int[] nums, List<IList<int>> ans, int index)
+    private List<IList<int>> PermuteUnique(int[] nums, List<IList<int>> res, int idx)
     {
-        if (index == nums.Length)
-        { 
-            List<int> temp = new List<int>();
-
-            foreach(int num in nums)
-            { 
-                temp.Add(num); 
+        if (idx == nums.Length)
+        {
+            var list = new List<int>();
+            for(int i = 0; i < nums.Length; i++)
+            {
+                Console.WriteLine(nums[i]);
+                list.Add(nums[i]);
             }
-
-            ans.Add(temp);
-            return;
+            res.Add(list);
+            return res;
         }
 
         HashSet<int> appeared = new HashSet<int>();
-        for (int i=index; i < nums.Length; ++i)
+
+        for(int i = idx; i < nums.Length; i++)
         {
-            if (!appeared.Contains(nums[i]))
+            if (appeared.Contains(nums[i]))
             {
-                Helpers.Swap(nums, index, i);
-                PermuteUnique(nums, ans, index+1);
-                Helpers.Swap(nums, index, i);
+                continue;
             }
+
+            appeared.Add(nums[i]);
+
+            Helpers.Swap(nums, i, idx);
+            PermuteUnique(nums, res, idx+1);
+            Helpers.Swap(nums, i, idx);
         }
+
+        return res;
+    }
+
+    //Accepted-LcMedium-LcSol-T:O(nk)-S:O(nk) https://leetcode.com/problems/paint-house-ii/
+    public void PaintHouseII()
+    {
+        int[][] costs = new int[][]
+        {
+            new int[] {1,5,3},
+            new int[] {2,9,4}
+        };
+
+        Console.WriteLine(PaintHouseIIDP(costs));
+    }
+
+    private int PaintHouseIIDP(int[][] costs)
+    {
+        if (costs.Length == 0)
+        {
+            return 0;
+        }
+
+        int min1 = 0, min2 = 0;
+        int index1 = -1;
+
+        for(int r = 0; r < costs.Length; r++)
+        {
+            int m1 = int.MaxValue;
+            int m2 = int.MaxValue;
+            int idx1 = -1;
+
+            for(int c = 0; c < costs[0].Length; c++)
+            {
+                int cost = costs[r][c] + (index1 != c ? min1 : min2);
+
+                if (m1 > cost)
+                {
+                    m2 = m1;
+                    m1 = cost;
+                    idx1 = c;
+                }
+                else if (m2 > cost)
+                {
+                    m2 = cost;
+                }
+            }
+
+            min1 = m1;
+            min2 = m2;
+            index1 = idx1;
+        }
+
+        return min1;
+    }
+
+    private int PaintHouseII(int[][] costs, int k, int cost, HashSet<int> visited, ref int minCost) 
+    {
+        if (k == -1)
+        {
+            minCost = Math.Min(cost, minCost);
+            return minCost;
+        }
+        
+        for(int i = 0; i < costs[0].Length; i ++)
+        {
+            if (visited.Contains(i))
+            {
+                continue;
+            }
+            
+            visited.Add(i);
+            PaintHouseII(costs, k-1, cost + costs[k][i], visited, ref minCost);
+            visited.Remove(i);
+        }
+
+        return minCost;
     }
 
     //https://leetcode.com/problems/exclusive-time-of-functions/
@@ -4119,22 +4200,10 @@ public class Arrays
                 i--;
             }
 
-            Swap(arr, i, idx); //Swap them
+            Helpers.Swap(arr, i, idx); //Swap them
         }
 
         ReverseArray(arr, idx+1);
-    }
-
-    private void Swap(int[] arr, int source, int target)
-    {
-        if (source >= arr.Length || target >= arr.Length)
-        {
-            return;
-        }
-
-        int temp = arr[source];
-        arr[source] = arr[target];
-        arr[target] = temp;
     }
 
     private void ReverseArray(int[] arr, int start)
@@ -4148,6 +4217,107 @@ public class Arrays
             arr[start++] = arr[end];
             arr[end--] = temp;
         }
+    }
+
+    //https://leetcode.com/problems/product-of-array-except-self/
+    public void ProductExceptSelf()
+    {
+        int[] arr = new int[] {1,2,3,4};
+        var res = ProductExceptSelf(arr);
+    }
+
+    private int[] ProductExceptSelf(int[] nums)
+    {
+        int[] left = new int[nums.Length];
+        int[] right = new int[nums.Length];
+        int[] res = new int[nums.Length];
+        
+        left[0] = 1;
+        right[nums.Length-1] = 1;
+        
+        for(int i = 1; i < nums.Length; i++)
+        {
+            left[i] = nums[i-1] * left[i-1];
+        }
+        
+        for(int i = nums.Length-2; i >=0; i--)
+        {
+            right[i] = nums[i+1] * right[i+1];
+        }
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            res[i] = left[i] * right[i];
+        }
+        
+        return res;
+    }
+
+    //https://leetcode.com/problems/path-with-minimum-effort/
+    public void MinimumEffortPath()
+    {
+        int[] x = new int[] {1,-1,0, 0,};
+        int[] y = new int[] {0, 0,1,-1 };
+
+        int[][] heights = new int[][]
+        {
+            new int[] {1,2,3},
+            new int[] {3,8,4},
+            new int[] {5,3,5}
+        };
+
+        Console.WriteLine(MinimumEffortPath(heights, x, y));
+    }
+
+    private int MinimumEffortPath(int[][] heights, int[] x, int[] y)
+    {
+        Heap<int[]> queue = new Heap<int[]>(true, (a,b)=> {return a[2].CompareTo(b[2]);} );
+        int[,] efforts = new int[heights.Length, heights[0].Length];
+
+        for(int i = 0; i < heights.Length; i++)
+        {
+            for(int j = 0; j < heights.Length; j++)
+            {
+                efforts[i,j] = int.MaxValue;
+            }
+        }
+
+        queue.Push(new int[3]{0,0,0});
+        efforts[0,0] = 0;
+
+        while (queue.Count > 0)
+        {
+            var cur = queue.Pop();
+            var r = cur[0];
+            var c = cur[1];
+            
+            if (r == heights.Length-1 && c == heights[0].Length-1)
+            {
+                return cur[2];
+            }
+
+            for(int i = 0; i < x.Length; i++)
+            {
+                var row = x[i] + r;
+                var col = y[i] + c;
+
+                if (row == heights.Length || row < 0 || col == heights[row].Length || col < 0)
+                {
+                    continue;
+                }
+
+                int diff = Math.Abs(heights[row][col] - heights[r][c]);
+                int effort = Math.Max(cur[2], diff);
+
+                if (efforts[row, col] > effort)
+                {
+                    efforts[row, col] = effort;
+                    queue.Push(new int[3] {row, col, effort});
+                }
+            }
+        }
+
+        return -1;
     }
 
     /*

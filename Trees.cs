@@ -502,6 +502,31 @@ public class Trees
         RecoverBST(node.Right, ref prev, ref first, ref second);
     }
 
+    //https://leetcode.com/problems/binary-tree-maximum-path-sum/
+    public void MaxPathSum()
+    {
+        int?[] arr = new int?[]{-3};
+        var node = Helpers.ConstructTree(arr);
+        int max = int.MinValue;
+        MaxPathSum(node, 0, ref max);
+        Console.WriteLine(max);
+    }
+
+    private int MaxPathSum(TreeNode root, int sum, ref int max)
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        
+        int left = Math.Max(0,MaxPathSum(root.Left, sum + root.Value.Value, ref max));
+        int right = Math.Max(0,MaxPathSum(root.Right, sum + root.Value.Value, ref max));
+        
+        max = Math.Max(max, left + right + root.Value.Value);
+        
+        return Math.Max(left, right) + root.Value.Value;
+    }
+
     //https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/
     public void LCADeepestLeaves()
     {
