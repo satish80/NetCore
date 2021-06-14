@@ -597,6 +597,56 @@ public class Trees
         return lcaNode;
     }
 
+    /*
+    This problem was asked by Google.
+    Given the root of a binary search tree, and a target K, return two nodes in the
+    tree whose sum equals K.
+    For example, given the following tree and K of 20
+      10
+    /   \
+    5    15
+        /  \
+       11   15
+    Return the nodes 5 and 15.
+    */
+    public void BSTSumEqualsK()
+    {
+        int?[] arr = new int?[]{9, 5, 15, null, null, 11, 15};
+        var node = Helpers.ConstructTree(arr);
+        var res = new List<TreeNode>();
+        int k = 20;
+        BSTSumEqualsK(node, k, res, new Dictionary<int, TreeNode>());
+    }
+
+    private void BSTSumEqualsK(TreeNode node, int k, List<TreeNode> res, Dictionary<int, TreeNode> map)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        if (node.Value.Value > k)
+        {
+            return;
+        }
+
+        BSTSumEqualsK(node.Left, k, res, map);
+
+        if (map.ContainsKey(k - node.Value.Value))
+        {
+            res.Add(node);
+            res.Add(map[k - node.Value.Value]);
+            return;
+        }
+
+        map.Add(node.Value.Value, node);
+        
+        BSTSumEqualsK(node.Right, k, res, map);
+
+        return;
+
+    }
+
     //Accepted:LCMedium-LCSol-T:O(n):S:O(1) https://leetcode.com/problems/house-robber-iii/
     public void HouseRobberIII()
     {
@@ -3504,6 +3554,39 @@ public class Trees
 
         max = Math.Max(max, average);
         return average;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n) S:O(n) https://leetcode.com/problems/trim-a-binary-search-tree/
+    public void TrimBST()
+    {
+        int?[] arr = new int?[] {3,0,4,null,2,null,null,1};
+        var root = Helpers.ConstructTree(arr);
+        int low = 1, high = 3;
+        var res = TrimBST(root, low, high);
+    }
+
+    private TreeNode TrimBST(TreeNode root, int low, int high)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (root.Value.Value < low )
+        {
+            return TrimBST(root.Right, low, high);
+        }
+        else if (root.Value.Value > high)
+        {
+            return TrimBST(root.Left, low, high);
+        }
+        else
+        {
+            root.Left = TrimBST(root.Left, low, high);
+            root.Right = TrimBST(root.Right, low, high);
+        }
+
+        return root;
     }
 
     //https://leetcode.com/discuss/interview-question/963428/google-phone-most-frequent-element-in-a-bst

@@ -8,13 +8,61 @@ public class Recursion
     public void ExpressionAddOperators()
     {
         List<string> final = new List<string>();
-        List<string> expression = new List<string>();
-        expression.Add("+");
-        expression.Add("-");
-        expression.Add("*");
-        expression.Add("/");
+        List<string> expressions = new List<string>();
+        expressions.Add("+");
+        expressions.Add("-");
+        expressions.Add("*");
+        expressions.Add("/");
 
-        ExpressionAddOperators("123", 6, 0, expression, string.Empty, final);
+        string num = "232";
+        int target = 8;
+        string path = string.Empty;
+
+        ExpressionAddOperators(num, target, 0, 0, path, expressions, final);
+    }
+
+    private void ExpressionAddOperators(string num, int target, int idx, int curVal, string path, List<string> expressions, List<string> res)
+    {
+        if (curVal == target && idx == num.Length)
+        {
+            res.Add(path);
+            return;
+        }
+
+        if (idx >= num.Length || curVal > target)
+        {
+            return;
+        }
+
+        foreach(string expression in expressions)
+        {
+            switch(expression)
+            {
+                case "+":
+                {
+                    ExpressionAddOperators(num, target, idx+1, curVal + int.Parse(num[idx].ToString()), path + "+" + num[idx], expressions, res);
+                    break;
+                }
+                case "-":
+                {
+                    ExpressionAddOperators(num, target, idx+1, curVal - int.Parse(num[idx].ToString()), path + "-" + num[idx], expressions, res);
+                    break;
+                }
+
+                case "*":
+                {
+                    ExpressionAddOperators(num, target, idx+1, curVal * int.Parse(num[idx].ToString()), path + "*" + num[idx], expressions, res);
+                    break;
+                }
+
+                case "/":
+                {
+                    ExpressionAddOperators(num, target, idx+1, curVal / int.Parse(num[idx].ToString()), path + "/" + num[idx], expressions, res);
+                    break;
+                }
+            }
+        }
+        return;
     }
 
     private int ExpressionAddOperators(string num, int target, int idx, List<string> expression, 

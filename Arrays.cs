@@ -1797,6 +1797,103 @@ public class Arrays
         return max;
     }
 
+    //https://leetcode.com/problems/paint-house/
+    public void PaintHouse()
+    {
+        int[][] costs = new int[][]
+        {
+            new int[] {5,8,6},
+            new int[] {19,14,13},
+            new int[] {7,5,12},
+            new int[] {14,15,17},
+            new int[] {3,20,10}
+            // new int[] {17,2,17},
+            // new int[] {16,16,5},
+            // new int[] {14,3,19}
+            //new int[] {7,6,2}
+        };
+
+        Console.WriteLine(MinCost(costs));
+    }
+
+    private int MinCost(int[][] costs)
+    {
+        if (costs.Length == 0)
+        {
+            return 0;
+        }
+
+        int min1 = 0, min2 = 0;
+        int index1 = -1;
+
+        for(int r = 0; r < costs.Length; r++)
+        {
+            int m1 = int.MaxValue;
+            int m2 = int.MaxValue;
+            int idx1 = -1;
+
+            for(int c = 0; c < costs[0].Length; c++)
+            {
+                int cost = costs[r][c] + (index1 != c ? min1 : min2);
+
+                if (m1 > cost)
+                {
+                    m2 = m1;
+                    m1 = cost;
+                    idx1 = c;
+                }
+                else if (m2 > cost)
+                {
+                    m2 = cost;
+                }
+            }
+
+            min1 = m1;
+            min2 = m2;
+            index1 = idx1;
+        }
+
+        return min1;
+    }
+
+    //Accepted:LcMedium-SelfSol-O(nLogn)-S:O(n) https://leetcode.com/problems/remove-covered-intervals/
+    public void RemoveCoveredIntervals()
+    {
+        int[][] arr = new int[][] 
+        {
+            new int[] {1, 2},
+            new int[] {1, 4},
+            new int[] {3, 4}
+        };
+
+        Console.WriteLine(RemoveCoveredIntervals(arr));
+    }
+
+    private int RemoveCoveredIntervals(int[][] intervals)
+    {
+        Array.Sort(intervals, (x, y)=> {return x[0] == y[0] ? y[1] - x[1] : x[0] - y[0];});
+
+        int count = 1;
+
+        int ps = intervals[0][0];
+        int pe = intervals[0][1];
+
+        for(int idx = 1; idx < intervals.Length; idx++)
+        {
+            if (intervals[idx][0] >= ps && intervals[idx][1] <= pe)
+            {
+                continue;
+            }
+
+            ps = intervals[idx][0];
+            pe = intervals[idx][1];
+
+            count++;
+        }
+        
+        return count;
+    }
+
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
     public void AngleClock()
     {
@@ -2274,25 +2371,81 @@ public class Arrays
         return max;
     }
 
-    //https://leetcode.com/problems/game-of-life/discuss/73366/Clean-O(1)-space-O(mn)-time-Java-Solution
+    //Accepted-LcMedium-SelfSol-T:O(n^2)-S:O(n^2) https://leetcode.com/problems/game-of-life/discuss/73366/Clean-O(1)-space-O(mn)-time-Java-Solution
     public void GameOfLife()
     {
-        List<Pair> pairs = new List<Pair>();
-        pairs.Add(new Pair(-1,0));
-        pairs.Add(new Pair(1,0));
-        pairs.Add(new Pair(0,-1));
-        pairs.Add(new Pair(0,1));
-        pairs.Add(new Pair(-1,-1));
-        pairs.Add(new Pair(1,1));
-        pairs.Add(new Pair(-1,1));
-        pairs.Add(new Pair(1,-1));
+        int[][] board = new int[][]
+        {
+            new int[]{0,1,0},
+            new int[]{0,0,1},
+            new int[]{1,1,1},
+            new int[]{0,0,0}
+        };
 
-        GameOfLife();
+        GameOfLife(board);
     }
 
-    private void GameOfLife(int[,] arr, List<Pair> pairs)
+    private void GameOfLife(int[][] board)
     {
-        
+        for(int r = 0; r < board.Length; r++)
+        {
+            for(int c = 0; c < board[r].Length; c++)
+            {
+                var neighborCount = CountNeighbors(board, r, c);
+                if (board[r][c] == 1)
+                {
+                    if (neighborCount < 2 || neighborCount > 3)
+                    {
+                        board[r][c] = -1;
+                    }
+                }
+                else if (neighborCount == 3)
+                {
+                    board[r][c] = 2;
+                }
+            }
+        }
+
+        for(int r = 0; r < board.Length; r++)
+        {
+            for(int c = 0; c < board[r].Length; c++)
+            {
+                if (board[r][c] == -1)
+                {
+                    board[r][c] = 0;
+                }
+                if (board[r][c] == 2)
+                {
+                    board[r][c] = 1;
+                }
+            }
+        }
+    }
+
+    private int CountNeighbors(int[][] board, int r, int c)
+    {
+        int[] x = new int[] {-1, 1, 0, 0, 1, -1, 1, -1};
+        int[] y = new int[] {0, 0, 1, -1, 1, 1, -1, -1};
+
+        int count = 0;
+
+        for(int idx = 0; idx < x.Length; idx++)
+        {
+            var row = r + x[idx];
+            var col = c + y[idx];
+
+            if (row < 0 || col < 0 || row >= board.Length || col >= board[0].Length)
+            {
+                continue;
+            }
+
+            if (board[row][col] == 1 || board[row][col] == -1)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     /*
@@ -2350,10 +2503,10 @@ public class Arrays
             if (!g.ContainsKey(r[0]))
             {
                 var list = new List<int>();
-                list.Add(r[1]);
                 g.Add(r[0], list);
             }
 
+            g[r[0]].Add(r[1]);
             ++inDegree[r[1]]; // count prerequisites for r[1].
         }
 
@@ -2368,9 +2521,11 @@ public class Arrays
 
         int semester = 0;
         while (q.Count > 0)
-        { // BFS traverse all currently 0 in degree vertices.
+        {
+            // BFS traverse all currently 0 in degree vertices.
             for (int sz = q.Count; sz > 0; --sz)
-            { // sz is the search breadth.
+            {
+                // sz is the search breadth.
                 int c = q.Dequeue();
                 --N;
                 if (!g.ContainsKey(c))
@@ -2381,7 +2536,9 @@ public class Arrays
                 foreach (int course in g[c])
                 {
                     if (--inDegree[course] == 0) // decrease the in-degree of course's neighbors.
+                    {
                         q.Enqueue(course); // add current 0 in-degree vertex into Queue.
+                    }
                 }
 
                 g.Remove(c);

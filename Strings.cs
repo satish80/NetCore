@@ -754,46 +754,6 @@ public class Strings
         }
     }
 
-    // private IList<IList<string>> Partition(string s) 
-    // {
-    //     bool[,] dp = new bool[s.Length, s.Length];
-
-    //     for(int i = 0; i < s.Length; i++)
-    //     {
-    //         for(int j = 0; j <= i; j++)
-    //         {
-    //             if (s[i] == s[j] && (i-j <= 2 || dp[j+1,i-1]))
-    //             {
-    //                 dp[j,i] = true;
-    //             }
-    //         }
-    //     }
-
-    //     var res = new List<IList<string>>();
-    //     return PartitionHelper(s, dp, 0, res, new List<string>());
-    // }
-
-    // private IList<IList<string>> PartitionHelper(string s, bool[,] dp, int pos, IList<IList<string>> res, List<string> cur)
-    // {
-    //     if (pos == s.Length)
-    //     {
-    //         res.Add(new List<string>(cur));
-    //         return res;
-    //     }
-
-    //     for(int i = pos; i < s.Length; i++)
-    //     {
-    //         if (dp[pos,i])
-    //         {
-    //             cur.Add(s.Substring(pos,i+1));
-    //             PartitionHelper(s, dp, i+1, res, cur);
-    //             cur.RemoveAt(cur.Count-1);
-    //         }
-    //     }
-
-    //     return res;
-    // }
-
     private IList<IList<string>> PalindromePartition(string s)
     {
         bool[,] dp = new bool[s.Length,s.Length];
@@ -860,7 +820,7 @@ public class Strings
 
         return true;
     }
-
+ 
     /*
     Asked by Google
     Given a string of words delimited by spaces, reverse the words in string. For example, given "hello world here", return "here world hello"
@@ -2028,7 +1988,7 @@ public class Strings
     //Accepted: https://leetcode.com/problems/shortest-palindrome/
     public void ShortestPalindrome()
     {
-        string str = "abcd";
+        string str = "aababa";
         Console.WriteLine(ShortestPalindrome(str));
     }
 

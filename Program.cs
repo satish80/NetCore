@@ -122,7 +122,9 @@ namespace Algorithms
             // arrObj.SlidingWindowMedian();
             // arrObj.PermuteUnique();
             // arrObj.MinimumEffortPath();
-            arrObj.PaintHouseII();
+            // arrObj.PaintHouseII();
+            // arrObj.PaintHouse();
+            // arrObj.RemoveCoveredIntervals();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -200,6 +202,8 @@ namespace Algorithms
             // treeObj.BinaryTreeFromInorderPostOrder();
             // treeObj.DeleteNodeReturnForest();
             // treeObj.MaxPathSum();
+            // treeObj.BSTSumEqualsK();
+            // treeObj.TrimBST();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -235,6 +239,7 @@ namespace Algorithms
             // dpObj.EggDrop();
             // dpObj.CombinationSumIV();
             // dpObj.LongestPalindromicSubstring();
+            // dpObj.ShortestCommonSuperSequence();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -302,6 +307,7 @@ namespace Algorithms
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
             // sObj.MinStickers();                                    // TBD
+            // sObj.ShortestPalindrome();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -322,7 +328,7 @@ namespace Algorithms
             // syncObj.SimulateThreads();
 
             Recursion rObj = new Recursion();
-            //rObj.ExpressionAddOperators();                      //** To Be Completed **
+            // rObj.ExpressionAddOperators();                      //** To Be Completed **
             // rObj.LetterCombinations();
             // rObj.MaxRegion();
             // rObj.JumpGameIII();
@@ -332,6 +338,7 @@ namespace Algorithms
 
             Stacks stObj = new Stacks();
             //stObj.ValidateStackSequences();
+            stObj.FrequencyStack();
 
             TicTacToe tObj = new TicTacToe();
             // tObj.MakeMoves();
