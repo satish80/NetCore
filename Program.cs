@@ -125,6 +125,11 @@ namespace Algorithms
             // arrObj.PaintHouseII();
             // arrObj.PaintHouse();
             // arrObj.RemoveCoveredIntervals();
+            // arrObj.DistinctCombination();
+            // arrObj.CherryPickup();
+            // arrObj.RemoveSubfolders();
+            // arrObj.MinPushBox();
+            arrObj.ExpressionAddOperators();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -204,6 +209,8 @@ namespace Algorithms
             // treeObj.MaxPathSum();
             // treeObj.BSTSumEqualsK();
             // treeObj.TrimBST();
+            // treeObj.DiameterOfBinaryTree();
+            // treeObj.MinTimeToPickApples();                                     // 1 Test case failing
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -308,6 +315,7 @@ namespace Algorithms
             // sObj.FindConcatenationOfWords();
             // sObj.MinStickers();                                    // TBD
             // sObj.ShortestPalindrome();
+            // sObj.AddStrings();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -338,7 +346,7 @@ namespace Algorithms
 
             Stacks stObj = new Stacks();
             //stObj.ValidateStackSequences();
-            stObj.FrequencyStack();
+            //stObj.FrequencyStack();
 
             TicTacToe tObj = new TicTacToe();
             // tObj.MakeMoves();
