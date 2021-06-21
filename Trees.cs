@@ -1041,6 +1041,33 @@ public class Trees
         prev = node;
     }
 
+    //https://leetcode.com/problems/diameter-of-binary-tree/
+    public void DiameterOfBinaryTree()
+    {
+        int max = 0;
+        int?[] arr = new int?[]{1,2,3,4,5};
+
+        var root = Helpers.ConstructTree(arr);
+        DiameterOfBinaryTree(root, ref max);
+        Console.WriteLine(max);
+    }
+
+    private int DiameterOfBinaryTree(TreeNode root, ref int max)
+    {
+        if (root == null)
+        {
+            return 0;
+        }
+        
+        int left = DiameterOfBinaryTree(root.Left, ref max);
+        int right = DiameterOfBinaryTree(root.Right, ref max);
+        
+        int cur = left + right;
+        max = Math.Max(max, cur);
+        
+        return Math.Max(left, right) + 1;
+    }
+
     //Accepted:LCMedium:Self:T:O(n)-S:O(n):https://leetcode.com/problems/correct-a-binary-tree/
     public void CorrectBinaryTree()
     {
@@ -1685,6 +1712,80 @@ public class Trees
         }
 
         return 1 + l + r;
+    }
+
+    //https://leetcode.com/problems/minimum-time-to-collect-all-apples-in-a-tree/
+    public void MinTimeToPickApples()
+    {
+        int[][] edges = new int[][]
+        {
+            // new int[] {0,1},
+            // new int[] {0,2},
+            // new int[] {1,4},
+            // new int[] {1,5},
+            // new int[] {2,3},
+            // new int[] {2,6},
+
+            new int[] {0,2},
+            new int[] {0,3},
+            new int[] {1,2}
+        };
+
+        List<bool> hasApple = new List<bool>() {false,true,false,false};
+        int n = 4;
+
+        Console.WriteLine(MinTimeToPickApples(n, edges, hasApple));
+    }
+
+    private int MinTimeToPickApples(int n, int[][] edges, IList<bool> hasApple)
+    {
+        HashSet<string> visited = new HashSet<string>();
+        Dictionary<int, int> parentMap = new Dictionary<int, int>();
+
+        foreach(int[] edge in edges)
+        {
+            if (!parentMap.ContainsKey(edge[1]))
+            {
+                parentMap.Add(edge[1], edge[0]);
+            }
+
+            parentMap[edge[1]] = edge[0];
+        }
+
+        int count = 0;
+
+        for(int idx = 0; idx < hasApple.Count; idx++)
+        {
+            if (hasApple[idx])
+            {
+                count += GetCount(idx, parentMap, visited);
+            }
+        }
+
+        return count;
+    }
+
+    private int GetCount(int idx, Dictionary<int, int> parentMap, HashSet<string> visited)
+    {
+        int count = 0;
+
+        string cur = string.Empty;
+
+        while (parentMap.ContainsKey(idx))
+        {
+            cur = idx + "_" + parentMap[idx];
+
+            if (visited.Contains(cur))
+            {
+                break;
+            }
+
+            visited.Add(cur);
+            count += 2;
+            idx = parentMap[idx];
+        }
+
+        return count;
     }
 
     //Accepted:LcMedium-LcSol-T:O(nlogn)-S:O(n) https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/

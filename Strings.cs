@@ -513,39 +513,39 @@ public class Strings
         return res;
     }
 
-    private List<string> LetterCombinationsCre(string str, int idx, string cur, Dictionary<char, List<char>> map, List<String> res)
+    //Accepted-LcEasy-LCSol-T:O(n)-S:O(n) https://leetcode.com/problems/add-strings/
+    public void AddStrings()
     {
-        if (idx == str.Length)
-        {
-            res.Add(cur);
-            return res;
-        }
+        string s1 = "456";
+        string s2 = "77";
 
-        var mStr = map[str[idx]];
-
-        for(int i = 0; i < 3; i++)
-        {
-            LetterCombinationsCre(str, idx+1, cur + mStr[i], map, res);
-        }
-
-        return res;
+        Console.WriteLine(AddStrings(s1, s2));
     }
 
-    // private List<string> LetterCombinations(string digits, int idx, string str, Dictionary<char, List<char>> map, List<string> output)
-    // {
-    //     if (idx == digits.Length)
-    //     {
-    //         output.Add(str);
-    //         return output;
-    //     }
+    private string AddStrings(string s1, string s2)
+    {
+        int carry = 0;
+        StringBuilder sb = new StringBuilder();
 
-    //     for(int i = 0; i < 3; i++)
-    //     {
-    //         LetterCombinations(digits, idx+1, str + map[digits[idx]][i], map, output);
-    //     }
+        for(int i = s1.Length-1, j = s2.Length-1; Math.Max(i,j) >= 0; i--, j--)
+        {
+            var d1 = i < 0 ? 0 : s1[i] - '0';
+            var d2 = j < 0 ? 0 : s2[j] - '0';
 
-    //     return output;
-    // }
+            int sum = d1 + d2 + carry;
+            var lastDigit = sum%10;
+            carry = sum/10;
+
+            sb.Append(lastDigit);
+        }
+
+        if (carry > 0)
+        {
+            sb.Append(carry);
+        }
+
+        return sb.ToString().Reverse();
+    }
 
     //https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
     public void MinRemoveToMakeValid()

@@ -309,10 +309,13 @@ public class Arrays
     {
         int[][] intervals = new int[][]
         {
-            new int[] {2, 6},
-            new int[] {4, 5},
-            new int[] {7, 10},
-            new int[] {8, 12},
+            // new int[] {2, 6},
+            // new int[] {4, 5},
+            // new int[] {7, 10},
+            // new int[] {8, 12},
+            new int[] {2,11},
+            new int[] {6, 16},
+            new int[] {11, 16}
         };
 
         Console.WriteLine(MinMeetingRoomsII(intervals));
@@ -1400,9 +1403,13 @@ public class Arrays
         for (int i=0; i <= k; i++)
         {
             if (nums[i] == 0)
+            {
                 Helpers.Swap(nums,i, j++);
+            }
             else if (nums[i] == 2)
+            {
                 Helpers.Swap(nums, i--, k--);
+            }
         }
     }
 
@@ -2962,8 +2969,8 @@ public class Arrays
                 if (res[j]-res[i] + nums[i] >= target)
                 {
                     min = Math.Min(min, j-i+1);
-                }
-            }
+                } 
+            } 
         }
 
         return min == int.MaxValue ? 0 : min;
@@ -3384,6 +3391,46 @@ public class Arrays
         }
 
         return (turn == 0 || turn == 1) && (!xWin || !oWin);
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(nlogn)-S:O(n) https://leetcode.com/problems/remove-sub-folders-from-the-filesystem/
+    public void RemoveSubfolders()
+    {
+        string[] folder = new string[] {"/a","/a/b","/c/d","/c/d/e","/c/f"};
+        var res = RemoveSubfolders(folder);
+    }
+
+    private IList<string> RemoveSubfolders(string[] folder)
+    {
+        HashSet<string> map = new HashSet<string>();
+        IList<string> res = new List<string>();
+        
+        
+        Array.Sort(folder, (x,y)=> {return x.Length.CompareTo(y.Length);});
+        bool found = false;
+        
+        foreach(string f in folder)
+        {
+            found = false;
+            for(int idx = 0; idx < f.Length; idx++)
+            {
+                if (idx > 0 && f[idx] == '/')
+                {
+                    if (res.Contains(f.Substring(0, idx)))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!found)
+            {
+                res.Add(f);
+            }
+        }
+        
+        return res;
     }
 
     //Accepted: T:O(n), S:O(n): https://leetcode.com/problems/trapping-rain-water/
@@ -4786,110 +4833,336 @@ public class Arrays
         Console.WriteLine(FindCheapestPrice(arr.Length, arr, start, dest, k));
     }
 
-    private int FindCheapestPrice(int n, int[][] flights, int start, int dest, int k)
+    private int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k)
     {
-        Dictionary<int, Dictionary<int, int>> map = new Dictionary<int, Dictionary<int, int>>();
+        Dictionary<int, List<int[]>> map = new Dictionary<int, List<int[]>>();
 
-        foreach(int[] flight in flights)
+        for(int r = 0; r < flights.Length; r++)
         {
-            if (!map.ContainsKey(flight[0]))
+            if (!map.ContainsKey(flights[r][0]))
             {
-                map.Add(flight[0], new Dictionary<int, int>());
+                map.Add(flights[r][0], new List<int[]>());
             }
 
-            map[flight[0]].Add(flight[1], flight[2]);
+            map[flights[r][0]].Add(new int[]{flights[r][1], flights[r][2]});
         }
 
-        Heap<int[]> queue = new Heap<int[]>(true, (a,b)=> {return a[1].CompareTo(b[1]);});
-        var startItem = new int[]{start, 0, 0};
+        Heap<int[]> queue = new Heap<int[]>(true, (a, b)=> 
+        {
+            return a[2].CompareTo(b[2]);
+        });
 
-        queue.Push(startItem);
+        queue.Push(new int[]{flights[0][0], 0, 0});
+
         while (queue.Count > 0)
         {
             var cur = queue.Pop();
 
-            if (cur[0] == dest && cur[2] <= k)
+            if (cur[0] == dst)
             {
-                return cur[1];
+                return cur[2];
             }
 
-            if (!map.ContainsKey(cur[0]))
+            foreach(int[] flight in map[cur[0]])
             {
-                continue;
-            }
-
-            foreach(KeyValuePair<int, int> pair in map[cur[0]])
-            {
-                var newItem = new int[]{pair.Key, pair.Value + cur[1], cur[2]+1};
-                queue.Push(newItem);
+                if (cur[1]+1 <= k+1)
+                {
+                    queue.Push(new int[]{flight[0], cur[1]+1, cur[2] + flight[1]});
+                }
             }
         }
 
         return -1;
     }
 
-    private int FlightCost(List<Tuple<string, string, int>> flightDetails, string start, string dest, int k)
+    /*
+    Find all distinct combinations of a given length k of an array
+    Input: {1,2,3}, k=2
+    Output: {1,2}, {1,3}, {2,3}
+    Input: {1,2,1}, k=2
+    Output: {1,1}, {1,2}
+    */
+    public void DistinctCombination()
     {
-        Dictionary<string, List<FlightData>> map = new Dictionary<string, List<FlightData>>();
+        int[] arr = new int[] {1,2,3};
+        int k = 2;
+        List<List<int>> res = new List<List<int>>();
+        List<int> cur = new List<int>();
+        DistinctCombination(arr, k, 0, cur, res);
 
-        foreach(Tuple<string, string, int> flightDetail in flightDetails)
+        foreach(List<int> list in res)
         {
-            var startCity = flightDetail.Item1;
-            if (! map.ContainsKey(startCity))
+            foreach(int num in list)
             {
-                map.Add(startCity, new List<FlightData>());
+                Console.WriteLine(num);
             }
+        }
+    }
 
-            var flightData = new FlightData(flightDetail.Item2, flightDetail.Item3, 0);
-            map[startCity].Add(flightData);
+    private void DistinctCombination(int[] arr, int k, int idx,  List<int> cur, List<List<int>> res)
+    {
+        if (cur.Count == k)
+        {
+            res.Add(new List<int>(cur));
+            return;
         }
 
-        Queue<FlightData> queue = new Queue<FlightData>();
-        var startData = new FlightData(start, 0, 0);
-        queue.Enqueue(startData);
-        int minCost = int.MaxValue;
-        HashSet<string> visited = new HashSet<string>();
-
-        while (queue.Count > 0)
+        for(int i = idx; i < arr.Length; i ++)
         {
-            var item = queue.Dequeue();
+            cur.Add(arr[i]);
+            DistinctCombination(arr, k, i+1, cur, res);
+            cur.RemoveAt(cur.Count-1);
+        }
 
-            if (item.City == dest && item.Hop <= k)
+        return;
+    }
+
+    //https://leetcode.com/problems/cherry-pickup/
+    public void CherryPickup()
+    {
+        int[][] grid = new int[][]
+        {
+            new int[] { 0, 1, 1, 0, 0},
+            new int[] { 1, 1, 1, 1, 0},
+            new int[] {-1, 1, 1, 1,-1},
+            new int[] { 0, 1, 1, 1, 0},
+            new int[] { 1, 0,-1, 0, 0}
+        };
+
+        int[] x = new int[] {1, 0};
+        int[] y = new int[] {0, 1};
+        
+        int?[,,,] dp = new int?[grid.Length,grid[0].Length,grid.Length,grid[0].Length];
+
+        var res = Math.Max(0, CherryPickup(grid, 0, 0, 0, 0, dp));
+        Console.WriteLine(res);
+    }
+
+    private int CherryPickup(int[][] grid, int r1, int c1, int r2, int c2, int?[,,,] dp)
+    {
+        if (r1 >= grid.Length || c1 >= grid[0].Length ||  r2 >= grid.Length ||  c2 >= grid[0].Length 
+        || grid[r1][c1] == -1 || grid[r2][c2] == -1)
             {
-                minCost = Math.Min(minCost, item.cost);
+                return int.MinValue;
             }
 
-            visited.Add(item.City);
+        if (r1 == grid.Length-1 && c1 == grid[0].Length-1)
+        {
+            return grid[r1][c1];
+        }
 
-            if (map.ContainsKey(item.City))
+        if (dp[r1,c1,r2,c2] != null)
+        {
+            return (int)dp[r1,c1,r2,c2];
+        }
+
+        if (r2 == grid.Length-1 && c2 == grid[0].Length-1)
+        {
+            return grid[r2][c2];
+        }
+
+        int cherries = 0;
+
+        if (r1==r2 && c1 == c2)
+        {
+            cherries = grid[r1][c1];
+        }
+        else
+        {
+            cherries = grid[r1][c1] + grid[r2][c2];
+        }
+
+        cherries += Math.Max(
+            Math.Max(CherryPickup(grid, r1+1, c1, r2+1, c2, dp), CherryPickup(grid, r1+1, c1, r2, c2+1, dp)),
+            Math.Max(CherryPickup(grid, r1, c1+1, r2+1, c2, dp), CherryPickup(grid, r1, c1+1, r2, c2+1, dp)));
+
+        dp[r1,c1,r2,c2] = cherries;
+
+        return (int)dp[r1,c1,r2,c2];
+    }
+
+    //https://leetcode.com/problems/minimum-moves-to-move-a-box-to-their-target-location/
+    public void MinPushBox()
+    {
+        char[][] grid = new char[][]
+        {
+            new char[] {'#','#','#','#','#','#'},
+            new char[] {'#','T','#','#','#','#'},
+            new char[] {'#','.','.','B','.','#'},
+            new char[] {'#','.','#','#','.','#'},
+            new char[] {'#','.','.','.','S','#'},
+            new char[] {'#','#','#','#','#','#'}
+        };
+
+        Console.WriteLine(MinPushBox(grid));
+    }
+
+    private int MinPushBox(char[][] grid)
+    {
+        int[] x = new int[] {0, 1, -1, 0};
+        int[] y = new int[] {1, 0, 0, -1};
+
+        int[] target = new int[2];
+        int[] start = new int[2];
+        int[] box = new int[2];
+
+        for(int r = 0; r < grid.Length; r++)
+        {
+            for(int c = 0; c < grid[r].Length; c++)
             {
-                foreach(FlightData connectingCity in map[item.City])
+                if (grid[r][c] == 'T')
                 {
-                    if (!visited.Contains(connectingCity.City))
-                    {
-                        var cur = new FlightData(connectingCity.City, connectingCity.cost +item.cost, item.Hop + 1);
-                        queue.Enqueue(cur);
-                    }
+                    target[0] = r;
+                    target[1] = c;
+                }
+                else if (grid[r][c] == 'S')
+                {
+                    start[0] = r;
+                    start[1] = c;
+                }
+                else if (grid[r][c] == 'B')
+                {
+                    box[0] = r;
+                    box[1] = c;
                 }
             }
         }
 
-        return minCost;
-    }
-
-    public class FlightData
-    {
-        public FlightData(string city, int cost, int hop)
+        Heap<int[]> queue = new Heap<int[]>(true, (x,y)=> 
         {
-            this.City = city;
-            this.cost = cost;
-            this.Hop = hop;
+            return x[0] - y[0];
+        });
+
+        bool[,] visited = new bool[grid.Length, grid[0].Length];
+
+        queue.Push(new int[]{Distance(start[0],start[1], box[0], box[1]), 0, start[0], start[1]});
+
+        bool reachedBox = false;
+
+        visited[0, 0] = true;
+        while(queue.Count > 0)
+        {
+            var cur = queue.Pop();
+            var r = cur[2];
+            var c = cur[3];
+            
+            for(int idx = 0; idx < x.Length; idx++)
+            {
+                var row = r + x[idx];
+                var col = c + y[idx];
+
+                if (row < 0 || col < 0 || row >= grid.Length || col >= grid[0].Length || visited[row, col] || grid[row][col] == '#')
+                {
+                    continue;
+                }
+
+                if (grid[row][col] == 'T')
+                {
+                    return cur[1];
+                }
+                else if (grid[row][col] == 'B')
+                {
+                    reachedBox = true;
+                    start[0] = box[0];
+                    start[1] = box[1];
+                }
+
+                visited[row, col] = true;
+
+                if (!reachedBox)
+                {
+                    queue.Push(new int[]{Distance(row, col, box[0], box[1]), 0, row, col});
+                }
+                else
+                {
+                    queue.Push(new int[]{Distance(row, col, target[0], target[1])+cur[1]+1, cur[1]+1, row, col});
+                }
+            }
         }
 
-        public string City;
-        public int cost;
+        return -1;
+    }
 
-        public int Hop;
+    private int Distance(int x, int y, int tx, int ty)
+    {
+        return Math.Abs(x-tx) + Math.Abs(ty-y);
+    }
+
+    /*
+    Each experience has a start time, end time, interest level.
+    // # An interest level is defined by non-negative number. Higher the number means more interest.
+    // # You want to schedule a day maximizing the total interest level. 
+
+    // [13-14] [12-13.5] [15-16]
+    //  2    4        1
+    //4+1
+    // [12-14] [13-13.5] [13.5-15] [15-16]
+    //  6          1       6           1
+    // 8
+    // 12-14: 7
+    // 13-13.5
+    // [s,e,interest]
+    */
+    public void GetInterestLevel()
+    {
+        float[][] input = new float[][]
+        {
+            new float[]{2, 5, 5},
+            new float[]{3, 6, 6},
+            new float[]{5, 10, 2},
+            new float[]{4, 10, 8},
+            new float[]{8, 9, 5},
+            new float[]{13, 14, 1},
+            new float[]{13, 17, 5},
+            new float[]{14, 16, 8}
+        };
+
+        Array.Sort(input, (x,y)=> x[0].CompareTo(y[0]));
+        
+        float res = float.MinValue;
+        Dictionary<int, float> memo = new Dictionary<int, float>();
+        
+        for(int idx = 0; idx < input.Length; idx++)
+        {
+            res = Math.Max(res, GetInterestLevel(input, idx,  memo));    
+        }
+        
+        Console.WriteLine(res);
+    }
+
+    private static float GetInterestLevel(float[][] input,  int idx, Dictionary<int, float> memo)
+    {
+        if (idx == input.Length-1)
+        {
+            return 0;
+        }
+        
+        if (memo.ContainsKey(idx))
+        {
+            return memo[idx];
+        }
+
+        float res = int.MinValue;
+
+        for(int i = idx; i < input.Length; i++)
+        {
+            if (input[i][0] < input[idx][1])
+            {
+                continue;
+            }
+
+            float cur = GetInterestLevel(input, i, memo) + input[i][2];
+            res = Math.Max(res, cur);
+
+            if (!memo.ContainsKey(i))
+            {
+                memo.Add(i, 0);
+            }
+
+            memo[i] = cur == int.MinValue ? 0 : cur;
+        }
+
+        return res;
     }
 
     //https://leetcode.com/problems/sliding-window-median/
@@ -5616,76 +5889,83 @@ public class Arrays
     //https://leetcode.com/problems/expression-add-operators/
     public void ExpressionAddOperators()
     {
-        string s = "232", exp = string.Empty;
-        int target = 8;
-        char op = ' ';
-        int idx = 0, val = 0;
+        string s = "105", exp = string.Empty;
+        int target = 5;
         var res = new List<string>();
-        ExpressionAddOperators(s, op, exp, val, target, idx, new Dictionary<string, int>(), res);
+        ExpressionAddOperators(s, exp, 0, target, 0, res, 0);
+        // Helper(res, string.Empty, s, target, 0, 0, 0);
     }
 
-    private IList<string> ExpressionAddOperators(string num, char op, string exp, int val, int target, int idx, Dictionary<string, int> map, IList<string> res)
+    private void ExpressionAddOperators(string num, string path, long val, int target, int idx, IList<string> res, long prev)
     {
-        if (map.ContainsKey(exp))
+        if (idx == num.Length)
         {
-            val += map[exp];
-
-            if (val == target && !res.Contains(exp))
+            if(val == target)
             {
-                res.Add(exp);
+                res.Add(path);
             }
 
-            return res;
+            return;
         }
 
-        if (val == target && !res.Contains(exp))
+        for(int i = 1; i+idx <= num.Length; i++)
         {
-            res.Add(exp);
-            return res;
-        }
-
-        if (idx >= num.Length)
-        {
-            return res;
-        }
-
-        switch(op)
-        {
-            case '+':
+            if(i != 1 && num[idx] == '0') 
             {
-                exp = exp + "+" +num[idx];
-                val+= int.Parse(num[idx].ToString());
                 break;
             }
-            case '-':
+
+            int cur = int.Parse(num.Substring(idx, i));
+
+            if (path == string.Empty)
             {
-                exp = exp + "-" +num[idx];
-                val-= int.Parse(num[idx].ToString());
-                break;
+                ExpressionAddOperators(num, path + "+" +cur, cur, target, idx+i, res, cur);
             }
-            case '*':
+            else
             {
-                exp = exp + "*" +num[idx];
-                val*= int.Parse(num[idx].ToString());
-                break;
-            }
-            default:
-            {
-                exp = num[idx].ToString();
-                val = int.Parse(num[idx].ToString());
-                break;
+                ExpressionAddOperators(num, path + "+" +cur, val + cur, target, idx+i, res, cur);
+                ExpressionAddOperators(num, path + "-" +cur, val - cur, target, idx+i, res, -cur);
+                ExpressionAddOperators(num, path + "*" +cur, val - prev + prev * cur, target, idx+i, res, prev * cur);
             }
         }
+    }
 
-        for(int i = idx; i < num.Length; i ++)
+    private void Helper(List<string> result, string path, string num, int target, int pos, long val, long carry)
+    {
+        if(pos == num.Length)
         {
-            ExpressionAddOperators(num, '+', exp, val, target, i+1, map, res);
-            ExpressionAddOperators(num, '-', exp, val, target, i+1, map, res);
-            ExpressionAddOperators(num, '*', exp, val, target, i+1, map, res);
+            if(val == target)
+                result.Add(path);
+            return;
         }
+        
+        for(int i = 1; i+pos <= num.Length; i++)
+        {
+            if(num[pos] == '0' && i!=1)
+                break;
 
-        map.Add(exp, val);
-        return res;
+            long n = long.Parse(num.Substring(pos, i));
+            //int sbLength = sb.Length;
+
+            if(path == string.Empty)
+            {
+                //sb.Append(n);
+                Helper(result, path + "+" +n, num, target, pos+i, n, n);
+                //sb.Length = sbLength;
+            }
+            else
+            {
+                //sb.Append("+"+n);
+                Helper(result, path + "+" + n, num, target, pos+i, val+n, n);
+                //sb.Length = sbLength;
+                //sb.Append("-"+n);
+                Helper(result, path + "-" + n, num, target, pos+i, val-n, -n);
+                //sb.Length = sbLength;
+                //sb.Append("*"+n);
+                Helper(result, path + "*" + n, num, target, pos+i, val-carry + carry*n, carry*n);
+                //sb.Length = sbLength;
+            }
+        }
     }
 
     /*

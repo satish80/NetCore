@@ -30,7 +30,7 @@ namespace DataStructures
         {
             arr = new List<T>();
             this.minHeap = minHeap;
-            this.comparer = comparer == null ? new MyComparer(null) : comparer;
+            this.comparer = comparer == null ? new MyComparer() : comparer;
         }
 
         public Heap(bool minHeap, Func<T, T, int> comparerFunc)
@@ -39,6 +39,14 @@ namespace DataStructures
             this.minHeap = minHeap;
             this.comparer = comparer == null ? new MyComparer(comparerFunc) : comparer;
         }
+
+        public Heap(bool minHeap, Func<T, int> compFunc)
+        {
+            arr = new List<T>();
+            this.minHeap = minHeap;
+            this.comparer = comparer == null ? new MyComparer(compFunc) : comparer;
+        }
+
 
         public void Remove(T val)
         {
@@ -92,9 +100,20 @@ namespace DataStructures
         public class MyComparer : IComparer<T>
         {
             Func<T, T, int> comparerFunc = null;
+            Func<T, int> compFunc = null;
+
+            public MyComparer()
+            {
+
+            }
             public MyComparer(Func<T, T, int> comparerFunc)
             {
                 this.comparerFunc = comparerFunc;
+            }
+
+            public MyComparer(Func<T, int> compFunc)
+            {
+                this.compFunc = compFunc;
             }
 
             public int Compare(T x, T y)
@@ -113,12 +132,14 @@ namespace DataStructures
                 {
                     return this.comparerFunc(x, y);
                 }
+                else if (compFunc != null)
+                {
+                    return this.compFunc(x);
+                }
 
                 return 0;
             }
         }
-
-        
 
         public class ArrayComparer : IComparer<T>
         {

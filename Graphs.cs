@@ -157,6 +157,7 @@ public class Graph
         return true;
     }
 
+    //https://leetcode.com/problems/possible-bipartition/
     //https://leetcode.com/contest/weekly-contest-97/problems/possible-bipartition/
     public void BiPartition()
     {
