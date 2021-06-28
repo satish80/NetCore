@@ -1714,6 +1714,58 @@ public class Trees
         return 1 + l + r;
     }
 
+    //Accepted-LCMedium-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/diameter-of-n-ary-tree/
+    public void DiameterOfNAryTree()
+    {
+        // TreeNode node= new TreeNode(1);
+        // TreeNode node3 = new TreeNode(3);
+        // TreeNode node2 = new TreeNode(2);
+        // TreeNode node4 = new TreeNode(4);
+        // node.Children.Add(node3);
+        // node.Children.Add(node2);
+        // node.Children.Add(node4);
+
+        // node3.Children.Add(new TreeNode(5));
+        // node3.Children.Add(new TreeNode(6));
+
+        TreeNode node = new TreeNode(3);
+        node.Children.Add(new TreeNode(1));
+        node.Children.Add(new TreeNode(5));
+
+        int max = int.MinValue;
+
+        Console.WriteLine(DiameterOfNAryTree(node, ref max));
+    }
+
+    private int DiameterOfNAryTree(TreeNode node, ref int max)
+    {
+        if (node == null)
+        {
+            return 0;
+        }
+
+        int first = 0;
+        int second = 0;
+
+        foreach(TreeNode child in node.Children)
+        {
+            int res = DiameterOfNAryTree(child, ref max) + 1;
+            if (first < res)
+            {
+                second = first;
+                first = res;
+            }
+            else if (second < res)
+            {
+                second = res;
+            }
+        }
+
+        max = Math.Max(max, first + second);
+
+        return first;
+    }
+
     //https://leetcode.com/problems/minimum-time-to-collect-all-apples-in-a-tree/
     public void MinTimeToPickApples()
     {
@@ -3795,9 +3847,9 @@ public class Trees
 
 public class TreeNode
 {
-    public TreeNode(int value)
+    public TreeNode(int value) : this (value, null, null)
     {
-        this.Value = value;
+
     }
 
     public TreeNode(int value, TreeNode left, TreeNode right)
@@ -3805,12 +3857,15 @@ public class TreeNode
         this.Value = value;
         this.Left = left;
         this.Right = right;
+        this.Children = new List<TreeNode>();
     }
 
     public TreeNode Left;
     public TreeNode Right;
     public TreeNode NextRight;
     public TreeNode Parent;
+
+    public List<TreeNode> Children;
 
     public int Rank;
     public int? Value;

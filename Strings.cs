@@ -547,19 +547,19 @@ public class Strings
         return sb.ToString().Reverse();
     }
 
-    //https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
     public void MinRemoveToMakeValid()
     {
-        string s = "))((";
+        string s = "lee(t(c)o)de)";
         Console.WriteLine(MinRemoveToMakeValid(s));
     }
 
-    private string MinRemoveToMakeValid(string s) 
+    private string MinRemoveToMakeValid(string s)
     {
-        Stack<int> stk = new Stack<int>();
-        StringBuilder sb = new StringBuilder();
+        Stack<int> stk  = new Stack<int>();
+        int idx = 0;
         
-        for(int idx = 0; idx < s.Length; idx++)
+        while(idx < s.Length)
         {
             if (s[idx] == '(')
             {
@@ -567,7 +567,7 @@ public class Strings
             }
             else if (s[idx] == ')')
             {
-                if (stk.Count > 0 && stk.Peek() == '(')
+                if (stk.Count > 0 && s[stk.Peek()] == '(')
                 {
                     stk.Pop();
                 }
@@ -576,25 +576,30 @@ public class Strings
                     stk.Push(idx);
                 }
             }
+            
+            idx++;
         }
-
-        int  i = -1;
-        char[] arr = s.ToCharArray();
-
-        for(int idx = s.Length-1; idx >= 0; idx--)
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(idx = s.Length-1; idx >= 0; idx--)
         {
-            if (stk.Count > 0)
+            if (stk.Count > 0 && stk.Peek() == idx)
             {
-               i = stk.Pop();
+                stk.Pop();
+                continue;
             }
-
-            if (idx == i)
-            {
-                arr[idx] = ' ';
-            }
+            
+            sb.Append(s[idx]);
         }
-
-        return arr.ToString().Replace(" ", "");
+        
+        StringBuilder res = new StringBuilder();
+        for(idx = sb.Length-1; idx >=0; idx--)
+        {
+            res.Append(sb[idx].ToString());
+        }
+        
+        return res.ToString();
     }
 
     public void IsPalindrome()
@@ -1877,7 +1882,7 @@ public class Strings
             dict[c] += 1;
         }
     }
-
+ 
     //Accepted: T: O(n): https://leetcode.com/problems/longest-valid-parentheses/
     public void LongestValidParantheses()
     {

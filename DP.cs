@@ -496,7 +496,7 @@ public class DP
         {
             for(int j = i; j < s.Length; j++)
             {
-                dp[i,j] = s[i] == s[j]  && (j-i < 3 || dp[i+1,j-1]);
+                dp[i,j] = s[i] == s[j]  && (j-i < 2 || dp[i+1,j-1]);
 
                 if (dp[i,j] && (res == null || res.Length < j-i+1))
                 {
@@ -1192,6 +1192,105 @@ public class DP
         return dp[s.Length, p.Length];
     }
 
+    /*
+    Google:
+    There are two cities and a field between those. The field is split into a grid: rows x columns like this:
+         cols
+        +----+
+        |    |
+        |    |
+   rows |    |
+        |    |
+        |    |
+        +----+
+
+    <citties are on the left and right>
+    CIT (connectivity infrastructure team) is building service towers on the field.
+    We don't know how they decide where to build towers (seemingly random), but they gave us a method: NextTower() that gives coordinates where they've put a tower.
+    When the cities are connected we should ask them to stop by calling Stop() method they've given us.
+    */
+    public void CityConnection()
+    {
+        int[][] grid = new int[][]
+        {
+            new int[] {0,0,1,1},
+            new int[] {1,1,1,0},
+            new int[] {0,1,0,0},
+            new int[] {1,0,1,0},
+        };
+
+        int[][] cache = grid;
+        int nextR = 0;
+        int nextC = 0;
+
+        while(true)
+        {
+            var next = GetNextTower(grid, nextR, nextC);
+
+            if (next == null)
+            {
+                break;
+            }
+
+            nextR = next[0];
+            nextC = next[1];
+
+            if(nextR > 0 && grid[nextR][nextC] == 1 && grid[nextR-1][nextC] == 1)
+            {
+                if (CopyRow(grid, cache, nextR-1, nextR))
+                {
+                    break;
+                }
+            }
+
+            if (nextR < grid.Length-1 && grid[nextR][nextC] == 1 && grid[nextR+1][nextC] == 1)
+            {
+                if (CopyRow(grid, cache, nextR+1, nextR))
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    private bool CopyRow(int[][] grid, int[][] cache, int sourceRow, int targetRow)
+    {
+        int c = 0;
+        int count = 0;
+
+        while(c < grid[0].Length)
+        {
+            if (grid[sourceRow][c] == 1)
+            {
+                cache[targetRow][c] = 1;
+            }
+
+            count += cache[targetRow][c];
+
+            c++;
+        }
+
+        return count == grid[0].Length;
+    }
+
+    private int[] GetNextTower(int[][] grid, int r, int c)
+    {
+        for(int row = r; row < grid.Length; row ++)
+        {
+            for(int col = c+1; col < grid[0].Length; col++)
+            {
+                if (grid[row][col] == 1)
+                {
+                    return new int[]{row, col};
+                }
+            }
+
+            c = -1;
+        }
+
+        return null;
+    }
+
     //Accepted-LCMedium-LCSol-T:O(target*N)-S:O(target) https://leetcode.com/problems/combination-sum-iv/
     public void CombinationSumIV()
     {
@@ -1538,6 +1637,43 @@ public class DP
         }
 
         return dp[k, arr.Length-1];
+    }
+
+    //https://leetcode.com/problems/minimum-cost-for-tickets/
+    public void MinCostTickets()
+    {
+        int[]days = new int[] {1,4,6,7,8,20};
+        int[] costs = new int[] {2,7,15};
+
+        Console.WriteLine(MinCostTickets(days, costs));
+    }
+
+    private int MinCostTickets(int[] arr, int[] costs)
+    {
+        int[,] dp = new int[arr.Length, arr.Length];
+        int cost = 0;
+        int minCost = int.MaxValue;
+
+        for(int i = 0; i < arr.Length; i++)
+        {
+            int startIdx = i;
+
+            cost+= (i-0)* costs[0];
+
+            for(int j = 0; j < arr.Length; j++)
+            {
+                if(j == arr.Length -1 || j +1 < arr.Length  && arr[j+1] - arr[startIdx] +1 > 7)
+                {
+                    cost += Math.Min((j-startIdx +1) * costs[0], costs[1]);
+                    startIdx = j+1;
+                }
+            }
+
+            minCost = Math.Min(cost, minCost);
+            cost = 0;
+        }
+
+        return minCost;
     }
 
     /*

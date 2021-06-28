@@ -129,7 +129,9 @@ namespace Algorithms
             // arrObj.CherryPickup();
             // arrObj.RemoveSubfolders();
             // arrObj.MinPushBox();
-            arrObj.ExpressionAddOperators();
+            // arrObj.ExpressionAddOperators();
+            // arrObj.CountPalindromicSubsequences();                    // Fails test case
+            arrObj.ReturnLexicographicBySwapping();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -211,6 +213,7 @@ namespace Algorithms
             // treeObj.TrimBST();
             // treeObj.DiameterOfBinaryTree();
             // treeObj.MinTimeToPickApples();                                     // 1 Test case failing
+            // treeObj.DiameterOfNAryTree();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -241,12 +244,13 @@ namespace Algorithms
             // dpObj.BuySellStockIV();
             // dpObj.LongestIncreasingSubsequence();
             // dpObj.LargestNumber();                             // ** Very tricky
-            // dpObj.MinCostForMovie();
+            // dpObj.MinCostTickets();
             // dpObj.KnightDialer();
             // dpObj.EggDrop();
             // dpObj.CombinationSumIV();
             // dpObj.LongestPalindromicSubstring();
             // dpObj.ShortestCommonSuperSequence();
+            // dpObj.CityConnection();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -316,6 +320,7 @@ namespace Algorithms
             // sObj.MinStickers();                                    // TBD
             // sObj.ShortestPalindrome();
             // sObj.AddStrings();
+            // sObj.MinRemoveToMakeValid();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

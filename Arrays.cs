@@ -304,6 +304,135 @@ public class Arrays
         return count;
     }
 
+    /*
+    Oracle
+    Given a string, return the smallest possible string lexicographically, by swapping the chars at the given list of indices
+    input: "cadeh"
+    indices which can be swapped: [0,1] [1,3], [2,4]
+    */
+    public void ReturnLexicographicBySwapping()
+    {
+        string s = "cadeh";
+        int[] p1 = new int[] {0,1};
+        int[] p2 = new int[] {1,3};
+        int[] p3 = new int[] {2,4};
+
+        List<int[]> indices = new List<int[]>() {p1, p2, p3};
+        Console.WriteLine(ReturnLexicographicBySwapping(s, indices));
+    }
+
+    private string ReturnLexicographicBySwapping(string s, List<int[]> indices)
+    {
+        Dictionary<int, List<int>> adjList = new Dictionary<int, List<int>>();
+        int[] parent = new int[5];
+        int[] size = new int[5];
+
+        foreach(int[] edge in indices)
+        {
+            parent[edge[0]] = edge[0];
+            parent[edge[1]] = edge[1];
+        }
+
+        foreach(int[] edge in indices)
+        {
+            Union(edge[0], edge[1], size, parent, adjList);
+        }
+
+        char[] arr = s.ToCharArray();
+
+        foreach(KeyValuePair<int, List<int>> pair in adjList)
+        {
+            Sort(pair, arr);
+        }
+
+        return new string(arr);
+    }
+
+    private void Sort(KeyValuePair<int, List<int>> pair, char[] arr)
+    {
+        List<int> indices = pair.Value;
+        indices.Add(pair.Key);
+        indices.Sort();
+
+        int start = 0;
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int end = 1; end < indices.Count; end++)
+        {
+            while (end < indices.Count && indices[end] - indices[end-1] == 1)
+            {
+                end++;
+            }
+
+            string cur = string.Empty;
+
+            if (end - start > 1)
+            {
+                Array.Sort(arr, start, end-start);
+            }
+            else
+            {
+                if (arr[start] > arr[end])
+                {
+                    char temp = arr[start];
+                    arr[start] = arr[end];
+                    arr[end] = temp;
+                }
+            }
+        }
+    }
+
+    private bool Union(int x, int y, int[] size, int[] parent, Dictionary<int, List<int>> adjList)
+    {
+        int rootX = Find(x, parent);
+        int rootY = Find(y, parent);
+
+        if (rootX == rootY)
+        {
+            return false;
+        }
+
+        if (size[rootX] > size[rootY])
+        {
+            parent[rootX] = rootY;
+            size[rootY]++;
+
+            if (!adjList.ContainsKey(rootY))
+            {
+                adjList[rootY] = new List<int>();
+            }
+
+            adjList[rootY].Add(rootX);
+        }
+        else
+        {
+            parent[rootY] = rootX;
+            size[rootX]++;
+
+            if (!adjList.ContainsKey(rootX))
+            {
+                adjList[rootX] = new List<int>();
+            }
+
+            adjList[rootX].Add(rootY);
+        }
+
+        return true;
+    }
+
+    private int Find(int x, int[] parent)
+    {
+        if (parent[x] == x)
+        {
+            return x;
+        }
+
+        parent[x] = Find(parent[x], parent);
+
+        return parent[x];
+    }
+
     //https://leetcode.com/problems/meeting-rooms-ii/
     public void MinMeetingRoomsII()
     {
@@ -4089,8 +4218,6 @@ public class Arrays
         return stones.Length - d.Count;
     }
 
-    
-
     //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     public void FindFirstLastPosInArray()
     {
@@ -5966,6 +6093,93 @@ public class Arrays
                 //sb.Length = sbLength;
             }
         }
+    }
+
+    //https://leetcode.com/problems/count-different-palindromic-subsequences/
+    public void CountPalindromicSubsequences()
+    {
+        string s = "bccb";
+        Dictionary<string, int> map = new Dictionary<string, int>();
+        HashSet<string> set = new HashSet<string>();
+
+        CountPalindromicSubsequences(s, 0, s[0].ToString(), map);
+        Console.WriteLine(map.Count);
+    }
+
+    private void CountPalindromicSubsequences(string s, int idx, string str, Dictionary<string, int> map)
+    {
+        if (map.ContainsKey(str))
+        {
+            return;
+        }
+        
+        for(int i = 1; i <= s.Length; i++)
+        {
+            if (idx+i <= s.Length)
+            {
+                CountPalindromicSubsequences(s, idx+i, s.Substring(idx, i), map);
+            }
+
+            //Skip
+            if (idx+i+i <= s.Length)
+            {
+                var cur = s.Substring(0, idx+i-1);
+                var res = cur + s.Substring(idx+i, i);
+                CountPalindromicSubsequences(s, idx+i, res, map);
+            }
+
+            if (str.Length > 0 && !map.ContainsKey(str) && ValidPalindrome(str))
+            {
+                map.Add(str, 1);
+            }
+        }
+
+        return;
+    }
+
+    private bool ValidPalindrome(string str)
+    {
+        int left = 0;
+        int right = str.Length-1;
+
+        while (left <= right)
+        {
+            if (str[left++] != str[right--])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /*
+    Google
+    Given list of start time and duration, return the list of processes running parallely
+    input: 100-112 102-120 105-150 107-108
+    output: 107-108: 1 
+            105-150: 2
+            102-120: 2
+            100-112: 1
+    */
+    public void FindParallelProcess()
+    {
+
+    }
+
+    private Dictionary<int, List<int>> FindParallelProcess(List<ProcessData> ranges)
+    {
+        Heap<ProcessData> queue = new Heap<ProcessData>(true, (x,y)=> {return x.Start.CompareTo(y.Start);});
+
+        return null;
+    }
+
+    public class ProcessData
+    {
+        public int Start;
+        public int End;
+
+        public int ProcessId;
     }
 
     /*
