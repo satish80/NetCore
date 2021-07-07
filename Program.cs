@@ -131,7 +131,11 @@ namespace Algorithms
             // arrObj.MinPushBox();
             // arrObj.ExpressionAddOperators();
             // arrObj.CountPalindromicSubsequences();                    // Fails test case
-            arrObj.ReturnLexicographicBySwapping();
+            // arrObj.ReturnLexicographicBySwapping();
+            // arrObj.TextJustification();                               //TBD
+            // arrObj.CheckSubarraySum();
+            // arrObj.FindBuildings();
+            // arrObj.ValidNumber();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -251,6 +255,7 @@ namespace Algorithms
             // dpObj.LongestPalindromicSubstring();
             // dpObj.ShortestCommonSuperSequence();
             // dpObj.CityConnection();
+            // dpObj.CoinChange2();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -317,10 +322,11 @@ namespace Algorithms
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
-            // sObj.MinStickers();                                    // TBD
+             sObj.MinStickers();                                    // TBD
             // sObj.ShortestPalindrome();
             // sObj.AddStrings();
             // sObj.MinRemoveToMakeValid();
+            // sObj.WordLadderII();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();

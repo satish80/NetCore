@@ -270,6 +270,74 @@ public class Arrays
         return min;
     }
 
+    //https://leetcode.com/problems/text-justification/
+    public void TextJustification()
+    {
+        string[] words = new string[] {"This", "is", "an", "example", "of", "text", "justification."};
+        int maxWidth = 16;
+
+        var res = TextJustification(words, maxWidth);
+    }
+
+    private IList<string> TextJustification(string[] words, int maxWidth)
+    {
+        int count = 0;
+        int start = 0;
+        int curCount = 0;
+
+        IList<string> res = new List<string>();
+
+        for(int i = 0; i <= words.Length; i++)
+        {
+            if (count > 0)
+            {
+                curCount = 1 + count + words[i].Length;
+            }
+            else 
+            {
+                curCount = count + words[i].Length;
+            }
+
+            if (curCount > maxWidth || i == words.Length-1)
+            {
+                var cur = FlushWord(words, start, i-1, maxWidth, count);
+                res.Add(cur);
+                start = i;
+                curCount = 0;
+                count = 0;
+            }
+
+            count += count > 0 && i < words.Length-1 ? 1 : 0;
+            count+= words[i].Length;
+        }
+
+        return res;
+    }
+
+    private string FlushWord(string[] words, int start, int end, int maxWidth, int count)
+    {
+        StringBuilder sb = new StringBuilder();
+        int diff = maxWidth - count;
+        int spaces = diff / (end-start);
+        int excess = diff % (end-start) ;
+
+        sb.Append(words[start]);
+
+        for(int idx = start+1; idx <= end; idx++)
+        {
+            int curSpaces = spaces;
+
+            while (curSpaces-- > 0 || excess-- > 0)
+            {
+                sb.Append(" ");
+            }
+
+            sb.Append(words[idx]);
+        }
+
+        return sb.ToString();
+    }
+
     //Accepted: T:(n) S: O(n) https://leetcode.com/problems/subarray-sum-equals-k/
     public void SubArraySumK()
     {
@@ -1004,6 +1072,58 @@ public class Arrays
         return max;
     }
 
+    //Accepted-LcHard-LCSol-T:O(n)-S:O(n) https://leetcode.com/problems/valid-number/
+    public void ValidNumber()
+    {
+        Console.WriteLine(ValidNumber("9e2.5"));
+    }
+
+    private bool ValidNumber(string s)
+    {
+        bool seenDigit = false;
+        bool seenExponent = false;
+        bool seenDot = false;
+        
+        for (int i = 0; i < s.Length; i++)
+        {
+            char curr = s[i];
+            if (char.IsDigit(curr))
+            {
+                seenDigit = true;
+            }
+            else if (curr == '+' || curr == '-')
+            {
+                if (i > 0 && s[i - 1] != 'e' && s[i - 1] != 'E')
+                {
+                    return false;
+                }
+            }
+            else if (curr == 'e' || curr == 'E')
+            {
+                if (seenExponent || !seenDigit)
+                {
+                    return false;
+                }
+                seenExponent = true;
+                seenDigit = false;
+            }
+            else if (curr == '.')
+            {
+                if (seenDot || seenExponent)
+                {
+                    return false;
+                }
+                seenDot = true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        return seenDigit;
+    }
+
     //Accepted:LCHard:LCSol:T:O(n^2):S:O(n) https://leetcode.com/problems/maximal-rectangle/
     public void MaximalRectangle()
     {
@@ -1205,29 +1325,7 @@ public class Arrays
         return res;
     }
 
-    public void DailyTemperatures()
-    {
-        int[] arr = new int[] {6, 5, 1, 10, 8, 0, 2};
-        var res = DailyTemperatures(arr);
-    }
-
-    public int[] DailyTemperatures(int[] temperatures) 
-    {
-        Stack<int> stk = new Stack<int>();
-        int[] ret = new int[temperatures.Length];
-        for(int i = 0; i < temperatures.Length; i++) 
-        {
-            while(stk.Count > 0 && temperatures[i] > temperatures[stk.Peek()]) 
-            {
-                int idx = stk.Pop();
-                ret[idx] = i - idx;
-            }
-            stk.Push(i);
-        }
-        return ret;
-    }
-
-    //https://leetcode.com/problems/leftmost-column-with-at-least-a-one/
+    //Accepted-LcMedium-SelfSol-T:O(N^2)-S:O(1) https://leetcode.com/problems/leftmost-column-with-at-least-a-one/
     public void LeftMostColumnWithOne()
     {
         int[][] arr = new int[][]
@@ -1242,48 +1340,34 @@ public class Arrays
 
     private int LeftMostColumnWithOne(int[][] arr)
     {
-        int row = 0, col = 0;
-        int res = -1;
+        int r = arr.Length-1;
+        int c = arr[0].Length-1;
+        int min = int.MaxValue;
 
-        int start = 0, end = arr[0].Length-1;
-
-        while(row < arr.Length)
+        while (r >= 0)
         {
-            while (start < end && row < arr.Length && col <= end)
+            int left = 0;
+            int right = c;
+
+            while (left <= right)
             {
-                if (arr[row][col] == 1)
+                int mid = (right-left) / 2 + left;
+
+                if (arr[r][mid] == 1)
                 {
-                    res = col;
-                    if (row < arr.Length-1)
-                    {
-                        row ++;
-                    }
-
-                    int mid = (end-start)/2 + start;
-
-                    if (arr[row][mid] == 1)
-                    {
-                        end = mid-1;
-                        start = 0;
-                    }
-                    else
-                    {
-                        start = mid+1;
-                    }
-
-                    col = start;
+                    min = Math.Min(min, mid);
+                    right = mid-1;
                 }
                 else
                 {
-                    col++;
+                    left = mid+1;
                 }
             }
 
-            row++;
-            col = start;
+            r--;
         }
 
-        return res;
+        return min == int.MaxValue ? -1 : min;
     }
 
     //Accepted-LCHard-SelfSol-T:O(n^2)-S:O(n^2)-https://leetcode.com/problems/making-a-large-island/
@@ -5974,6 +6058,134 @@ public class Arrays
         }
 
         return res;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/daily-temperatures/
+    public void DailyTemperatures()
+    {
+        int[] arr = new int[]{73,74,75,71,69,72,76,73};
+        var res = DailyTemperatures(arr);
+    }
+
+    private int[] DailyTemperatures(int[] arr) 
+    {
+        Stack<int> stk = new Stack<int>();
+        stk.Push(arr.Length-1);
+        
+        int[] res = new int[arr.Length];
+        
+        for(int idx = arr.Length-2; idx >= 0; idx--)
+        {
+            while (stk.Count > 0 && arr[idx] >= arr[stk.Peek()])
+            {
+                stk.Pop();
+            }
+            
+            if (stk.Count > 0 && arr[idx] < arr[stk.Peek()])
+            {
+                res[idx] = stk.Peek() - idx;
+            }
+
+            stk.Push(idx);
+        }
+        
+        return res;
+    }
+
+
+    //https://leetcode.com/problems/minimum-cost-to-cut-a-stick/
+    public void MinCostToCutStick()
+    {
+
+    }
+
+    private int MinCostToCutStick(int[] cuts, int[] arr, int idx, int start, int end, int cost, ref int minCost)
+    {
+        if (idx == cuts.Length)
+        {
+            return cost;
+        }
+
+        cost+= end-start;
+
+
+        for(int i = idx; i < cuts.Length; i++)
+        {
+            //cost+= MinCostToCutStick(cuts, arr, i+1, cost, minCost);
+        }
+
+        return cost;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/buildings-with-an-ocean-view/
+    public void FindBuildings()
+    {
+        int[] nums = new int[]{2,2,2,2};
+        Console.WriteLine(FindBuildings(nums));
+    }
+
+    public int[] FindBuildings(int[] heights) 
+    {
+        int[] largest = new int[heights.Length];
+        
+        for(int idx = heights.Length-1; idx >= 0 ;idx--)
+        {
+            largest[idx] = idx == heights.Length-1 ? heights[idx] : Math.Max(heights[idx], largest[idx+1]); 
+            Console.WriteLine(idx);
+        }
+        
+        List<int> res = new List<int>();
+        
+        for(int idx = 0; idx < heights.Length; idx++)
+        {
+            int next = idx + 1 < heights.Length ? largest[idx+1] : 0;
+            
+            if (heights[idx] > next)
+            {
+                res.Add(idx);
+            }
+        }
+        
+        return res.ToArray();
+    }
+
+    //https://leetcode.com/problems/continuous-subarray-sum/
+    public void CheckSubarraySum()
+    {
+        int[] nums = new int[]{23,2,6,4,7};
+        int k = 6;
+        Console.WriteLine(CheckSubarraySum(nums, k));
+    }
+
+    private bool CheckSubarraySum(int[] nums, int k)
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        map.Add(0, -1);
+
+        int runningSum = 0;
+        for (int i=0; i < nums.Length; i++)
+        {
+            runningSum += nums[i];
+            if (k != 0)
+            {
+                runningSum %= k;
+            }
+
+            if (map.ContainsKey(runningSum))
+            {
+                int prev = map[runningSum];
+                if (i - prev > 1) 
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                map[runningSum] = i;
+            }
+        }
+        
+        return false;
     }
 
     //https://leetcode.com/problems/3sum-closest/

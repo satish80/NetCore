@@ -714,6 +714,82 @@ public class Strings
         return false;
     }
 
+    // Accepted-LcHard-SelfSol-T:O(NK^2)-S:O(NK) https://leetcode.com/problems/word-ladder-ii/
+    // N: Total words in wordList
+    // K length of longest word in the wordList
+    public void WordLadderII()
+    {
+        string beginWord = "hit", endWord = "cog";
+        List<string> wordList = new List<string>(){"hot","dot","dog","lot","log","cog"};
+        var res = WordLadderII(beginWord, endWord, wordList);
+    }
+
+    private IList<IList<string>> WordLadderII(string beginWord, string endWord, IList<string> wordList)
+    {
+        Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
+        foreach(string word in wordList)
+        {
+            for(int idx = 0; idx < word.Length; idx++)
+            {
+                char[] arr = word.ToCharArray();
+                arr[idx] = '*';
+                var newWord = new string(arr);
+
+                if (!map.ContainsKey(newWord))
+                {
+                    map.Add(newWord, new List<string>());
+                }
+
+                map[newWord].Add(word);
+            }
+        }
+
+        IList<IList<string>> res = new List<IList<string>>();
+
+        Queue<Tuple<string, List<string>, int>> queue = new Queue<Tuple<string, List<string>, int>>();
+        HashSet<string> visited = new HashSet<string>();
+        var wordlist = new List<string>();
+        wordlist.Add(beginWord);
+        queue.Enqueue(new Tuple<string, List<string>, int>(beginWord, wordlist, 0));
+        int minCount = int.MaxValue;
+
+        while (queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+            if (item.Item1 == endWord && item.Item3 <= minCount)
+            {
+                res.Add(item.Item2);
+                minCount = Math.Min(minCount, item.Item3);
+            }
+
+            for(int idx = 0; idx < item.Item1.Length; idx++)
+            {
+                char[] arr = item.Item1.ToCharArray();
+                arr[idx] = '*';
+                var newWord = new string(arr);
+
+                if (map.ContainsKey(newWord))
+                {
+                    foreach(string str in map[newWord])
+                    {
+                        if (visited.Contains(str) || item.Item2.Contains(str))
+                        {
+                            continue;
+                        }
+
+                        var list = new List<string>(item.Item2);
+                        list.Add(str);
+                        queue.Enqueue(new Tuple<string, List<string>, int>(str, list, item.Item3 + 1));
+                    }
+
+                    visited.Add(item.Item1);
+                }
+            }
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/palindrome-partitioning/
     public void PalindromePartition()
     {
@@ -2100,26 +2176,140 @@ public class Strings
         return s.Length - dp[s.Length, s.Length] <= k;
     }
     
-    //https://leetcode.com/problems/stickers-to-spell-word/
+    //Accepted-LcHard-LcSol-T:O(m^n*26^n) S:O(m*n) https://leetcode.com/problems/stickers-to-spell-word/
     public void MinStickers()
     {
         string[] stickers = new string[] {"with","example","science"};
         string target = "thehat";
-        Dictionary<char, int> map = new Dictionary<char, int>();
+        
+        int m = stickers.Length;
+        int[,] mp = new int[m,26];
+
+        Dictionary<string, int> dp = new Dictionary<string, int>();
+
+        for (int i = 0; i < m; i++)
+        {
+            foreach (char c in stickers[i].ToCharArray())
+            {
+                mp[i,c-'a']++;
+            }
+        }
+
+        dp.Add("", 0);
+
+        Console.WriteLine(MinStickers(dp, mp, target));
+    }
+
+    private int MinStickers(Dictionary<string, int> dp, int[,] mp, string target)
+    {
+        if (dp.ContainsKey(target))
+        {
+            return dp[target];
+        }
+
+        int ans = int.MaxValue, n = mp.GetLength(0);
+        int[] tar = new int[26];
+
+        foreach(char c in target.ToCharArray())
+        {
+            tar[c-'a']++;
+        }
+
+        // try every sticker
+        for (int i = 0; i < n; i++)
+        {
+            // optimization
+            if (mp[i,target[0]-'a'] == 0) 
+            {
+                continue;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            // apply a sticker on every character a-z
+            for (int j = 0; j < 26; j++)
+            {
+                if (tar[j] > 0 )
+                {
+                    for (int k = 0; k < Math.Max(0, tar[j]-mp[i,j]); k++)
+                    {
+                        sb.Append((char)('a'+j));
+                    }
+                }
+            }
+
+            string s = sb.ToString();
+            int tmp = MinStickers(dp, mp, s);
+
+            if (tmp != -1)
+            {
+                ans = Math.Min(ans, 1+tmp);
+            }
+        }
+
+        dp.Add(target, ans == int.MaxValue? -1:ans);
+        return dp[target];
+    }
+
+    private int MinStickers(string[] stickers, string target)
+    {
+        Dictionary<char, List<int>> map = new Dictionary<char, List<int>>();
 
         foreach(char ch in target)
         {
             if (!map.ContainsKey(ch))
             {
-                map.Add(ch, 0);
+                map.Add(ch, new List<int>());
             }
-
-            map[ch]++;
         }
 
+        for(int stickerIdx = 0; stickerIdx < stickers.Length; stickerIdx++)
+        {
+            for(int idx = 0; idx < stickers[stickerIdx].Length; idx++)
+            {
+                if (map.ContainsKey(stickers[stickerIdx][idx]) && !map[stickers[stickerIdx][idx]].Contains(stickerIdx))
+                {
+                    map[stickers[stickerIdx][idx]].Add(stickerIdx);
+                }
+            }
+        }
+
+        List<int> list = new List<int>();
+        List<int> res = new List<int>();
         int min = int.MaxValue;
-        var resStr = GetStringFromDictionary(map);
-        Console.WriteLine(MinStickers(stickers, target, string.Empty, map, 0, 0, ref min));
+        MinStickersDfs(target, 0, map, list, res, ref min);
+
+        return min;
+    }
+
+    private void MinStickersDfs(string target, int idx, Dictionary<char, List<int>> map, List<int> list, List<int> res, ref int min)
+    {
+        if (idx == target.Length-1)
+        {
+            if (min > list.Count)
+            {
+                res = new List<int>(list);
+                min = list.Count;
+            }
+
+            return;
+        }
+
+        foreach(int i in map[target[idx]])
+        {
+            if (!list.Contains(i))
+            {
+                list.Add(i);
+            }
+
+            MinStickersDfs(target, idx+1, map, list, res, ref min);
+
+            if (list.Contains(i))
+            {
+                list.Remove(i);
+            }
+        }
+
+        return;
     }
 
     private int MinStickers(string[] stickers, string target, string prev, Dictionary<char, int> map, int idx, int count, ref int min)

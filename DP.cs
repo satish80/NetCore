@@ -8,7 +8,47 @@ public class DP
     public void MinCostToMergeStones()
     {
         int[] arr = new int[] {3, 5, 1, 2, 6};
-        Console.WriteLine(MinCostToMergeStones(arr, 3));
+        Console.WriteLine(MergeStones(arr, 3));
+    }
+
+    private int MergeStones(int[] stones, int K)
+    {
+        int n = stones.Length;
+
+        if ((n - 1) % (K - 1) > 0) 
+        {
+            return -1;
+        }
+
+        int[] prefix = new int[n+1];
+
+        for (int i = 0; i <  n; i++)
+        {
+            prefix[i + 1] = prefix[i] + stones[i];
+        }
+
+        int[,] dp = new int[n,n];
+
+        for (int m = K; m <= n; ++m)
+        {
+            for (int i = 0; i + m <= n; ++i)
+            {
+                int j = i + m - 1;
+                dp[i,j] = int.MaxValue;
+
+                for (int mid = i; mid < j; mid += K - 1)
+                {
+                    dp[i,j] = Math.Min(dp[i,j], dp[i,mid] + dp[mid + 1,j]);
+                }
+
+                if ((j - i) % (K - 1) == 0)
+                {
+                    dp[i,j] += prefix[j + 1] - prefix[i];
+                }
+            }
+        }
+
+        return dp[0, n - 1];
     }
 
     private int MinCostToMergeStones(int[] arr, int k)
@@ -141,6 +181,31 @@ public class DP
         {
             return obj1.Key.CompareTo(obj2.Key);
         }
+    }
+
+    //Accepted:LcMedium-LcSol-T:O(n^2)-S:O(n) https://leetcode.com/problems/coin-change-2/
+    public void CoinChange2()
+    {
+        int[] arr = new int[] {1,2,5};
+        int amount = 5;
+
+        Console.WriteLine(CoinChange2(amount, arr));
+    }
+
+    private int CoinChange2(int amount, int[] coins)
+    {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+
+        foreach (int coin in coins)
+        {
+            for (int i = coin; i <= amount; i++)
+            {
+                dp[i] += dp[i-coin];
+            }
+        }
+
+        return dp[amount];
     }
 
     //https://leetcode.com/problems/word-break-ii/
