@@ -595,6 +595,64 @@ public class Arrays
         return res.ToArray();
     }
 
+    //Accepted-LcMedium-SelfSol-T:O(n^2)-S:O(n^2) https://leetcode.com/problems/number-of-islands/
+    public void NumIslands() 
+    {
+        int[] x = new int[]{-1, 1, 0,  0};
+        int[] y = new int[]{ 0, 0, 1, -1};
+        char[][] grid = new char[][]
+        {
+            new char[]{'1', '1', '1', '1', '0'},
+            new char[]{'1', '1', '0', '1', '0'},
+            new char[]{'1', '1', '0', '0', '0'},
+            new char[]{'0', '0', '0', '0', '0'},
+        };
+
+        int count = 0;
+        
+        for(int r = 0; r < grid.Length; r++)
+        {
+            for(int c = 0; c < grid[0].Length; c++)
+            {
+                if (grid[r][c] == '1')
+                {
+                    Console.WriteLine("r: " + r + " c: " + c);
+                    FindIslands(grid, x, y, r, c);
+                    count++;
+                }
+            }
+        }
+        
+        Console.WriteLine(count);
+    }
+    
+    private void FindIslands(char[][] grid, int[] x, int[] y, int r, int c)
+    {
+        Queue<int[]> queue = new Queue<int[]>();
+        
+        queue.Enqueue(new int[] {r,c});
+        
+        while (queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+            Console.WriteLine("Clearing r: " + item[0] + " c: " + item[1]);
+            grid[item[0]][item[1]] = '0';
+            
+            for(int idx = 0; idx < x.Length; idx++)
+            {
+                int row = item[0] + x[idx];
+                int col = item[1] + y[idx];
+                
+                if (row < 0 || col < 0 || row > grid.Length || col > grid[0].Length || grid[row][col] == '0')
+                {
+                    continue;
+                }
+                
+                queue.Enqueue(new int[] {row, col});
+            }
+        }
+    }
+
     /*
     FaceBook
     Find number of Isnalds in T:O(n^2) & S:O(1)
@@ -1772,6 +1830,95 @@ public class Arrays
         }
     }
 
+    //Accepted-LcMedium-SelfSol-T:O(n!)-S:O(n!) https://leetcode.com/problems/permutations/
+    public void Permute()
+    {
+        int[] nums = new int[] {1,2,3};
+        IList<IList<int>> res = new List<IList<int>>();
+        Permute(nums, 0, new List<int>(), res);
+
+        foreach(IList<int> list in res)
+        {
+            foreach(int i in list)
+            {
+                Console.WriteLine(i);
+            }
+        }
+    }
+
+    private IList<IList<int>> Permute(int[] nums, int idx, List<int> list, IList<IList<int>> res)
+    {   
+        if (list.Count == nums.Length)
+        {
+            res.Add(new List<int>(list));
+            return res;
+        }
+        
+        if (idx > nums.Length)
+        {
+            return res;
+        }
+
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if (list.Contains(nums[i]))
+            {
+                continue;
+            }
+            
+            list.Add(nums[i]);
+            
+            Permute(nums, i+1, list, res);
+            
+            list.RemoveAt(list.Count-1);
+        }
+        
+        return res;
+    }
+
+    //Accepted-LcMedium-LCSol-T:O(nlogn)-S:O(1) https://leetcode.com/problems/cutting-ribbons/
+    public void MaxLengthToCutRibbons()
+    {
+        int[] arr = new int[]{7,5,9};
+        int k = 4;
+        Console.WriteLine(MaxLengthToCutRibbons(arr, k));
+    }
+
+    private int MaxLengthToCutRibbons(int[] ribbons, int k)
+    {
+        int lo = 1;
+        int hi = ribbons.Max();
+        int maxCutLength = 0;
+
+        while (lo < hi)
+        {
+            int mid = (hi- lo) / 2 + lo;
+            if (IsValidRibbonCut(ribbons, mid, k))
+            {
+                maxCutLength = mid;
+                lo = mid+1;
+            }
+            else
+            {
+                hi = mid-1;
+            }
+        }
+
+        return maxCutLength;
+    }
+
+    private bool IsValidRibbonCut(int[] ribbons, int mid, int k)
+    {
+        int totalCuts = 0;
+
+        foreach(int i in ribbons)
+        {
+            totalCuts += i/mid;
+        }
+
+        return totalCuts >= k;
+    }
+
     //Accepted-LcMedium-LcSol-T:O(n!)-S:O(n!) https://leetcode.com/problems/permutations-ii/
     public void PermuteUnique()
     {
@@ -2699,6 +2846,99 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/course-schedule-ii/
+    public void FindOrderOfCourses()
+    {
+        int[][] prerequisites = new int[][]
+        {
+            new int[]{1,0},
+            new int[]{1,2},
+            new int[]{0,1},
+        };
+
+        int numCourses = 3;
+        
+        var res = FindOrderOfCoursesUsingBFS(numCourses, prerequisites);
+    }
+
+    private int[] FindOrderOfCoursesUsingBFS(int numCourses, int[][] prerequisites)
+    {
+        if (numCourses == 0)
+        {
+            return null;
+        }
+
+        int[] indegree = new int[numCourses];
+        List<int> order = new List<int>();
+
+        for(int idx = 0; idx < prerequisites.Length; idx++)
+        {
+            indegree[prerequisites[idx][0]]++;
+        }
+
+        Queue<int> queue = new Queue<int>();
+
+        for(int idx =0; idx < numCourses; idx++)
+        {
+            if(indegree[idx] == 0)
+            {
+                queue.Enqueue(idx);
+                order.Add(idx);
+            }
+        }
+
+        while(queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+
+            for(int idx = 0; idx < prerequisites.Length; idx++)
+            {
+                if (prerequisites[idx][1] == item)
+                {
+                    indegree[prerequisites[idx][0]]--;
+
+                    if (indegree[prerequisites[idx][0]] == 0)
+                    {
+                        order.Add(prerequisites[idx][0]);
+                        queue.Enqueue(prerequisites[idx][0]);
+                    }
+                }
+            }
+        }
+
+        return order.Count != numCourses ? new int[0]: order.ToArray();
+    }
+
+    private List<int> FindOrderOfCourses(Dictionary<int, HashSet<int>> map, int idx, List<int> res, HashSet<int> visited)
+    {
+        visited.Add(idx);
+
+        if (map.ContainsKey(idx))
+        {
+            foreach(int dependency in map[idx])
+            {
+                if (visited.Contains(dependency))
+                {
+                    continue;
+                }
+
+                FindOrderOfCourses(map, dependency, res, visited);
+
+                if (!res.Contains(dependency))
+                {
+                    res.Add(dependency);
+                }
+            }
+        }
+
+        if (!res.Contains(idx))
+        {
+            res.Add(idx);
+        }
+
+        return res;
+    }
+
     //https://leetcode.com/problems/parallel-courses/
     public void MinimumSemesters()
     {
@@ -3012,6 +3252,186 @@ public class Arrays
         return new int[0];
     }
 
+    //Accepted-LcHard-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/bus-routes/
+    public void NumBusesToDestination()
+    {
+        int[][] routes = new int[][]
+        {
+            new int[] {1,2,7},
+            new int[] {3,6,7}
+        };
+
+        int source = 1;
+        int target = 6;
+
+        Dictionary<int, HashSet<int>> map = new Dictionary<int, HashSet<int>>();
+
+        for(int idx = 0; idx < routes.Length; idx++)
+        {
+            foreach(int route in routes[idx])
+            {
+                if (!map.ContainsKey(route))
+                {
+                    map.Add(route, new HashSet<int>());
+                }
+
+                map[route].Add(idx);
+            }
+        }
+
+        Console.WriteLine(NumBusesToDestination(map, routes, source, target));
+    }
+    
+    private int NumBusesToDestination(Dictionary<int, HashSet<int>> map, int[][] routes, int source, int target)
+    {
+        HashSet<int> visited = new HashSet<int>();
+        Queue<int[]> queue = new Queue<int[]>();
+
+        queue.Enqueue(new int[]{0, source});
+
+        while (queue.Count > 0)
+        {
+            var item = queue.Dequeue();
+
+            if (item[1] == target)
+            {
+                return item[0];
+            }
+
+            foreach(int idx in map[item[1]])
+            {
+                if (visited.Contains(idx))
+                {
+                    continue;
+                }
+
+                foreach(int j in routes[idx])
+                {
+                    if (visited.Contains(j))
+                    {
+                        continue;
+                    }
+
+                    queue.Enqueue(new int[] {item[0]+1, j});
+                }
+
+                visited.Add(idx);
+            }
+        }
+
+        return -1;
+    }
+
+    //Accepted-LcHard-LcSol-T:O(ELogE) S:O(N) https://leetcode.com/problems/optimize-water-distribution-in-a-village/
+    public void MinCostToSupplyWater()
+    {
+        int[] wells = new int[] {1,2,2};
+        int[][] pipes = new int[][]
+        {
+            new int[] {1,2,1},
+            new int[] {2,3,1},
+        };
+
+        int n = 3;
+
+        Console.WriteLine(MinCostToSupplyWater(n, wells, pipes));
+    }
+
+    private int MinCostToSupplyWater(int n, int[] wells, int[][] pipes)
+    {
+        int[] parent = new int[n+1];
+
+        List<int[]> edges = new List<int[]>();
+        for (int i = 0; i < n; i++) 
+        {
+            parent[i + 1] = i + 1;
+            // Draw an edge from 0, to point to itself 
+            edges.Add(new int[] {0, i + 1, wells[i]});
+        }
+
+        foreach(int[] p in pipes)
+        {
+            edges.Add(p);
+        }
+
+        edges.Sort((a, b) => a[2].CompareTo(b[2]));
+
+        int res = 0;
+
+        foreach(int[] e in edges)
+        {
+            int x = Find(e[0], parent), y = Find(e[1], parent);
+            if (x != y)
+            {
+                res += e[2];
+                parent[x] = y;
+            }
+        }
+
+        return res;
+    }
+
+    //Accepted-LcHard-LCSol-T:O(mnn) S:O(m) https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/
+    public void NumSubmatrixSumTarget()
+    {
+        int[][] matrix = new int[][]
+        {
+            new int[]{1,-1},
+            new int[]{-1, 1},
+        };
+
+        int target = 0;
+        Console.WriteLine(NumSubmatrixSumTarget(matrix, target));
+    }
+
+    private int NumSubmatrixSumTarget(int[][] A, int target)
+    {
+        int res = 0, m = A.Length, n = A[0].Length;
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 1; j < n; j++)
+            {
+                A[i][j] += A[i][j - 1];
+            }
+        }
+
+        Dictionary<int, int> counter = new Dictionary<int, int>();
+        
+        //Iterate columns
+        for (int i = 0; i < n; i++)
+        {
+            //Iterate columns until i
+            for (int j = i; j < n; j++)
+            {
+                int cur = 0;
+
+                counter.Clear();
+                counter[0] = 1;
+
+                //Iterate rows
+                for (int k = 0; k < m; k++)
+                {
+                    cur += A[k][j] - (i > 0 ? A[k][i - 1] : 0);
+
+                    if (counter.ContainsKey(cur-target))
+                    {
+                        res += counter[cur-target];
+                    }
+
+                    if (!counter.ContainsKey(cur))
+                    {
+                        counter.Add(cur, 0);
+                    }
+                    
+                    counter[cur] += 1;
+                }
+            }
+        }
+
+        return res;
+    }
+
     //Accepted:LcMEdium-LCSol-T:O(logn)-S:O(1) https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     public void SearchRange()
     {
@@ -3120,6 +3540,33 @@ public class Arrays
         }
 
         return dist;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O()-S:O() https://leetcode.com/problems/combinations/
+    public void Combinations() 
+    {
+       int n = 4;
+       int k = 2;
+
+       var res = Combinations(n, k, 1, new List<int>(), new List<IList<int>>());
+    }
+    
+    private IList<IList<int>> Combinations(int n, int k, int idx, List<int> cur ,IList<IList<int>> res)
+    {
+        if(cur.Count == k)
+        {
+            res.Add(new List<int>(cur));
+            return res;
+        }
+        
+        for(int i = idx; i <= n; i++)
+        {
+            cur.Add(i);
+            Combinations(n, k, i+1, cur, res);
+            cur.RemoveAt(cur.Count()-1);
+        }
+        
+        return res;
     }
 
     //https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
@@ -3264,7 +3711,7 @@ public class Arrays
         return (targetCapacity) % jug2Capacity == 0;
     }
 
-    //https://leetcode.com/problems/task-scheduler/
+    //Accepted-LcMedium-LCSol-T:O(n)-S:O(n) https://leetcode.com/problems/task-scheduler/
     #region
     /*Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.
      Tasks could be done without original order. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.
@@ -6093,28 +6540,40 @@ public class Arrays
     }
 
 
-    //https://leetcode.com/problems/minimum-cost-to-cut-a-stick/
+    //Accepted-LcHard-LCSol-T:O(n^3)-S:O(n^2) https://leetcode.com/problems/minimum-cost-to-cut-a-stick/
     public void MinCostToCutStick()
     {
+        int[] cuts = new int[] {1,3,4,5};
+        int n = 7;
 
+        var cutList = new List<int>();
+        cutList.Add(0);
+        cutList.Add(n);
+
+        cutList.AddRange(cuts);
+        cutList.Sort();
+        Console.WriteLine(MinCostToCutStick(cutList, 0, cutList.Count-1, new int[102,102]));
     }
 
-    private int MinCostToCutStick(int[] cuts, int[] arr, int idx, int start, int end, int cost, ref int minCost)
+    private int MinCostToCutStick(List<int> cuts, int start, int end,  int[,] dp)
     {
-        if (idx == cuts.Length)
+        if (end-start == 1)
         {
-            return cost;
+            return 0;
         }
 
-        cost+= end-start;
-
-
-        for(int i = idx; i < cuts.Length; i++)
+        if (dp[start, end] == 0)
         {
-            //cost+= MinCostToCutStick(cuts, arr, i+1, cost, minCost);
+            dp[start, end] = int.MaxValue;
+
+            for(int i = start+1; i < end; i++)
+            {
+                dp[start, end] = Math.Min(dp[start, end], MinCostToCutStick(cuts, start, i, dp) + 
+                MinCostToCutStick(cuts, i, end, dp) + cuts[end] - cuts[start]);
+            }
         }
 
-        return cost;
+        return dp[start, end];
     }
 
     //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/buildings-with-an-ocean-view/
@@ -6514,6 +6973,108 @@ public class Arrays
         insertNode.Next = next;
         
         return head;
+    }
+
+    //https://leetcode.com/problems/partition-equal-subset-sum/
+    public void PartitionIntoEqualSubsets()
+    {
+        int[] nums = new int[]{1,5,11,5};
+        int target = 0;
+        int sum = 0;
+        
+        foreach(int i in nums)
+        {
+            sum += i;
+        }
+        
+        if (sum %2 != 0)
+        {
+            Console.WriteLine(false);
+            return;
+        }
+        
+        target = sum / 2;
+
+        Console.WriteLine(PartitionIntoEqualSubsetsDp(nums));
+        //Console.WriteLine(PartitionIntoEqualSubsets(nums, 0, 2, 0, target, new HashSet<int>()));
+    }
+
+    public bool PartitionIntoEqualSubsetsDp(int[] nums)
+    {
+        int sum = 0;
+        
+        foreach(int num in nums)
+        {
+            sum += num;
+        }
+        
+        if ((sum & 1) == 1)
+        {
+            return false;
+        }
+
+        sum /= 2;
+
+        int n = nums.Length;
+        bool[,] dp = new bool[n+1,sum+1];
+
+        dp[0,0] = true;
+        
+        for (int i = 1; i < n+1; i++)
+        {
+            dp[i,0] = true;
+        }
+        for (int j = 1; j < sum+1; j++)
+        {
+            dp[0,j] = false;
+        }
+        
+        for (int i = 1; i < n+1; i++)
+        {
+            for (int j = 1; j < sum+1; j++)
+            {
+                dp[i,j] = dp[i-1,j];
+
+                if (j >= nums[i-1])
+                {
+                    dp[i,j] = (dp[i,j] || dp[i-1,j-nums[i-1]]);
+                }
+            }
+        }
+   
+        return dp[n,sum];
+    }
+
+    private bool PartitionIntoEqualSubsets(int[] nums, int idx, int k, int sum, int target, HashSet<int> visited)
+    {
+        if (k == 0)
+        {
+            return true;    
+        }
+
+        if (sum == target)
+        {   
+            return PartitionIntoEqualSubsets(nums, 0, k-1, 0, target, visited);
+        }
+        
+        for(int i = idx; i < nums.Length; i++)
+        {
+            if (visited.Contains(i) || sum + nums[i] > target)
+            {
+                continue;
+            }
+
+            visited.Add(i);
+            var res = PartitionIntoEqualSubsets(nums, i+1, k, sum+ nums[i], target, visited);
+            if (res)
+            {
+                return true;    
+            }
+
+            visited.Remove(i);
+        }
+        
+        return false;
     }
 
     //https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
