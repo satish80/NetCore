@@ -1182,6 +1182,34 @@ public class Arrays
         return seenDigit;
     }
 
+    //Accepted-LcMedium-SelfSol-T:O(m+n)-S:O(m+n) https://leetcode.com/problems/repeated-string-match/
+    public void RepeatedStringMatch()
+    {
+        string a = "abcd";
+        string b = "cdabcdab";
+
+        Console.WriteLine(RepeatedStringMatch(a, b));
+    }
+
+    private int RepeatedStringMatch(string a, string b)
+    {
+        int count = 0;
+        StringBuilder sb = new StringBuilder();
+        
+        while(sb.Length < b.Length + a.Length)
+        {
+            sb.Append(a);
+            count++;
+
+            if (sb.ToString().Contains(b))
+            {
+                return count;
+            }
+        }
+        
+        return -1;
+    }
+
     //Accepted:LCHard:LCSol:T:O(n^2):S:O(n) https://leetcode.com/problems/maximal-rectangle/
     public void MaximalRectangle()
     {

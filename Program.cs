@@ -145,7 +145,8 @@ namespace Algorithms
             // arrObj.Permute();
             // arrObj.MaxLengthToCutRibbons();
             // arrObj.FindOrderOfCourses();
-            arrObj.PartitionIntoEqualSubsets();
+            // arrObj.PartitionIntoEqualSubsets();
+            arrObj.RepeatedStringMatch();
 
 
             Trees treeObj = new Trees();
@@ -255,7 +256,7 @@ namespace Algorithms
             // dpObj.LongestConsecutiveSequence();
             // dpObj.MinCostToClimbStairs();
             // dpObj.RegexMatch();
-            // dpObj.WildCardMatch();
+             // dpObj.WildCardMatch();
             // dpObj.PascalTriangle();
             // dpObj.BuySellStockIV();
             // dpObj.LongestIncreasingSubsequence();
