@@ -1683,6 +1683,37 @@ public class Trees
         return cur;
     }
 
+    //https://leetcode.com/problems/sum-root-to-leaf-numbers/
+    public void SumNumbers()
+    {
+        int?[] arr = new int?[] {0,1};
+        var node = Helpers.ConstructTree(arr);
+        int res = 0;
+        SumNumbers(node, 0, ref res);
+        Console.WriteLine(res);
+    }
+
+    private void SumNumbers(TreeNode root, int curSum, ref int res)
+    {
+        if (root == null)
+        {
+            return;
+        }
+
+        if (root.Left == null && root.Right == null)
+        {
+            res += curSum + root.Value.Value;
+            return;
+        }
+
+        int val = curSum + root.Value.Value;
+        
+        SumNumbers(root.Left, val*10, ref res);
+        SumNumbers(root.Right, val*10, ref res);
+
+        return;
+    }
+
     //Accepted-LcMedium-LcSol:T:O(h)-S:O(1) https://leetcode.com/problems/binary-tree-coloring-game/
     public void BtreeGameWinningMove()
     {

@@ -136,6 +136,17 @@ namespace Algorithms
             // arrObj.CheckSubarraySum();
             // arrObj.FindBuildings();
             // arrObj.ValidNumber();
+            // arrObj.NumIslands();
+            // arrObj.MinCostToCutStick();
+            // arrObj.Combinations();
+            // arrObj.MinCostToSupplyWater();
+            // arrObj.NumSubmatrixSumTarget();
+            // arrObj.NumBusesToDestination();
+            // arrObj.Permute();
+            // arrObj.MaxLengthToCutRibbons();
+            // arrObj.FindOrderOfCourses();
+            arrObj.PartitionIntoEqualSubsets();
+
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -218,6 +229,7 @@ namespace Algorithms
             // treeObj.DiameterOfBinaryTree();
             // treeObj.MinTimeToPickApples();                                     // 1 Test case failing
             // treeObj.DiameterOfNAryTree();
+            // treeObj.SumNumbers();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -322,7 +334,7 @@ namespace Algorithms
             // sObj.PalindromePartition();                            //TBD
             // sObj.GroupStrings();                                   //Fails LC test case  
             // sObj.FindConcatenationOfWords();
-             sObj.MinStickers();                                    // TBD
+            // sObj.MinStickers();                                    // TBD
             // sObj.ShortestPalindrome();
             // sObj.AddStrings();
             // sObj.MinRemoveToMakeValid();
@@ -341,6 +353,7 @@ namespace Algorithms
             // lObj.MergeKSortedList();
             // lObj.RemoveKthNode();
             // lObj.IsPalindrome();                                        // TBD
+            // lObj.SortListNode();
 
             // ThreadedQueue thObj = new ThreadedQueue();
             SynchronizedStockMarket syncObj = new SynchronizedStockMarket();

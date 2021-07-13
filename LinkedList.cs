@@ -47,6 +47,121 @@ public class LinkedList
         return head;
     }
 
+    //Accepted-LcMedium-SelfSol-T:O(n) S:O(n) https://leetcode.com/problems/sort-list/
+    public void SortListNode()
+    {
+        ListNode head = new ListNode(4);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(1);
+        head.next.next.next = new ListNode(3);
+
+        var res = Partition(head);
+    }
+
+    private ListNode Partition(ListNode head)
+    {
+        if (head == null || head.next == null)
+        {
+            return head;
+        }
+        
+        var mid = GetMid(head);
+        var left = Partition(head);
+        var right = Partition(mid);
+        
+        return Merge(left, right);
+    }
+    
+    private ListNode Merge(ListNode a, ListNode b)
+    {
+        ListNode res = null;
+
+        if (a == null)
+        {
+            return b;
+        }
+
+        if (b == null)
+        {
+            return a;
+        }
+
+        if (a.val < b.val)
+        {
+            a.next = Merge(a.next, b);
+            res = a;
+        }
+        else
+        {
+            b.next = Merge(a, b.next);
+            res = b;
+        }
+
+        return res;
+    }
+    
+    private ListNode GetMid(ListNode node)
+    {
+        ListNode slow = node;
+        ListNode fast = node?.next?.next;
+        
+        while (fast != null && fast.next != null)
+        {
+            fast = fast.next?.next;
+            slow = slow.next;
+        }
+        
+        var mid = slow.next;
+        slow.next = null;
+        return mid;
+    }
+
+    // public ListNode SortListNode(ListNode head)
+    // {
+    //     if (head == null || head.next == null)
+    //         return head;
+
+    //     ListNode mid = getMid(head);
+    //     ListNode left = SortListNode(head);
+    //     ListNode right = SortListNode(mid);
+    //     return merge(left, right);
+    // }
+
+    // ListNode merge(ListNode list1, ListNode list2)
+    // {
+    //     ListNode dummyHead = new ListNode();
+    //     ListNode tail = dummyHead;
+    //     while (list1 != null && list2 != null)
+    //     {
+    //         if (list1.val < list2.val) {
+    //             tail.next = list1;
+    //             list1 = list1.next;
+    //             tail = tail.next;
+    //         } else {
+    //             tail.next = list2;
+    //             list2 = list2.next;
+    //             tail = tail.next;
+    //         }
+    //     }
+
+    //     tail.next = (list1 != null) ? list1 : list2;
+    //     return dummyHead.next;
+    // }
+
+    // private ListNode getMid(ListNode head)
+    // {
+    //     ListNode midPrev = null;
+    //     while (head != null && head.next != null)
+    //     {
+    //         midPrev = (midPrev == null) ? head : midPrev.next;
+    //         head = head.next.next;
+    //     }
+
+    //     ListNode mid = midPrev.next;
+    //     midPrev.next = null;
+    //     return mid;
+    // }
+
     //Accepted:LCHard:LCSol:T:O(nLogk)-S:O(n) https://leetcode.com/problems/merge-k-sorted-lists/
     public void MergeKSortedList()
     {
