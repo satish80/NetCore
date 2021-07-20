@@ -2292,11 +2292,28 @@ public class Arrays
     //Accepted-LCMedium-Self-https://leetcode.com/problems/angle-between-hands-of-a-clock/
     public void AngleClock()
     {
-        var angle = AngleClock(12, 30);
+        var angle = AngleClock(3, 30);
         Console.WriteLine(angle);
     }
 
-    private double AngleClock(int hour, double minutes)
+    private double AngleClock(int hour, int minutes)
+    {
+        int OneMinDegree = 6;
+        
+        double hourDegree = ((hour%12)*30) + ((double)minutes/60*5) * OneMinDegree;
+        double minDegree = OneMinDegree * minutes;
+        
+        double diff = Math.Abs(minDegree - hourDegree);
+        
+        if (diff > 180)
+        {
+            return 360 - diff;
+        }
+        
+        return diff;
+    }
+
+    private double AngleClockCre(int hour, double minutes)
     {
         double hAngle = ((hour%12)*30) + (minutes/60 * 5) * 6;
         double mAngle = minutes * 6;
@@ -2305,50 +2322,59 @@ public class Arrays
         return res > 180 ? 360 - res : res;
     }
 
-    //https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
+    //Accepted-LcHard-SelfSol-T:O(n^2)-S:O(n^2) https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
     public void LongestIncreasingPath()
     {
         int[][] arr = new int[][]
         {
-            new int[] {2147483647,1},
-            // new int[] {3,2,6},
-            // new int[] {2,2,1}
+            new int[]{1,2}
+            //  new int[] {9,9,4},
+            //  new int[] {6,6,8},
+            //  new int[] {2,1,1}
         };
 
         int max = int.MinValue;
-        bool[,] visited = new bool[arr.Length, arr[0].Length];
-
+        int[,] dp = new int[arr.Length, arr[0].Length];
+        int[] x = new int[] {0, 0,  1, -1};
+        int[] y = new int[] {1, -1, 0, 0};
+        
         for(int row=0; row < arr.Length; row++)
         {
             for(int col = 0; col < arr[0].Length; col++)
             {
-                LongestIncreasingPath(arr, row, col, visited, new List<int>(), ref max);
+                LongestIncreasingPath(arr, dp, row, col, x, y, ref max);
             }
         }
 
         Console.WriteLine(max);
     }
 
-    private void LongestIncreasingPath(int[][] matrix, int row, int col, bool[,] visited, List<int> path, ref int maxLength)
+    private int LongestIncreasingPath(int[][] arr, int[,] dp, int r, int c, int[] x, int[] y, ref int max)
     {
-        if (row < 0 || col < 0 || row >= matrix.Length || col >= matrix[0].Length || visited[row,col] || (path.Count > 0 && matrix[row][col] <= path[path.Count-1]))
+        if (dp[r,c] != 0)
         {
-            return;
+            return dp[r,c];
         }
-
-        visited[row,col] = true;
-
-        path.Add(matrix[row][col]);
-        maxLength = maxLength < path.Count ? path.Count : maxLength;
-
-        LongestIncreasingPath(matrix, row, col+1, visited, path, ref maxLength);
-        LongestIncreasingPath(matrix, row, col-1, visited, path, ref maxLength);
-        LongestIncreasingPath(matrix, row+1, col, visited, path, ref maxLength);
-        LongestIncreasingPath(matrix, row-1, col, visited, path, ref maxLength);
-
-        path.Remove(matrix[row][col]);
-
-        visited[row, col] = false;
+        
+        int localMax = int.MinValue;
+        for(int idx = 0; idx < x.Length; idx++)
+        {
+            var row = r + x[idx];
+            var col = c + y[idx];
+            
+            if (row < 0 || col < 0 || row >= arr.Length || col >= arr[0].Length || arr[row][col] <= arr[r][c])
+            {
+                continue;
+            }        
+            
+            var res = LongestIncreasingPath(arr, dp, row, col, x, y, ref max);
+            localMax = Math.Max(res, localMax);
+        }
+        
+        dp[r,c]= 1 + (localMax == int.MinValue ? 0 : localMax);
+        
+        max = Math.Max(max, dp[r,c]);
+        return dp[r,c];
     }
 
     //Accepted-LCHard-LCSol-T:O(MN^2)-S:O(N) https://leetcode.com/problems/delete-columns-to-make-sorted-iii/
@@ -3675,6 +3701,73 @@ public class Arrays
         return 0;
     }
 
+    //Accepted-LcMedium-LcSol-T:O(NLogM)-S:O(1) https://leetcode.com/problems/koko-eating-bananas/
+    public void MinEatingSpeed()
+    {
+        int[] piles = new int[] {30,11,23,4,20};
+        int h = 5;
+        Console.WriteLine(MinEatingSpeed(piles, h));
+    }
+
+    private int MinEatingSpeed(int[] piles, int h)
+    {
+        int lo = 1, hi = piles.Max();
+
+        while (lo < hi)
+        {
+            int mid = (hi-lo)/2 + lo;
+            var hoursNeeded = CalcEatingSpeed(piles, h, mid);
+
+            if (hoursNeeded > h)
+            {
+                lo = mid+1;
+            }
+            else
+            {
+                hi = mid;
+            }
+        }
+
+        return lo;
+    }
+
+    private int MinEatingSpeedRecursive(int[] piles, int h, int start, int end)
+    {
+        if (start == end)
+        {
+            return start;
+        }
+
+        int mid = (end-start)/2 + start;
+        
+        var k = CalcEatingSpeed(piles, h, mid);
+        
+        if (k > h)
+        {
+            return MinEatingSpeedRecursive(piles, h, mid+1, end);
+        }
+        else if (k < h)
+        {
+            return MinEatingSpeedRecursive(piles, h, start, mid);
+        }
+        else
+        {
+            return mid;
+        }
+    }
+    
+    private int CalcEatingSpeed(int[] piles, int h, int k)
+    {
+        int count = 0;
+        
+        foreach(int i in piles)
+        {
+            count += i / k + (i % k == 0 ? 0 :1);
+        }
+        
+        return count;
+    }
+
     //Accepted-LCMedium-SelfSol-T:O(logn)-S:O(1)https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
     public void MinRotatedSortedArray()
     {
@@ -4835,6 +4928,77 @@ public class Arrays
         return res;
     }
 
+    //https://leetcode.com/problems/random-pick-with-weight/
+    public void RandomPickWithWeight()
+    {
+        int[] w = new int[]{1,5, 9};
+        Console.WriteLine(RandomPickWithWeight(w));
+    }
+
+    private int RandomPickWithWeight(int[] w)
+    {
+        int[] weightSum = new int[w.Length];
+        int max = 0;
+        
+        for (int i = 0; i < w.Length; i++)
+        {
+            max += w[i];
+            weightSum[i] = max;
+        }
+
+        for(int i = 1; i < 10; i++)
+        {
+            Console.WriteLine(PickIndex(weightSum));
+        }
+
+        return -1;
+    }
+
+    private int PickIndex(int[] weightSum)
+    {
+        Random rnd = new Random();
+        int idx = rnd.Next(0, weightSum.Last()) + 1;
+        int res = Array.BinarySearch(weightSum, idx);
+        return res >= 0 ? res : -res - 1;
+    }
+
+    //https://leetcode.com/problems/previous-permutation-with-one-swap/
+    public void PreviousPermutation()
+    {
+        int[] arr = new int[]{3,1,1,3};
+        PreviousPermutation(arr);
+    }
+
+    private int[] PreviousPermutation(int[] arr)
+    {
+        int idx = -1;
+
+        for (int i = arr.Length - 2; i >= 0; i--)
+        {
+            if (arr[i] > arr[i + 1]) //Find the first largest number
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx == -1)
+        {
+            return arr;
+        }
+
+        for(int i = arr.Length-1; i > idx; i--)
+        {
+            if (arr[idx] > arr[i] && arr[i] != arr[i-1]) //Find the number smaller than the first larger number
+            {
+                Helpers.Swap(arr, i , idx);
+                break;
+            }
+        }
+
+        return arr;
+    }
+
     //Accepted: https://leetcode.com/problems/rotate-image/
     /* Asked by Facebook
     Given an N by N matrix, rotate it by 90 degrees clockwise.
@@ -5023,17 +5187,19 @@ public class Arrays
     //Accepted: https://leetcode.com/problems/next-permutation/
     public void NextPermutation()
     {
-        //int[] arr = new int[]{1, 2, 3};
-        var arr = PopulateArray("abc");
-        for(int i = 0; i < 6; i ++)
-        {
-            NextPermutationCre(arr);
+        int[] arr = new int[]{2,1,3,1};
+        NextPermutation(arr);
 
-            for(int j = 0; j < arr.Length; j++)
-            {
-                Console.WriteLine((char)(arr[j]+ 'a'));
-            }
-        }
+        // var arr = PopulateArray("abc");
+        // for(int i = 0; i < 6; i ++)
+        // {
+        //     NextPermutationCre(arr);
+
+        //     for(int j = 0; j < arr.Length; j++)
+        //     {
+        //         Console.WriteLine((char)(arr[j]+ 'a'));
+        //     }
+        // }
     }
 
     private int[] PopulateArray(string str)
@@ -5659,7 +5825,9 @@ public class Arrays
         }
 
         cherries += Math.Max(
+            //                          Right      Right                            Right         Down
             Math.Max(CherryPickup(grid, r1+1, c1, r2+1, c2, dp), CherryPickup(grid, r1+1, c1, r2, c2+1, dp)),
+            //                          Down       Right                             Down          Down
             Math.Max(CherryPickup(grid, r1, c1+1, r2+1, c2, dp), CherryPickup(grid, r1, c1+1, r2, c2+1, dp)));
 
         dp[r1,c1,r2,c2] = cherries;
@@ -6567,6 +6735,41 @@ public class Arrays
         return res;
     }
 
+    //https://leetcode.com/problems/maximum-swap/
+    public void MaximumSwap()
+    {
+        int n = 2736;
+        Console.WriteLine(MaximumSwap(n));
+    }
+
+    private int MaximumSwap(int num)
+    {
+        char[] arr = num.ToString().ToCharArray();
+
+        int[] buckets = new int[10];
+
+
+        for(int i = 0; i < arr.Length; i++)
+        {
+            buckets[arr[i]-'0'] = i;
+        }
+
+        for(int i = 0; i < arr.Length; i++)
+        {
+            for(int k = 9; k > arr[i]-'0'; k--)
+            {
+                if (buckets[k] > i)
+                {
+                    char tmp = arr[i];
+                    arr[i] = arr[buckets[k]];
+                    arr[buckets[k]] = tmp;
+                    return int.Parse(new string(arr));
+                }
+            }
+        }
+
+        return int.Parse(new string(arr));
+    }
 
     //Accepted-LcHard-LCSol-T:O(n^3)-S:O(n^2) https://leetcode.com/problems/minimum-cost-to-cut-a-stick/
     public void MinCostToCutStick()
