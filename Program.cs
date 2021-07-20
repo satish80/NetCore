@@ -146,8 +146,11 @@ namespace Algorithms
             // arrObj.MaxLengthToCutRibbons();
             // arrObj.FindOrderOfCourses();
             // arrObj.PartitionIntoEqualSubsets();
-            arrObj.RepeatedStringMatch();
-
+            // arrObj.RepeatedStringMatch();
+            // arrObj.RandomPickWithWeight();
+            // arrObj.PreviousPermutation();
+            // arrObj.MinEatingSpeed();
+            // arrObj.MaximumSwap();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -269,6 +272,8 @@ namespace Algorithms
             // dpObj.ShortestCommonSuperSequence();
             // dpObj.CityConnection();
             // dpObj.CoinChange2();
+            // dpObj.TwoEggDrop();
+            // dpObj.MinCostForMovie();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -288,7 +293,7 @@ namespace Algorithms
             // gObj.RedundantConnection();
             // gObj.CloneGraphCre();
             // gObj.IsBipartite();
-            // gObj.CourseScheduleII();
+            // gObj.CourseScheduleII();            
 
             Strings sObj = new Strings();
             //sObj.StrStr();

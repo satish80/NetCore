@@ -1001,7 +1001,67 @@ public class Graph
         contacts.Add(contact3);
         contacts.Add(contact4);
 
-        var res = AccountMerge(contacts);
+        var res = AccountsMerge(contacts);
+    }
+
+    private IList<IList<string>> AccountsMerge(IList<IList<string>> accounts)
+    {
+        Dictionary<string, string> parent = new Dictionary<string, string>();
+        Dictionary<string, string> owners = new Dictionary<string, string>();
+        Dictionary<string, List<string>> union = new Dictionary<string, List<string>>();
+        IList<IList<string>> res = new List<IList<string>>();
+
+        foreach(IList<string> account in accounts)
+        {
+            for(int idx = 1; idx < account.Count; idx++)
+            {
+                if (!parent.ContainsKey(account[idx]))
+                {
+                    parent.Add(account[idx], account[idx]);
+                }
+
+                if (!owners.ContainsKey(account[idx]))
+                {
+                    owners.Add(account[idx], account[0]);
+                }
+            }
+        }
+
+        foreach(IList<string> account in accounts)
+        {
+            var p = parent[account[1]];
+
+            for(int idx = 2; idx < account.Count; idx++)
+            {
+                var contactParent = FindParent(account[idx], parent);
+                parent[contactParent] = p;
+            }
+        }
+
+        foreach(IList<string> account in accounts)
+        {
+            var p = FindParent(account[1], parent);
+
+            for(int idx = 1;idx < account.Count; idx++)
+            {
+                if (! union.ContainsKey(p))
+                {
+                    union.Add(p, new List<string>());
+                }
+
+                union[p].Add(account[idx]);
+            }
+        }
+
+        foreach(string p in union.Keys)
+        {
+            var list = new List<string>();
+            list.Add(owners[p]);
+            list.AddRange(union[p]);
+            res.Add(list);
+        }
+
+        return res;
     }
 
     private IList<IList<string>> AccountMerge(IList<IList<string>> accounts)
@@ -1077,56 +1137,56 @@ public class Graph
         return parentMap[contact] == contact ? contact : FindParent(parentMap[contact], parentMap);
     }
 
-    private IList<HashSet<string>> AccountsMerge(IList<IList<string>> accounts)
-    {
-        IList<HashSet<string>> res = new List<HashSet<string>>();
+    // private IList<HashSet<string>> AccountsMerge(IList<IList<string>> accounts)
+    // {
+    //     IList<HashSet<string>> res = new List<HashSet<string>>();
 
-        UndirectedGraph<string> graph = new UndirectedGraph<string>();
+    //     UndirectedGraph<string> graph = new UndirectedGraph<string>();
         
-        foreach(List<string> list in accounts)
-        {
-            for(int idx = 1; idx < list.Count; idx++)
-            {
-                if (!graph.Vertices.ContainsKey(list[idx]))
-                {
-                    graph.Vertices.Add(list[idx], false);
-                }
+    //     foreach(List<string> list in accounts)
+    //     {
+    //         for(int idx = 1; idx < list.Count; idx++)
+    //         {
+    //             if (!graph.Vertices.ContainsKey(list[idx]))
+    //             {
+    //                 graph.Vertices.Add(list[idx], false);
+    //             }
 
-                graph.AddEdge(list[idx], list[idx-1]);
-            }
-        }
+    //             graph.AddEdge(list[idx], list[idx-1]);
+    //         }
+    //     }
 
-        foreach(KeyValuePair<string, bool> contact in graph.Vertices)
-        {
-            var mergedContact = MergeContacts(graph, contact.Key, accounts);
-            res.Add(mergedContact);
-        }
+    //     foreach(KeyValuePair<string, bool> contact in graph.Vertices)
+    //     {
+    //         var mergedContact = MergeContacts(graph, contact.Key, accounts);
+    //         res.Add(mergedContact);
+    //     }
 
-        return res;
-    }
+    //     return res;
+    // }
 
-    private HashSet<string> MergeContacts(UndirectedGraph<string> graph, string primary, IList<IList<string>> accounts)
-    {
-        HashSet<String> contacts = new HashSet<String>();
+    // private HashSet<string> MergeContacts(UndirectedGraph<string> graph, string primary, IList<IList<string>> accounts)
+    // {
+    //     HashSet<String> contacts = new HashSet<String>();
 
-        if (!graph.AdjList.ContainsKey(primary) || (graph.Vertices[primary]))
-        {
-            return contacts;
-        }
+    //     if (!graph.AdjList.ContainsKey(primary) || (graph.Vertices[primary]))
+    //     {
+    //         return contacts;
+    //     }
 
-        graph.Vertices[primary] = true;
-        foreach(string contact in graph.AdjList[primary])
-        {
-            var res = MergeContacts(graph, contact, accounts);
-            contacts.Add(contact);
-            foreach(string str in res)
-            {
-                contacts.Add(str);
-            }
-        }
+    //     graph.Vertices[primary] = true;
+    //     foreach(string contact in graph.AdjList[primary])
+    //     {
+    //         var res = MergeContacts(graph, contact, accounts);
+    //         contacts.Add(contact);
+    //         foreach(string str in res)
+    //         {
+    //             contacts.Add(str);
+    //         }
+    //     }
 
-        return contacts;
-    }
+    //     return contacts;
+    // }
 
     //https://leetcode.com/problems/graph-valid-tree/
     public void ValidGraphTree()

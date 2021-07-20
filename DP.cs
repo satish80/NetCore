@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 public class DP
 {
@@ -1148,6 +1149,35 @@ public class DP
         return Math.Min(dp[cost.Length-1], dp[cost.Length-2]);
     }
 
+    //https://leetcode.com/problems/egg-drop-with-2-eggs-and-n-floors/
+    public void TwoEggDrop()
+    {
+        int floors = 3;
+        Console.WriteLine(TwoEggDrop(floors));
+    }
+
+    private int TwoEggDrop(int n)
+    {
+        int eggs = 2;
+        int floors = n;
+        int[,] dp = new int[n+1, n+1];
+
+        for(int i = 1; i <= eggs; i++)
+        {
+            for(int j = 1; j <= floors; j++)
+            {
+                dp[i,j] = 1 + dp[i-1, j-1] + dp[i-1, j];
+
+                if (dp[i,j] > floors)
+                {
+                    return j;
+                }
+            }
+        }
+
+        return dp[eggs, floors];
+    }
+
     //Accepted: T:O(n^2): S: O(n^2): https://leetcode.com/problems/regular-expression-matching/
     #region 
     /* Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
@@ -1746,82 +1776,41 @@ public class DP
     A person goes for a movie on certain days in a month. Find the min cost of watching a movie with following conditions:
     Daily pass: $2, Weekly pass: $6, Monthly pass: $22
     */
+    //Accepted-LcMedium-LcSol-T:O(n)-S:O(n) https://leetcode.com/problems/minimum-cost-for-tickets/
     public void MinCostForMovie()
     {
-        int[] arr = new int[]{1, 7, 12, 15, 18, 19, 23};
-        int[] week = new int[]{2, 3, 4, 3, 3, 2, 1};
+        // int[] arr = new int[]{1, 7, 12, 15, 18, 19, 23};
+        // int[] week = new int[]{2, 3, 4, 3, 3, 2, 1};
 
-        Console.WriteLine(MinCostForMovieCre(arr, week));
+        int[] days = new int[]{1,2,3,4,5,6,7,8,9,10,30,31};
+        int[] costs = new int[] {2,7,15};
+        Console.WriteLine(MinCostTicketsLC(days, costs));
     }
 
-    private int MinCostForMovieCre(int[] arr, int[] week)
+    private int MinCostTicketsLC(int[] days, int[] costs)
     {
-       int TotalCost = 0;
-       int idx = 0;
-       int count = 0;
-       int weekCount = 0;
-       int weekEndIdx = 0;;
-
-       while (idx < arr.Length)
-       {
-           if (week[idx] <= 3)
-           {
-               TotalCost+= 2;
-               idx++;
-           }
-
-           if (idx < arr.Length && week[idx] > 3)
-           {
-               weekCount = week[idx];
-               weekEndIdx = idx + weekCount;
-
-               while(idx < arr.Length && idx < weekEndIdx)
-               {
-                   if (week[idx] > weekCount )
-                   {
-                        TotalCost = count <= 3 ? count * 2 : 6;
-                        count = 0;
-                        break;
-                   }
-
-                   count++;
-                   idx++;
-               }
-
-               if (count > 0)
-               {
-                   TotalCost += 6;
-               }
-           }
-       }
-    
-        return Math.Min(TotalCost, 22);
-    }
-
-    private int MinCostForMovie(int[] arr)
-    {
-        int[] res = new int[arr.Length+1];
-
-        int i = 1;
-        int sow = 1;
-        int count = 0;
-        res[0] = 0;
-
-        while (i <= arr.Length)
+        int[] dp = new int[days.Max()+1];
+        HashSet<int> travelDays = new HashSet<int>();
+        foreach(int day in days)
         {
-            while (i-1 < arr.Length && arr[i-1] - arr[sow-1] < 8)
-            {
-                i++;
-            }
-
-            count = i-sow;
-            res[i-1] = res[sow-1] + Math.Min(2* count, 6);
-            sow =  (i-1 < arr.Length) && arr[i-1] - arr[sow-1] > 8 ? i : sow;
+            travelDays.Add(day);
         }
 
-        return res[arr.Length];
-    }
+        for(int i = 1; i <= days.Max(); i++)
+        {
+            if (!travelDays.Contains(i))
+            {
+                dp[i] = dp[i-1];
+                continue;
+            }
 
+            dp[i] = costs[0] + dp[i-1];
+            dp[i] = Math.Min(costs[1] + dp[Math.Max(i-7, 0)], dp[i]);
+            dp[i] = Math.Min(costs[2] + dp[Math.Max(i-30, 0)], dp[i]);
+        }
+
+        return dp[days.Max()];
+    }
 
     //https://leetcode.com/problems/maximal-rectangle/
     public void MaximalRectangle()
