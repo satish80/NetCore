@@ -3690,15 +3690,93 @@ public class Arrays
         return min == int.MaxValue ? 0 : min;
     }
 
+    //Accepted-LcMedium-Selfsol-T:O(n*(2^n)) S:O(n) https://leetcode.com/problems/palindrome-partitioning/
+    public void PalindromePartition() 
+    {
+        string s = "aab";
+        var res = PalindromePartition(s, new Dictionary<string, List<string>>(), new List<string>(), new List<IList<string>>());
+    }
+
+    private IList<IList<string>> PalindromePartition(string s, Dictionary<string, List<string>> map, List<string> list, List<IList<string>> res)
+    {
+        if (string.IsNullOrEmpty(s))
+        {
+            var cur =  new List<string>(list);
+            res.Add(cur);
+            return res;
+        }
+        
+        for(int i = 1; i <= s.Length; i++)
+        {
+            var str = s.Substring(0,i);
+
+            if (IsPalindrome(str))
+            {
+                list.Add(str);
+                PalindromePartition(s.Substring(i), map, list, res);
+                list.RemoveAt(list.Count-1);
+            }
+        }
+        
+        return res;
+    }
+
+    private bool IsPalindrome(string s)
+    {
+        int left = 0, right = s.Length-1;
+        
+        while (left < right)
+        {
+            if (s[left] != s[right])
+            {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
     //https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
     public void KthSmallest()
     {
+        int[][] arr = new int[][]
+        {
+            new int[] {1,2},
+            new int[] {1,3},
+            // new int[] {12,13,15},
+        };
 
+        Console.WriteLine(KthSmallest(arr, 2));
     }
 
     private int KthSmallest(int[][] matrix, int k)
     {
         return 0;
+    }
+
+    //Accepted-LcMedium-LcSol-T:O(n) S:O(1) https://leetcode.com/problems/jump-game/
+    public void  CanJump()
+    {
+        int[] nums = new int[] {2,1,0,0};
+        Console.WriteLine(CanJump(nums));
+    }
+
+    private bool CanJump(int[] nums)
+    {
+        int dis = 0;
+        for (int i = 0; i <= dis; i++) 
+        {
+            dis = Math.Max(dis, i + nums[i]);
+            if (dis >= nums.Length-1) 
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //Accepted-LcMedium-LcSol-T:O(NLogM)-S:O(1) https://leetcode.com/problems/koko-eating-bananas/
@@ -3877,7 +3955,57 @@ public class Arrays
     {
         int[] arr = new int[] {-1, 0, 1, 2, -1, -4};
 
-        var res = ThreeSum(arr);
+        var res = ThreeSumCre(arr);
+    }
+
+    private IList<IList<int>> ThreeSumCre(int[] nums)
+    {
+        Array.Sort(nums);
+        IList<IList<int>> res = new List<IList<int>>();
+        
+        for(int start = 0; start < nums.Length-2; start++)
+        {
+            int lo = start+1, hi = nums.Length-1;
+            
+            if (start > 0 && nums[start] == nums[start-1])
+            {
+                continue;
+            }
+
+            while (lo < hi)
+            {
+                int sum = nums[start] + nums[lo] + nums[hi];
+                
+                if (sum == 0)
+                {
+                    var list = new List<int>();
+                    list.AddRange(new int[]{nums[start], nums[lo], nums[hi]});
+                    res.Add(list);
+                    
+                    while (lo < hi && nums[lo] == nums[lo+1])
+                    {
+                        lo++;
+                    }
+
+                    while (hi < nums.Length-2 && nums[hi] == nums[hi+1])
+                    {
+                        hi--;
+                    }
+
+                    lo++;
+                }
+                else if (sum < 0)
+                {
+                    lo ++;
+                }
+                else
+                {
+                    hi--;
+                }
+            }
+        }
+        
+        return res;
     }
 
     private IList<IList<int>> ThreeSum(int[] arr)
@@ -4441,39 +4569,40 @@ public class Arrays
         return max;
     }
 
-    //https://leetcode.com/problems/decode-ways/
+    //Accepted-LcMedium-LcSol-T:O()-S:O() https://leetcode.com/problems/decode-ways/
     public void DecodeWays()
     {
-        Console.WriteLine(DecodeWays("226"));
+        Console.WriteLine(NumDecodings("2101"));
     }
 
-    private int DecodeWays(string s)
+    public int NumDecodings(string s)
     {
-        if (string.IsNullOrEmpty(s) || s[0] == '0')
+        if (s[0] == '0')
         {
             return 0;
         }
-
-        int[] res = new int[s.Length+1];
-        res[0] = 1;
-        res[1] = s[0] != '0' ? 1 : 0;
-        for (int idx = 2; idx <= s.Length; idx ++)
+        
+        int[] dp = new int[s.Length+1];
+        dp[0] =  1;
+        dp[1] = s[0] != 0 ? 1 : 0;
+        
+        for(int idx = 2; idx <= s.Length; idx++)
         {
-            int first = int.Parse(s.Substring(idx-1, 1));
-            int second = idx >= 2 ? int.Parse(s.Substring(idx-2, 2)) : 0;
-
-            if (first >= 1 && first <= 9)
+            int first = int.Parse(s[idx-1].ToString());
+            int val = int.Parse(s[idx-2].ToString()) * 10 + first;
+            
+            if (first > 0 && first <= 9)
             {
-                res[idx] += res[idx-1];
+                dp[idx] = dp[idx-1];
             }
-
-            if (second > 9 && second < 27)
+            
+            if ( val > 9 && val < 27)
             {
-                res[idx] += res[idx-2];
+                dp[idx] += dp[idx-2];
             }
         }
-
-        return res[s.Length];
+        
+        return dp[s.Length];
     }
 
     //Accepted: https://leetcode.com/problems/valid-mountain-array/
@@ -5307,6 +5436,63 @@ public class Arrays
         }
         
         return res;
+    }
+
+    //https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/
+    public void MinimumTimeRequired()
+    {
+        int[] jobs = new int[] {1,2,4,7,8};
+        int k = 2;
+        Console.WriteLine(MinimumTimeRequired(jobs, k));
+    }
+
+    private int MinimumTimeRequired(int[] jobs, int k) 
+    {
+        int sum = 0;
+        
+        foreach(int num in jobs)
+        {
+            sum+= num;
+        }
+        
+        int target = sum / k;
+        target += sum%k == 0 ? 0 : 1;
+        int max = int.MinValue;
+        
+        MinRequired(jobs,  new HashSet<int>(), k, 0, target, ref max);
+        
+        return max;
+    }
+    
+    private int MinRequired(int[] jobs, HashSet<int> visited, int k, int sum, int target, ref int max)
+    {
+        if (k == 0)
+        {
+            return max;
+        }
+        
+        if (Math.Abs(sum-target) < 2)
+        {
+            max = Math.Max(max, sum);
+            return MinRequired(jobs, visited, k-1, 0, target, ref max);
+        }
+
+        if(sum > target)
+        {
+            return max;
+        }
+        
+        for(int i = 0; i < jobs.Length; i++)
+        {
+            if (!visited.Contains(i))
+            {
+                visited.Add(i);
+                MinRequired(jobs, visited, k, sum+ jobs[i], target, ref max);
+                visited.Remove(i);
+            }
+        }
+        
+        return max;
     }
 
     //https://leetcode.com/problems/path-with-minimum-effort/
@@ -6703,6 +6889,45 @@ public class Arrays
         return res;
     }
 
+    //https://leetcode.com/problems/break-a-palindrome/
+    public void BreakPalindrome()
+    {
+        string s = "abccba";
+        Console.WriteLine(BreakPalindrome(s));
+    }
+
+    private string BreakPalindrome(string palindrome)
+    {
+        if (palindrome.Length == 1)
+        {
+            return "";
+        }
+        
+        char[] arr = palindrome.ToCharArray();
+        bool replaced = false;
+        
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            if (arr[idx] - 'a' == 0 || (arr.Length%2 !=0 && idx == (arr.Length-1)/2))
+            {
+                continue;
+            }
+            else
+            {
+                arr[idx] = 'a';
+                replaced = true;
+                break;
+            }
+        }
+        
+        if (!replaced)
+        {
+            arr[arr.Length-1] = 'b';
+        }
+        
+        return new string(arr);
+    }
+
     //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/daily-temperatures/
     public void DailyTemperatures()
     {
@@ -6997,6 +7222,118 @@ public class Arrays
         }
     }
 
+    //https://leetcode.com/problems/divide-two-integers/
+    public void DivideTwoIntegers()
+    {
+        int dividend = 5;
+        int divisor = 4;
+        long result = divideLong(dividend, divisor);
+	    Console.WriteLine(result > int.MaxValue ? int.MaxValue : (int)result);
+    }
+
+    private long divideLong(long dividend, long divisor)
+    {
+        // Remember the sign
+        bool negative = dividend < 0 != divisor < 0;
+        
+        // Make dividend and divisor unsign
+        if (dividend < 0) dividend = -dividend;
+        if (divisor < 0) divisor = -divisor;
+        
+        // Return if nothing to divide
+        if (dividend < divisor) 
+        {
+            return 0;
+        }
+        
+        // Sum divisor 2, 4, 8, 16, 32 .... times
+        long sum = divisor;
+        long divide = 1;
+        while ((sum+sum) <= dividend)
+        {
+            sum += sum;
+            divide += divide;
+        }
+        
+        // Make a recursive call for (dvidend-sum) and add it to the result
+        return negative ? -(divide + divideLong((dividend-sum), divisor)) :
+            (divide + divideLong((dividend-sum), divisor));
+    }
+
+    //Accepted-LcMedium-SelcSol-T:O(n)-S:O(n) https://leetcode.com/problems/house-robber-ii/
+    public void RobHouseII()
+    {
+        int[] nums = new int[] {1,7,9,2};
+        if (nums.Length == 1)
+         Console.WriteLine(nums[0]);
+
+        Console.WriteLine(Math.Max(RobHouseII(nums, 0, nums.Length - 2), RobHouseII(nums, 1, nums.Length - 1)));
+    }
+
+    private int RobHouseII(int[] num, int lo, int hi) 
+    {
+        // int include = 0, exclude = 0;
+
+        // for (int j = lo; j <= hi; j++) 
+        // {
+        //     int i = include, e = exclude;
+        //     include = e + num[j];
+        //     exclude = Math.Max(e, i);
+        // }
+
+        // return Math.Max(include, exclude);
+
+        if (hi - lo <= 1)
+        {
+            return Math.Max(num[lo], num[hi]);
+        }
+
+        int[] dp = new int[num.Length];
+
+        dp[lo] = num[lo];
+        dp[lo+1] = num[lo+1];
+
+        for(int idx = lo + 2; idx <= hi; idx++)
+        {
+            dp[idx] = num[idx] + (idx - lo > 2 ? Math.Max(dp[idx-2], dp[idx-3]) : dp[idx-2]);
+        }
+
+        return Math.Max(dp[hi], dp[hi-1]);
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n^2)-S:O(n^2) https://leetcode.com/problems/palindromic-substrings/
+    public void PalindromicSubStrings()
+    {
+        Console.WriteLine(PalindromicSubStrings("aaa"));
+    }
+
+    private int PalindromicSubStrings(string s)
+    {
+        bool[,] dp = new bool[s.Length, s.Length];
+        int count = 0;
+
+        for(int offset = 0; offset < s.Length; offset++)
+        {
+            for(int left = 0; left + offset < s.Length; left++)
+            {
+                int right = left + offset;
+
+                if (right == 0)
+                {
+                    dp[left, right] = true;
+                }
+                else
+                {
+                    dp[left, right] = s[left] == s[right] ? (right - left > 1 ? dp[left+1, right-1] : true) : false;
+                }
+
+                count += dp[left, right] ? 1 : 0;
+            }
+        }
+
+        return count;
+    }
+
     //https://leetcode.com/problems/count-different-palindromic-subsequences/
     public void CountPalindromicSubsequences()
     {
@@ -7053,6 +7390,47 @@ public class Arrays
         }
 
         return true;
+    }
+
+    //https://leetcode.com/problems/multiply-strings/
+    public void Multiply()
+    {
+        Console.WriteLine(Multiply("123", "456"));
+    }
+
+    public string Multiply(string num1, string num2)
+    {
+        int[] pos = new int[num1.Length + num2.Length];
+
+        StringBuilder sb = new StringBuilder();
+    
+        for(int i = num1.Length-1; i >=0; i--)
+        {
+            for(int j = num2.Length-1; j >=0; j--)
+            {
+                int p1 = i+j;
+                int p2 = i+j+1;
+
+                var cur = (num1[i] -'0') * (num2[j] - '0') + pos[p2];
+
+                pos[p1] += cur/10;
+                pos[p2] = cur%10;
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+
+        for(int idx = 0; idx < pos.Length; idx++)
+        {
+            if (idx == 0 && pos[idx] == 0)
+            {
+                continue;
+            }
+
+            res.Append(pos[idx].ToString());
+        }
+
+        return res.Length == 0 || res.ToString()[0] == '0' ? "0" : res.ToString();
     }
 
     /*
@@ -7462,6 +7840,234 @@ public class Arrays
         }
 
         return A.Length-1;
+    }
+
+    //https://leetcode.com/problems/surrounded-regions/
+    public void SurroundedRegions()
+    {
+        char[][] board = new char[][]
+        {
+            // new char[] {'O','O','O'},
+            // new char[] {'O','O','O'},
+            // new char[] {'O','O','O'}
+            new char[] {'O', 'X', 'X', 'O', 'X'},
+            new char[] {'X', 'O', 'O', 'X', 'O'},
+            new char[] {'X', 'O', 'X', 'O','X'},
+            new char[] {'O', 'X', 'O', 'O', 'O'},
+            new char[] {'X', 'X', 'O', 'X', 'O'}
+        };
+
+        int[] x = new int[] {-1, 1, 0, 0};
+        int[] y = new int[] {0, 0, -1, 1};
+        bool[,] visited = new bool[board.Length, board[0].Length];
+
+        for(int r = 0; r < board.Length; r++)
+        {
+            for(int c = 0; c < board[0].Length; c++)
+            {
+                if (board[r][c] == 'O')
+                {
+                    SurroundedRegions(board, r, c, x, y, visited);
+                }
+            }
+        }
+
+        for(int r = 0; r < board.Length; r++)
+        {
+            for(int c = 0; c < board[0].Length; c++)
+            {
+                if (board[r][c] == '*')
+                {
+                    board[r][c] = 'O';
+                }
+            }
+        }
+    }
+
+    private bool SurroundedRegions(char[][] board, int r, int c, int[] x, int[] y, bool[,] visited)
+    {
+        visited[r, c] = true;
+
+        bool res = true;
+
+        if (IsInBoundary(board, r, c) && board[r][c] == 'O')
+        {
+            board[r][c] = '*';
+            return false;
+        }
+
+        for(int idx = 0; idx < x.Length; idx++)
+        {
+            int row = r + x[idx];
+            int col = c + y[idx];
+
+            if (board[row][col] == '*')
+            {
+                board[r][c] = '*';
+                return false;
+            }
+
+            if (row+1 >= board.Length || row-1 < 0 || col+1 >= board[0].Length || col-1 < 0 || board[row][col] == 'X' || visited[row, col])
+            {
+                continue;
+            }
+
+            res = SurroundedRegions(board,row, col, x, y, visited);
+            
+            if (!res)
+            {
+               return false;
+            }
+        }
+
+        if (res)
+        {
+            board[r][c] = 'X';
+        }
+
+        return res;
+    }
+
+    private bool IsInBoundary(char[][] board, int r, int c)
+    {
+        if (r+1 >= board.Length || r-1 < 0 || c+1 >= board[0].Length || c-1 < 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    //Accepted-LcMedium-LcSol-T:O(2^n)-S:O() https://leetcode.com/problems/generate-parentheses/
+    public void GenerateParantheses()
+    {
+        int n = 3;
+        var list = new List<string>();
+
+        Console.WriteLine(GenerateParantheses(n, string.Empty, 0, 0, list));
+    }
+
+    private IList<string> GenerateParantheses(int n, string str, int open, int close, IList<string> list)
+    {
+        if (str.Length == n * 2)
+        {
+            list.Add(str);
+            return list;
+        }
+
+        if (open < n)
+        {
+            GenerateParantheses(n, str + "(", open+1, close, list);
+        }
+
+        if (close < open)
+        {
+            GenerateParantheses(n, str + ")", open, close+1, list);
+        }
+
+        return list;
+    }
+
+    //Accepted-LcMedium-Selfsol-T:O(mn*l)-S:O(s) https://leetcode.com/problems/add-bold-tag-in-string/
+    public void AddBoldTag()
+    {
+        string s = "abcxyz123";
+        string[] words = {"abc","123"};
+        Console.WriteLine(AddBoldTag(s, words));
+    }
+
+    private string AddBoldTag(string s, string[] words)
+    {
+        bool[] bold = new bool[s.Length];
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            foreach(string word in words)
+            {
+                int end = word.Length;
+                if (idx + end <= s.Length && s.Substring(idx, end) == word)
+                {
+                    Array.Fill<bool>(bold, true, idx, end);
+                }
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        bool start = false;
+
+        for(int idx = 0; idx < s.Length; idx++)
+        {
+            if (!bold[idx])
+            {
+                if (start)
+                {
+                    sb.Append("</b>");
+                    start = false;
+                }
+            }
+            else
+            {
+                if (!start)
+                {
+                    sb.Append("<b>");
+                    start = true;
+                }
+            }
+
+            sb.Append(s[idx]);
+        }
+
+        return start ? sb.Append("</b>").ToString() : sb.ToString();
+    }
+
+    //https://leetcode.com/problems/different-ways-to-add-parentheses/
+    public void DiffWaysToAddParantheses()
+    {
+        string expression = "2*3-4*5";
+        var res = DiffWaysToAddParantheses(expression);
+    }
+
+    private IList<int> DiffWaysToAddParantheses(string input)
+    {
+        List<int> ret = new List<int>();
+
+        for (int i=0; i<input.Length; i++)
+        {
+            if (input[i] == '-' || input[i] == '*' || input[i] == '+' )
+            {
+                string part1 = input.Substring(0, i);
+                string part2 = input.Substring(i+1);
+
+                IList<int> part1Ret = DiffWaysToAddParantheses(part1);
+                IList<int> part2Ret = DiffWaysToAddParantheses(part2);
+
+                foreach (int p1 in part1Ret)
+                {
+                    foreach (int p2 in part2Ret)
+                    {
+                        int c = 0;
+                        switch (input[i])
+                        {
+                            case '+': c = p1+p2;
+                                break;
+                            case '-': c = p1-p2;
+                                break;
+                            case '*': c = p1*p2;
+                                break;
+                        }
+
+                        ret.Add(c);
+                    }
+                }
+            }
+        }
+
+        if (ret.Count() == 0)
+        {
+            ret.Add(int.Parse(input));
+        }
+
+        return ret;
     }
 
     //https://leetcode.com/problems/shortest-distance-from-all-buildings/

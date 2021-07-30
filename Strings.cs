@@ -2094,7 +2094,7 @@ public class Strings
         return suffix.Reverse() + ShortestPalindrome(s.Substring(0, j)) + suffix;
     }
 
-    //https://leetcode.com/problems/valid-palindrome-ii/
+    //Accepted-LcEasy-LcSol-T:O(n)-S:O(1) https://leetcode.com/problems/valid-palindrome-ii/
     public void ValidPalindromeII()
     {
         Console.WriteLine(ValidPalindromeII("aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga"));
@@ -2102,43 +2102,30 @@ public class Strings
 
     private bool ValidPalindromeII(string s)
     {
-        if (s == null)
-        {
-            return true;
-        }
+        int l = 0, r = s.Length-1;
 
-        int left = 0;
-        int right = s.Length -1;
-        int count = 0;
-
-        while (left < right)
+        while (l < r)
         {
-            if (s[left] != s[right])
+            if (s[l] != s[r])
             {
-                if (count > 0)
-                {
-                    return false;
-                }
-                count++;
-
-                if (s[left+1] == s[right])
-                {
-                    left++;
-                }
-                else if (s[left] == s[right-1])
-                {
-                    right --;
-                }
-                else
-                {
-                    return false;
-                }
-
-                continue;
+                return IsValidPalindromeII(s, l+1, r) || IsValidPalindromeII(s, l, r-1);
             }
 
-            left++;
-            right--;
+            l++;
+            r--;
+        }
+
+        return true;
+    }
+
+    private bool IsValidPalindromeII(string s, int l, int r)
+    {
+        while (l < r)
+        {
+            if (s[l++] != s[r--])
+            {
+                return false;
+            }
         }
 
         return true;

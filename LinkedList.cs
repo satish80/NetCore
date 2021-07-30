@@ -727,43 +727,63 @@ public class LinkedList
         return p1;
     }
 
-    //https://leetcode.com/problems/reverse-nodes-in-k-group/
+    //Accepted-LcHArd-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/reverse-nodes-in-k-group/
     public void ReverseKGroup()
     {
-        SLLNode node = new SLLNode(1);
-        node.Next = new SLLNode(2);
-        node.Next.Next = new SLLNode(3);
-        node.Next.Next.Next = new SLLNode(4);
-        node.Next.Next.Next.Next = new SLLNode(5);
-        node.Next.Next.Next.Next.Next = new SLLNode(6);
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
 
-        var res = ReverseKGroup(node, 3);
+        int length = 0;
+        ListNode cur = head;
+
+        while(cur != null)
+        {
+            length++;
+            cur = cur.next;
+        }
+
+        var res = ReverseKGroup(head, length, 3);
     }
 
-    private SLLNode ReverseKGroup(SLLNode node, int k)
+    private ListNode ReverseKGroup(ListNode head, int length, int k)
     {
-        int count = k;
-
-        if (node == null)
+        if (length < k)
         {
-            return null;
+            return head;
         }
 
-        SLLNode prev = null;
-        SLLNode next = null;
-        SLLNode tail = node;
+        ListNode cur = head.next;
+        ListNode prev = head;
+        ListNode next = null;
+        ListNode tail = head;
+        int count = 0;
 
-        while (count > 0 && node != null)
+        while (count < k)
         {
-            next = node.Next;
-            node.Next = prev;
-            prev = node;
-            node = next;
+            if (count+1 == k)
+            {
+                break;
+            }
 
-            count-= 1;
+            next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+            count++;
         }
 
-        tail.Next = ReverseKGroup(node, k);
+        if ((length - k) >= k)
+        {
+            tail.next = ReverseKGroup(cur, length-k, k);
+        }
+        else
+        {
+            tail.next = next;
+        }
 
         return prev;
     }

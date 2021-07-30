@@ -1442,6 +1442,66 @@ public class DP
         return comb[target];
     }
 
+    //https://leetcode.com/problems/unique-paths/
+    public void UniquePaths()
+    {
+        int m = 3, n = 3;
+        Console.WriteLine(UniquePaths(m, n));
+    }
+
+    private int UniquePaths(int m, int n) 
+    {
+        int[,] dp = new int[m,n];
+        
+        for(int row = 0; row < m; row ++)
+        {
+            for(int col = 0; col < n; col ++)
+            {
+                if (row == 0 || col == 0)
+                {
+                    dp[row, col] = 1;
+                }
+                else
+                {
+                    dp[row, col] = dp[row-1, col] + dp[row, col-1];
+                }
+            }
+        }
+        
+        return dp[m-1, n-1];
+    }
+
+    //Accepted-LcEasy-LcSol-T:O(n)-S:O(n) https://leetcode.com/problems/climbing-stairs/
+    public void ClimbStairs()
+    {
+        Console.WriteLine(ClimbStairs(5));
+    }
+
+    private int ClimbStairs(int n)
+    {
+        int[] dp = new int[n + 1];
+        if (n == 1)
+        {
+            return 1;
+        }
+
+        if (n == 2) 
+        {
+            return 2;
+        }
+
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+
+        for (int i = 3; i <= n; i++)
+        {
+          dp[i] = dp[i-1] + dp[i - 2];
+        }
+        
+        return dp[n];
+    }
+
     //Accepted: T: O(n^2) S:O(n):https://leetcode.com/problems/pascals-triangle-ii/
     public void PascalTriangle()
     {

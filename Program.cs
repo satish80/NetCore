@@ -151,6 +151,20 @@ namespace Algorithms
             // arrObj.PreviousPermutation();
             // arrObj.MinEatingSpeed();
             // arrObj.MaximumSwap();
+            // arrObj.GenerateParantheses();
+            // arrObj.SurroundedRegions();
+            // arrObj.DiffWaysToAddParantheses();
+            // arrObj.AddBoldTag();
+            // arrObj.DivideTwoIntegers();
+            // arrObj.PalindromicSubStrings();
+            // arrObj.RobHouseII();
+            // arrObj.CanJump();
+            // arrObj.PalindromePartition();
+            // arrObj.KthSmallest();
+            // arrObj.BreakPalindrome();
+            // arrObj.MinimumTimeRequired();                                //Fails test case
+            // arrObj.Multiply();
+
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -274,6 +288,8 @@ namespace Algorithms
             // dpObj.CoinChange2();
             // dpObj.TwoEggDrop();
             // dpObj.MinCostForMovie();
+            // dpObj.ClimbStairs();
+            // dpObj.UniquePaths();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
