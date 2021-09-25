@@ -1148,10 +1148,45 @@ public class Strings
     //https://leetcode.com/problems/verifying-an-alien-dictionary/
     public void VerifyAlienDictionary()
     {
-        string[] words = new string[] {"word","world","row"}; 
-        string order = "worldabcefghijkmnpqstuvxyz";
+        string[] words = new string[] {"apple","app"}; 
+        string order = "abcdefghijklmnopqrstuvwxyz";
 
-        Console.WriteLine(VerifyAlienDictionary(words, order));
+        Console.WriteLine(IsAlienSorted(words, order));
+    }
+
+    public bool IsAlienSorted(string[] words, string order) 
+    {
+        int[] pos = new int[26];
+        
+        for(int idx = 0; idx < order.Length; idx++)
+        {
+            var i = order[idx] - 'a';
+            
+            pos[i] = idx;
+        }
+        
+        for(int idx = 1; idx < words.Length; idx++)
+        {
+            if (Bigger(words[idx-1], words[idx], pos))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    private bool Bigger(string str1, string str2, int[] pos)
+    {
+        for(int idx = 0; idx < Math.Min(str1.Length, str2.Length); idx++)
+        {
+            if ((str1[idx] != str2[idx]) )
+            {
+                return (pos[str1[idx]-'a']) > (pos[str2[idx]-'a']);
+            }
+        }
+        
+        return str1.Length > str2.Length;
     }
 
     private bool VerifyAlienDictionary(string[] words, string order)
@@ -1447,6 +1482,70 @@ public class Strings
         }
 
         return longest;
+    }
+
+    public void AddNumbers()
+    {
+        string a = "123", b = "12";
+        Console.WriteLine(AddNumbers(a, b));
+    }
+
+    private string AddNumbers(string a, string b)
+    {
+        int aIdx = a.Length-1, bIdx = b.Length-1;
+        int[] arr = new int[a.Length + b.Length];
+        int idx =  a.Length + b.Length-1;
+
+        while(aIdx>=0 && bIdx >=0)
+        {
+            int sum = a[aIdx] - '0' + b[bIdx] - '0';
+            arr[idx] = sum%10;
+            arr[idx-1] = sum/10;
+            aIdx--;
+            bIdx--;
+            idx--;
+        }
+
+        if (aIdx < 0 && bIdx >= 0)
+        {
+            ProcessAddNumbers(arr, b, bIdx, idx);
+        }
+        else if (aIdx >= 0 && bIdx < 0)
+        {
+            ProcessAddNumbers(arr, a, aIdx, idx);
+        }
+
+        return GetVal(arr);
+    }
+
+    private void ProcessAddNumbers(int[] arr, string s, int sIdx, int idx)
+    {
+        while (sIdx >= 0)
+        {
+            int sum = s[sIdx]-'0';
+            sum+= arr[idx];
+            arr[idx] = sum%10;
+            arr[idx-1] = sum/10;
+            sIdx--;
+            idx--;
+        }
+    }
+
+    private string GetVal(int[] arr)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for(int idx = 0; idx < arr.Length; idx++)
+        {
+            if (sb.Length == 0 && arr[idx] == 0)
+            {
+                continue;
+            }
+
+            sb.Append(arr[idx]);
+        }
+
+        return sb.ToString();
     }
 
     //https://leetcode.com/problems/decode-string/

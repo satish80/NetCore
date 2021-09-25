@@ -12,12 +12,13 @@ namespace Algorithms
             //arrObj.QueueReconstructionByHeight();
             //arrObj.WallsGates();
             // arrObj.FindMissingInSortedArray();
-            // arrObj.GameOfLife();                             //** To Be Completed **
+            // arrObj.GameOfLife();
             // arrObj.MaxDistanceOfWaterFromLand();
-            // arrObj.WaysToEncode();
+            //arrObj.WaysToEncode();
             // arrObj.Sort2dArray();                            //** To Be Completed **
             // arrObj.FindOnesInRange();
             // arrObj.DecodeWays();
+            // arrObj.DecodeWaysII();                           // To be completed
             // arrObj.MostStonesRemoved();
             // arrObj.DailyTemperatures();
             // arrObj.RemoveStones();
@@ -164,7 +165,12 @@ namespace Algorithms
             // arrObj.BreakPalindrome();
             // arrObj.MinimumTimeRequired();                                //Fails test case
             // arrObj.Multiply();
-
+            // arrObj.CarPooling();
+            // arrObj.NumberToWords();
+            // arrObj.MagicDictionary();
+            // arrObj.BookCalendar();
+            // arrObj.CanPlaceFlowers();
+            // arrObj.TicTacToeWinner();
 
             Trees treeObj = new Trees();
             //treeObj.BalanceTreeNodeValues();
@@ -248,6 +254,8 @@ namespace Algorithms
             // treeObj.MinTimeToPickApples();                                     // 1 Test case failing
             // treeObj.DiameterOfNAryTree();
             // treeObj.SumNumbers();
+            // treeObj.PruneTree();
+            // treeObj.LowestCommonAncestor();
 
             DP dpObj = new DP();
             // dpObj.FindPalindromeSubstrings();
@@ -290,6 +298,7 @@ namespace Algorithms
             // dpObj.MinCostForMovie();
             // dpObj.ClimbStairs();
             // dpObj.UniquePaths();
+            dpObj.StockSellWithFee();
 
             Graph gObj = new Graph();
             // gObj.BiPartition();
@@ -361,6 +370,7 @@ namespace Algorithms
             // sObj.AddStrings();
             // sObj.MinRemoveToMakeValid();
             // sObj.WordLadderII();
+            // sObj.AddNumbers();
 
             LinkedList lObj = new LinkedList();
             // lObj.SwapAlternatePairs();
@@ -400,6 +410,9 @@ namespace Algorithms
             Tries trieObj = new Tries();
             // trieObj.AutoSuggest();
             // trieObj.LongestDuplicateSubstring();
+
+            RangeModule rangeModule = new RangeModule();
+            // rangeModule.Solve();                                        // Fails test case
         }
     }
 }

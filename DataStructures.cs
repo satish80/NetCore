@@ -498,4 +498,30 @@ namespace DataStructures
             return new List<int>() { matrix.GetLength(0),matrix.GetLength(1) };
         }
     }
+
+    public class Robot {
+     // Returns true if the cell in front is open and robot moves into the cell.
+     // Returns false if the cell in front is blocked and robot stays in the current cell.
+     public bool Move()
+     {
+         return true;
+     }
+ 
+     // Robot will stay in the same cell after calling turnLeft/turnRight.
+     // Each turn will be 90 degrees.
+      public void TurnLeft()
+      {
+
+      }
+      public void TurnRight()
+      {
+
+      }
+ 
+      // Clean the current cell.
+      public void Clean()
+      {
+          
+      }
+  }
 }

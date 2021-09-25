@@ -1471,6 +1471,34 @@ public class DP
         return dp[m-1, n-1];
     }
 
+    //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+    public void StockSellWithFee()
+    {
+        int[] prices = new int[] {1,3,7,5,10,3};
+        //int[] prices = new int[] {1,3,2,8,4,9};
+        int fee = 3;
+
+        Console.WriteLine(StockSellWithFee(prices, fee));
+    }
+
+    private int StockSellWithFee(int[] prices, int fee)
+    {
+        if (prices.Length <= 1) return 0;
+        int days = prices.Length;
+        int[] buy = new int[days];
+        int[] sell = new int[days];
+
+        buy[0] = -prices[0]-fee;
+
+        for (int i = 1; i < days; i++) 
+        {
+            buy[i] = Math.Max(buy[i - 1], sell[i - 1] - prices[i] - fee); // keep the same as day i-1, or buy from sell status at day i-1
+            sell[i] = Math.Max(sell[i - 1], buy[i - 1] + prices[i]); // keep the same as day i-1, or sell from buy status at day i-1
+        }
+
+        return sell[days - 1];
+    }
+
     //Accepted-LcEasy-LcSol-T:O(n)-S:O(n) https://leetcode.com/problems/climbing-stairs/
     public void ClimbStairs()
     {

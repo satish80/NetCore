@@ -527,6 +527,32 @@ public class Trees
         return Math.Max(left, right) + root.Value.Value;
     }
 
+    //https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+    public void LowestCommonAncestor()
+    {
+        int?[] arr = new int?[]{6,2,8,0,4,7,9,null,null,3,5};
+        var node = Helpers.ConstructTree(arr);
+        var p = node.Left.Right.Right;
+        var q = node.Right;
+        var res = LowestCommonAncestor(node, p, q);        
+    }
+
+    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
+    {
+        if(root.Value.Value > p.Value.Value && root.Value.Value > q.Value.Value)
+        {
+            return LowestCommonAncestor(root.Left, p, q);
+        }
+        else if(root.Value.Value < p.Value.Value && root.Value.Value < q.Value.Value)
+        {
+            return LowestCommonAncestor(root.Right, p, q);
+        }
+        else
+        {
+            return root;
+        }
+    }
+
     //https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/
     public void LCADeepestLeaves()
     {
@@ -1681,6 +1707,43 @@ public class Trees
         }
 
         return cur;
+    }
+
+    //Accepted-LcMedium-SelfSol-T:O(n)-S:O(n) https://leetcode.com/problems/binary-tree-pruning/
+    public void PruneTree()
+    {
+        int?[] arr = new int?[] {1,null,0,0,1};
+
+        var node = Helpers.ConstructTree(arr);
+        var res = PruneTree(node);
+    }
+
+    public TreeNode PruneTree(TreeNode root) 
+    {
+        if (root == null)
+        {
+            return null;
+        }
+        
+        TreeNode left = PruneTree(root.Left);
+        TreeNode right = PruneTree(root.Right);
+        
+        if (root.Left != null && left == null)
+        {
+            root.Left = null;
+        }
+        
+        if (root.Right != null && right == null)
+        {
+            root.Right = null;
+        }
+        
+        if (root.Left == null && root.Right == null && root.Value.Value == 0)
+        {
+            root = null;
+        }
+        
+        return root;
     }
 
     //https://leetcode.com/problems/sum-root-to-leaf-numbers/

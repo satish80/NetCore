@@ -1564,6 +1564,131 @@ public class Arrays
         return count;
     }
 
+    //https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/
+    public void TicTacToeWinner()
+    {
+        int[][] arr = new int[][]
+        {
+            new int[]{0,0},
+            new int[]{1,1},
+            new int[]{0,1},
+            new int[]{0,2},
+            new int[]{1,0},
+            new int[]{2,0}
+        };
+        
+        int player = 1;
+        int[] row = new int[3];
+
+        int[] col = new int[3];
+        int diag = 0, antiDiag = 0;
+
+        foreach(int[] move in arr)
+        {
+            var res = TicTacToeWinner(player, move[0], move[1], row, col, ref diag, ref antiDiag);
+            if (res != null)
+            {
+                Console.WriteLine(res);
+            }
+
+            player *= -1;
+        }
+    }
+
+    private string TicTacToeWinner(int player, int r, int c, int[] row, int[] col, ref int diag, ref int antiDiag) 
+    {
+        row[r]+= player;
+        col[c]+= player;
+
+        if (r == c)
+        {
+            diag+= player;
+        }
+
+        if(Math.Abs(r+c) == 2)
+        {
+            antiDiag+= player;
+        }
+
+        if (Math.Abs(row[r]) == 3 || Math.Abs(row[c]) == 3 ) 
+        {
+            if (row[r] == 3 || col[r] == 3)
+            {
+                return "A";
+            }
+            else
+            {
+                return "B";
+            }
+        }
+
+        if (Math.Abs(diag) == 3 || Math.Abs(antiDiag) == 3)
+        {
+            if (diag == 3 || antiDiag == 3)
+            {
+                return "A";
+            }
+            else
+            {
+                return "B";
+            }
+        }
+        
+        return null;
+    }
+
+    //https://leetcode.com/problems/can-place-flowers/
+    public void CanPlaceFlowers()
+    {
+        int[] flowerbed = new int[] {1,0,0,0,1,0,0};
+        int n = 2;
+
+        Console.WriteLine(CanPlaceFlowers(flowerbed, n));
+    }
+
+    private bool CanPlaceFlowers(int[] flowerbed, int n)
+    {
+        int count = 0;
+        int idx = 0;
+        
+        while (idx < flowerbed.Length)
+        {
+            if (flowerbed[idx] == 0)
+            {
+                if ((idx > 0 && flowerbed[idx-1] == 1))
+                {
+                    idx++;
+                    continue;
+                }
+                
+                var res = GetCount(flowerbed, ref idx);
+                count+= res;
+                if (res > 0)
+                {
+                    continue;
+                }
+            }
+            
+            idx++;
+        }
+                
+        return count >= n;
+    }
+
+    private int GetCount(int[] flowerbed, ref int idx)
+    {
+        int count = 0;
+        
+        while (idx < flowerbed.Length - 2 && flowerbed[idx] == 0 && flowerbed[idx+1] == 0)
+        {
+            count++;
+            idx +=2;
+        }
+        
+        count += (idx == flowerbed.Length-1 && flowerbed[idx++] == 0) ? 1 : 0;
+        return count ;
+    }
+
     //Accepted-LcMedium-SelfSol-T:O(n)-S:O(1) https://leetcode.com/problems/container-with-most-water/
     public void MaxArea()
     {
@@ -4393,28 +4518,37 @@ public class Arrays
     */
     public void WaysToEncode()
     {
-        Console.WriteLine(WaysToEncode("1111"));
+        Console.WriteLine(WaysToEncode("2101"));
     }
 
-    private int WaysToEncode(string str)
+    private int WaysToEncode(string s)
     {
-        int[] dp = new int[str.Length];
-        dp[0] = 1;
-        dp[1] = 2;
-
-        for(int idx = 2; idx < str.Length; idx ++)
+        if (s[0] == '0')
         {
-            if (int.Parse(str.Substring(idx-1, 2)) > 10)
+            return 0;
+        }
+        
+        int[] dp = new int[s.Length+1];
+        dp[0] =  1;
+        dp[1] = s[0] != 0 ? 1 : 0;
+        
+        for(int idx = 2; idx <= s.Length; idx++)
+        {
+            int first = int.Parse(s[idx-1].ToString());
+            int val = int.Parse(s[idx-2].ToString()) * 10 + first;
+            
+            if (first > 0 && first <= 9)
             {
-                dp[idx] = dp[idx-1] + dp[idx-2];
+                dp[idx] = dp[idx-1];
             }
-            else
+            
+            if ( val > 9 && val < 27)
             {
-                dp[idx] = dp[idx-1] + 1;
+                dp[idx] += dp[idx-2];
             }
         }
-
-        return dp[str.Length-1];
+        
+        return dp[s.Length];
     }
 
     //https://leetcode.com/discuss/interview-question/381172/google-phone-screen-sort-a-2d-array
@@ -4602,6 +4736,63 @@ public class Arrays
             }
         }
         
+        return dp[s.Length];
+    }
+
+    //https://leetcode.com/problems/decode-ways-ii/
+    public void DecodeWaysII()
+    {
+        string s = "1*2";
+        Console.WriteLine(DecodeWaysII(s));
+    }
+
+    private int DecodeWaysII(string s)
+    {
+        if (s[0] == '0')
+        {
+            return 0;
+        }
+
+        int[] dp = new int[s.Length+1];
+        dp[0] = 1;
+        dp[1] = s[0] == '0' ? 0 : 1;
+
+
+        for(int idx = 2; idx <= s.Length; idx++)
+        {
+            if (s[idx-1] == '*')            
+            {
+                if ( s[idx-2] == '0' || s[idx-2]-'0' > 2 || s[idx-2] == '*')
+                {
+                    continue;
+                }
+                
+                dp[idx] += dp[idx-1] + s[idx-2]-'0' == 1 ? 10 : 7;
+            }
+            else if (s[idx-2] == '*')
+            {
+                int first = s[idx-1]-'0';
+
+                dp[idx] = dp[idx-1];
+                if (first > 0 && first < 7)
+                {
+                    dp[idx] += 6;
+                }
+            }
+            else
+            {
+                int first = s[idx-1]-'0';
+                int val = (s[idx-2] - '0') * 10 + first;
+
+                dp[idx] = dp[idx-1];
+
+                if (val > 9 && val < 27 )
+                {
+                    dp[idx] += dp[idx-2];
+                }
+            }
+        }
+
         return dp[s.Length];
     }
 
@@ -5312,6 +5503,266 @@ public class Arrays
             }
         }
     }
+
+    //https://leetcode.com/problems/my-calendar-i/
+    public void BookCalendar()
+    {
+        List<int[]> calendar = new List<int[]>();
+        List<int[]> events = new List<int[]>();
+
+        events.Add(new int[] {47,50});
+        events.Add(new int[] {33,41});
+        events.Add(new int[] {39,45});
+        events.Add(new int[] {33,42});
+        events.Add(new int[] {25,32});
+        events.Add(new int[] {26,35});
+        events.Add(new int[] {19,25});
+        events.Add(new int[] {3,8});
+        events.Add(new int[] {8,13});
+        events.Add(new int[] {18,27});
+
+        foreach(int[] arr in  events)
+        {
+            Console.WriteLine(BookCalendar(arr[0], arr[1], calendar));
+        }
+    }
+
+    public bool BookCalendar(int start, int end, List<int[]> calendar) 
+    {
+        foreach(int[] b in calendar)
+        {
+            if (Math.Max(b[0], start) < Math.Min(b[1], end))
+            {
+                return false;
+            }
+        }
+
+        calendar.Add(new int[]{ start, end });
+        return true;
+    }
+
+    //Accepted-LcMedium-LsCol-T:O(n*w^2) S:O(w^2) https://leetcode.com/problems/implement-magic-dictionary/
+    public void MagicDictionary()
+    {
+        string[] dictionary = new string[] {"hello","hallo","leetcode"};
+        var dict = BuildDict(dictionary);
+        string word = "hello";
+        Console.WriteLine(Search(word, dict));
+    }
+
+    private Dictionary<string, List<int[]>> BuildDict(string[] dictionary)
+    {
+        Dictionary<string, List<int[]>> dict = new Dictionary<string, List<int[]>>();
+
+        foreach(string word in dictionary)
+        {
+            for(int idx = 0; idx < word.Length; idx++)
+            {
+                var str = word.Substring(0,idx) + word.Substring(idx+1);
+                if (!dict.ContainsKey(str))
+                {
+                    dict.Add(str, new List<int[]>());
+                }
+
+                dict[str].Add(new int[] {idx, word[idx]-'a'});
+            }
+        }
+
+        return dict;
+    }
+
+    private bool Search(string word, Dictionary<string, List<int[]>> dict)
+    {
+        for(int idx = 0; idx < word.Length; idx++)
+        {
+            var str = word.Substring(0,idx) + word.Substring(idx+1);
+            if (!dict.ContainsKey(str))
+            {
+                continue;
+            }
+
+            foreach(int[] val in dict[str])
+            {
+                if (val[0] == idx && val[1] != word[idx] - 'a')
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    //Accepted-LcHard-LcSol-T:O(n)-S:O(m) https://leetcode.com/problems/integer-to-english-words/
+    public void NumberToWords()
+    {
+        int num = 12345;
+        Console.WriteLine(NumberToWordsInternal(num));
+    }
+
+    private string NumberToWordsInternal(int num)
+    {
+        if (num == 0)
+        {
+            return "zero";
+        }
+
+        Dictionary<int, string> lessthan_20 = new Dictionary<int, string>();
+        lessthan_20.Add(0, "");
+        lessthan_20.Add(1, "one");
+        lessthan_20.Add(2, "two");
+        lessthan_20.Add(3, "three");
+        lessthan_20.Add(4, "four");
+        lessthan_20.Add(5, "five");
+        lessthan_20.Add(6, "six");
+        lessthan_20.Add(7, "seven");
+        lessthan_20.Add(8, "eight");
+        lessthan_20.Add(9, "nine");
+        lessthan_20.Add(10, "ten");
+        lessthan_20.Add(11, "eleven");
+        lessthan_20.Add(12, "twelve");
+        lessthan_20.Add(13, "thirteen");
+        lessthan_20.Add(14, "fourteen");
+        lessthan_20.Add(15, "fifteen");
+        lessthan_20.Add(16, "sixteen");
+        lessthan_20.Add(17, "seventeen");
+        lessthan_20.Add(18, "eighteen");
+        lessthan_20.Add(19, "nineteen");
+
+        Dictionary<int, string> tens = new Dictionary<int, string>();
+        tens.Add(0, "");
+        tens.Add(1, "ten");
+        tens.Add(2, "twenty");
+        tens.Add(3, "thirty");
+        tens.Add(4, "forty");
+        tens.Add(5, "fifty");
+        tens.Add(6, "sixty");
+        tens.Add(7, "seventy");
+        tens.Add(8, "eighty");
+        tens.Add(9, "ninety");
+
+        Dictionary<int, string> thousands = new Dictionary<int, string>();
+        thousands.Add(0, "");
+        thousands.Add(1, "thousand");
+        thousands.Add(2, "million");
+        thousands.Add(3, "billion");
+
+        int i = 0;
+
+        string res = string.Empty;
+
+        while(num > 0)
+        {
+            if (num % 1000 !=0)
+            {
+                res = NumberToWords(num % 1000, lessthan_20, tens, thousands) + thousands[i] + " " + res;
+            }
+
+            num /= 1000;
+
+            i++;
+        }
+
+        return res.Trim();
+    }
+
+    private string NumberToWords(int num, Dictionary<int, string> lessthan_20, Dictionary<int, string> tens, Dictionary<int, string> thousands)
+    {
+        if (num < 20)
+        {
+            return lessthan_20[num] + " ";
+        }
+        else if(num < 100)
+        {
+            return tens[num/10] + " " + NumberToWords(num % 10, lessthan_20, tens, thousands);
+        }
+        else
+        {
+            return lessthan_20[num/100] + " Hundred " + NumberToWords(num % 100, lessthan_20, tens, thousands);
+        }
+    }
+
+    //Accepted-LcMedium-LsCol-T:O(n) S:O(n) https://leetcode.com/problems/car-pooling/
+    public void CarPooling()
+    {
+        int[][] trips = new int[][]
+        {
+            // new int[]{8,2,3},
+            // new int[]{4,1,3},
+            // new int[]{1,3,6},
+            // new int[]{8,4,6},
+            // new int[]{4,4,8},
+            new int[] {2,2,6},
+            new int[] {2,4,7},
+            new int[] {8,6,7},
+        };
+
+        int capacity = 11;
+
+        Console.WriteLine(CarPooling(trips, capacity));
+    }
+
+    private bool CarPooling(int[][] trips, int capacity)
+    {
+        int[] stops = new int[1001];
+
+        foreach (int[] t in trips) 
+        {
+            stops[t[1]] += t[0];
+            stops[t[2]] -= t[0];
+        }
+    
+        for (int i = 0; capacity >= 0 && i < 1001; ++i)
+        {
+            capacity -= stops[i];
+        }
+    
+        return capacity >= 0;
+    }
+
+    //Accepted-LcHard-LcSol-T:O(4^n)-S:O(n) https://leetcode.com/problems/robot-room-cleaner/
+    public void RobotCleanRoom(Robot robot)
+    {
+        int[][] DIRS = new int[][] 
+        {
+            new int[]{-1, 0},
+            new int[]{0, 1},
+            new int[]{1, 0},
+            new int[]{0, -1}
+        };
+
+		RobotCleanRoom(robot, 0, 0, 0, new HashSet<string>(), DIRS);
+	}
+
+	private void RobotCleanRoom(Robot robot, int x, int y, int curDirection, HashSet<string> cleaned, int[][] DIRS)
+    {
+		robot.Clean();
+		cleaned.Add(x + " " + y);
+
+		for (int i = 0; i < 4; i++)
+        {
+			int nx = x + DIRS[curDirection][0];
+			int ny = y + DIRS[curDirection][1];
+
+			if (!cleaned.Contains(nx + " " + ny) && robot.Move()) 
+            {
+				RobotCleanRoom(robot, nx, ny, curDirection, cleaned, DIRS);
+				goBack(robot);
+			}
+
+			robot.TurnRight();
+			curDirection = (curDirection + 1) % 4;
+		}
+	}
+
+	private void goBack(Robot robot)
+    {
+		robot.TurnRight();
+		robot.TurnRight();
+		robot.Move();
+		robot.TurnRight();
+		robot.TurnRight();
+	}
 
     //Accepted: https://leetcode.com/problems/next-permutation/
     public void NextPermutation()
